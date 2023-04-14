@@ -8,3 +8,7 @@ Anyways whilst you are here feel free to check out Elite Bot!
 
 - https://elite-bot.com
 - https://top.gg/bot/723275350922100840
+
+---
+# License
+[Apache © ThatGuyJacobee](./LICENSE.md)
