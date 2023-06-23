@@ -1,7 +1,7 @@
+require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Permissions } = require("discord.js");
-const { QueryType } = require('discord-player');
-const ebmusic = require("../../models/ebmusic.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,41 +13,99 @@ module.exports = {
             .setRequired(true)
         ),
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const DJCheck = await ebmusic.findOne({
-            where: {
-                GuildID: guildid
-            }
-        });
+        if (process.env.ENABLE_DJMODE == true) {
+            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        }
 
-        if (DJCheck) {
-            if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+        await interaction.deferReply();
+        if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        
+        const player = Player.singleton();
+        const query = interaction.options.getString("music");
+        var checkqueue = player.nodes.get(interaction.guild.id);
+
+        if (!checkqueue) {
+            player.nodes.create(interaction.guild.id, {
+                leaveOnEmpty: process.env.LEAVE_ON_EMPTY,
+                leaveOnEmptyCooldown: process.env.LEAVE_ON_EMPTY_COOLDOWN,
+                leaveOnEnd: process.env.LEAVE_ON_END,
+                leaveOnEndCooldown: process.env.LEAVE_ON_END_COOLDOWN,
+                leaveOnStop: process.env.LEAVE_ON_STOP,
+                leaveOnStopCooldown: process.env.LEAVE_ON_STOP_COOLDOWN,
+                selfDeaf: process.env.SELF_DEAFEN,
+                skipOnNoStream: true,
+				metadata: {
+					channel: interaction.channel,
+					requestedBy: interaction.user,
+					client: interaction.guild.members.me,
+				},
+				ytdlOptions: {
+					filter: 'audioonly',
+					highWaterMark: 1 << 30,
+					dlChunkSize: 0,
+				}
+            })
         }
         
-        const query = interaction.options.getString("music");
-        const queue = player.getQueue(interaction.guild);
+        var queue = player.nodes.get(interaction.guild.id);
 
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
-        if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        try {
+            const search = await player.search(query, {
+				requestedBy: interaction.user,
+				searchEngine: QueryType.AUTO
+			})
 
-        const search = await player.search(query, {
-            requestedBy: interaction.user,
-            searchEngine: QueryType.AUTO
-        });
-        if (!search) return await interaction.reply({ content: `❌ | Track **${query}** not found!` });
+            if (!search || search.tracks.length == 0 || !search.tracks) {
+                return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
+            }
 
-        queue.insert(search.tracks[0]);
-        
-        const playsongembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-        .setThumbnail(search.tracks[0].thumbnail)
-        .setColor(0xFF0000)
-        .setTitle(`Added to the top of the queue ⏱️`)
-        .setDescription(`Added song **${search.tracks[0].title}** ([Link](${search.tracks[0].url})) to the top of the queue (playing next)!`)
-        .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
+            if (search.playlist) {
+                return interaction.followUp({ content: `❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue.`, ephemeral: true })
+            }
 
-        interaction.followUp({ embeds: [playsongembed] })
+            try {
+                if (!queue.connection) await queue.connect(interaction.member.voice.channel);
+            }
+
+            catch (err) {
+                queue.delete();
+                return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
+            }
+
+            try {
+                queue.insertTrack(search.tracks[0])
+            }
+
+            catch (err) {
+                return interaction.followUp({ content: `❌ | Ooops... something went wrong, failed to add the track to the queue.`, ephemeral: true })
+            }
+
+            if (!queue.isPlaying()) {
+                try {
+                    await queue.node.play(queue.tracks[0]);
+                    queue.node.setVolume(process.env.DEFAULT_VOLUME);
+                }
+
+                catch (err) {
+                    return interaction.followUp({ content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`, ephemeral: true })
+                }
+            }
+
+            const playsongembed = new EmbedBuilder()
+            .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+            .setThumbnail(search.tracks[0].thumbnail)
+            .setColor(process.env.EMBED_COLOUR)
+            .setTitle(`Added to the top of the queue ⏱️`)
+            .setDescription(`Added song **${search.tracks[0].title}** ([Link](${search.tracks[0].url})) to the top of the queue (playing next)!`)
+            .setTimestamp()
+            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+
+            interaction.followUp({ embeds: [playsongembed] })
+        }
+
+        catch (err) {
+            return interaction.followUp({ content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`, ephemeral: true })
+        }
     }
 }

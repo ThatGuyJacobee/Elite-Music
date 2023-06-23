@@ -1,5 +1,7 @@
-const { MessageActionRow, Modal, TextInputComponent, MessageEmbed, MessageButton, Collection } = require("discord.js");
-const ebmusic = require("../models/ebmusic.js");
+require("dotenv").config();
+const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, MessageSelectMenu, ModalBuilder, TextInputBuilder, TextInputStyle, AttachmentBuilder, Collection, StringSelectMenuBuilder  } = require("discord.js");
+const { Player, QueueRepeatMode, QueryType } = require('discord-player');
+const fs = require("fs");
 const cooldowns = new Map();
 
 module.exports = {
@@ -24,7 +26,7 @@ module.exports = {
                 if (curtime < expiration) {
                     const timeleft = (expiration - curtime) / 1000;
 
-                    return interaction.reply({ content: `❌ | Cooldown Alert: Please wait **${timeleft.toFixed(0)}** more seconds before using the **/${command.data.name}** command again!`, ephemeral: true })
+                    return interaction.reply({ content: `⏱️ | Cooldown Alert: Please wait **${Match.ceil(timeleft)}** more seconds before using the **/${command.data.name}** command again!`, ephemeral: true })
                 }
             }
 
@@ -38,48 +40,209 @@ module.exports = {
             catch(err) {
                 if (err) console.error(err);
         
-                //await interaction.reply({
-                    //content: "❌ | Apologies, an error occurred while executing your command. A log has already been sent to the developer :D",
-                    //ephemeral: true
-                //});
+                await interaction.reply({ content: "❌ | Apologies, an error occurred while executing your command. Check the logs for the error.", ephemeral: true });
             }
         }
+
+        else if (interaction.isStringSelectMenu()) {
+            if (interaction.customId == "select") {
+                //console.log(interaction.values);
+                //console.log(interaction)
+                const value = interaction.values[0];
+                //console.log(value)
+    
+                const guildid = interaction.guild.id;
+                const dirs = [];
+                const categories = [];
+    
+                fs.readdirSync("./commands/").forEach((dir) => {
+                    let commands = fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith(".js"));
+                    var cmds = [];
+                    commands.map((command) => {
+                        let file = require(`../commands/${dir}/${command}`);
+                        //console.log(file.data.options.length)
+                        //console.log(file.data.options)
+    
+                        if (dir == "configuration" || dir == "utilities") {
+                            cmds.push({
+                                name: dir,
+                                commands: {
+                                    name: file.data.name,
+                                    description: file.data.description
+                                }
+                            })
+                        }
+    
+                        else {
+                            //Finished code for displaying each subcommand
+                            if (file.data.options.length == 0 || file.data.options[0].type != null) {
+                                cmds.push({
+                                    name: dir,
+                                    commands: {
+                                        name: file.data.name,
+                                        description: file.data.description
+                                    }
+                                })
+                            }
+    
+                            else {
+                                file.data.options.forEach(id => {
+                                    cmds.push({
+                                        name: dir,
+                                        commands: {
+                                            name: file.data.name + " " + id.name,
+                                            description: id.description
+                                        }
+                                    })
+                                })
+                            }
+                        }
+                    });
+    
+                    //console.log(cmds);
+                    categories.push(cmds.filter(categ => categ.name === dir));
+                })
+    
+                let page = 0;
+                const emojis = {
+                    "music": "🎵",
+                    "utilities": "🛄",
+                };
         
-        //Check for select menu interactions
-        else if (interaction.isSelectMenu()) {
-            
+                const description = {
+                    "music": "Music commands.",
+                    "utilities": "Generally useful commands to use.",
+                }
+    
+                const menuoptions = [
+                    {
+                        label: "Home",
+                        description: "Home Page",
+                        emoji: "🏡",
+                        value: "home"
+                    }
+                ]
+    
+                categories.forEach(cat => {
+                    dirs.push(cat[0].name);
+                });
+    
+                const embed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                //.setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
+                .setColor(process.env.EMBED_COLOUR)
+                .setTitle('Elite Bot - Help Menu')
+                .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nIf you require assistance or are experiencing a persistant bug, please create a bug report using **/elitebot bugreport** or by joining the **[Support Discord Server](https://discord.elitegami.ng)**. 🆘\n\nFor more in-depth guides and help setting things up, please head over to the documentation which is always up-to-date and heavily detailed. 📄\n\n<:Rules:1039597018064093325> Docs & Invite: __**https://elite-bot.com**__\n<:LockedChannel:1039597788931035237> Privacy Policy: __**https://elite-bot.com/docs/privacy-policy**__\n<:HammerAction:1040729990876119050> Terms of Service: __**https://elite-bot.com/docs/terms-of-service/**__`)
+                .setTimestamp()
+                .setFooter({ text: `/help | Requested by: ${interaction.user.tag}` })
+    
+                dirs.forEach((dir, index) => {
+                    /*embed.addFields({
+                        name: `${emojis[dir] ||''} ${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                        value: `${description[dir] ? description[dir] : `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()} Commands`}`, inline: false
+                    })*/
+        
+                    menuoptions.push({
+                        label: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                        description: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()} commands page`,
+                        emoji: `${emojis[dir] || ''}`,
+                        value: `${page++}`
+                    })
+                });
+        
+                const row = new ActionRowBuilder().addComponents(
+                    new StringSelectMenuBuilder()
+                    .setCustomId('select')
+                    .setPlaceholder('Click to see all the categories')
+                    .addOptions(menuoptions)
+                )
+    
+                if(value && value !== 'home') {
+                    embed.fields = [];
+                    embed.setTitle(`Help Menu - ${categories[value][0].name.charAt(0).toUpperCase() + categories[value][0].name.slice(1).toLowerCase()} Category! ${emojis[categories[value][0].name] ? emojis[categories[value][0].name]: ''}`)
+    
+                    categories[value].forEach(cmd => {
+                        embed.addFields({
+                            name: `\`/${cmd.commands.name}\``,
+                            value: `${cmd.commands.description || 'No description'}`,
+                            inline: true
+                        })
+                    });
+    
+                    var getchannel = interaction.guild.channels.cache.find(channel => channel.id === (interaction.channelId))
+    
+                    if (getchannel) {
+                        //Check if bot has view channel perms
+                        if (!interaction.guild.members.me.permissionsIn(interaction.channel.id).has(PermissionFlagsBits.ViewChannel)) {
+                            console.log(`No Perms! (ID: ${guildid})`);
+                            interaction.reply({ content: `Error: I do not have permission to view this channel and cannot edit the help message!`, ephemeral: true });
+                            return;
+                        }
+    
+                        else {
+                            getchannel.messages.fetch(interaction.message.id)
+                            .then(async msg => await msg.edit({ embeds: [embed], components: [row], fetchReply: true }));
+                        }
+                    }
+    
+                    else {
+                        console.log(`Cannot find the channel! (ID: ${guildid})`)
+                    }
+                }
+    
+                if (value === 'home') {
+                    embed.fields = [];
+                    embed.setTitle('Elite Bot - Help Menu')
+    
+                    dirs.forEach(dir => {
+                        embed.addFields({
+                            name: `${emojis[dir] ||''} ${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                            value: `${description[dir] ? description[dir] : `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()} Commands`}`, inline: false
+                        })
+                    });
+                    
+                    var getchannel = interaction.guild.channels.cache.find(channel => channel.id === (interaction.channelId))
+    
+                    if (getchannel) {
+                        //Check if bot has view channel perms
+                        if (!interaction.guild.members.me.permissionsIn(interaction.channel.id).has(PermissionFlagsBits.ViewChannel)) {
+                            console.log(`No Perms! (ID: ${guildid})`);
+                            interaction.reply({ content: `Error: I do not have permission to view this channel and cannot edit the help message!`, ephemeral: true });
+                            return;
+                        }
+    
+                        else {
+                            getchannel.messages.fetch(interaction.message.id)
+                            .then(async msg => await msg.edit({ embeds: [embed], components: [row], fetchReply: true }));
+                        }
+                    }
+    
+                    else {
+                        console.log(`Cannot find the channel! (ID: ${guildid})`)
+                    }
+                }
+    
+                interaction.deferUpdate();
+            }
         }
         
         //Check for button interactions
         else if (interaction.isButton()) {
             if (interaction.customId == "queue-delete") {
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
                 interaction.message.delete()
             }
 
             if (interaction.customId == "queue-pageleft") {
-                const queue = player.getQueue(interaction.guild)
-                if (global.page == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
                 if (global.page == 1) return interaction.reply({ content: "❌ | The queue is already on the first page!", ephemeral: true })
@@ -96,7 +259,7 @@ module.exports = {
                 const queueembed = new MessageEmbed()
                 .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Current Music Queue 🎵`)
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
                 .addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
@@ -125,18 +288,12 @@ module.exports = {
             }
 
             if (interaction.customId == "queue-pageright") {
-                const queue = player.getQueue(interaction.guild)
-                if (global.page == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
                 var pageStart = 10 * (page - 1);
@@ -156,7 +313,7 @@ module.exports = {
                 const queueembed = new MessageEmbed()
                 .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Current Music Queue 🎵`)
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
                 .addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
@@ -185,246 +342,237 @@ module.exports = {
             }
 
             if (interaction.customId == "np-delete") {
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
                 interaction.message.delete()
             }
 
             if (interaction.customId == "np-back") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                }
                 
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                const previousTracks = queue.history.tracks.toArray();
+                if (!previousTracks[0]) return interaction.reply({ content: `❌ | There is no music history prior to the current song. Please try again.`, ephemeral: true });
+        
+                const backembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
+                .setColor(process.env.EMBED_COLOUR)
+                .setTitle(`Playing previous song ⏮️`)
+                .setDescription(`Returning next to the previous song ${previousTracks[0].title} ([Link](${previousTracks[0].url}))!`)
+                .setTimestamp()
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+
+                try {
+                    queue.history.back();
+                    interaction.reply({ embeds: [backembed] })
                 }
 
-                await queue.back()
-        
-                const backembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
-                .setTitle(`Playing previous song ⏮️`)
-                .setDescription(`Now playing: ${queue.current.title} ([Link](${queue.current.url}))!`)
-                .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
-
-                interaction.reply({ embeds: [backembed] })
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error returning to the previous song. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-pauseresume") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (queue.setPaused() == true) {
-                    queue.setPaused(false);
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                    const resumeembed = new MessageEmbed()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                    .setThumbnail(queue.current.thumbnail)
-                    .setColor(0xFF0000)
-                    .setTitle(`Song resumed ▶️`)
-                    .setDescription(`The current song ${queue.current.title} ([Link](${queue.current.url})) has been resumed!`)
-                    .setTimestamp()
-                    .setFooter(`Requested by: ${interaction.user.tag}`)
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+                var checkPause = queue.node.isPaused();
 
-                    interaction.reply({ embeds: [resumeembed] })
-                }
+                const pauseembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                .setThumbnail(queue.currentTrack.thumbnail)
+                .setColor(process.env.EMBED_COLOUR)
+                .setTitle(`Song paused ⏸️`)
+                .setDescription(`Playback has been **${checkPause ? 'resumed' : 'paused'}**. Currently playing ${queue.currentTrack.title} ([Link](${queue.currentTrack.url}))!`)
+                .setTimestamp()
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                else {
-                    queue.setPaused(true);
-
-                    const pauseembed = new MessageEmbed()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                    .setThumbnail(queue.current.thumbnail)
-                    .setColor(0xFF0000)
-                    .setTitle(`Song paused ⏸️`)
-                    .setDescription(`The current song ${queue.current.title} ([Link](${queue.current.url})) has been paused!`)
-                    .setTimestamp()
-                    .setFooter(`Requested by: ${interaction.user.tag}`)
-
+                try {
+                    queue.node.setPaused(!queue.node.isPaused());
                     interaction.reply({ embeds: [pauseembed] })
+                }
+        
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error ${checkPause ? 'resuming' : 'pausing'} the song. Please try again.`, ephemeral: true });
                 }
             }
 
             if (interaction.customId == "np-skip") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                interaction.message.delete()
-                queue.skip();
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const skipembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                .setThumbnail(queue.tracks[0].thumbnail)
-                .setColor(0xFF0000)
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                const queuedTracks = queue.tracks.toArray();
+                if (!queuedTracks[0]) return interaction.reply({ content: `❌ | There is no music is currently in the queue!`, ephemeral: true });
+
+                const skipembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                .setThumbnail(queuedTracks[0].thumbnail)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Song skipped ⏭️`)
-                .setDescription(`Now playing: ${queue.tracks[0]} ([Link](${queue.tracks[0].url}))`)
+                .setDescription(`Now playing: ${queuedTracks[0].title} ([Link](${queuedTracks[0].url}))`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [skipembed] })
+                try {
+                    queue.node.skip();
+                    interaction.reply({ embeds: [skipembed] })
+                }
+                
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error skipping the song. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-clear") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                await queue.clear();
-        
-                const clearembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                const clearembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Queue clear 🧹`)
                 .setDescription(`The entire music queue has been cleared!`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [clearembed] })
+                try {
+                    queue.tracks.clear();
+                    interaction.reply({ embeds: [clearembed] })
+                }
+
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error clearing the queue. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-volumeup") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (queue.volume == 100) return interaction.reply({ content: "❌ | The volume is already set to the max!", ephemeral: true })
-                var totalvol = queue.volume + 10
-                queue.setVolume(totalvol);
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const volumeembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                var totalVol = queue.node.volume + 10
+                if (totalVol > 100) return interaction.reply({ content: "❌ | The volume is already set to the max!", ephemeral: true })
+
+                const volumeembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Volume increased 🎧`)
-                .setDescription(`The volume has been set to **${totalvol}%**!`)
+                .setDescription(`The volume has been set to **${totalVol}%**!`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [volumeembed] })
+                try {
+                    queue.node.setVolume(totalVol);
+                    interaction.reply({ embeds: [volumeembed] })
+                }
+        
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-volumedown") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (queue.volume == 0) return interaction.reply({ content: "❌ | The volume is already set to the minimum!", ephemeral: true })
-                var totalvol = queue.volume - 10
-                queue.setVolume(totalvol);
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const volumeembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                var totalVol = queue.node.volume - 10
+                if (totalVol < 0) return interaction.reply({ content: "❌ | The volume is already set to the max!", ephemeral: true })
+
+                const volumeembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Volume decreased 🎧`)
-                .setDescription(`The volume has been set to **${totalvol}%**!`)
+                .setDescription(`The volume has been set to **${totalVol}%**!`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [volumeembed] })
+                try {
+                    queue.node.setVolume(totalVol);
+                    interaction.reply({ embeds: [volumeembed] })
+                }
+        
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-loop") {
-                const { QueueRepeatMode } = require('discord-player');
-                const queue = player.getQueue(interaction.guild);
-
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
+
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
                 if (queue.repeatMode === QueueRepeatMode.TRACK) {
                     const loopmode = QueueRepeatMode.OFF;
                     queue.setRepeatMode(loopmode);
 
                     const mode = 'Loop mode off 📴';
-                    const loopembed = new MessageEmbed()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                    const loopembed = new EmbedBuilder()
+                    .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                     .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                    .setColor(0xFF0000)
+                    .setColor(process.env.EMBED_COLOUR)
                     .setTitle(mode)
                     .setDescription(`The loop mode has been set to **off**!`)
                     .setTimestamp()
-                    .setFooter(`Requested by: ${interaction.user.tag}`)
+                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
                     interaction.reply({ embeds: [loopembed] })
                 }
@@ -434,76 +582,79 @@ module.exports = {
                     queue.setRepeatMode(loopmode);
 
                     const mode = 'Loop mode on 🔂';
-                    const loopembed = new MessageEmbed()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                    const loopembed = new EmbedBuilder()
+                    .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                     .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                    .setColor(0xFF0000)
+                    .setColor(process.env.EMBED_COLOUR)
                     .setTitle(mode)
                     .setDescription(`The loop mode has been set to the **current track**!`)
                     .setTimestamp()
-                    .setFooter(`Requested by: ${interaction.user.tag}`)
+                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
                     interaction.reply({ embeds: [loopembed] })
                 }
             }
 
             if (interaction.customId == "np-shuffle") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                await queue.shuffle();
-        
-                const shuffleembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                const shuffleembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Queue shuffle 🔀`)
                 .setDescription(`The entire music queue has been shuffled!`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [shuffleembed] })
+                try {
+                    queue.tracks.shuffle();
+                    interaction.reply({ embeds: [shuffleembed] })
+                }
+
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error shuffling the queue. Please try again.`, ephemeral: true });
+                }
             }
 
             if (interaction.customId == "np-stop") {
-                const queue = player.getQueue(interaction.guild);
-                if (queue == null) return interaction.reply({ content: "❌ | The queue has already ended!", ephemeral: true })
-                
-                const guildid = interaction.guild.id;
-                const DJCheck = await ebmusic.findOne({
-                    where: {
-                        GuildID: guildid
-                    }
-                });
-
-                if (DJCheck) {
-                    if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+                if (process.env.ENABLE_DJMODE == true) {
+                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
                 }
 
-                await queue.destroy();
-                global.page = null
+                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const stopembed = new MessageEmbed()
-                .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+                const player = Player.singleton();
+                var queue = player.nodes.get(interaction.guild.id);
+                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+                const stopembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(0xFF0000)
+                .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Stopped music 🛑`)
                 .setDescription(`Music has been stopped... leaving the channel!`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-                interaction.reply({ embeds: [stopembed] })
+                try {
+                    queue.delete();
+                    interaction.reply({ embeds: [stopembed] })
+                }
+
+                catch (err) {
+                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error stopping the queue. Please try again.`, ephemeral: true });
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
+require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Permissions } = require("discord.js");
-const ebmusic = require("../../models/ebmusic.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,36 +13,37 @@ module.exports = {
             .setRequired(false)
         ),
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const DJCheck = await ebmusic.findOne({
-            where: {
-                GuildID: guildid
-            }
-        });
-
-        if (DJCheck) {
-            if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
-        }
-        
         const vol = interaction.options.getInteger("amount");
-        const queue = player.getQueue(interaction.guild);
+        if (process.env.ENABLE_DJMODE == true) {
+            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        }
 
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
         if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-        if (vol == null) return interaction.reply({ content: `🔊 | The current volume is set to **${queue.volume}%**!` })
-        if (vol > 100 || vol < 0) return interaction.reply({ content: `❌ | The volume must be set between 0-100%!` })
-        queue.setVolume(vol);
-
-        const volumeembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        
+        const player = Player.singleton();
+        var queue = player.nodes.get(interaction.guild.id);
+        if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+    
+        if (vol == null) return interaction.reply({ content: `🔊 | The current volume is set to **${queue.node.volume}%**!`, ephemeral: true })
+        if (vol > 100 || vol < 0) return interaction.reply({ content: `❌ | The volume must be set between 0-100%!`, ephemeral: true })
+        
+        const volumeembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
+        .setColor(process.env.EMBED_COLOUR)
         .setTitle(`Volume changed 🎧`)
         .setDescription(`The volume has been set to **${vol}%**!`)
         .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
+        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-        interaction.reply({ embeds: [volumeembed] })
+        try {
+            queue.node.setVolume(vol);
+            interaction.reply({ embeds: [volumeembed] })
+        }
+
+        catch (err) {
+            interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
+        }
     }
 }

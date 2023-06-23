@@ -1,7 +1,7 @@
 {
-  "name": "elite-bot",
+  "name": "elite-bot-music",
   "version": "1.0.0",
-  "description": "Multipurpose discord bot.",
+  "description": "Elite Bot's original music feature moved to a separate discord bot.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
@@ -9,24 +9,19 @@
   "author": "ThatGuyJacobee",
   "license": "ISC",
   "dependencies": {
-    "@discord-player/downloader": "^3.0.1",
-    "@discordjs/builders": "^0.15.0",
-    "@discordjs/opus": "^0.8.0",
-    "@discordjs/rest": "^0.5.0",
-    "@top-gg/sdk": "^3.1.3",
-    "better-sqlite3": "^7.6.2",
-    "discord-api-types": "^0.35.0",
-    "discord-player": "^5.2.2",
-    "discord.js": "^13.9.0",
-    "dotenv": "^16.0.1",
-    "ffmpeg-static": "^5.1.0",
-    "ms": "^2.1.3",
-    "mysql2": "^2.3.3",
-    "request": "^2.88.2",
-    "sequelize": "^6.21.2",
-    "string-similarity": "^4.0.4",
-    "topgg-autoposter": "^2.0.1",
-    "ytdl-core": "^4.11.2"
+    "@discordjs/opus": "0.9.0",
+    "@discordjs/rest": "1.7.1",
+    "@distube/ytdl-core": "4.11.10",
+    "discord-api-types": "0.37.43",
+    "discord-player": "6.5.0",
+    "discord.js": "14.11.0",
+    "dotenv": "16.0.1",
+    "ffmpeg-static": "5.1.0",
+    "ms": "2.1.3",
+    "mysql2": "3.3.3",
+    "request": "2.88.2",
+    "sequelize": "6.32.0",
+    "ytdl-core": "4.11.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.18"

@@ -1,131 +1,178 @@
-const { MessageEmbed, MessageActionRow, MessageButton, Permissions } = require("discord.js");
-module.exports.registerPlayerEvents = (player) => {
+const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
+const player = Player.singleton();
 
-    player.on("error", (queue, error) => {
-        console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the queue: ${error.message}`);
-    });
-    player.on("connectionError", (queue, error) => {
-        console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the connection: ${error.message}`);
-    });
+player.events.on("error", (queue, error) => {
+    console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the queue: ${error.message}`);
+})
 
-    player.on("trackStart", (queue, track) => {
-        //queue.metadata.channel.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
-        const progress = queue.createProgressBar();
-        const percentage = queue.getPlayerTimestamp();
-        var create = progress.replace(/ 0:00/g, ' ◉ LIVE');
+player.events.on("playerError", (queue, error) => {
+    console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}`);
+    queue.metadata.channel.send({ content: '❌ | Failed to extract the following song... skipping to the next!' })
+})
 
-        const npembed = new MessageEmbed()
-        .setAuthor(player.client.user.tag, player.client.user.displayAvatarURL())
-        .setThumbnail(queue.current.thumbnail)
-        .setColor(0xFF0000)
-        .setTitle(`Now playing 🎵`)
-        .setDescription(`${queue.current.title} ([Link](${queue.current.url})) (\`${percentage.progress == 'Infinity' ? 'Live' : percentage.progress + '%'}\`)\n${create}`)
-        //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
-        .setTimestamp()
-        //.setFooter(`Requested by: ${interaction.user.tag}`)
+player.events.on("playerStart", async (queue, track) => {
+    //queue.metadata.channel.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
+    const progress = queue.node.createProgressBar();
+    var create = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
-        const components = [
-            actionbutton = new MessageActionRow().addComponents(
-                new MessageButton()
-                    .setCustomId("np-delete")
-                    .setStyle("DANGER")
-                    .setLabel("🗑️"),
-                    //.addOptions(options)
-                new MessageButton()
-                    .setCustomId("np-back")
-                    .setStyle("PRIMARY")
-                    .setLabel("⏮️ Previous"),
-                new MessageButton()
-                    .setCustomId("np-pauseresume")
-                    .setStyle("PRIMARY")
-                    .setLabel("⏯️ Play/Pause"),
-                new MessageButton()
-                    .setCustomId("np-skip")
-                    .setStyle("PRIMARY")
-                    .setLabel("⏭️ Skip"),
-                new MessageButton()
-                    .setCustomId("np-clear")
-                    .setStyle("PRIMARY")
-                    .setLabel("🧹 Clear Queue")
-            ),
-            actionbutton2 = new MessageActionRow().addComponents(
-                new MessageButton()
-                    .setCustomId("np-volumedown")
-                    .setStyle("PRIMARY")
-                    .setLabel("🔈 Volume Down"),
-                new MessageButton()
-                    .setCustomId("np-volumeup")
-                    .setStyle("PRIMARY")
-                    .setLabel("🔊 Volume Up"),
-                new MessageButton()
-                    .setCustomId("np-loop")
-                    .setStyle("PRIMARY")
-                    .setLabel("🔂 Loop Once"),
-                new MessageButton()
-                    .setCustomId("np-shuffle")
-                    .setStyle("PRIMARY")
-                    .setLabel("🔀 Shuffle Queue"),
-                new MessageButton()
-                    .setCustomId("np-stop")
-                    .setStyle("PRIMARY")
-                    .setLabel("🛑 Stop Queue")
-            )
-        ];
+    const npembed = new EmbedBuilder()
+    .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+    .setThumbnail(queue.currentTrack.thumbnail)
+    .setColor(process.env.EMBED_COLOUR)
+    .setTitle(`Starting next song... Now Playing 🎵`)
+    .setDescription(`${queue.currentTrack.title} ([Link](${queue.currentTrack.url}))\n${create}`)
+    //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
+    .setTimestamp()
 
-        //Check if bot has message perms
-        if (!queue.guild.me.permissionsIn(queue.metadata.channel).has("SEND_MESSAGES")) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-        queue.metadata.channel.send({ embeds: [npembed], components })
-    });
+    if (queue.currentTrack.requestedBy != null) {
+        npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.tag}` })
+    }
 
-    //player.on("trackAdd", (queue, track) => {
-    //    queue.metadata.channel.send(`🎶 | Track **${track.title}** queued!`);
-    //});
+    var finalComponents = [
+        actionbutton = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId("np-delete")
+                .setStyle(4)
+                .setLabel("🗑️"),
+                //.addOptions(options)
+            new ButtonBuilder()
+                .setCustomId("np-back")
+                .setStyle(1)
+                .setLabel("⏮️ Previous"),
+            new ButtonBuilder()
+                .setCustomId("np-pauseresume")
+                .setStyle(1)
+                .setLabel("⏯️ Play/Pause"),
+            new ButtonBuilder()
+                .setCustomId("np-skip")
+                .setStyle(1)
+                .setLabel("⏭️ Skip"),
+            new ButtonBuilder()
+                .setCustomId("np-clear")
+                .setStyle(1)
+                .setLabel("🧹 Clear Queue")
+        ),
+        actionbutton2 = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId("np-volumedown")
+                .setStyle(1)
+                .setLabel("🔈 Volume Down"),
+            new ButtonBuilder()
+                .setCustomId("np-volumeup")
+                .setStyle(1)
+                .setLabel("🔊 Volume Up"),
+            new ButtonBuilder()
+                .setCustomId("np-loop")
+                .setStyle(1)
+                .setLabel("🔂 Loop Once"),
+            new ButtonBuilder()
+                .setCustomId("np-shuffle")
+                .setStyle(1)
+                .setLabel("🔀 Shuffle Queue"),
+            new ButtonBuilder()
+                .setCustomId("np-stop")
+                .setStyle(1)
+                .setLabel("🛑 Stop Queue")
+        )
+    ];
 
-    player.on("botDisconnect", (queue) => {
-        //queue.metadata.channel.send("❌ | I was manually disconnected from the voice channel, clearing queue!");
-        const disconnectedembed = new MessageEmbed()
-        .setAuthor(player.client.user.tag, player.client.user.displayAvatarURL())
-        //.setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
-        .setTitle(`Ending playback... 🛑`)
-        .setDescription(`I've been manually disconnected from the voice channel, clearing queue...!`)
-        .setTimestamp()
-        //.setFooter(`Requested by: ${interaction.user.tag}`)
+    //Check if bot has message perms
+    if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
+    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents })
+    
+    //----- Dyanmic Button Removal (main drawback being efficiency, but benefit being that it will only remove buttons once the next songs begins, ensuring they always stay) -----
+    const filter = (collectorMsg) => {
+        if (collectorMsg.embeds[0]) {
+            if (collectorMsg.embeds[0].title == "Starting next song... Now Playing 🎵" || collectorMsg.embeds[0].title == "Stopped music 🛑" || collectorMsg.embeds[0].title == "Ending playback... 🛑") {
+                return true;
+            }
+            
+            else {
+                return false;
+            }
+        }
 
-        //Check if bot has message perms
-        if (!queue.guild.me.permissionsIn(queue.metadata.channel).has("SEND_MESSAGES")) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-        queue.metadata.channel.send({ embeds: [disconnectedembed] })
-    });
+        else {
+            return false;
+        }
+    }
+    const collector = queue.metadata.channel.createMessageCollector({ filter, limit: 1, time: queue.currentTrack.durationMS * 3 })
 
-    player.on("channelEmpty", (queue) => {
-        //queue.metadata.channel.send("❌ | Nobody is in the voice channel, leaving...");
-        const emptyembed = new MessageEmbed()
-        .setAuthor(player.client.user.tag, player.client.user.displayAvatarURL())
-        //.setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
-        .setTitle(`Ending playback... 🛑`)
-        .setDescription(`Nobody is in the voice channel, disconnecting...!`)
-        .setTimestamp()
-        //.setFooter(`Requested by: ${interaction.user.tag}`)
+    //Remove the buttons if the next song event runs (due to song skip... etc)
+    collector.on('collect', async () => {
+        try {
+            msg.edit({ components: [] })
+        }
 
-        //Check if bot has message perms
-        if (!queue.guild.me.permissionsIn(queue.metadata.channel).has("SEND_MESSAGES")) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-        queue.metadata.channel.send({ embeds: [emptyembed] })
-    });
+        catch (err) {
+            console.log(`Now playing msg no longer exists! (ID: ${queue.guild.id})`);
+        }
+    })
 
-    player.on("queueEnd", (queue) => {
-        //queue.metadata.channel.send("✅ | Queue finished!");
-        const endembed = new MessageEmbed()
-        .setAuthor(player.client.user.tag, player.client.user.displayAvatarURL())
-        //.setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
-        .setTitle(`Queue has ended... 🛑`)
-        .setDescription(`The music queue has been finished, disconnecting...!`)
-        .setTimestamp()
-        //.setFooter(`Requested by: ${interaction.user.tag}`)
+    //Remove the buttons once it expires
+    collector.on('end', async () => {
+        try {
+            msg.edit({ components: [] })
+        }
 
-        //Check if bot has message perms
-        if (!queue.guild.me.permissionsIn(queue.metadata.channel).has("SEND_MESSAGES")) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-        queue.metadata.channel.send({ embeds: [endembed] })
-    });
-};
+        catch (err) {
+            console.log(`Now playing msg no longer exists! (ID: ${queue.guild.id})`);
+        }
+    })
+    
+    //----- Regular Button Removal based on song duration (main drawback being that if user pauses etc. then the buttons will disappear before song end, but benefit of efficiency) -----
+    /*.then((msg) => {
+        setTimeout(() => {
+            msg.edit({ components: [] });
+        }, queue.currentTrack.durationMS)
+    })*/
+})
+
+player.events.on("disconnect", (queue) => {
+    //queue.metadata.channel.send("❌ | I was manually disconnected from the voice channel, clearing queue!");
+
+    const disconnectedembed = new EmbedBuilder()
+    .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+    .setThumbnail(queue.guild.iconURL({dynamic: true}))
+    .setColor(process.env.EMBED_COLOUR)
+    .setTitle(`Ending playback... 🛑`)
+    .setDescription(`I've been manually disconnected from the voice channel, clearing queue...!`)
+    .setTimestamp()
+
+    //Check if bot has message perms
+    if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
+    queue.metadata.channel.send({ embeds: [disconnectedembed] })
+})
+
+player.events.on("emptyChannel", (queue) => {
+    //queue.metadata.channel.send("❌ | Nobody is in the voice channel, leaving...");
+
+    const emptyembed = new EmbedBuilder()
+    .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+    .setThumbnail(queue.guild.iconURL({dynamic: true}))
+    .setColor(process.env.EMBED_COLOUR)
+    .setTitle(`Ending playback... 🛑`)
+    .setDescription(`Nobody is in the voice channel, disconnecting...!`)
+    .setTimestamp()
+
+    //Check if bot has message perms
+    if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
+    queue.metadata.channel.send({ embeds: [emptyembed] })
+})
+
+player.events.on("emptyQueue", (queue) => {
+    //queue.metadata.channel.send("✅ | Queue finished!");
+
+    const endembed = new EmbedBuilder()
+    .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+    .setThumbnail(queue.guild.iconURL({dynamic: true}))
+    .setColor(process.env.EMBED_COLOUR)
+    .setTitle(`Ending playback... 🛑`)
+    .setDescription(`The music queue has been finished, disconnecting...!`)
+    .setTimestamp()
+
+    //Check if bot has message perms
+    if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
+    queue.metadata.channel.send({ embeds: [endembed] })
+})

@@ -1,41 +1,78 @@
 require("dotenv").config();
 const fs = require("fs");
-const { Client, Intents, Collection } = require("discord.js");
-const { registerPlayerEvents } = require('./events/musicevents.js');
+const { REST } = require("@discordjs/rest");
+const { Client, GatewayIntentBits, Partials, Collection, Routes } = require("discord.js");
 const { Player } = require("discord-player");
-const { AutoPoster } = require("topgg-autoposter");
-const client = new Client({
+client = new Client({
     intents: [ //Sets the necessary intents which discord requires
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MEMBERS,
-        Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildModeration,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.AutoModerationExecution,
     ],
     partials: [
-    "MESSAGE", 
-    "CHANNEL", 
-    "REACTION",
+        Partials.GuildMember,
+        Partials.User,
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction,
     ],
 });
 
-//Music discord-player initialisation
-global.player = new Player(client);
-const downloader = require("@discord-player/downloader").Downloader;
-global.player.use("YOUTUBE_DL", downloader);
-registerPlayerEvents(global.player);
+//Added logging for exceptions and rejection
+process.on('uncaughtException', async function(err) {
+    var date = new Date();
+    console.log(`Caught Exception: ${err.stack}\n`);
+    fs.appendFileSync('logs/exception.txt', `${date.toGMTString()}: ${err.stack}\n`);
+});
+
+process.on('unhandledRejection', async function(err) {
+    var date = new Date();
+    console.log(`Caught Rejection: ${err.stack}\n`);
+    fs.appendFileSync('logs/rejection.txt', `${date.toGMTString()}: ${err.stack}\n`);
+});
+
+//Discord-Player initialisation
+const { YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor } = require('@discord-player/extractor')
+const player = new Player(client, {
+	smoothVolume: true,
+})
+player.extractors.register(YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor)
 
 //Initialise commands through JSON
-global.commands = [];
+const commands = [];
 client.commands = new Collection(); //Creates new command collection
 fs.readdirSync("./commands/").forEach((dir) => {
-    commandFiles = fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith(".js"));
+    const commandFiles = fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith(".js"));
 
     for (const file of commandFiles) { //For each file, retrieve name/desc and push it as JSON
         const command = require(`./commands/${dir}/${file}`);
-        global.commands.push(command.data.toJSON());
         client.commands.set(command.data.name, command);
+        commands.push(command.data.toJSON());
+    }
+})
+
+//Register all of the commands
+client.once('ready', async function() {
+    const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+
+    try {
+        if (process.env.ENV === "prod") {
+            await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+            await rest.put(Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID), { body: [] });
+            console.log("[ELITE_CMDS] Commands registered (production)!");
+        } else {
+            await rest.put(Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID), { body: commands });
+            await rest.put(Routes.applicationCommands(client.user.id), { body: [] });
+            console.log("[ELITE_CMDS] Commands registered (development)!");
+        }
+    } catch (err) {
+        console.error(err);
     }
 })
 
@@ -49,11 +86,8 @@ for (const file of eventFiles) { //For each file, check if the event is .once or
     }
 }
 
-const ap = AutoPoster(process.env.TOPGG_TOKEN, client)
-ap.on('posted', () => {
-    console.log("Top.gg stats updated successfully!")
+//Login to the bot via token passed (from .env)
+client.login(process.env.TOKEN)
+.catch((err) => {
+    console.log(`[ELITE_ERROR] Bot could not login and authenticate.\nError Trace: ${err}`);
 })
-
-//"npm run dev" for testing (auto restart on save) | "npm run prod" for production
-
-client.login(process.env.TOKEN); //Login to the bot via token passed (from .env)

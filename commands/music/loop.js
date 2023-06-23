@@ -1,7 +1,7 @@
+require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Permissions } = require("discord.js");
-const { QueueRepeatMode } = require('discord-player');
-const ebmusic = require("../../models/ebmusic.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { Player, QueueRepeatMode, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,37 +31,37 @@ module.exports = {
             )
         ),
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const DJCheck = await ebmusic.findOne({
-            where: {
-                GuildID: guildid
-            }
-        });
-
-        if (DJCheck) {
-            if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+        const loopmode = interaction.options.getInteger("loopmode");
+        if (process.env.ENABLE_DJMODE == true) {
+            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
         }
 
-        const queue = player.getQueue(interaction.guild);
-
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
         if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-        const loopmode = interaction.options.getInteger("loopmode");
-        queue.setRepeatMode(loopmode);
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        
+        const player = Player.singleton();
+        var queue = player.nodes.get(interaction.guild.id);
+        if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
         const mode = loopmode === QueueRepeatMode.TRACK ? 'Loop mode on 🔂' : loopmode === QueueRepeatMode.QUEUE ? 'Loop mode on 🔁' : loopmode === QueueRepeatMode.AUTOPLAY ? 'Loop mode on 🤖' : 'Loop mode off 📴';
         const modename = loopmode === QueueRepeatMode.TRACK ? 'the **current track**' : loopmode === QueueRepeatMode.QUEUE ? 'the **entire queue**' : loopmode === QueueRepeatMode.AUTOPLAY ? '**autoplay music**' : '**off**';
 
-        const loopembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+        const loopembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
+        .setColor(process.env.EMBED_COLOUR)
         .setTitle(mode)
         .setDescription(`The loop mode has been set to ${modename}!`)
         .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
+        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-        interaction.reply({ embeds: [loopembed] })
+        try {
+            queue.setRepeatMode(loopmode);
+            interaction.reply({ embeds: [loopembed] })
+        }
+
+        catch (err) {
+            interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error switching loop mode. Please try again.`, ephemeral: true });
+        }
     }
 }

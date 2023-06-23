@@ -1,6 +1,7 @@
+require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Permissions } = require("discord.js");
-const ebmusic = require("../../models/ebmusic.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,38 +13,37 @@ module.exports = {
             .setRequired(true)
         ),
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const DJCheck = await ebmusic.findOne({
-            where: {
-                GuildID: guildid
-            }
-        });
-
-        if (DJCheck) {
-            if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
-        }
-        
         const removeamount = interaction.options.getInteger("song");
-        const queue = player.getQueue(interaction.guild);
+        if (process.env.ENABLE_DJMODE == true) {
+            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        }
 
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
         if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-        const trackIndex = removeamount - 1;
-        const trackName = queue.tracks[trackIndex].title;
-        const trackUrl = queue.tracks[trackIndex].url;
-        await queue.remove(trackIndex);
+        const player = Player.singleton();
+        var queue = player.nodes.get(interaction.guild.id);
+        if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+        const queuedTracks = queue.tracks.toArray()
+        if (!queuedTracks[removeamount-1]) return interaction.reply({ content: `❌ | There is no song at the queried position in the queue. Please try again.`, ephemeral: true });
         
-        const removeembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+        const removeembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
+        .setColor(process.env.EMBED_COLOUR)
         .setTitle(`Song removed ❌`)
-        .setDescription(`Removed track ${trackName} ([Link](${trackUrl})) from the queue!`)
+        .setDescription(`Removed track ${queuedTracks[removeamount-1].title} ([Link](${queuedTracks[removeamount-1].url})) from the queue!`)
         .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
+        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-        interaction.reply({ embeds: [removeembed] })
+        try {
+            queue.removeTrack(removeamount-1)
+            interaction.reply({ embeds: [removeembed] })
+        }
+
+        catch (err) {
+            interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error removing the song from the queue. Please try again.`, ephemeral: true });
+        }
     }
 }

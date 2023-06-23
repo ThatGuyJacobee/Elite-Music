@@ -1,7 +1,8 @@
+require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, Permissions } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
 const ms = require("ms");
-const ebmusic = require("../../models/ebmusic.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,36 +14,35 @@ module.exports = {
             .setRequired(true)
         ),
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const DJCheck = await ebmusic.findOne({
-            where: {
-                GuildID: guildid
-            }
-        });
-
-        if (DJCheck) {
-            if (DJCheck.DJToggle == true && !interaction.member.roles.cache.has(DJCheck.DJRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${DJCheck.DJRole}> to use any music commands!`, ephemeral: true });
+        if (process.env.ENABLE_DJMODE == true) {
+            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
         }
-        
-        const removeamount = interaction.options.getString("time");
-        const removems = ms(removeamount)
-        const queue = player.getQueue(interaction.guild);
 
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
         if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-        await queue.seek(removems);
+        const player = Player.singleton();
+        var queue = player.nodes.get(interaction.guild.id);
+        if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+
+        const removeamount = ms(interaction.options.getString("time"));
         
-        const seekembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
+        const seekembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(0xFF0000)
+        .setColor(process.env.EMBED_COLOUR)
         .setTitle(`Seek song ↪️`)
-        .setDescription(`Seeked the current song to ${ms(removems)}!`)
+        .setDescription(`Seeked the current song to ${ms(removeamount)}! Currently playing ${queue.currentTrack.title} ([Link](${queue.currentTrack.url})).`)
         .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
+        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
-        interaction.reply({ embeds: [seekembed] })
+        try {
+            queue.node.seek(removeamount);
+            interaction.reply({ embeds: [seekembed] })
+        }
+
+        catch (err) {
+            interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error seeking the song. Please try again.`, ephemeral: true });
+        }
     }
 }

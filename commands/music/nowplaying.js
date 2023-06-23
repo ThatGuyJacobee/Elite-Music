@@ -1,78 +1,83 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed, MessageActionRow, MessageButton, Permissions } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const { Player, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("nowplaying")
         .setDescription("Check the currently playing song!"),
     async execute(interaction) {
-        const queue = player.getQueue(interaction.guild);
-        if (!queue || !queue.playing) return interaction.reply({ content: `❌ | No music is currently being played!` });
         if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-        const query = interaction.options.getString("song");
-        const progress = queue.createProgressBar();
-        const percentage = queue.getPlayerTimestamp();
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        
+        const player = Player.singleton();
+        var queue = player.nodes.get(interaction.guild.id);
+        if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        
+        const progress = queue.node.createProgressBar();
         var create = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
-        const npembed = new MessageEmbed()
-        .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-        .setThumbnail(queue.current.thumbnail)
-        .setColor(0xFF0000)
+        const npembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+        .setThumbnail(queue.currentTrack.thumbnail)
+        .setColor(process.env.EMBED_COLOUR)
         .setTitle(`Now playing 🎵`)
-        .setDescription(`${queue.current.title} ([Link](${queue.current.url})) (\`${percentage.progress == 'Infinity' ? 'Live' : percentage.progress + '%'}\`)\n${create}`)
+        .setDescription(`${queue.currentTrack.title} ([Link](${queue.currentTrack.url}))\n${create}`)
         //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
         .setTimestamp()
-        .setFooter(`Requested by: ${interaction.user.tag}`)
 
-        const components = [
-            actionbutton = new MessageActionRow().addComponents(
-                new MessageButton()
+        if (queue.currentTrack.requestedBy != null) {
+            npembed.setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        }
+        
+        var finalComponents = [
+            actionbutton = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
                     .setCustomId("np-delete")
-                    .setStyle("DANGER")
+                    .setStyle(4)
                     .setLabel("🗑️"),
                     //.addOptions(options)
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-back")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("⏮️ Previous"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-pauseresume")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("⏯️ Play/Pause"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-skip")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("⏭️ Skip"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-clear")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🧹 Clear Queue")
             ),
-            actionbutton2 = new MessageActionRow().addComponents(
-                new MessageButton()
+            actionbutton2 = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
                     .setCustomId("np-volumedown")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🔈 Volume Down"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-volumeup")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🔊 Volume Up"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-loop")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🔂 Loop Once"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-shuffle")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🔀 Shuffle Queue"),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("np-stop")
-                    .setStyle("PRIMARY")
+                    .setStyle(1)
                     .setLabel("🛑 Stop Queue")
             )
         ];
 
-        interaction.reply({ embeds: [npembed], components })
+        interaction.reply({ embeds: [npembed], components: finalComponents })
     }
 }
