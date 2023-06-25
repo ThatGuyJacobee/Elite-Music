@@ -1,9 +1,9 @@
-# Elite Music
-Elite Music is a feature-packed Discord Music Bot built on top of discord.js & using the latest discord-player package.
+# Elite Music 🎵
+Elite Music is a feature-packed Discord Music Bot built on top of [discord.js](https://discord.js.org/) & using the latest [discord-player](https://discord-player.js.org/) package.
 
-## Features
+## Features 💡
 - Wide range of commands
-- Easy to setup and edit
+- Easy to setup, customise and edit
 - Slash commands (djs v14)
 - Support for various streaming platforms
 - Wide range of audio filters
@@ -13,12 +13,12 @@ Elite Music is a feature-packed Discord Music Bot built on top of discord.js & u
 Elite Music was originally a part of my verified Discord bot... [Elite Bot](https://elite-bot.com/), but the music section had to be removed due to verification issues. Therefore, in a win situation, I decided to open-source the bot's music code in this repository. And even better, I decided to re-write the entire bot to improve the feature set and overall quality of the code.
 
 # Installation 🔌
-## Prerequisites
+## Prerequisites 🛂
 In order for the bot to function correctly, there are a few prerequisites that you must have on your system.
 
-- [NodeJS](https://nodejs.org/en) - For the bot to function, it must be running in a NodeJS environment running on v17.0 or higher. It is highly recommended that you download the LTS build which is available for your OS to remain on the latest stable version. Head over to the [NodeJS Download website](https://nodejs.org/en/download) to download and install an appropriate version.
+- [NodeJS](https://nodejs.org/en) - For the bot to function, it must be running in a NodeJS environment running on v16.9.0 or higher. It is highly recommended that you download the LTS build which is available for your OS to remain on the latest stable version. Head over to the [NodeJS Download website](https://nodejs.org/en/download) to download and install an appropriate version.
 
-- [FFmpeg](https://ffmpeg.org/) or Avconv - You will require either of these for transcoding. It is recommended to use FFmpeg. Head over to the [FFmpeg Download website](https://ffmpeg.org/download.html), select your OS and download the appropriate package. Alternatively, you can use `npm I ffmpeg-static` when setting up the bot to use the binaries, although this is **NOT** recommended.
+- [FFmpeg](https://ffmpeg.org/) or Avconv - You will require either of these for transcoding. It is recommended to use FFmpeg. By default, the bot comes with the `ffmpeg-static` binaries as a dependancy which allows the bot to work out of the box. Alternatively, you may decide to set your own ffmpeg binaries. In this case, head over to the [FFmpeg Download website](https://ffmpeg.org/download.html), select your OS and download the appropriate package. You can then place `FFMPEG_PATH` as a new option into your .ENV file stating the custom path to your custom FFmpeg binaries.
 
 - [Discord Bot Account](https://discord.com/developers/applications) - You must register a bot on the Discord Developer site to gain access to a token to run the bot. Head over to the [Developer website](https://discord.com/developers/applications) and click on `New Application` button. Provide a name and press `Create`. Next on the left-hand menu, select the `Bot` section and press `Add Bot` alongside the confirmation. Finally, press `Reset Token` and finally copy the token and keep it safe. This is what you will have to place into your .ENV file for the bot to function.
 
@@ -40,17 +40,19 @@ Now that you have downloaded the repository, you can continue with the following
 4. Finally, run your bot using `node .` within a command/shell/terminal window. The bot should now become online and provide a success message if everything was configured correctly. 🎉
 5. (Optional) If you are editing the code, you can use `npm run dev` within your IDE to activate nodemon, which will automatically restart the bot on any change which is ideal for development.
 
-## Support
+Of course, you need to add your bot to your server now in order to use it. Follow this [useful guide](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links) from the discord.js Guide which explains how to do this with great detail if you need help understanding how to do this.
+
+## Support 🆘
 Need help setting up the bot or experiencing some trouble? Feel free to head over to the [Support Discord server](https://discord.elitegami.ng) and let me know!
 
 Found a bug or issue with the latest build? Feel free to open an issue on this repository! I will respond as soon as possible.
 
-## Elite Bot - Verified Multi-Purpose Bot
+## Elite Bot - Verified Multi-Purpose Bot 💪
 Looking for a multi-purpose Discord Bot for your server? Look no further, check out Elite Bot to fulfil all of your server needs including moderation, logging, external server status and much more!
 
 Check the bot out via the dedicated documentation website or top.gg today! 🚀
 - https://elite-bot.com
 - https://top.gg/bot/723275350922100840
 
-## License
+## License 📄
 [Apache © ThatGuyJacobee](./LICENSE.md)

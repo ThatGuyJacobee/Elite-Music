@@ -27,23 +27,18 @@ module.exports = {
 
         if (!checkqueue) {
             player.nodes.create(interaction.guild.id, {
-                leaveOnEmpty: process.env.LEAVE_ON_EMPTY,
-                leaveOnEmptyCooldown: process.env.LEAVE_ON_EMPTY_COOLDOWN,
-                leaveOnEnd: process.env.LEAVE_ON_END,
-                leaveOnEndCooldown: process.env.LEAVE_ON_END_COOLDOWN,
-                leaveOnStop: process.env.LEAVE_ON_STOP,
-                leaveOnStopCooldown: process.env.LEAVE_ON_STOP_COOLDOWN,
-                selfDeaf: process.env.SELF_DEAFEN,
+                leaveOnEmpty: client.config.leaveOnEmpty,
+                leaveOnEmptyCooldown: client.config.leaveOnEmptyCooldown,
+                leaveOnEnd: client.config.leaveOnEnd,
+                leaveOnEndCooldown: client.config.leaveOnEndCooldown,
+                leaveOnStop: client.config.leaveOnStop,
+                leaveOnStopCooldown: client.config.leaveOnStopCooldown,
+                selfDeaf: client.config.selfDeafen,
                 skipOnNoStream: true,
 				metadata: {
 					channel: interaction.channel,
 					requestedBy: interaction.user,
 					client: interaction.guild.members.me,
-				},
-				ytdlOptions: {
-					filter: 'audioonly',
-					highWaterMark: 1 << 30,
-					dlChunkSize: 0,
 				}
             })
         }
@@ -84,7 +79,7 @@ module.exports = {
             if (!queue.isPlaying()) {
                 try {
                     await queue.node.play(queue.tracks[0]);
-                    queue.node.setVolume(process.env.DEFAULT_VOLUME);
+                    queue.node.setVolume(client.config.defaultVolume);
                 }
 
                 catch (err) {

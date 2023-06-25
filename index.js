@@ -38,9 +38,11 @@ process.on('unhandledRejection', async function(err) {
 });
 
 //Discord-Player initialisation
+const defaultConsts = require(`./utils/defaultConsts`);
 const { YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor } = require('@discord-player/extractor')
 const player = new Player(client, {
-	smoothVolume: true,
+    smoothVolume: process.env.SMOOTH_VOLUME,
+    ytdlOptions: defaultConsts.ytdlOptions
 })
 player.extractors.register(YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor)
 
