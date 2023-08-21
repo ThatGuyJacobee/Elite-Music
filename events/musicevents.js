@@ -1,5 +1,5 @@
-const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder } = require("discord.js");
-const { Player, QueryType } = require('discord-player');
+const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js");
+const { Player } = require('discord-player');
 const player = Player.singleton();
 
 player.events.on("error", (queue, error) => {
@@ -14,14 +14,15 @@ player.events.on("playerError", (queue, error) => {
 player.events.on("playerStart", async (queue, track) => {
     //queue.metadata.channel.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
     const progress = queue.node.createProgressBar();
-    var create = progress.replace(/ 0:00/g, ' ◉ LIVE');
+    var createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
+    let coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` })
     const npembed = new EmbedBuilder()
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
-    .setThumbnail(queue.currentTrack.thumbnail)
+    .setThumbnail('attachment://coverimage.jpg')
     .setColor(process.env.EMBED_COLOUR)
     .setTitle(`Starting next song... Now Playing 🎵`)
-    .setDescription(`${queue.currentTrack.title} ([Link](${queue.currentTrack.url}))\n${create}`)
+    .setDescription(`${queue.currentTrack.title} ${track.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}\n${createBar}`)
     //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
     .setTimestamp()
 
@@ -79,7 +80,7 @@ player.events.on("playerStart", async (queue, track) => {
 
     //Check if bot has message perms
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents })
+    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents, files: [coverImage] })
     
     //----- Dyanmic Button Removal (main drawback being efficiency, but benefit being that it will only remove buttons once the next songs begins, ensuring they always stay) -----
     const filter = (collectorMsg) => {
@@ -136,8 +137,8 @@ player.events.on("disconnect", (queue) => {
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
     .setColor(process.env.EMBED_COLOUR)
-    .setTitle(`Ending playback... 🛑`)
-    .setDescription(`I've been manually disconnected from the voice channel, clearing queue...!`)
+    .setTitle(`Disconnecting 🛑`)
+    .setDescription(`I've been inactive for a period of time!`)
     .setTimestamp()
 
     //Check if bot has message perms
@@ -152,8 +153,8 @@ player.events.on("emptyChannel", (queue) => {
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
     .setColor(process.env.EMBED_COLOUR)
-    .setTitle(`Ending playback... 🛑`)
-    .setDescription(`Nobody is in the voice channel, disconnecting...!`)
+    .setTitle(`Ending playback 🛑`)
+    .setDescription(`Nobody is in the voice channel!`)
     .setTimestamp()
 
     //Check if bot has message perms
@@ -168,8 +169,8 @@ player.events.on("emptyQueue", (queue) => {
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
     .setColor(process.env.EMBED_COLOUR)
-    .setTitle(`Ending playback... 🛑`)
-    .setDescription(`The music queue has been finished, disconnecting...!`)
+    .setTitle(`Queue Finished 🛑`)
+    .setDescription(`The music queue has been finished!`)
     .setTimestamp()
 
     //Check if bot has message perms

@@ -1,6 +1,6 @@
 require("dotenv").config();
-const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, MessageSelectMenu, ModalBuilder, TextInputBuilder, TextInputStyle, AttachmentBuilder, Collection, StringSelectMenuBuilder  } = require("discord.js");
-const { Player, QueueRepeatMode, QueryType } = require('discord-player');
+const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, Collection, StringSelectMenuBuilder, AttachmentBuilder } = require("discord.js");
+const { Player, QueueRepeatMode } = require('discord-player');
 const fs = require("fs");
 const cooldowns = new Map();
 
@@ -229,8 +229,8 @@ module.exports = {
         //Check for button interactions
         else if (interaction.isButton()) {
             if (interaction.customId == "queue-delete") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
                 interaction.message.delete()
@@ -241,8 +241,8 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
                 if (global.page == 1) return interaction.reply({ content: "❌ | The queue is already on the first page!", ephemeral: true })
@@ -262,7 +262,7 @@ module.exports = {
                 .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Current Music Queue 🎵`)
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
-                .addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
+                .addField('Now Playing ▶️', `**${currentMusic.title}** ${currentMusic.queryType != 'arbitrary' ? `([Link](${currentMusic.url}))` : ''}`)
                 .setTimestamp()
                 .setFooter(`Requested by: ${interaction.user.tag}`)
 
@@ -292,8 +292,8 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
                 var pageStart = 10 * (page - 1);
@@ -316,7 +316,7 @@ module.exports = {
                 .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Current Music Queue 🎵`)
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
-                .addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
+                .addField('Now Playing ▶️', `**${currentMusic.title}** ${currentMusic.queryType != 'arbitrary' ? `([Link](${currentMusic.url}))` : ''}`)
                 .setTimestamp()
                 .setFooter(`Requested by: ${interaction.user.tag}`)
 
@@ -342,20 +342,20 @@ module.exports = {
             }
 
             if (interaction.customId == "np-delete") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
                 interaction.message.delete()
             }
 
             if (interaction.customId == "np-back") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
                 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -369,7 +369,7 @@ module.exports = {
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
                 .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Playing previous song ⏮️`)
-                .setDescription(`Returning next to the previous song ${previousTracks[0].title} ([Link](${previousTracks[0].url}))!`)
+                .setDescription(`Returning next to the previous song ${previousTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
@@ -384,30 +384,31 @@ module.exports = {
             }
 
             if (interaction.customId == "np-pauseresume") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 var checkPause = queue.node.isPaused();
 
+                var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` })
                 const pauseembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                .setThumbnail(queue.currentTrack.thumbnail)
+                .setThumbnail('attachment://coverimage.jpg')
                 .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Song paused ⏸️`)
-                .setDescription(`Playback has been **${checkPause ? 'resumed' : 'paused'}**. Currently playing ${queue.currentTrack.title} ([Link](${queue.currentTrack.url}))!`)
+                .setDescription(`Playback has been **${checkPause ? 'resumed' : 'paused'}**. Currently playing ${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}!`)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
                 try {
                     queue.node.setPaused(!queue.node.isPaused());
-                    interaction.reply({ embeds: [pauseembed] })
+                    interaction.reply({ embeds: [pauseembed], files: [coverImage] })
                 }
         
                 catch (err) {
@@ -416,12 +417,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-skip") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -430,18 +431,19 @@ module.exports = {
                 const queuedTracks = queue.tracks.toArray();
                 if (!queuedTracks[0]) return interaction.reply({ content: `❌ | There is no music is currently in the queue!`, ephemeral: true });
 
+                var coverImage = new AttachmentBuilder(queuedTracks[0].thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queuedTracks[0].title}` })
                 const skipembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                .setThumbnail(queuedTracks[0].thumbnail)
+                .setThumbnail('attachment://coverimage.jpg')
                 .setColor(process.env.EMBED_COLOUR)
                 .setTitle(`Song skipped ⏭️`)
-                .setDescription(`Now playing: ${queuedTracks[0].title} ([Link](${queuedTracks[0].url}))`)
+                .setDescription(`Now playing: ${queuedTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${queuedTracks[0].url}))` : ''}`)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
                 try {
                     queue.node.skip();
-                    interaction.reply({ embeds: [skipembed] })
+                    interaction.reply({ embeds: [skipembed], files: [coverImage] })
                 }
                 
                 catch (err) {
@@ -450,12 +452,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-clear") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -481,12 +483,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-volumeup") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -515,12 +517,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-volumedown") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -549,12 +551,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-loop") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -596,12 +598,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-shuffle") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
@@ -627,12 +629,12 @@ module.exports = {
             }
 
             if (interaction.customId == "np-stop") {
-                if (process.env.ENABLE_DJMODE == true) {
-                    if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (client.config.enableDjMode) {
+                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
 
-                if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);

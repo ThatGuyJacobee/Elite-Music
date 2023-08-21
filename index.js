@@ -28,23 +28,22 @@ client = new Client({
 process.on('uncaughtException', async function(err) {
     var date = new Date();
     console.log(`Caught Exception: ${err.stack}\n`);
-    fs.appendFileSync('logs/exception.txt', `${date.toGMTString()}: ${err.stack}\n`);
+    fs.appendFileSync('exception.txt', `${date.toGMTString()}: ${err.stack}\n`);
 });
 
 process.on('unhandledRejection', async function(err) {
     var date = new Date();
     console.log(`Caught Rejection: ${err.stack}\n`);
-    fs.appendFileSync('logs/rejection.txt', `${date.toGMTString()}: ${err.stack}\n`);
+    fs.appendFileSync('rejection.txt', `${date.toGMTString()}: ${err.stack}\n`);
 });
 
 //Discord-Player initialisation
 const defaultConsts = require(`./utils/defaultConsts`);
-const { YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor } = require('@discord-player/extractor')
 const player = new Player(client, {
     smoothVolume: process.env.SMOOTH_VOLUME,
     ytdlOptions: defaultConsts.ytdlOptions
 })
-player.extractors.register(YouTubeExtractor, SpotifyExtractor, SoundCloudExtractor, AttachmentExtractor)
+player.extractors.loadDefault();
 
 //Initialise commands through JSON
 const commands = [];
@@ -61,6 +60,7 @@ fs.readdirSync("./commands/").forEach((dir) => {
 
 //Register all of the commands
 client.once('ready', async function() {
+    console.log('[ELITE_CONFIG] Loading Configuration...')
     const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
     try {
@@ -91,5 +91,5 @@ for (const file of eventFiles) { //For each file, check if the event is .once or
 //Login to the bot via token passed (from .env)
 client.login(process.env.TOKEN)
 .catch((err) => {
-    console.log(`[ELITE_ERROR] Bot could not login and authenticate.\nError Trace: ${err}`);
+    console.log(`[ELITE_ERROR] Bot could not login and authenticate with Discord.\nError Trace: ${err}`);
 })

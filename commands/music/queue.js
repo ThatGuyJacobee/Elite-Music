@@ -1,19 +1,19 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder } = require("discord.js");
-const { Player, QueryType } = require('discord-player');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const { Player } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("queue")
         .setDescription("Check the current music that is in the queue!"),
     async execute(interaction) {
-        if (process.env.ENABLE_DJMODE == true) {
-            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        if (client.config.enableDjMode) {
+            if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
         }
 
-        if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
         const player = Player.singleton();
         var queue = player.nodes.get(interaction.guild.id);
@@ -34,11 +34,11 @@ module.exports = {
         var i = (curPage * 10) - 10;
         var curTracks = [];
 
-        curTracks.push({ name: 'Now Playing ▶️', value: `**${queue.currentTrack.title}** ([Link](${queue.currentTrack.url}))` },)
+        curTracks.push({ name: 'Now Playing ▶️', value: `**${queue.currentTrack.title}** ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}` },)
 
         for (i; i < curPage * 10; i++) {
             if (queuedTracks[i]) {
-                curTracks.push({ name: `${i + 1}. ${queuedTracks[i].title}`, value: `**${queuedTracks[i].author}** ([Link](${queuedTracks[i].url}))` },)
+                curTracks.push({ name: `${i + 1}. ${queuedTracks[i].title}`, value: `**${queuedTracks[i].author}** ${queuedTracks[i].queryType != 'arbitrary' ? `([Link](${queuedTracks[i].url}))` : ''}` },)
             }
         }
 
@@ -101,11 +101,11 @@ module.exports = {
 			var i = (curPage * 10) - 10
 			var curTracks = []
 
-			curTracks.push({ name: 'Now Playing ▶️', value: `**${queue.currentTrack.title}** ([Link](${queue.currentTrack.url}))` },)
+			curTracks.push({ name: 'Now Playing ▶️', value: `**${queue.currentTrack.title}** ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}` },)
 
 			for (i; i < curPage * 10; i++) {
 				if (queuedTracks[i]) {
-					curTracks.push({ name: `${i + 1}. ${queuedTracks[i].title}`, value: `**${queuedTracks[i].author}** ([Link](${queuedTracks[i].url}))` },)
+					curTracks.push({ name: `${i + 1}. ${queuedTracks[i].title}`, value: `**${queuedTracks[i].author}** ${queuedTracks[i].queryType != 'arbitrary' ? `([Link](${queuedTracks[i].url}))` : ''}` },)
 				}
 			}
 

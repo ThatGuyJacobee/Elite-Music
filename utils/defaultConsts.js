@@ -3,8 +3,6 @@ const defaultConsts = {
     config: {
         embedColour: '#FF0000',
         presence: '/help | elite-bot.com',
-        enableDjMode: false,
-        djRole: 1234567891011,
         leaveOnEmpty: false,
         leaveOnEmptyCooldown: 0,
         leaveOnEnd: false,
@@ -14,6 +12,11 @@ const defaultConsts = {
         selfDeafen: true,
         defaultVolume: 50,
         smoothVolume: true,
+        enableDjMode: false,
+        djRole: 1234567891011,
+        enablePlex: false,
+        plexServer: '',
+        plexAuthtoken: ''
     },
     ytdlOptions: {
         filter: 'audioonly',

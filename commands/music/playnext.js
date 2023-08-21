@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { Player, QueryType } = require('discord-player');
 
 module.exports = {
@@ -13,13 +13,12 @@ module.exports = {
             .setRequired(true)
         ),
     async execute(interaction) {
-        if (process.env.ENABLE_DJMODE == true) {
-            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        if (client.config.enableDjMode) {
+            if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
         }
 
-        await interaction.deferReply();
-        if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
         const player = Player.singleton();
         const query = interaction.options.getString("music");
@@ -52,12 +51,15 @@ module.exports = {
 			})
 
             if (!search || search.tracks.length == 0 || !search.tracks) {
-                return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
+                return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
             }
 
             if (search.playlist) {
-                return interaction.followUp({ content: `❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue.`, ephemeral: true })
+                return interaction.reply({ content: `❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue.`, ephemeral: true })
             }
+
+            //Otherwise it has found so defer reply
+            await interaction.deferReply();
 
             try {
                 if (!queue.connection) await queue.connect(interaction.member.voice.channel);
@@ -92,7 +94,7 @@ module.exports = {
             .setThumbnail(search.tracks[0].thumbnail)
             .setColor(process.env.EMBED_COLOUR)
             .setTitle(`Added to the top of the queue ⏱️`)
-            .setDescription(`Added song **${search.tracks[0].title}** ([Link](${search.tracks[0].url})) to the top of the queue (playing next)!`)
+            .setDescription(`Added song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''} to the top of the queue (playing next)!`)
             .setTimestamp()
             .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 

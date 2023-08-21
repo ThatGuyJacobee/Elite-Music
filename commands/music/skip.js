@@ -1,19 +1,19 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
-const { Player, QueryType } = require('discord-player');
+const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { Player } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("skip")
         .setDescription("Skip the current song!"),
     async execute(interaction) {
-        if (process.env.ENABLE_DJMODE == true) {
-            if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+        if (client.config.enableDjMode) {
+            if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
         }
         
-        if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
         const player = Player.singleton();
         var queue = player.nodes.get(interaction.guild.id);
@@ -22,18 +22,19 @@ module.exports = {
         const queuedTracks = queue.tracks.toArray();
         if (!queuedTracks[0]) return interaction.reply({ content: `❌ | There is no music is currently in the queue!`, ephemeral: true });
 
+        var coverImage = new AttachmentBuilder(queuedTracks[0].thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queuedTracks[0].title}` })
         const skipembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-        .setThumbnail(queuedTracks[0].thumbnail)
+        .setThumbnail('attachment://coverimage.jpg')
         .setColor(process.env.EMBED_COLOUR)
         .setTitle(`Song skipped ⏭️`)
-        .setDescription(`Now playing: ${queuedTracks[0].title} ([Link](${queuedTracks[0].url}))`)
+        .setDescription(`Now playing: ${queuedTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${queuedTracks[0].url}))` : ''}`)
         .setTimestamp()
         .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
         try {
             queue.node.skip();
-            interaction.reply({ embeds: [skipembed] });
+            interaction.reply({ embeds: [skipembed], files: [coverImage] });
         }
 
         catch (err) {
