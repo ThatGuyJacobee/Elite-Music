@@ -92,7 +92,7 @@ module.exports = {
             const playsongembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(search.tracks[0].thumbnail)
-            .setColor(process.env.EMBED_COLOUR)
+            .setColor(client.config.embedColour)
             .setTitle(`Added to the top of the queue ⏱️`)
             .setDescription(`Added song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''} to the top of the queue (playing next)!`)
             .setTimestamp()

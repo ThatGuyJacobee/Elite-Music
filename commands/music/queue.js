@@ -25,7 +25,7 @@ module.exports = {
         const queueembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Current Music Queue 🎵`)
         .setTimestamp()
         .setFooter({ text: `Requested by: ${interaction.user.tag}` })
@@ -83,7 +83,7 @@ module.exports = {
 			const queueembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-            .setColor(process.env.EMBED_COLOUR)
+            .setColor(client.config.embedColour)
             .setTitle(`Current Music Queue 🎵`)
             .setTimestamp()
 

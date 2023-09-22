@@ -31,7 +31,7 @@ module.exports = {
         const jumpembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Jumped to song ⏭️`)
         .setDescription(`Now playing: ${queuedTracks[trackIndex].title} ${queuedTracks[trackIndex].queryType != 'arbitrary' ? `([Link](${queuedTracks[trackIndex].url}))` : ''}!`)
         .setTimestamp()

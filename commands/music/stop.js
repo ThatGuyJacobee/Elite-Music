@@ -22,7 +22,7 @@ module.exports = {
         const stopembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Stopped music 🛑`)
         .setDescription(`Music has been stopped... leaving the channel!`)
         .setTimestamp()

@@ -26,6 +26,7 @@ In order for the bot to function correctly, there are a few prerequisites that y
 ## Setup 🔧
 The first step is to clone the repository or download it manually as a folder to host it directly. The Git option is recommended for more advanced users and for users who already have it installed.
 
+### Regular Installation
 #### Basic download
 Head over to the download page and download the .zip source code. Next, using a tool such as [7-Zip](https://www.7-zip.org/), extract the files from the .zip folder. You can now move on to the following steps.
 
@@ -42,6 +43,40 @@ Now that you have downloaded the repository, you can continue with the following
 5. (Optional) If you are editing the code, you can use `npm run dev` within your IDE to activate nodemon, which will automatically restart the bot on any change which is ideal for development.
 
 Of course, you need to add your bot to your server now in order to use it. Follow this [useful guide](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links) from the discord.js Guide which explains how to do this with great detail if you need help understanding how to do this.
+
+### Installation via Docker
+Elite Music now has Docker image and Docker Compose support, allowing you to simply install and use the bot through Docker.
+
+You can access the [Docker Image via Docker Hub](https://hub.docker.com/r/thatguyjacobee/elitemusic) which provides the image and the instructions within the description. The instructions to either install via Docker Run or Docker Compose are also provided below.
+
+#### Docker Run Command
+You should use the following command to download the image and run it:
+```docker
+docker run -d \
+--name=elite-music \
+--env-file /path/to/.env \
+--restart unless-stopped \
+thatguyjacobee/elitemusic:latest
+```
+
+Note: The `--env-file` path is relative to the directory you are running your docker run command from. 
+
+See the [.env.sample file](https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example) on the GitHub repository to view and copy over all of the environmental options into your target .env file for the bot.
+
+#### Docker Compose
+Use the following for your `docker-compose.yml` file:
+```yml
+version: '3'
+services:
+    elitemusic:
+        container_name: 'elite-music'
+        image: 'thatguyjacobee/elitemusic:latest'
+        env_file: 
+           - /path/to/.env
+        restart: unless-stopped
+```
+
+Once again, see the [.env.sample file](https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example) on the GitHub repository to view and copy over all of the environmental options into your target .env file for the bot.
 
 ## Optional Features ✅
 You may decide to want to enable additional optional features for your bot. Follow the appropriate sub-heading to learn how to set up and enable the selected feature!

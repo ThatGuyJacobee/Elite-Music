@@ -16,7 +16,7 @@ module.exports = {
         const botembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag + " - Bot Info", iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle("Elite Bot Music Information")
         .addFields(
             { name: "Process", value: `${((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2)} MB\nNJS - v${process.versions.node}\nDJS - v${packageJSON.dependencies["discord.js"].substring(1)}\nDiscord Player - v${packageJSON.dependencies["discord-player"]}`, inline: true },

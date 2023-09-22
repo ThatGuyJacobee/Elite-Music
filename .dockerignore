@@ -3,4 +3,3 @@ node_modules/
 logs/
 rejection.txt
 exception.txt
-Dockerfile

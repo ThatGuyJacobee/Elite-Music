@@ -30,7 +30,7 @@ module.exports = {
         const seekembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Seek song ↪️`)
         .setDescription(`Seeked the current song to ${ms(removeamount)}! Currently playing ${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}.`)
         .setTimestamp()

@@ -21,7 +21,7 @@ module.exports = {
         const npembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail('attachment://coverimage.jpg')
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Now playing 🎵`)
         .setDescription(`${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}\n${create}`)
         //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))

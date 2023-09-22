@@ -26,7 +26,7 @@ module.exports = {
         const skipembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail('attachment://coverimage.jpg')
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Song skipped ⏭️`)
         .setDescription(`Now playing: ${queuedTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${queuedTracks[0].url}))` : ''}`)
         .setTimestamp()

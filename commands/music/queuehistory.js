@@ -25,7 +25,7 @@ module.exports = {
         const historyembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Past Music Queue History 🔙`)
         //.setDescription(`${musiclist.join('\n')}${queue.previousTracks.length > (pageStart * -1) ? `\n...and ${(queue.previousTracks.length + pageStart)} more track(s)` : ''}`)
         //.addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
@@ -85,7 +85,7 @@ module.exports = {
 			const queueembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-            .setColor(process.env.EMBED_COLOUR)
+            .setColor(client.config.embedColour)
             .setTitle(`Past Music Queue History 🔙`)
             .setTimestamp()
 

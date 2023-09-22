@@ -25,7 +25,7 @@ module.exports = {
         const backembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Playing previous song ⏮️`)
         .setDescription(`Returning next to the previous song ${previousTracks[0].title} ${previousTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
         .setTimestamp()

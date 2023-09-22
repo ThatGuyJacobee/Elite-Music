@@ -1,5 +1,5 @@
 @echo off
-title Elite Bot Music
+title Elite-Music
 echo Bot start-up initiated...
 :main
 node ./index.js

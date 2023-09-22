@@ -1,0 +1,8 @@
+version: '3'
+services:
+    elitemusic:
+        container_name: 'elite-music'
+        image: 'thatguyjacobee/elitemusic:latest'
+        env_file: 
+           - /path/to/.env
+        restart: unless-stopped

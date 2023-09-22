@@ -31,7 +31,7 @@ module.exports = {
         const removeembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Song removed ❌`)
         .setDescription(`Removed track ${queuedTracks[removeamount-1].title} ${queuedTracks[removeamount-1].queryType != 'arbitrary' ? `([Link](${queuedTracks[removeamount-1].url}))` : ''} from the queue!`)
         .setTimestamp()

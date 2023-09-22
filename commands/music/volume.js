@@ -31,7 +31,7 @@ module.exports = {
         const volumeembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Volume changed 🎧`)
         .setDescription(`The volume has been set to **${vol}%**!`)
         .setTimestamp()

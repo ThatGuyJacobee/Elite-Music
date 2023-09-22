@@ -60,19 +60,12 @@ fs.readdirSync("./commands/").forEach((dir) => {
 
 //Register all of the commands
 client.once('ready', async function() {
-    console.log('[ELITE_CONFIG] Loading Configuration...')
+    console.log(`[ELITE_CONFIG] Loading Configuration... (Config Version: ${process.env.CFG_VERSION || 'N/A'})`)
     const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
     try {
-        if (process.env.ENV === "prod") {
-            await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
-            await rest.put(Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID), { body: [] });
-            console.log("[ELITE_CMDS] Commands registered (production)!");
-        } else {
-            await rest.put(Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID), { body: commands });
-            await rest.put(Routes.applicationCommands(client.user.id), { body: [] });
-            console.log("[ELITE_CMDS] Commands registered (development)!");
-        }
+        await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+        console.log("[ELITE_CMDS] Commands registered (production)!");
     } catch (err) {
         console.error(err);
     }
@@ -88,8 +81,13 @@ for (const file of eventFiles) { //For each file, check if the event is .once or
     }
 }
 
-//Login to the bot via token passed (from .env)
+//Authenticate with Discord via .env passed token
+if (!process.env.TOKEN) {
+    console.log(`[ELITE_ERROR] The .env file could not be found/doesn't exist. Have you followed the setup instructions correctly (https://github.com/ThatGuyJacobee/Elite-Music) to ensure that you have configured your environment correctly?`)
+    process.exit(0)
+}
+
 client.login(process.env.TOKEN)
 .catch((err) => {
-    console.log(`[ELITE_ERROR] Bot could not login and authenticate with Discord.\nError Trace: ${err}`);
+    console.log(`[ELITE_ERROR] Bot could not login and authenticate with Discord. Have you populated your .env file with your bot token and copied it over correctly? (Using token: ${process.env.TOKEN})\nError Trace: ${err}`);
 })

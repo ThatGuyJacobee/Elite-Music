@@ -83,6 +83,7 @@ module.exports = {
                 if (searchRes.MediaContainer.size >= 2) {
                     var foundItems = []
                     let count = 1
+                    let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
                     //console.log(searchRes)
 
                     var actionmenu = new ActionRowBuilder()
@@ -97,14 +98,14 @@ module.exports = {
         
                     for (var result of searchRes.MediaContainer.Metadata) {
                         //console.log(result)
-                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)}`, value: `${result.title}` })
+                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${result.duration})`, value: `${result.title}` })
                         
                         actionmenu.components[0].addOptions(
                             new StringSelectMenuOptionBuilder()
                             .setLabel(result.title)
                             .setValue(`${result.type}_${result.key}`)
                             .setDescription(`Duration - ${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`)
-                            .setEmoji('🎵')
+                            .setEmoji(emojis[count-1])
                         )
 
                         count++
@@ -116,7 +117,7 @@ module.exports = {
                     .setTitle(`Plex Search Results 🎵`)
                     .setDescription('Found multiple songs matching the provided search query, select one form the menu below.')
                     .addFields(foundItems)
-                    .setColor(process.env.EMBED_COLOUR)
+                    .setColor(client.config.embedColour)
                     .setTimestamp()
                     .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
@@ -217,7 +218,7 @@ module.exports = {
                             const playsongembed = new EmbedBuilder()
                             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                             .setThumbnail('attachment://coverimage.jpg')
-                            .setColor(process.env.EMBED_COLOUR)
+                            .setColor(client.config.embedColour)
                             .setTitle(`Started playback ▶️`)
                             .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs and started to play the queue!`)
                             .setTimestamp()
@@ -230,7 +231,7 @@ module.exports = {
                             const playsongembed = new EmbedBuilder()
                             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                             .setThumbnail('attachment://coverimage.jpg')
-                            .setColor(process.env.EMBED_COLOUR)
+                            .setColor(client.config.embedColour)
                             .setTitle(`Started playback ▶️`)
                             .setDescription(`Began playing the song **${newTrack.title}**!`)
                             .setTimestamp()
@@ -245,7 +246,7 @@ module.exports = {
                             const queuesongembed = new EmbedBuilder()
                             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                             .setThumbnail('attachment://coverimage.jpg')
-                            .setColor(process.env.EMBED_COLOUR)
+                            .setColor(client.config.embedColour)
                             .setTitle(`Added to queue ⏱️`)
                             .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs!`)
                             .setTimestamp()
@@ -258,7 +259,7 @@ module.exports = {
                             const queuesongembed = new EmbedBuilder()
                             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                             .setThumbnail('attachment://coverimage.jpg')
-                            .setColor(process.env.EMBED_COLOUR)
+                            .setColor(client.config.embedColour)
                             .setTitle(`Added to queue ⏱️`)
                             .setDescription(`Added song **${newTrack.title}** to the queue!`)
                             .setTimestamp()
@@ -278,7 +279,7 @@ module.exports = {
 
         else if (interaction.options.getSubcommand() === "search") {
             if (process.env.ENABLE_DJMODE == true) {
-                if (!interaction.member.roles.cache.has(process.env.DJ_ROLE)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${process.env.DJ_ROLE}> to use any music commands!`, ephemeral: true });
+                if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
             }
     
             if (!client.config.enablePlex) {
@@ -302,6 +303,7 @@ module.exports = {
                 var searchRes = await search.json()
                 var foundItems = []
                 let count = 1
+                let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
                 //console.log(searchRes)
 
                 var actionmenu = new ActionRowBuilder()
@@ -316,14 +318,14 @@ module.exports = {
     
                 for (var result of searchRes.MediaContainer.Metadata) {
                     //console.log(result)
-                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)}`, value: `${result.title}` })
+                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${result.duration})`, value: `${result.title}` })
                     
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                         .setLabel(result.title)
                         .setValue(`${result.type}_${result.key}`)
                         .setDescription(`Duration - ${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`)
-                        .setEmoji('🎵')
+                        .setEmoji(emojis[count-1])
                     )
 
                     count++
@@ -334,7 +336,7 @@ module.exports = {
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
                 .setTitle(`Plex Search Results 🎵`)
                 .addFields(foundItems)
-                .setColor(process.env.EMBED_COLOUR)
+                .setColor(client.config.embedColour)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
 
@@ -485,7 +487,7 @@ client.on('interactionCreate', async (interaction) => {
                 const playsongembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail('attachment://coverimage.jpg')
-                .setColor(process.env.EMBED_COLOUR)
+                .setColor(client.config.embedColour)
                 .setTitle(`Started playback ▶️`)
                 .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs and started to play the queue!`)
                 .setTimestamp()
@@ -500,7 +502,7 @@ client.on('interactionCreate', async (interaction) => {
                 const playsongembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail('attachment://coverimage.jpg')
-                .setColor(process.env.EMBED_COLOUR)
+                .setColor(client.config.embedColour)
                 .setTitle(`Started playback ▶️`)
                 .setDescription(`Began playing the song **${songFound.title}**!`)
                 .setTimestamp()
@@ -517,7 +519,7 @@ client.on('interactionCreate', async (interaction) => {
                 const playsongembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail('attachment://coverimage.jpg')
-                .setColor(process.env.EMBED_COLOUR)
+                .setColor(client.config.embedColour)
                 .setTitle(`Added to queue ⏱️`)
                 .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs!`)
                 .setTimestamp()
@@ -532,7 +534,7 @@ client.on('interactionCreate', async (interaction) => {
                 const playsongembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail('attachment://coverimage.jpg')
-                .setColor(process.env.EMBED_COLOUR)
+                .setColor(client.config.embedColour)
                 .setTitle(`Added to queue ⏱️`)
                 .setDescription(`Added song **${songFound.title}** to the queue!`)
                 .setTimestamp()

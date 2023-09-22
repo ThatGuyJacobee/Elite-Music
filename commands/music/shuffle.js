@@ -22,7 +22,7 @@ module.exports = {
         const shuffleembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(`Queue shuffle 🔀`)
         .setDescription(`The entire music queue has been shuffled!`)
         .setTimestamp()

@@ -79,7 +79,7 @@ module.exports = {
             const bassboostembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-            .setColor(process.env.EMBED_COLOUR)
+            .setColor(client.config.embedColour)
             .setTitle(`Audio filter toggled 🎵`)
             .setDescription(`The **${filter}** audio filter has been ${queue.filters.ffmpeg.getFiltersEnabled().includes(filter) ? 'Disabled' : 'Enabled'}!`)
             .setTimestamp()

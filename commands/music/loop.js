@@ -49,7 +49,7 @@ module.exports = {
         const loopembed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-        .setColor(process.env.EMBED_COLOUR)
+        .setColor(client.config.embedColour)
         .setTitle(mode)
         .setDescription(`The loop mode has been set to ${modename}!`)
         .setTimestamp()

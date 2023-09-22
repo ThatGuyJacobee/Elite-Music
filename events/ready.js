@@ -4,8 +4,6 @@ module.exports = {
     name: "ready",
     once: true,
     async execute (client, commands){
-        client.user.setActivity(process.env.PRESENCE, { type: 2 });
-
         //Configuration checks & initialisation
         const defaultConsts = require(`../utils/defaultConsts`);
         client.config = defaultConsts.config;
@@ -109,12 +107,18 @@ module.exports = {
                     client.config.enablePlex = false;
                 })
             }
+
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.3) {
+                console.log(`[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`)
+            }
             resolve();
         })
         .then(() => {
             console.log(`[ELITE_CONFIG] Configuration loaded... Current config:\n${JSON.stringify(client.config, null, 3)}`)
             console.log(`Note: If some configuration option is incorrect, please double check that it is correctly set within your .ENV file!\nOtherwise, where a configuraiton option is invalid, the default from defaultConsts.js will be used.`)
             console.log("\n[ELITE_STATUS] Loading successful. Core of the bot is ready!");
-        })   
+        })
+
+        client.user.setActivity(client.config.presence, { type: 2 });
     }
 }
