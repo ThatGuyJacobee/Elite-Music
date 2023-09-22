@@ -98,7 +98,7 @@ module.exports = {
         
                     for (var result of searchRes.MediaContainer.Metadata) {
                         //console.log(result)
-                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${result.duration})`, value: `${result.title}` })
+                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)})`, value: `${result.title}` })
                         
                         actionmenu.components[0].addOptions(
                             new StringSelectMenuOptionBuilder()
@@ -318,7 +318,7 @@ module.exports = {
     
                 for (var result of searchRes.MediaContainer.Metadata) {
                     //console.log(result)
-                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${result.duration})`, value: `${result.title}` })
+                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)})`, value: `${result.title}` })
                     
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()

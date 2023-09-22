@@ -47,7 +47,7 @@ module.exports = {
 
             client.config.defaultVolume = typeof (process.env.DEFAULT_VOLUME) === 'undefined'
                 ? client.config.defaultVolume
-                : (Number(process.env.DEFAULT_VOLUME <= 100) && Number(process.env.DEFAULT_VOLUME >= 0) ? process.env.DEFAULT_VOLUME : client.config.defaultVolume);
+                : (Number(process.env.DEFAULT_VOLUME <= 100) && Number(process.env.DEFAULT_VOLUME >= 0) ? Number(process.env.DEFAULT_VOLUME) : client.config.defaultVolume);
 
             client.config.smoothVolume = typeof (process.env.SMOOTH_VOLUME) === 'undefined'
                 ? client.config.smoothVolume
