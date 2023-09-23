@@ -85,7 +85,7 @@ player.events.on("playerStart", async (queue, track) => {
     //----- Dyanmic Button Removal (main drawback being efficiency, but benefit being that it will only remove buttons once the next songs begins, ensuring they always stay) -----
     const filter = (collectorMsg) => {
         if (collectorMsg.embeds[0]) {
-            if (collectorMsg.embeds[0].title == "Starting next song... Now Playing 🎵" || collectorMsg.embeds[0].title == "Stopped music 🛑" || collectorMsg.embeds[0].title == "Ending playback... 🛑") {
+            if (collectorMsg.embeds[0].title == "Starting next song... Now Playing 🎵" || collectorMsg.embeds[0].title == "Stopped music 🛑" || collectorMsg.embeds[0].title == "Disconnecting 🛑" || collectorMsg.embeds[0].title == "Ending playback 🛑" || collectorMsg.embeds[0].title == "Queue Finished 🛑") {
                 return true;
             }
             
