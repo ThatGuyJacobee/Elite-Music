@@ -64,15 +64,16 @@ module.exports = {
     
             const fetch = require('node-fetch');
             try {
-                const search = await fetch(`${client.config.plexServer}/search/?X-Plex-Token=${client.config.plexAuthtoken}&query=${query}&limit=10&type=10,15`, {
+                const search = await fetch(`${client.config.plexServer}/hubs/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${query}&limit=10&type=10,15`, {
                     method: 'GET',
                     headers: { accept: 'application/json'}
                 })
     
                 var searchRes = await search.json()
-                //console.log(searchRes)
+                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
+                //console.log(allSongs.Metadata)
     
-                if (!searchRes.MediaContainer.Metadata) {
+                if (!allSongs.Metadata) {
                     return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
                 }
 
@@ -80,7 +81,7 @@ module.exports = {
                 await interaction.deferReply();
 
                 //If there is more than one search result
-                if (searchRes.MediaContainer.size >= 2) {
+                if (allSongs.Metadata.length >= 2) {
                     var foundItems = []
                     let count = 1
                     let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
@@ -96,15 +97,17 @@ module.exports = {
                             //.addOptions(options)
                         )
         
-                    for (var result of searchRes.MediaContainer.Metadata) {
+                    var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
+                    for (var result of allSongs.Metadata) {
                         //console.log(result)
-                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)})`, value: `${result.title}` })
+                        let date = new Date(result.duration)
+                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
                         
                         actionmenu.components[0].addOptions(
                             new StringSelectMenuOptionBuilder()
-                            .setLabel(result.title)
+                            .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
                             .setValue(`${result.type}_${result.key}`)
-                            .setDescription(`Duration - ${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`)
+                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                             .setEmoji(emojis[count-1])
                         )
 
@@ -126,7 +129,7 @@ module.exports = {
 
                 //There is only one search result, play it direct
                 else {
-                    var songFound = await searchRes.MediaContainer.Metadata[0]
+                    var songFound = await allSongs.Metadata[0]
 
                     if (songFound.type == 'playlist') {
                         var playlistID = songFound.ratingKey
@@ -138,13 +141,14 @@ module.exports = {
                         var searchRes = await search.json()
 
                         for await (var result of searchRes.MediaContainer.Metadata) {
+                            let date = new Date(result.duration)
                             //console.log(result)
                             var newTrack = new Track(player, {
                                 title: result.title,
                                 author: result.grandparentTitle,
                                 url: `${client.config.plexServer}${result.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
                                 thumbnail: `${client.config.plexServer}${result.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-                                duration: `${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`,
+                                duration: `${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                                 views: '69',
                                 playlist: null,
                                 description: null,
@@ -167,12 +171,13 @@ module.exports = {
                     }
 
                     else {
+                        let date = new Date(songFound.duration)
                         var newTrack = new Track(player, {
                             title: songFound.title,
                             author: songFound.grandparentTitle,
                             url: `${client.config.plexServer}${songFound.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
                             thumbnail: `${client.config.plexServer}${songFound.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-                            duration: `${Math.floor(songFound.duration / 60000)}:${((songFound.duration % 60000) / 1000).toFixed(0)}`,
+                            duration: `${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                             views: '69',
                             playlist: null,
                             description: null,
@@ -295,7 +300,7 @@ module.exports = {
 
             const fetch = require('node-fetch');
             try {
-                const search = await fetch(`${client.config.plexServer}/search/?X-Plex-Token=${client.config.plexAuthtoken}&query=${query}&limit=10&type=10,15`, {
+                const search = await fetch(`${client.config.plexServer}/hubs/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${query}&limit=10&type=10,15`, {
                     method: 'GET',
                     headers: { accept: 'application/json'}
                 })
@@ -316,15 +321,17 @@ module.exports = {
                         //.addOptions(options)
                     )
     
-                for (var result of searchRes.MediaContainer.Metadata) {
+                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
+                for (var result of allSongs.Metadata) {
                     //console.log(result)
-                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)})`, value: `${result.title}` })
+                    let date = new Date(result.duration)
+                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
                     
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
-                        .setLabel(result.title)
+                        .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
                         .setValue(`${result.type}_${result.key}`)
-                        .setDescription(`Duration - ${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`)
+                        .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                         .setEmoji(emojis[count-1])
                     )
 
@@ -344,7 +351,7 @@ module.exports = {
             }
 
             catch (err) {
-                //console.log(err)
+                console.log(err)
                 return interaction.followUp({ content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`, ephemeral: true })
             }
         }
@@ -397,13 +404,14 @@ client.on('interactionCreate', async (interaction) => {
                 //console.log(searchRes)
 
                 for await (var result of searchRes.MediaContainer.Metadata) {
+                    let date = new Date(result.duration)
                     //console.log(result)
                     var newTrack = new Track(player, {
                         title: result.title,
                         author: result.grandparentTitle,
                         url: `${client.config.plexServer}${result.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
                         thumbnail: `${client.config.plexServer}${result.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-                        duration: `${Math.floor(result.duration / 60000)}:${((result.duration % 60000) / 1000).toFixed(0)}`,
+                        duration: `${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                         views: '69',
                         playlist: null,
                         description: null,
@@ -437,12 +445,13 @@ client.on('interactionCreate', async (interaction) => {
                 //console.log(searchRes)
 
                 var songFound = await searchRes.MediaContainer.Metadata[0]
+                let date = new Date(songFound.duration)
                 const newTrack = new Track(player, {
                     title: songFound.title,
                     author: songFound.grandparentTitle,
                     url: `${client.config.plexServer}${songFound.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
                     thumbnail: `${client.config.plexServer}${songFound.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-                    duration: `${Math.floor(songFound.duration / 60000)}:${((songFound.duration % 60000) / 1000).toFixed(0)}`,
+                    duration: `${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                     views: '69',
                     playlist: null,
                     description: null,
