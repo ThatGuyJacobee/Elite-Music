@@ -2,12 +2,13 @@
 Elite Music is a feature-packed Discord Music Bot built on top of [discord.js](https://discord.js.org/) & using the latest [discord-player](https://discord-player.js.org/) package.
 
 ## Features 💡
-- Wide range of commands
-- Easy to setup, customise and edit
-- Slash commands (djs v14)
-- Support for various streaming platforms
-- Wide range of audio filters
-- Awesome playback UI
+- Wide range of commands.
+- Easy to setup, customise and edit.
+- Slash commands (djs v14).
+- Support for various streaming platforms.
+- Wide range of audio filters.
+- Docker Support.
+- Awesome playback UI.
 - Additional features including plex media server support.
 - And much more!
 
@@ -47,7 +48,7 @@ Of course, you need to add your bot to your server now in order to use it. Follo
 ### Installation via Docker
 Elite Music now has Docker image and Docker Compose support, allowing you to simply install and use the bot through Docker.
 
-You can access the [Docker Image via Docker Hub](https://hub.docker.com/r/thatguyjacobee/elitemusic) which provides the image and the instructions within the description. The instructions to either install via Docker Run or Docker Compose are also provided below.
+You can access the [Docker Image via Docker Hub](https://hub.docker.com/r/thatguyjacobee/elitemusic) which provides the image and the instructions within the description. The instructions to either install via Docker Run or Docker Compose are also provided below. Once you have installed and configured your bot, you will need to add your bot to your server now in order to use it. Follow this [useful guide](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links) from the discord.js Guide which explains how to do this with great detail if you need help understanding how to do this.
 
 #### Docker Run Command
 You should use the following command to download the image and run it:
