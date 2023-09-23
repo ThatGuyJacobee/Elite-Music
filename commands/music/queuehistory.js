@@ -30,7 +30,7 @@ module.exports = {
         //.setDescription(`${musiclist.join('\n')}${queue.previousTracks.length > (pageStart * -1) ? `\n...and ${(queue.previousTracks.length + pageStart)} more track(s)` : ''}`)
         //.addField('Now Playing ▶️', `**${currentMusic.title}** | ([Link](${currentMusic.url}))`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         var curPage = 1;
         var i = (curPage * 10) - 10;
@@ -112,7 +112,7 @@ module.exports = {
 			}
 
 			queueembed.addFields(curTracks)
-			queueembed.setFooter({ text: `Requested by: ${interaction.user.tag} - Page ${curPage}` })
+			queueembed.setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username} - Page ${curPage}` })
 			interaction.editReply({ embeds: [queueembed] })
 			buttonResponse.deferUpdate()
 		})

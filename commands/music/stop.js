@@ -26,7 +26,7 @@ module.exports = {
         .setTitle(`Stopped music 🛑`)
         .setDescription(`Music has been stopped... leaving the channel!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.delete();

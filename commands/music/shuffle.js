@@ -26,7 +26,7 @@ module.exports = {
         .setTitle(`Queue shuffle 🔀`)
         .setDescription(`The entire music queue has been shuffled!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.tracks.shuffle();

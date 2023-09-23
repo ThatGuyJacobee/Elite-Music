@@ -83,7 +83,7 @@ module.exports = {
             .setTitle(`Audio filter toggled 🎵`)
             .setDescription(`The **${filter}** audio filter has been ${queue.filters.ffmpeg.getFiltersEnabled().includes(filter) ? 'Disabled' : 'Enabled'}!`)
             .setTimestamp()
-            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
             try {
                 queue.filters.ffmpeg.toggle(filter);

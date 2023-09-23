@@ -34,7 +34,7 @@ module.exports = {
         .setTitle(`Seek song ↪️`)
         .setDescription(`Seeked the current song to ${ms(removeamount)}! Currently playing ${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}.`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.node.seek(removeamount);

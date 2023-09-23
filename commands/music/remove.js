@@ -35,7 +35,7 @@ module.exports = {
         .setTitle(`Song removed ❌`)
         .setDescription(`Removed track ${queuedTracks[removeamount-1].title} ${queuedTracks[removeamount-1].queryType != 'arbitrary' ? `([Link](${queuedTracks[removeamount-1].url}))` : ''} from the queue!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.removeTrack(removeamount-1)

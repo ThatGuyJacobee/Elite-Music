@@ -96,7 +96,7 @@ module.exports = {
             .setTitle(`Added to the top of the queue ⏱️`)
             .setDescription(`Added song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''} to the top of the queue (playing next)!`)
             .setTimestamp()
-            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
             interaction.followUp({ embeds: [playsongembed] })
         }

@@ -30,7 +30,7 @@ module.exports = {
         .setTitle(`Song skipped ⏭️`)
         .setDescription(`Now playing: ${queuedTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${queuedTracks[0].url}))` : ''}`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.node.skip();

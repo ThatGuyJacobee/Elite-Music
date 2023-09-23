@@ -35,7 +35,7 @@ module.exports = {
         .setTitle(`Jumped to song ⏭️`)
         .setDescription(`Now playing: ${queuedTracks[trackIndex].title} ${queuedTracks[trackIndex].queryType != 'arbitrary' ? `([Link](${queuedTracks[trackIndex].url}))` : ''}!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.node.jump(trackIndex);

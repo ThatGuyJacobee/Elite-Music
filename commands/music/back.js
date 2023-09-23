@@ -29,7 +29,7 @@ module.exports = {
         .setTitle(`Playing previous song ⏮️`)
         .setDescription(`Returning next to the previous song ${previousTracks[0].title} ${previousTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.history.back();

@@ -35,7 +35,7 @@ module.exports = {
         .setTitle(`Volume changed 🎧`)
         .setDescription(`The volume has been set to **${vol}%**!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.node.setVolume(vol);

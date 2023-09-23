@@ -122,7 +122,7 @@ module.exports = {
                     .addFields(foundItems)
                     .setColor(client.config.embedColour)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
                 }
@@ -227,7 +227,7 @@ module.exports = {
                             .setTitle(`Started playback ▶️`)
                             .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs and started to play the queue!`)
                             .setTimestamp()
-                            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
             
                             interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
                         }
@@ -240,7 +240,7 @@ module.exports = {
                             .setTitle(`Started playback ▶️`)
                             .setDescription(`Began playing the song **${newTrack.title}**!`)
                             .setTimestamp()
-                            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
             
                             interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
                         }
@@ -255,7 +255,7 @@ module.exports = {
                             .setTitle(`Added to queue ⏱️`)
                             .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs!`)
                             .setTimestamp()
-                            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
             
                             interaction.followUp({ embeds: [queuesongembed], files: [coverImage] })
                         }
@@ -268,7 +268,7 @@ module.exports = {
                             .setTitle(`Added to queue ⏱️`)
                             .setDescription(`Added song **${newTrack.title}** to the queue!`)
                             .setTimestamp()
-                            .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
             
                             interaction.followUp({ embeds: [queuesongembed], files: [coverImage] })
                         }
@@ -345,7 +345,7 @@ module.exports = {
                 .addFields(foundItems)
                 .setColor(client.config.embedColour)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
             }
@@ -500,7 +500,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setTitle(`Started playback ▶️`)
                 .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs and started to play the queue!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
                 sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -515,7 +515,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setTitle(`Started playback ▶️`)
                 .setDescription(`Began playing the song **${songFound.title}**!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
                 sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -532,7 +532,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setTitle(`Added to queue ⏱️`)
                 .setDescription(`Imported the **${searchRes.MediaContainer.title} playlist** with **${searchRes.MediaContainer.size}** songs!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
                 sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -547,7 +547,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setTitle(`Added to queue ⏱️`)
                 .setDescription(`Added song **${songFound.title}** to the queue!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
                 sourceMessage.edit({embeds: sourceMessage.embeds, components: []})

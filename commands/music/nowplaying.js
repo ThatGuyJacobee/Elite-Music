@@ -28,7 +28,7 @@ module.exports = {
         .setTimestamp()
 
         if (queue.currentTrack.requestedBy != null) {
-            npembed.setFooter({ text: `Requested by: ${interaction.user.tag}` })
+            npembed.setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
         }
         
         var finalComponents = [

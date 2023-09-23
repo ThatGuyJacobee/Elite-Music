@@ -53,7 +53,7 @@ module.exports = {
         .setTitle(mode)
         .setDescription(`The loop mode has been set to ${modename}!`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
             queue.setRepeatMode(loopmode);

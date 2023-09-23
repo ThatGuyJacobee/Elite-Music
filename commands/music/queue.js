@@ -28,7 +28,7 @@ module.exports = {
         .setColor(client.config.embedColour)
         .setTitle(`Current Music Queue 🎵`)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         var curPage = 1;
         var i = (curPage * 10) - 10;
@@ -110,7 +110,7 @@ module.exports = {
 			}
 
 			queueembed.addFields(curTracks)
-			queueembed.setFooter({ text: `Requested by: ${interaction.user.tag} - Page ${curPage}` })
+			queueembed.setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username} - Page ${curPage}` })
 			interaction.editReply({ embeds: [queueembed] })
 			buttonResponse.deferUpdate()
 		})

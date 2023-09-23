@@ -134,7 +134,7 @@ module.exports = {
                 .setTitle('Elite Bot - Help Menu')
                 .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nIf you require assistance or are experiencing a persistant bug, please create a bug report using **/elitebot bugreport** or by joining the **[Support Discord Server](https://discord.elitegami.ng)**. 🆘\n\nFor more in-depth guides and help setting things up, please head over to the documentation which is always up-to-date and heavily detailed. 📄\n\n<:Rules:1039597018064093325> Docs & Invite: __**https://elite-bot.com**__\n<:LockedChannel:1039597788931035237> Privacy Policy: __**https://elite-bot.com/docs/privacy-policy**__\n<:HammerAction:1040729990876119050> Terms of Service: __**https://elite-bot.com/docs/terms-of-service/**__`)
                 .setTimestamp()
-                .setFooter({ text: `/help | Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `/help | Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
     
                 dirs.forEach((dir, index) => {
                     /*embed.addFields({
@@ -264,7 +264,7 @@ module.exports = {
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
                 .addField('Now Playing ▶️', `**${currentMusic.title}** ${currentMusic.queryType != 'arbitrary' ? `([Link](${currentMusic.url}))` : ''}`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter(`Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`)
 
                 const components = [
                     actionbutton = new MessageActionRow().addComponents(
@@ -318,7 +318,7 @@ module.exports = {
                 .setDescription(`${musiclist.join('\n')}${queue.tracks.length > pageEnd ? `\n...and ${queue.tracks.length - pageEnd} more track(s)` : ''}`)
                 .addField('Now Playing ▶️', `**${currentMusic.title}** ${currentMusic.queryType != 'arbitrary' ? `([Link](${currentMusic.url}))` : ''}`)
                 .setTimestamp()
-                .setFooter(`Requested by: ${interaction.user.tag}`)
+                .setFooter(`Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`)
 
                 const components = [
                     actionbutton = new MessageActionRow().addComponents(
@@ -371,7 +371,7 @@ module.exports = {
                 .setTitle(`Playing previous song ⏮️`)
                 .setDescription(`Returning next to the previous song ${previousTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.history.back();
@@ -404,7 +404,7 @@ module.exports = {
                 .setTitle(`Song paused ⏸️`)
                 .setDescription(`Playback has been **${checkPause ? 'resumed' : 'paused'}**. Currently playing ${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.node.setPaused(!queue.node.isPaused());
@@ -439,7 +439,7 @@ module.exports = {
                 .setTitle(`Song skipped ⏭️`)
                 .setDescription(`Now playing: ${queuedTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${queuedTracks[0].url}))` : ''}`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.node.skip();
@@ -470,7 +470,7 @@ module.exports = {
                 .setTitle(`Queue clear 🧹`)
                 .setDescription(`The entire music queue has been cleared!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.tracks.clear();
@@ -504,7 +504,7 @@ module.exports = {
                 .setTitle(`Volume increased 🎧`)
                 .setDescription(`The volume has been set to **${totalVol}%**!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.node.setVolume(totalVol);
@@ -538,7 +538,7 @@ module.exports = {
                 .setTitle(`Volume decreased 🎧`)
                 .setDescription(`The volume has been set to **${totalVol}%**!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.node.setVolume(totalVol);
@@ -574,7 +574,7 @@ module.exports = {
                     .setTitle(mode)
                     .setDescription(`The loop mode has been set to **off**!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     interaction.reply({ embeds: [loopembed] })
                 }
@@ -591,7 +591,7 @@ module.exports = {
                     .setTitle(mode)
                     .setDescription(`The loop mode has been set to the **current track**!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     interaction.reply({ embeds: [loopembed] })
                 }
@@ -616,7 +616,7 @@ module.exports = {
                 .setTitle(`Queue shuffle 🔀`)
                 .setDescription(`The entire music queue has been shuffled!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.tracks.shuffle();
@@ -647,7 +647,7 @@ module.exports = {
                 .setTitle(`Stopped music 🛑`)
                 .setDescription(`Music has been stopped... leaving the channel!`)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
                     queue.delete();

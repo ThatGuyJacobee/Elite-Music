@@ -97,7 +97,7 @@ module.exports = {
                 .addFields(foundItems)
                 .setColor(client.config.embedColour)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
             }
@@ -139,7 +139,7 @@ module.exports = {
                         .setTitle(`Started playback ▶️`)
                         .setDescription(`Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs and started to play the queue!`)
                         .setTimestamp()
-                        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                         interaction.followUp({ embeds: [playlistembed] })
                     }
@@ -152,7 +152,7 @@ module.exports = {
                         .setTitle(`Started playback ▶️`)
                         .setDescription(`Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''}!`)
                         .setTimestamp()
-                        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                         interaction.followUp({ embeds: [playsongembed] })
                     }
@@ -167,7 +167,7 @@ module.exports = {
                         .setTitle(`Added to queue ⏱️`)
                         .setDescription(`Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs!`)
                         .setTimestamp()
-                        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
         
                         interaction.followUp({ embeds: [queueplaylistembed] })
                     }
@@ -180,7 +180,7 @@ module.exports = {
                         .setTitle(`Added to queue ⏱️`)
                         .setDescription(`Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''}!`)
                         .setTimestamp()
-                        .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                         interaction.followUp({ embeds: [queuesongembed] })
                     }
@@ -270,7 +270,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setTitle(`Started playback ▶️`)
                     .setDescription(`Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs and started to play the queue!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
                     sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -285,7 +285,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setTitle(`Started playback ▶️`)
                     .setDescription(`Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''}!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
                     sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -302,7 +302,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setTitle(`Added to queue ⏱️`)
                     .setDescription(`Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
     
                     var sourceMessage = interaction.message
                     sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
@@ -317,7 +317,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setTitle(`Added to queue ⏱️`)
                     .setDescription(`Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''}!`)
                     .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.tag}` })
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
                     sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
