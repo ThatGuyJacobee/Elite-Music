@@ -14,7 +14,7 @@
     "@discordjs/rest": "1.7.1",
     "@distube/ytdl-core": "4.11.10",
     "discord-api-types": "0.37.43",
-    "discord-player": "6.6.2",
+    "discord-player": "6.6.4",
     "discord.js": "14.11.0",
     "dotenv": "16.0.1",
     "ffmpeg-static": "5.1.0",
