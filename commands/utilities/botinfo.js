@@ -19,7 +19,7 @@ module.exports = {
         .setColor(client.config.embedColour)
         .setTitle("Elite Bot Music Information")
         .addFields(
-            { name: "Process", value: `${((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2)} MB\nNJS - v${process.versions.node}\nDJS - v${packageJSON.dependencies["discord.js"].substring(1)}\nDiscord Player - v${packageJSON.dependencies["discord-player"]}`, inline: true },
+            { name: "Process", value: `${((process.memoryUsage().heapUsed / 1024) / 1024).toFixed(2)} MB\nNJS - v${process.versions.node}\nDJS - v${packageJSON.dependencies["discord.js"]}\nDiscord Player - v${packageJSON.dependencies["discord-player"]}`, inline: true },
             { name: "Ping", value: `API - ${Math.round(interaction.client.ws.ping)}ms`, inline: true },
             { name: "Uptime Since", value: botuptime, inline: true },
             { name: "Developer & Maintainer", value: "[ThatGuyJacobee](https://github.com/ThatGuyJacobee)", inline: true },
@@ -34,6 +34,11 @@ module.exports = {
             .setURL(`https://github.com/ThatGuyJacobee/Elite-Bot-Music`)
             .setStyle(5) //Link
             .setLabel("🛡️ Open Source Repo"),
+            //.addOptions(options)
+            new ButtonBuilder()
+            .setURL(`https://hub.docker.com/r/thatguyjacobee/elitemusic`)
+            .setStyle(5) //Link
+            .setLabel("🐳 Docker Hub"),
             //.addOptions(options)
             new ButtonBuilder()
             .setURL(`https://elite-bot.com/`)
