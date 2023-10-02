@@ -57,13 +57,9 @@ module.exports = {
             ),
             actionbutton2 = new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
-                    .setCustomId("np-volumedown")
+                    .setCustomId("np-volumeadjust")
                     .setStyle(1)
-                    .setLabel("🔈 Volume Down"),
-                new ButtonBuilder()
-                    .setCustomId("np-volumeup")
-                    .setStyle(1)
-                    .setLabel("🔊 Volume Up"),
+                    .setLabel("🔊 Adjust Volume"),
                 new ButtonBuilder()
                     .setCustomId("np-loop")
                     .setStyle(1)

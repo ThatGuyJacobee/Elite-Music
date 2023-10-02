@@ -27,7 +27,8 @@ player.events.on("playerStart", async (queue, track) => {
     .setTimestamp()
 
     if (queue.currentTrack.requestedBy != null) {
-        npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.tag}` })
+        
+        npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` })
     }
 
     var finalComponents = [
@@ -56,13 +57,9 @@ player.events.on("playerStart", async (queue, track) => {
         ),
         actionbutton2 = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId("np-volumedown")
+                .setCustomId("np-volumeadjust")
                 .setStyle(1)
-                .setLabel("🔈 Volume Down"),
-            new ButtonBuilder()
-                .setCustomId("np-volumeup")
-                .setStyle(1)
-                .setLabel("🔊 Volume Up"),
+                .setLabel("🔊 Adjust Volume"),
             new ButtonBuilder()
                 .setCustomId("np-loop")
                 .setStyle(1)

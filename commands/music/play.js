@@ -232,8 +232,8 @@ client.on('interactionCreate', async (interaction) => {
                 return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song.`, ephemeral: true })
             }
 
-            //Otherwise it has found so defer reply
-            await interaction.deferReply();
+            //Defer update from menu interaction
+            await interaction.deferUpdate();
 
             try {
                 if (!queue.connection) await queue.connect(interaction.member.voice.channel);
@@ -273,8 +273,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
-                    sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                    interaction.followUp({ embeds: [playlistembed] })
+                    sourceMessage.edit({ embeds: [playlistembed], components: [] })
                 }
 
                 else {
@@ -288,8 +287,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
-                    sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                    interaction.followUp({ embeds: [playsongembed] })
+                    sourceMessage.edit({ embeds: [playsongembed], components: [] })
                 }
             }
 
@@ -305,8 +303,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
     
                     var sourceMessage = interaction.message
-                    sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                    interaction.followUp({ embeds: [queueplaylistembed] })
+                    sourceMessage.edit({ embeds: [queueplaylistembed], components: [] })
                 }
 
                 else {
@@ -320,8 +317,7 @@ client.on('interactionCreate', async (interaction) => {
                     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                     var sourceMessage = interaction.message
-                    sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                    interaction.followUp({ embeds: [queuesongembed] })
+                    sourceMessage.edit({ embeds: [queuesongembed], components: [] })
                 }
             }
         }

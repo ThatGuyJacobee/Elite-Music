@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, Collection, StringSelectMenuBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, Collection, StringSelectMenuBuilder, TextInputBuilder, ModalBuilder, AttachmentBuilder } = require("discord.js");
 const { Player, QueueRepeatMode } = require('discord-player');
 const fs = require("fs");
 const cooldowns = new Map();
@@ -256,7 +256,7 @@ module.exports = {
                     return `${i + pageStart + 1}# **${m.title}** ([link](${m.url}))`;
                 });
 
-                const queueembed = new MessageEmbed()
+                const queueembed = new EmbedBuilder()
                 .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
                 .setColor(client.config.embedColour)
@@ -310,7 +310,7 @@ module.exports = {
                     return `${i + pageStart + 1}# **${m.title}** ([link](${m.url}))`;
                 });
 
-                const queueembed = new MessageEmbed()
+                const queueembed = new EmbedBuilder()
                 .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
                 .setColor(client.config.embedColour)
@@ -369,7 +369,7 @@ module.exports = {
                 .setThumbnail(interaction.guild.iconURL({dynamic: true}))
                 .setColor(client.config.embedColour)
                 .setTitle(`Playing previous song ⏮️`)
-                .setDescription(`Returning next to the previous song ${previousTracks[0].title} ${queuedTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
+                .setDescription(`Returning next to the previous song: ${previousTracks[0].title} ${previousTracks[0].queryType != 'arbitrary' ? `([Link](${previousTracks[0].url}))` : ''}!`)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
@@ -462,6 +462,7 @@ module.exports = {
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+                if (queue.tracks.size == 0) return interaction.reply({ content: `❌ | No music is currently queued!`, ephemeral: true });
 
                 const clearembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
@@ -482,7 +483,7 @@ module.exports = {
                 }
             }
 
-            if (interaction.customId == "np-volumeup") {
+            if (interaction.customId == "np-volumeadjust") {
                 if (client.config.enableDjMode) {
                     if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
                 }
@@ -494,60 +495,52 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
-                var totalVol = queue.node.volume + 10
-                if (totalVol > 100) return interaction.reply({ content: "❌ | The volume is already set to the max!", ephemeral: true })
+                //
+                const modal = new ModalBuilder()
+                .setCustomId(`adjust_volume_${interaction.guild.id}`)
+                .setTitle(`Adjsut Volume - Currently at ${queue.node.volume}%`)
+                .addComponents([
+                    new ActionRowBuilder().addComponents(
+                    new TextInputBuilder()
+                        .setCustomId('volume-input')
+                        .setLabel(`What should the new volume be (0-100)?`)
+                        .setStyle(1)
+                        .setMinLength(1)
+                        .setMaxLength(6)
+                        .setPlaceholder('Your answer...')
+                        .setRequired(true),
+                    ),
+                ]);
 
-                const volumeembed = new EmbedBuilder()
-                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(client.config.embedColour)
-                .setTitle(`Volume increased 🎧`)
-                .setDescription(`The volume has been set to **${totalVol}%**!`)
-                .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+                await interaction.showModal(modal);
 
-                try {
-                    queue.node.setVolume(totalVol);
-                    interaction.reply({ embeds: [volumeembed] })
-                }
-        
-                catch (err) {
-                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
-                }
-            }
+                const filter = (interaction) => interaction.customId.includes(`adjust_volume_${interaction.guild.id}`)
+                interaction.awaitModalSubmit({ filter, time: 240000 })
+                .then(async (submit) => {
+                    var userResponse = submit.fields.getTextInputValue('volume-input')
+                    
+                    if (userResponse < 0 || userResponse > 100 || isNaN(userResponse)) return submit.reply({ content: "❌ | The volume must be between 0-100, your input was outside of this.", ephemeral: true })
 
-            if (interaction.customId == "np-volumedown") {
-                if (client.config.enableDjMode) {
-                    if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
-                }
+                    const volumeembed = new EmbedBuilder()
+                    .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                    .setThumbnail(interaction.guild.iconURL({dynamic: true}))
+                    .setColor(client.config.embedColour)
+                    .setTitle(`Volume adjusted 🎧`)
+                    .setDescription(`The volume has been set to **${userResponse}%**!`)
+                    .setTimestamp()
+                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
-                if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-                if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-
-                const player = Player.singleton();
-                var queue = player.nodes.get(interaction.guild.id);
-                if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
-
-                var totalVol = queue.node.volume - 10
-                if (totalVol < 0) return interaction.reply({ content: "❌ | The volume is already set to the max!", ephemeral: true })
-
-                const volumeembed = new EmbedBuilder()
-                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                .setColor(client.config.embedColour)
-                .setTitle(`Volume decreased 🎧`)
-                .setDescription(`The volume has been set to **${totalVol}%**!`)
-                .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
-
-                try {
-                    queue.node.setVolume(totalVol);
-                    interaction.reply({ embeds: [volumeembed] })
-                }
-        
-                catch (err) {
-                    interaction.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
-                }
+                    try {
+                        queue.node.setVolume(Number(userResponse));
+                        submit.reply({ embeds: [volumeembed] })
+                    }
+            
+                    catch (err) {
+                        console.log(err)
+                        submit.reply({ content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`, ephemeral: true });
+                    }
+                })
+                .catch(console.error)
             }
 
             if (interaction.customId == "np-loop") {
@@ -608,6 +601,7 @@ module.exports = {
                 const player = Player.singleton();
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+                if (queue.tracks.size == 0) return interaction.reply({ content: `❌ | No music is currently queued!`, ephemeral: true });
 
                 const shuffleembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })

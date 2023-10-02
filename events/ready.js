@@ -114,7 +114,7 @@ module.exports = {
             resolve();
         })
         .then(() => {
-            console.log(`[ELITE_CONFIG] Configuration loaded... Current config:\n${JSON.stringify(client.config, null, 3)}`)
+            console.log(`[ELITE_CONFIG] Configuration loaded... Current config:\nv${JSON.stringify(client.config, null, 3)}`)
             console.log(`Note: If some configuration option is incorrect, please double check that it is correctly set within your .ENV file!\nOtherwise, where a configuraiton option is invalid, the default from defaultConsts.js will be used.`)
             console.log("\n[ELITE_STATUS] Loading successful. Core of the bot is ready!");
         })

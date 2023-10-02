@@ -32,7 +32,7 @@ module.exports = {
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
         .setThumbnail(interaction.guild.iconURL({dynamic: true}))
         .setColor(client.config.embedColour)
-        .setTitle(`Volume changed 🎧`)
+        .setTitle(`Volume adjusted 🎧`)
         .setDescription(`The volume has been set to **${vol}%**!`)
         .setTimestamp()
         .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })

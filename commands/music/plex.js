@@ -70,18 +70,19 @@ module.exports = {
                 })
     
                 var searchRes = await search.json()
-                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
+                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track').Metadata
+                var allPlaylists = searchRes.MediaContainer.Hub.find(type => type.type == 'playlist').Metadata
                 //console.log(allSongs.Metadata)
     
-                if (!allSongs.Metadata) {
-                    return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
+                if (!allSongs && !allPlaylists) {
+                    return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
                 }
 
                 //Otherwise it has found so defer reply
                 await interaction.deferReply();
 
                 //If there is more than one search result
-                if (allSongs.Metadata.length >= 2) {
+                if (((allSongs ? allSongs.length : 0) + (allPlaylists ? allPlaylists.length : 0)) >= 2) {
                     var foundItems = []
                     let count = 1
                     let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
@@ -97,21 +98,43 @@ module.exports = {
                             //.addOptions(options)
                         )
         
-                    var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
-                    for (var result of allSongs.Metadata) {
-                        //console.log(result)
-                        let date = new Date(result.duration)
-                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
-                        
-                        actionmenu.components[0].addOptions(
-                            new StringSelectMenuOptionBuilder()
-                            .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
-                            .setValue(`${result.type}_${result.key}`)
-                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                            .setEmoji(emojis[count-1])
-                        )
-
-                        count++
+                    var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track').Metadata
+                    var allPlaylists = searchRes.MediaContainer.Hub.find(type => type.type == 'playlist').Metadata
+    
+                    if (allSongs) {
+                        for (var result of allSongs) {
+                            //console.log(result)
+                            let date = new Date(result.duration)
+                            foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
+                            
+                            actionmenu.components[0].addOptions(
+                                new StringSelectMenuOptionBuilder()
+                                .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
+                                .setValue(`${result.type}_${result.key}`)
+                                .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
+                                .setEmoji(emojis[count-1])
+                            )
+    
+                            count++
+                        }
+                    }
+    
+                    if (allPlaylists) {
+                        for (var result of allPlaylists) {
+                            //console.log(result)
+                            let date = new Date(result.duration)
+                            foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.title}` })
+                            
+                            actionmenu.components[0].addOptions(
+                                new StringSelectMenuOptionBuilder()
+                                .setLabel(`${result.title}`)
+                                .setValue(`${result.type}_${result.key}`)
+                                .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
+                                .setEmoji(emojis[count-1])
+                            )
+    
+                            count++
+                        }
                     }
 
                     const searchembed = new EmbedBuilder()
@@ -129,7 +152,7 @@ module.exports = {
 
                 //There is only one search result, play it direct
                 else {
-                    var songFound = await allSongs.Metadata[0]
+                    var songFound = await (allSongs ? allSongs[0] : null) || (allPlaylists ? allPlaylists[0] : null)
 
                     if (songFound.type == 'playlist') {
                         var playlistID = songFound.ratingKey
@@ -291,7 +314,6 @@ module.exports = {
                 return interaction.reply({ content: `❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.`, ephemeral: true });
             }
     
-            await interaction.deferReply();
             if (!interaction.member.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in a voice channel!", ephemeral: true });
             if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.followUp({ content: "❌ | You are not in my voice channel!", ephemeral: true });
             
@@ -321,21 +343,50 @@ module.exports = {
                         //.addOptions(options)
                     )
     
-                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track')
-                for (var result of allSongs.Metadata) {
-                    //console.log(result)
-                    let date = new Date(result.duration)
-                    foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
-                    
-                    actionmenu.components[0].addOptions(
-                        new StringSelectMenuOptionBuilder()
-                        .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
-                        .setValue(`${result.type}_${result.key}`)
-                        .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                        .setEmoji(emojis[count-1])
-                    )
+                var allSongs = searchRes.MediaContainer.Hub.find(type => type.type == 'track').Metadata
+                var allPlaylists = searchRes.MediaContainer.Hub.find(type => type.type == 'playlist').Metadata
 
-                    count++
+                if (!allSongs && !allPlaylists) {
+                    return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
+                }
+
+                //Otherwise it has found so defer reply
+                await interaction.deferReply();
+
+                if (allSongs) {
+                    for (var result of allSongs) {
+                        //console.log(result)
+                        let date = new Date(result.duration)
+                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.parentTitle} - ${result.grandparentTitle}` })
+                        
+                        actionmenu.components[0].addOptions(
+                            new StringSelectMenuOptionBuilder()
+                            .setLabel(`${result.parentTitle} - ${result.grandparentTitle}`)
+                            .setValue(`${result.type}_${result.key}`)
+                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
+                            .setEmoji(emojis[count-1])
+                        )
+
+                        count++
+                    }
+                }
+
+                if (allPlaylists) {
+                    for (var result of allPlaylists) {
+                        //console.log(result)
+                        let date = new Date(result.duration)
+                        foundItems.push({ name: `[${count}] ${result.type.charAt(0).toUpperCase() + result.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${result.title}` })
+                        
+                        actionmenu.components[0].addOptions(
+                            new StringSelectMenuOptionBuilder()
+                            .setLabel(`${result.title}`)
+                            .setValue(`${result.type}_${result.key}`)
+                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
+                            .setEmoji(emojis[count-1])
+                        )
+
+                        count++
+                    }
                 }
 
                 const searchembed = new EmbedBuilder()
@@ -361,8 +412,6 @@ module.exports = {
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "plexsearch") {
-        await interaction.deferReply();
-
         const player = Player.singleton();
         var checkqueue = player.nodes.get(interaction.guild.id);
 
@@ -472,6 +521,9 @@ client.on('interactionCreate', async (interaction) => {
                 var coverImage = new AttachmentBuilder(`${client.config.plexServer}${songFound.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`, { name: 'coverimage.jpg', description: `Song Cover Image for ${songFound.title}` })
             }
 
+            //Defer update from menu interaction
+            await interaction.deferUpdate();
+            
             try {
                 if (!queue.connection) await queue.connect(interaction.member.voice.channel);
             }
@@ -503,8 +555,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
-                sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
+                sourceMessage.edit({ embeds: [playsongembed], files: [coverImage], components: [] })
             }
 
             else {
@@ -518,8 +569,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
-                sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
+                sourceMessage.edit({ embeds: [playsongembed], files: [coverImage], components: [] })
             }
         }
 
@@ -535,8 +585,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
-                sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
+                sourceMessage.edit({ embeds: [playsongembed], files: [coverImage], components: [] })
             }
 
             else {
@@ -550,8 +599,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 var sourceMessage = interaction.message
-                sourceMessage.edit({embeds: sourceMessage.embeds, components: []})
-                interaction.followUp({ embeds: [playsongembed], files: [coverImage] })
+                sourceMessage.edit({ embeds: [playsongembed], files: [coverImage], components: [] })
             }
         }
     }
