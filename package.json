@@ -22,7 +22,7 @@
     "mysql2": "3.6.1",
     "request": "2.88.2",
     "sequelize": "6.33.0",
-    "ytdl-core": "4.11.4"
+    "ytdl-core": "4.11.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
