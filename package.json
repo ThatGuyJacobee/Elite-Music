@@ -13,7 +13,7 @@
     "@discordjs/opus": "0.9.0",
     "@discordjs/rest": "2.0.1",
     "@distube/ytdl-core": "4.13.2",
-    "discord-api-types": "0.37.60",
+    "discord-api-types": "0.37.62",
     "discord-player": "6.6.4",
     "discord.js": "14.13.0",
     "dotenv": "16.3.1",
