@@ -1,6 +1,8 @@
 # Elite Music 🎵
 Elite Music is a feature-packed Discord Music Bot built on top of [discord.js](https://discord.js.org/) & using the latest [discord-player](https://discord-player.js.org/) package.
 
+Loving this open-source project? Leaving a ⭐ on the repository would be much appreciated! ❤️
+
 ## Features 💡
 - Wide range of commands.
 - Easy to setup, customise and edit.
