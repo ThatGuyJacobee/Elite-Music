@@ -11,11 +11,11 @@
   "dependencies": {
     "@discord-player/extractor": "4.4.7",
     "@discordjs/opus": "0.9.0",
-    "@discordjs/rest": "2.2.0",
+    "@discordjs/rest": "2.3.0",
     "@distube/ytdl-core": "4.13.2",
     "discord-api-types": "0.37.80",
     "discord-player": "6.6.8",
-    "discord.js": "14.14.1",
+    "discord.js": "14.15.2",
     "dotenv": "16.3.1",
     "ffmpeg-static": "5.2.0",
     "ms": "2.1.3",
