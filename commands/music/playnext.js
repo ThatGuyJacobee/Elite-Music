@@ -1,4 +1,5 @@
 require("dotenv").config();
+const musicFuncs = require('../../utils/sharedFunctions.js')
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { Player, QueryType } = require('discord-player');
@@ -20,36 +21,17 @@ module.exports = {
         if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
         if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
-        const player = Player.singleton();
         const query = interaction.options.getString("music");
-        var checkqueue = player.nodes.get(interaction.guild.id);
-
-        if (!checkqueue) {
-            player.nodes.create(interaction.guild.id, {
-                leaveOnEmpty: client.config.leaveOnEmpty,
-                leaveOnEmptyCooldown: client.config.leaveOnEmptyCooldown,
-                leaveOnEnd: client.config.leaveOnEnd,
-                leaveOnEndCooldown: client.config.leaveOnEndCooldown,
-                leaveOnStop: client.config.leaveOnStop,
-                leaveOnStopCooldown: client.config.leaveOnStopCooldown,
-                selfDeaf: client.config.selfDeafen,
-                skipOnNoStream: true,
-				metadata: {
-					channel: interaction.channel,
-					requestedBy: interaction.user,
-					client: interaction.guild.members.me,
-				}
-            })
-        }
-        
-        var queue = player.nodes.get(interaction.guild.id);
+        const player = Player.singleton();
+        await musicFuncs.getQueue(interaction);
 
         try {
             const search = await player.search(query, {
 				requestedBy: interaction.user,
 				searchEngine: QueryType.AUTO
 			})
-
+            
+            //console.log(search)
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
             }
@@ -61,47 +43,58 @@ module.exports = {
             //Otherwise it has found so defer reply
             await interaction.deferReply();
 
-            try {
-                if (!queue.connection) await queue.connect(interaction.member.voice.channel);
-            }
+            //If there is more than one search result
+            if (search.tracks.length >= 2 && !search.playlist) {
+                var foundItems = []
+                let count = 1
+                let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
 
-            catch (err) {
-                queue.delete();
-                return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
-            }
-
-            try {
-                queue.insertTrack(search.tracks[0])
-            }
-
-            catch (err) {
-                return interaction.followUp({ content: `❌ | Ooops... something went wrong, failed to add the track to the queue.`, ephemeral: true })
-            }
-
-            if (!queue.isPlaying()) {
-                try {
-                    await queue.node.play(queue.tracks[0]);
-                    queue.node.setVolume(client.config.defaultVolume);
+                var actionmenu = new ActionRowBuilder()
+                    .addComponents(
+                        new StringSelectMenuBuilder()
+                        .setCustomId("playsearch")
+                        .setMinValues(1)
+                        .setMaxValues(1)
+                        .setPlaceholder('Add an item to queue 👈')
+                        //.addOptions(options)
+                    )
+    
+                for (var result of search.tracks) {
+                    if (count > 10) break
+                    if (result.playlist) return
+                    foundItems.push({ name: `[${count}] Song Result (${result.duration})`, value: `${result.description}` })
+                    
+                    actionmenu.components[0].addOptions(
+                        new StringSelectMenuOptionBuilder()
+                        .setLabel(result.title)
+                        .setValue(`song_${result.url}_true`)
+                        .setDescription(`Duration - ${result.duration}`)
+                        .setEmoji(emojis[count-1])
+                    )
+                    count++
                 }
 
-                catch (err) {
-                    return interaction.followUp({ content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`, ephemeral: true })
-                }
+                const searchembed = new EmbedBuilder()
+                .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
+                .setTitle(`Music Search Results 🎵`)
+                .setDescription('Found multiple songs matching the provided search query, select one form the menu below.')
+                .addFields(foundItems)
+                .setColor(client.config.embedColour)
+                .setTimestamp()
+                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+
+                interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
             }
 
-            const playsongembed = new EmbedBuilder()
-            .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-            .setThumbnail(search.tracks[0].thumbnail)
-            .setColor(client.config.embedColour)
-            .setTitle(`Added to the top of the queue ⏱️`)
-            .setDescription(`Added song **${search.tracks[0].title}** ${search.tracks[0].queryType != 'arbitrary' ? `([Link](${search.tracks[0].url}))` : ''} to the top of the queue (playing next)!`)
-            .setTimestamp()
-            .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
-
-            interaction.followUp({ embeds: [playsongembed] })
+            //There is only one search result, play it direct
+            else {
+                await musicFuncs.addTracks(interaction, true, search, 'send')
+            }
         }
 
         catch (err) {
+            console.log(err)
             return interaction.followUp({ content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`, ephemeral: true })
         }
     }
