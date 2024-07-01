@@ -76,7 +76,8 @@ module.exports = {
     
                     if (results.songs) {
                         for (let item of results.songs) {
-                            //console.log(item)
+                            if (count > 10) break
+
                             let date = new Date(item.duration)
                             embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.parentTitle} - ${item.grandparentTitle}` })
                             
@@ -93,7 +94,8 @@ module.exports = {
     
                     if (results.playlists && interaction.options.getSubcommand() != "playnext") {
                         for (var item of results.playlists) {
-                            //console.log(item)
+                            if (count > 10) break
+
                             let date = new Date(item.duration)
                             embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.title}` })
                             
@@ -181,7 +183,8 @@ module.exports = {
     
                 if (results.songs) {
                     for (let item of results.songs) {
-                        //console.log(item)
+                        if (count > 10) break
+                        
                         let date = new Date(item.duration)
                         embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.parentTitle} - ${item.grandparentTitle}` })
                         
@@ -198,7 +201,8 @@ module.exports = {
 
                 if (results.playlists) {
                     for (var item of results.playlists) {
-                        //console.log(item)
+                        if (count > 10) break
+
                         let date = new Date(item.duration)
                         embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.title}` })
                         
