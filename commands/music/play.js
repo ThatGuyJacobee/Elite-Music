@@ -84,7 +84,7 @@ module.exports = {
 
             //There is only one search result, play it direct
             else {
-                await musicFuncs.addTracks(interaction, 'false', search, 'send')
+                await musicFuncs.addTracks(interaction, false, search, 'send')
             }
         }
 
