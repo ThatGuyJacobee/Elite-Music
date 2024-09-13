@@ -38,7 +38,7 @@ async function addTracks(interaction, nextSong, search, responseType) {
         }
 
         else {
-            queue.addTrack(search.tracks[0]);
+            queue.addTrack(search.tracks);
         }
 
         await queuePlay(interaction, responseType, search, nextSong);
