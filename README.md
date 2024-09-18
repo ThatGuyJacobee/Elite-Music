@@ -43,9 +43,30 @@ Now that you have downloaded the repository, you can continue with the following
 2. Run the command `npm install` to download all of the module dependencies.
 3. Rename the file `.env.example` to simply `.env`. Once down, edit the `.env` file with the configuration options that you would like!
 4. Finally, run your bot using `node .` within a command/shell/terminal window. The bot should now become online and provide a success message if everything was configured correctly. 🎉
-5. (Optional) If you are editing the code, you can use `npm run dev` within your IDE to activate nodemon, which will automatically restart the bot on any change which is ideal for development.
+
+> [!TIP]
+> To help with development, you can use the `npm run dev` within your IDE to active nodemon. This will automatically restart the bot each time that a file is saved with new changes, making it easy to work with!
 
 Of course, you need to add your bot to your server now in order to use it. Follow this [useful guide](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links) from the discord.js Guide which explains how to do this with great detail if you need help understanding how to do this.
+
+#### YouTube Token Setup (Optional)
+
+Elite Music now has the ability to use a YouTube token from a Google Account to significantly improve the reliability of the YouTube extractor. This is fully optional, as the bot can continue running in scraping mode otherwise.
+
+Typically the YouTube extractor scrapes data anonymously from YouTube thus the chance of your requests being blocked has become increased more recently as YouTube continues to crack down on bot requests. With a token, the bot can instead access the YouTube account and access music data whilst logged in, which significantly reduces the chances of being blocked by YouTube.
+
+> [!TIP]
+> This is especially recommended if you are facing YouTube search and playback issues frequently with your bot, due to YouTube blocking your anonymous requests.
+
+1. Run the command `npx --no discord-player-youtubei` in your prompt.
+2. Follow the instructions that are printed to your console. Mainly, access the provided link, input the code and login with a Google Account.
+
+> [!IMPORTANT]
+> It is highly recommended to use a random throwaway/alternative Google Account for this. Using your main account might put you at risk of a suspension or ban, better to be safe than sorry!
+
+3. Once you completed the Google Account flow, a cookie string will be printed to your console.
+4. Copy the **full** string from start to finish. Paste this into the `YT_CREDENTIALS` field within your `.env` file.
+5. Save the file and restart the bot.
 
 ### Installation via Docker
 Elite Music now has Docker image and Docker Compose support, allowing you to simply install and use the bot through Docker.

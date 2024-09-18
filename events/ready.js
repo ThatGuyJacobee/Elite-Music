@@ -108,7 +108,7 @@ module.exports = {
                 })
             }
 
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.3) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.6) {
                 console.log(`[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`)
             }
             resolve();
