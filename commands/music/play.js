@@ -61,7 +61,7 @@ module.exports = {
                     
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
-                        .setLabel(result.title)
+                        .setLabel(result.title.length > 100 ? `${result.title.substring(0, 97)}...` : result.title)
                         .setValue(`${!result.playlist ? 'song' : 'playlist' }_${result.url}_false`)
                         .setDescription(`Duration - ${result.duration}`)
                         .setEmoji(emojis[count-1])
