@@ -13,17 +13,15 @@
     "@discordjs/opus": "0.9.0",
     "@discordjs/rest": "2.4.0",
     "@distube/ytdl-core": "^4.14.4",
-    "discord-api-types": "^0.37.100",
+    "discord-api-types": "^0.37.102",
     "discord-player": "^6.7.1",
-    "discord.js": "^14.16.1",
+    "discord-player-youtubei": "^1.3.1",
+    "discord.js": "^14.16.3",
     "dotenv": "16.4.5",
     "ffmpeg-static": "5.2.0",
-    "ms": "2.1.3",
-    "mysql2": "^3.11.0",
-    "request": "2.88.2",
-    "sequelize": "6.37.3"
+    "ms": "2.1.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.7"
   }
 }

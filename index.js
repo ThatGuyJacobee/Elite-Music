@@ -3,6 +3,7 @@ const fs = require("fs");
 const { REST } = require("@discordjs/rest");
 const { Client, GatewayIntentBits, Partials, Collection, Routes } = require("discord.js");
 const { Player } = require("discord-player");
+const { YoutubeiExtractor } = require("discord-player-youtubei")
 client = new Client({
     intents: [ //Sets the necessary intents which discord requires
         GatewayIntentBits.Guilds,
@@ -43,7 +44,14 @@ const player = new Player(client, {
     smoothVolume: process.env.SMOOTH_VOLUME,
     ytdlOptions: defaultConsts.ytdlOptions
 })
-player.extractors.loadDefault();
+
+player.extractors.register(YoutubeiExtractor, {
+    authentication: process.env.YT_CREDENTIALS,
+});
+
+player.extractors.loadDefault(
+    (extractor) => !["YouTubeExtractor"].includes(extractor)
+);
 
 //Initialise commands through JSON
 const commands = [];
@@ -91,3 +99,27 @@ client.login(process.env.TOKEN)
 .catch((err) => {
     console.log(`[ELITE_ERROR] Bot could not login and authenticate with Discord. Have you populated your .env file with your bot token and copied it over correctly? (Using token: ${process.env.TOKEN})\nError Trace: ${err}`);
 })
+
+//Verbose logging for debugging purposes
+const verbose = process.env.VERBOSE ? process.env.VERBOSE.toLocaleLowerCase() : "none";
+if (verbose == "full" || verbose == "normal") {
+    //Both normal and full verbose logging will log unhandled rejects, uncaught exceptions and warnings to the console
+    process.on("unhandledRejection", (reason) => console.error(reason));
+    process.on("uncaughtException", (error) => console.error(error));
+    process.on("warning", (warning) => console.error(warning));
+
+    if (verbose == "full") {
+        console.log(`[ELITE_CONFIG] Verbose logging enabled and set to full. This will log everything to the console, including: discord-player debugging, unhandled rejections, uncaught exceptions and warnings to the console.`)
+        
+        //Full verbose logging will also log everything from discord-player to the console
+        console.log(player.scanDeps());player.on('debug',console.log).events.on('debug',(_,m)=>console.log(m));
+    }
+
+    else if (verbose == "normal") {
+        console.log(`[ELITE_CONFIG] Verbose logging enabled and set to normal. This will log unhandled rejections, uncaught exceptions and warnings to the console.`)
+    }
+}
+
+else {
+    console.log(`[ELITE_CONFIG] Verbose logging is disabled.`)
+}

@@ -79,11 +79,12 @@ module.exports = {
                             if (count > 10) break
 
                             let date = new Date(item.duration)
-                            embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.parentTitle} - ${item.grandparentTitle}` })
+                            let songTitle = `${item.parentTitle} - ${item.grandparentTitle}`
+                            embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: songTitle })
                             
                             actionmenu.components[0].addOptions(
                                 new StringSelectMenuOptionBuilder()
-                                .setLabel(`${item.parentTitle} - ${item.grandparentTitle}`)
+                                .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle.title)
                                 .setValue(`${item.type}_${item.key}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}`)
                                 .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                                 .setEmoji(emojis[count-1])
@@ -101,7 +102,7 @@ module.exports = {
                             
                             actionmenu.components[0].addOptions(
                                 new StringSelectMenuOptionBuilder()
-                                .setLabel(`${item.title}`)
+                                .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
                                 .setValue(`${item.type}_${item.key}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}`)
                                 .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                                 .setEmoji(emojis[count-1])
@@ -186,11 +187,12 @@ module.exports = {
                         if (count > 10) break
                         
                         let date = new Date(item.duration)
-                        embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.parentTitle} - ${item.grandparentTitle}` })
+                        let songTitle = `${item.parentTitle} - ${item.grandparentTitle}`
+                        embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: songTitle })
                         
                         actionmenu.components[0].addOptions(
                             new StringSelectMenuOptionBuilder()
-                            .setLabel(`${item.parentTitle} - ${item.grandparentTitle}`)
+                            .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
                             .setValue(`${item.type}_${item.key}`)
                             .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                             .setEmoji(emojis[count-1])
@@ -208,7 +210,7 @@ module.exports = {
                         
                         actionmenu.components[0].addOptions(
                             new StringSelectMenuOptionBuilder()
-                            .setLabel(`${item.title}`)
+                            .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
                             .setValue(`${item.type}_${item.key}`)
                             .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                             .setEmoji(emojis[count-1])
