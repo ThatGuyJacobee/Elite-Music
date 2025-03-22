@@ -85,7 +85,7 @@ module.exports = {
                             actionmenu.components[0].addOptions(
                                 new StringSelectMenuOptionBuilder()
                                 .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
-                                .setValue(`${item.type}_${item.key}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}`)
+                                .setValue(`${item.type}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}_key=${item.key}`) // Schema: [type]_[playnext]_[key=track]...
                                 .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                                 .setEmoji(emojis[count-1])
                             )
@@ -103,7 +103,7 @@ module.exports = {
                             actionmenu.components[0].addOptions(
                                 new StringSelectMenuOptionBuilder()
                                 .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
-                                .setValue(`${item.type}_${item.key}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}`)
+                                .setValue(`${item.type}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}_key=${item.key}`) // Schema: [type]_[playnext]_[url=track]...
                                 .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                                 .setEmoji(emojis[count-1])
                             )
@@ -243,13 +243,13 @@ client.on('interactionCreate', async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "plexsearch") {
         await musicFuncs.getQueue(interaction);
-        var allcomponents = interaction.values;
+        var allcomponents = interaction.values; // Schema: [type]_[playnext]_[key=track]...
         //console.log(allcomponents)
 
         for await (option of allcomponents) {
             var getItemType = option.split('_')[0]
-            var getItemKey = option.split('_')[1]
-            var getPlayNext = option.split('_')[2] != null && option.split('_')[2] == "true" ? true : false
+            var getPlayNext = option.split('_')[1] != null && option.split('_')[1] == "true" ? true : false
+            var getItemKey = option.split('key=')[1]
 
             var request = await fetch(`${client.config.plexServer}${getItemKey}?X-Plex-Token=${client.config.plexAuthtoken}`, {
                 method: 'GET',

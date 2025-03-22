@@ -61,7 +61,7 @@ module.exports = {
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                         .setLabel(result.title.length > 100 ? `${result.title.substring(0, 97)}...` : result.title)
-                        .setValue(`${!result.playlist ? 'song' : 'playlist' }_${result.url}_false`)
+                        .setValue(`${!result.playlist ? 'song' : 'playlist' }_false_url=${result.url}`) // Schema: [type]_[playnext]_[url=track]...
                         .setDescription(`Duration - ${result.duration}`)
                         .setEmoji(emojis[count-1])
                     )
@@ -99,12 +99,12 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.customId == "playsearch") {
         const player = useMainPlayer();
         await musicFuncs.getQueue(interaction);
-        var allcomponents = interaction.values;
-        var getPlayNext = allcomponents[0].split('_')[2] != null && allcomponents[0].split('_')[2] == "true" ? true : false
+        var allcomponents = interaction.values; // Schema: [type]_[playnext]_[url=track]...
+        var getPlayNext = allcomponents[0].split('_')[1] != null && allcomponents[0].split('_')[1] == "true" ? true : false
         //console.log(allcomponents)
         
         try {
-            const search = await player.search(allcomponents[0].split('_')[1], {
+            const search = await player.search(allcomponents[0].split('url=')[1], {
 				requestedBy: interaction.user,
 				searchEngine: QueryType.AUTO
 			})
