@@ -1,11 +1,11 @@
 require("dotenv").config();
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
-const { Player, QueryType, Track } = require('discord-player');
-const player = Player.singleton();
+const { useMainPlayer, QueryType, Track } = require('discord-player');
+const player = useMainPlayer() ;
 
 //Core music functions
 async function getQueue(interaction) {
-    const player = Player.singleton();
+    const player = useMainPlayer() ;
     var checkqueue = player.nodes.get(interaction.guild.id);
 
     if (!checkqueue) {

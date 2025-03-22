@@ -1,6 +1,6 @@
 const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js");
-const { Player } = require('discord-player');
-const player = Player.singleton();
+const { useMainPlayer } = require('discord-player');
+const player = useMainPlayer();
 
 player.events.on("error", (queue, error) => {
     console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the queue: ${error.message}`);

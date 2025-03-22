@@ -2,8 +2,9 @@ require("dotenv").config();
 const fs = require("fs");
 const { REST } = require("@discordjs/rest");
 const { Client, GatewayIntentBits, Partials, Collection, Routes } = require("discord.js");
-const { Player } = require("discord-player");
-const { YoutubeiExtractor } = require("discord-player-youtubei")
+const { Player } = require('discord-player');
+const { DefaultExtractors } = require('@discord-player/extractor');
+const { YoutubeiExtractor } = require('discord-player-youtubei');
 client = new Client({
     intents: [ //Sets the necessary intents which discord requires
         GatewayIntentBits.Guilds,
@@ -44,14 +45,10 @@ const player = new Player(client, {
     smoothVolume: process.env.SMOOTH_VOLUME,
     ytdlOptions: defaultConsts.ytdlOptions
 })
-
+player.extractors.loadMulti(DefaultExtractors)
 player.extractors.register(YoutubeiExtractor, {
-    authentication: process.env.YT_CREDENTIALS,
-});
-
-player.extractors.loadDefault(
-    (extractor) => !["YouTubeExtractor"].includes(extractor)
-);
+    authentication: process.env.YT_CREDS ? process.env.YT_CREDS : null,
+})
 
 //Initialise commands through JSON
 const commands = [];
