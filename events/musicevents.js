@@ -13,7 +13,6 @@ player.events.on("playerError", (queue, error) => {
 })
 
 player.events.on("playerStart", async (queue, track) => {
-    //queue.metadata.channel.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
     const progress = queue.node.createProgressBar();
     var createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
@@ -26,7 +25,6 @@ player.events.on("playerStart", async (queue, track) => {
     .setColor(client.config.embedColour)
     .setTitle(`Starting next song... Now Playing 🎵`)
     .setDescription(`${queue.currentTrack.title} ${track.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}\n${createBar}`)
-    //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
     .setTimestamp()
 
     if (queue.currentTrack.requestedBy != null) {
@@ -81,21 +79,17 @@ player.events.on("playerStart", async (queue, track) => {
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
     var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents, files: [imageAttachment] })
     
-    //----- Dyanmic Button Removal (main drawback being efficiency, but benefit being that it will only remove buttons once the next songs begins, ensuring they always stay) -----
+    // Dyanmically remove components, using collector to get upcoming messages and check if they are a queue-related event.
     const filter = (collectorMsg) => {
+        // If the message is an embed, check if it's a queue-related event and if so return true
         if (collectorMsg.embeds[0]) {
             if (collectorMsg.embeds[0].title == "Starting next song... Now Playing 🎵" || collectorMsg.embeds[0].title == "Stopped music 🛑" || collectorMsg.embeds[0].title == "Disconnecting 🛑" || collectorMsg.embeds[0].title == "Ending playback 🛑" || collectorMsg.embeds[0].title == "Queue Finished 🛑") {
                 return true;
             }
-            
-            else {
-                return false;
-            }
         }
 
-        else {
-            return false;
-        }
+        // Otherwise return false
+        return false;
     }
     const collector = queue.metadata.channel.createMessageCollector({ filter, limit: 1, time: queue.currentTrack.durationMS * 3 })
 
@@ -120,18 +114,9 @@ player.events.on("playerStart", async (queue, track) => {
             console.log(`Now playing msg no longer exists! (ID: ${queue.guild.id})`);
         }
     })
-    
-    //----- Regular Button Removal based on song duration (main drawback being that if user pauses etc. then the buttons will disappear before song end, but benefit of efficiency) -----
-    /*.then((msg) => {
-        setTimeout(() => {
-            msg.edit({ components: [] });
-        }, queue.currentTrack.durationMS)
-    })*/
 })
 
 player.events.on("disconnect", (queue) => {
-    //queue.metadata.channel.send("❌ | I was manually disconnected from the voice channel, clearing queue!");
-
     const disconnectedembed = new EmbedBuilder()
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
@@ -146,8 +131,6 @@ player.events.on("disconnect", (queue) => {
 })
 
 player.events.on("emptyChannel", (queue) => {
-    //queue.metadata.channel.send("❌ | Nobody is in the voice channel, leaving...");
-
     const emptyembed = new EmbedBuilder()
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
@@ -162,8 +145,6 @@ player.events.on("emptyChannel", (queue) => {
 })
 
 player.events.on("emptyQueue", (queue) => {
-    //queue.metadata.channel.send("✅ | Queue finished!");
-
     const endembed = new EmbedBuilder()
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail(queue.guild.iconURL({dynamic: true}))
