@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require('discord-player');
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const player = useMainPlayer();

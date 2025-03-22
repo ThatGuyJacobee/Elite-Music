@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const { useMainPlayer } = require('discord-player');
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const player = useMainPlayer();
