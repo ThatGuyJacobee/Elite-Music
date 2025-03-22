@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { checkLatestRelease } = require("../utils/utilityFunctions");
 
 module.exports = {
     name: "ready",
@@ -108,9 +109,29 @@ module.exports = {
                 })
             }
 
+            // Check for an outdated configuration
             if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.6) {
                 console.log(`[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`)
             }
+
+            // Check for new releases
+            let checkGitHub = await checkLatestRelease();
+            if (checkGitHub != false) {
+                let latestRelease = checkGitHub.tag_name;
+
+                if ('v1.7' != latestRelease) {
+                    console.log(`[ELITE_STATUS] Your bot is outdated. Please update to the latest major release version of Elite Music (${latestRelease}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${checkGitHub.html_url}`)
+                }
+
+                else {
+                    console.log(`[ELITE_STATUS] Your bot is up-to-date and running on the latest release!`)
+                }
+            }
+
+            else {
+                console.log(`[ELITE_STATUS] Could not check for updates. Please ensure that you have an active internet connection and that the GitHub API is not down.`)
+            }
+
             resolve();
         })
         .then(() => {

@@ -26,4 +26,23 @@ async function buildImageAttachment(url, metadata) {
     return coverImage;
 }
 
-module.exports = { getImageSize, buildImageAttachment };
+async function checkLatestRelease() {
+    let checkGitHub = await fetch("https://api.github.com/repos/ThatGuyJacobee/Elite-Music/releases/latest", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+        }
+    })
+
+    if (checkGitHub.ok) {
+        let response = await checkGitHub.json();
+        return response;
+    }
+
+    else {
+        return false;
+    }
+}
+
+module.exports = { getImageSize, buildImageAttachment, checkLatestRelease };
