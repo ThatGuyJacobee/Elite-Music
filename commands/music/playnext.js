@@ -2,7 +2,7 @@ require("dotenv").config();
 const musicFuncs = require('../../utils/sharedFunctions.js')
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
-const { Player, QueryType } = require('discord-player');
+const { useMainPlayer, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ module.exports = {
         if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
         const query = interaction.options.getString("music");
-        const player = Player.singleton();
+        const player = useMainPlayer() ;
         await musicFuncs.getQueue(interaction);
 
         try {

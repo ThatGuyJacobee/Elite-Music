@@ -2,7 +2,7 @@ require("dotenv").config();
 const musicFuncs = require('../../utils/sharedFunctions.js')
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
-const { Player, QueryType } = require('discord-player');
+const { useMainPlayer, QueryType } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ module.exports = {
         if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
         const query = interaction.options.getString("music");
-        const player = Player.singleton();
+        const player = useMainPlayer();
         await musicFuncs.getQueue(interaction);
 
         try {
@@ -31,7 +31,8 @@ module.exports = {
 				searchEngine: QueryType.AUTO
 			})
             
-            //console.log(search)
+            console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            console.log(search.tracks)
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
             }
@@ -98,7 +99,7 @@ module.exports = {
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "playsearch") {
-        const player = Player.singleton();
+        const player = useMainPlayer();
         await musicFuncs.getQueue(interaction);
         var allcomponents = interaction.values;
         var getPlayNext = allcomponents[0].split('_')[2] != null && allcomponents[0].split('_')[2] == "true" ? true : false

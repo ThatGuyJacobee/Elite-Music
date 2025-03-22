@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const { Player } = require('discord-player');
+const { useMainPlayer } = require('discord-player');
 const { lyricsExtractor } = require("@discord-player/extractor");
 
 module.exports = {

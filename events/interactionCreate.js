@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, Collection, StringSelectMenuBuilder, TextInputBuilder, ModalBuilder, AttachmentBuilder } = require("discord.js");
-const { Player, QueueRepeatMode } = require('discord-player');
+const { useMainPlayer, QueueRepeatMode } = require('discord-player');
 const fs = require("fs");
 const cooldowns = new Map();
 
@@ -237,7 +237,7 @@ module.exports = {
             }
 
             if (interaction.customId == "queue-pageleft") {
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
@@ -288,7 +288,7 @@ module.exports = {
             }
 
             if (interaction.customId == "queue-pageright") {
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 
@@ -357,7 +357,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
         
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
@@ -391,7 +391,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 var checkPause = queue.node.isPaused();
@@ -424,7 +424,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
@@ -459,7 +459,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 if (queue.tracks.size == 0) return interaction.reply({ content: `❌ | No music is currently queued!`, ephemeral: true });
@@ -491,7 +491,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
@@ -551,7 +551,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
@@ -598,7 +598,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
                 if (queue.tracks.size == 0) return interaction.reply({ content: `❌ | No music is currently queued!`, ephemeral: true });
@@ -630,7 +630,7 @@ module.exports = {
                 if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
                 if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
 
-                const player = Player.singleton();
+                const player = useMainPlayer() ;
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
