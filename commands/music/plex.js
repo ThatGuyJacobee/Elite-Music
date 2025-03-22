@@ -84,7 +84,7 @@ module.exports = {
                             
                             actionmenu.components[0].addOptions(
                                 new StringSelectMenuOptionBuilder()
-                                .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle.title)
+                                .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
                                 .setValue(`${item.type}_${item.key}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}`)
                                 .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
                                 .setEmoji(emojis[count-1])
