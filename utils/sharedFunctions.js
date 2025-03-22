@@ -131,6 +131,8 @@ async function plexSearchQuery(query) {
         })
 
         var result = await request.json()
+        if (result.MediaContainer.size == 0) return false
+        
         let allSongs = result.MediaContainer.Metadata.filter(x => x.type == 'track')
         let allPlaylists = result.MediaContainer.Metadata.filter(x => x.type == 'playlist')
 
