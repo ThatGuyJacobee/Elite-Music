@@ -1,7 +1,7 @@
 require("dotenv").config();
 const musicFuncs = require('../../utils/sharedFunctions.js')
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -120,8 +120,15 @@ module.exports = {
                     .setColor(client.config.embedColour)
                     .setTimestamp()
                     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+
+                    let actionbutton = new ActionRowBuilder().addComponents(
+                        new ButtonBuilder()
+                            .setCustomId("np-delete")
+                            .setStyle(4)
+                            .setLabel("Cancel Search 🗑️"),
+                    )
                     
-                    interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
+                    interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] })
                 }
 
                 //There is only one search result, play it direct
@@ -227,8 +234,15 @@ module.exports = {
                 .setColor(client.config.embedColour)
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+
+                let actionbutton = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId("np-delete")
+                        .setStyle(4)
+                        .setLabel("Cancel Search 🗑️"),
+                )
                 
-                interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
+                interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] })
             }
 
             catch (err) {

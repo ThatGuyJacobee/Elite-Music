@@ -1,7 +1,7 @@
 require("dotenv").config();
 const musicFuncs = require('../../utils/sharedFunctions.js')
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 const { useMainPlayer, QueryType } = require('discord-player');
 
 module.exports = {
@@ -78,7 +78,14 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
-                interaction.followUp({ embeds: [searchembed], components: [actionmenu] })
+                let actionbutton = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId("np-delete")
+                        .setStyle(4)
+                        .setLabel("Cancel Search 🗑️"),
+                )
+
+                interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] })
             }
 
             //There is only one search result, play it direct
