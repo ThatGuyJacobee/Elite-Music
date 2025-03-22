@@ -1,7 +1,8 @@
 require("dotenv").config();
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require('discord-player');
-const player = useMainPlayer() ;
+const { buildImageAttachment } = require("../utils/utilityFunctions");
+const player = useMainPlayer();
 
 //Core music functions
 async function getQueue(interaction) {
@@ -62,9 +63,12 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
     }
 
+    // Handle the song/playlist cover image
+    let imageAttachment = await buildImageAttachment(search.tracks[0].thumbnail, { name: 'coverimage.jpg', description: search.playlist ? `Playlist Cover Image for ${search.tracks[0].playlist.title}` : `Song Cover Image for ${search.tracks[0].title}` });
+
     const embed = new EmbedBuilder()
     .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-    .setThumbnail(search.tracks[0].thumbnail)
+    .setThumbnail('attachment://coverimage.jpg')
     .setColor(client.config.embedColour)
     .setTimestamp()
     .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
@@ -109,11 +113,11 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     }
 
     if (responseType == 'edit') {
-        interaction.message.edit({ embeds: [embed], components: [] })
+        interaction.message.edit({ embeds: [embed], files: [imageAttachment], components: [] })
     }
 
     else {
-        interaction.followUp({ embeds: [embed] })
+        interaction.followUp({ embeds: [embed], files: [imageAttachment] })
     }
 }
 
@@ -238,7 +242,8 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
     }
 
-    const coverImage = new AttachmentBuilder(`${client.config.plexServer}${defaultThumbnail}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`, { name: 'coverimage.jpg', description: `${itemMetadata.type == 'playlist' ? "Playlist" : "Song"} Cover Image` })
+    // Handle the song/playlist cover image
+    let imageAttachment = await buildImageAttachment(`${client.config.plexServer}${defaultThumbnail}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`, { name: 'coverimage.jpg', description: `${itemMetadata.type == 'playlist' ? "Playlist" : "Song"} Cover Image for ${itemMetadata.title}` });
 
     const embed = new EmbedBuilder()
     .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
@@ -288,11 +293,11 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
     }
 
     if (responseType == 'edit') {
-        interaction.message.edit({ embeds: [embed], files: [coverImage], components: [] })
+        interaction.message.edit({ embeds: [embed], files: [imageAttachment], components: [] })
     }
 
     else {
-        interaction.followUp({ embeds: [embed], files: [coverImage] })
+        interaction.followUp({ embeds: [embed], files: [imageAttachment] })
     }
 }
 

@@ -1,5 +1,6 @@
 const { EmbedBuilder, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require('discord-player');
+const { buildImageAttachment } = require("../utils/utilityFunctions");
 const player = useMainPlayer();
 
 player.events.on("error", (queue, error) => {
@@ -16,7 +17,9 @@ player.events.on("playerStart", async (queue, track) => {
     const progress = queue.node.createProgressBar();
     var createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
-    let coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` })
+    // Handle the song/playlist cover image
+    let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` });
+    
     const npembed = new EmbedBuilder()
     .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
     .setThumbnail('attachment://coverimage.jpg')
@@ -27,7 +30,6 @@ player.events.on("playerStart", async (queue, track) => {
     .setTimestamp()
 
     if (queue.currentTrack.requestedBy != null) {
-        
         npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` })
     }
 
@@ -77,7 +79,7 @@ player.events.on("playerStart", async (queue, track) => {
 
     //Check if bot has message perms
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents, files: [coverImage] })
+    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents, files: [imageAttachment] })
     
     //----- Dyanmic Button Removal (main drawback being efficiency, but benefit being that it will only remove buttons once the next songs begins, ensuring they always stay) -----
     const filter = (collectorMsg) => {

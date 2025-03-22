@@ -31,8 +31,6 @@ module.exports = {
 				searchEngine: QueryType.AUTO
 			})
             
-            console.log("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            console.log(search.tracks)
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`, ephemeral: true })
             }
