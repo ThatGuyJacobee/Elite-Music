@@ -31,25 +31,21 @@ module.exports = {
         var actionbuttons = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-            .setURL(`https://github.com/ThatGuyJacobee/Elite-Bot-Music`)
-            .setStyle(5) //Link
-            .setLabel("🛡️ Open Source Repo"),
-            //.addOptions(options)
+                .setURL(`https://github.com/ThatGuyJacobee/Elite-Bot-Music`)
+                .setStyle(5)
+                .setLabel("🛡️ Open Source Repo"),
             new ButtonBuilder()
-            .setURL(`https://hub.docker.com/r/thatguyjacobee/elitemusic`)
-            .setStyle(5) //Link
-            .setLabel("🐳 Docker Hub"),
-            //.addOptions(options)
+                .setURL(`https://hub.docker.com/r/thatguyjacobee/elitemusic`)
+                .setStyle(5)
+                .setLabel("🐳 Docker Hub"),
             new ButtonBuilder()
-            .setURL(`https://elite-bot.com/`)
-            .setStyle(5) //Link
-            .setLabel("📄 Elite Bot Docs"),
-            //.addOptions(options)
+                .setURL(`https://elite-bot.com/`)
+                .setStyle(5)
+                .setLabel("📄 Elite Bot Docs"),
             new ButtonBuilder()
-            .setURL(`https://discord.elitegami.ng/`)
-            .setStyle(5) //Link
-            .setLabel("🆘 Support Server")
-            //.addOptions(options)
+                .setURL(`https://discord.elite-bot.com/`)
+                .setStyle(5)
+                .setLabel("🆘 Support Server")
         )
 
         interaction.reply({ embeds: [botembed], components: [actionbuttons] });

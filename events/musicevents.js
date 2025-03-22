@@ -32,12 +32,11 @@ player.events.on("playerStart", async (queue, track) => {
     }
 
     var finalComponents = [
-        actionbutton = new ActionRowBuilder().addComponents(
+        new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId("np-delete")
                 .setStyle(4)
                 .setLabel("🗑️"),
-                //.addOptions(options)
             new ButtonBuilder()
                 .setCustomId("np-back")
                 .setStyle(1)
@@ -55,7 +54,7 @@ player.events.on("playerStart", async (queue, track) => {
                 .setStyle(1)
                 .setLabel("🧹 Clear Queue")
         ),
-        actionbutton2 = new ActionRowBuilder().addComponents(
+        new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId("np-volumeadjust")
                 .setStyle(1)

@@ -107,7 +107,7 @@ You may decide to want to enable additional optional features for your bot. Foll
 
 If you are missing the relevant option in your environmental (`.env`) file, make sure to check the latest [`.env.sample` file](https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example) to ensure you are on the latest version.
 
-Once you have followed the appropriate steps for the optional feature that you want to enable, you should start the bot and ensure that the configuration option returns as `true` when the configuration loads. If the feature still shows as disabled, this suggests that you have a configuration error. Follow the error logs that are provided in your console to resolve this. If you are still having trouble with your issue, feel free to create an issue on the [repository](https://github.com/ThatGuyJacobee/Elite-Music/issues/new) or join the [Support Discord server](https://discord.elitegami.ng).
+Once you have followed the appropriate steps for the optional feature that you want to enable, you should start the bot and ensure that the configuration option returns as `true` when the configuration loads. If the feature still shows as disabled, this suggests that you have a configuration error. Follow the error logs that are provided in your console to resolve this. If you are still having trouble with your issue, feel free to create an issue on the [repository](https://github.com/ThatGuyJacobee/Elite-Music/issues/new) or join the [Support Discord server](https://discord.elite-bot.com).
 
 ### Plex Media Server playback
 The Plex optional feature when enabled, allows you to stream music directly from your Plex Media Server through the /plex command. In order to enable the Plex feature, you must go into your `.env` file and set up the configuration to your own Plex Media Server.
@@ -123,7 +123,7 @@ Elite Music comes with a DJ Mode optional feature, which locks down the use of c
 2. Now create a role on your server which you wish to be used as the DJ Role. Copy the ID of the role and place it into the `DJ_ROLE` field.
 
 ## Support 🆘
-Need help setting up the bot or experiencing some trouble? Feel free to head over to the [Support Discord server](https://discord.elitegami.ng) and let me know!
+Need help setting up the bot or experiencing some trouble? Feel free to head over to the [Support Discord server](https://discord.elite-bot.com) and let me know!
 
 Found a bug or issue with the latest build? Feel free to open an issue on this [repository](https://github.com/ThatGuyJacobee/Elite-Music/issues/new)! I will respond as soon as possible.
 

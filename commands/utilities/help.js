@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
+const { ButtonBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
 const fs = require("fs");
 
 module.exports = {
@@ -54,10 +54,9 @@ module.exports = {
 
         const embed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-        //.setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
         .setColor(client.config.embedColour)
-        .setTitle('Elite Bot - Help Menu')
-        .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nIf you require assistance or are experiencing a persistant bug, please create a bug report using **/elitebot bugreport** or by joining the **[Support Discord Server](https://discord.elitegami.ng)**. 🆘\n\nFor more in-depth guides and help setting things up, please head over to the documentation which is always up-to-date and heavily detailed. 📄\n\n<:Rules:1039597018064093325> Docs & Invite: __**https://elite-bot.com**__\n<:LockedChannel:1039597788931035237> Privacy Policy: __**https://elite-bot.com/docs/privacy-policy**__\n<:HammerAction:1040729990876119050> Terms of Service: __**https://elite-bot.com/docs/terms-of-service/**__`)
+        .setTitle('Elite Music - Help Menu')
+        .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nExperiencing a bug or have a great suggestion for improvement? Please create an issue on the **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** or contact me by joining the **[Support Discord Server](https://discord.elite-bot.com)** and it will be reviewed as soon as possible. 🆘\n\nFor in-depth setup information, please browse the **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** which is always maintained up-to-date and provides you with everything you need to know. 📄`)
         .setTimestamp()
         .setFooter({ text: `/help | Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
         
@@ -72,14 +71,37 @@ module.exports = {
             })
         });
 
-        const row = new ActionRowBuilder()
-        .addComponents(
-            new StringSelectMenuBuilder()
-            .setCustomId('select')
-            .setPlaceholder('Click to see all the categories')
-            .addOptions(menuoptions)
-        )
+        var finalComponents = [
+            new ActionRowBuilder().addComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId('select')
+                    .setPlaceholder('Click to see all the categories')
+                    .addOptions(menuoptions),
+            ),
+            new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                    .setCustomId("np-delete")
+                    .setStyle(4)
+                    .setLabel("🗑️"),
+                new ButtonBuilder()
+                    .setURL(`https://github.com/ThatGuyJacobee/Elite-Bot-Music`)
+                    .setStyle(5)
+                    .setLabel("🛡️ Open Source Repo"),
+                new ButtonBuilder()
+                    .setURL(`https://hub.docker.com/r/thatguyjacobee/elitemusic`)
+                    .setStyle(5)
+                    .setLabel("🐳 Docker Hub"),
+                new ButtonBuilder()
+                    .setURL(`https://elite-bot.com/`)
+                    .setStyle(5)
+                    .setLabel("📄 Elite Bot Docs"),
+                new ButtonBuilder()
+                    .setURL(`https://discord.elite-bot.com/`)
+                    .setStyle(5)
+                    .setLabel("🆘 Support Server")
+            )
+        ];
 
-        interaction.reply({ embeds: [embed], components: [row], fetchReply: true});
+        interaction.reply({ embeds: [embed], components: finalComponents, fetchReply: true});
     }
 }

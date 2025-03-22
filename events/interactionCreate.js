@@ -129,19 +129,13 @@ module.exports = {
     
                 const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                //.setThumbnail(interaction.client.user.displayAvatarURL({dynamic: true}))
                 .setColor(client.config.embedColour)
-                .setTitle('Elite Bot - Help Menu')
-                .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nIf you require assistance or are experiencing a persistant bug, please create a bug report using **/elitebot bugreport** or by joining the **[Support Discord Server](https://discord.elitegami.ng)**. 🆘\n\nFor more in-depth guides and help setting things up, please head over to the documentation which is always up-to-date and heavily detailed. 📄\n\n<:Rules:1039597018064093325> Docs & Invite: __**https://elite-bot.com**__\n<:LockedChannel:1039597788931035237> Privacy Policy: __**https://elite-bot.com/docs/privacy-policy**__\n<:HammerAction:1040729990876119050> Terms of Service: __**https://elite-bot.com/docs/terms-of-service/**__`)
+                .setTitle('Elite Music - Help Menu')
+                .setDescription(`Select a category via the menu below to view the commands available. 📢 \n\nExperiencing a bug or have a great suggestion for improvement? Please create an issue on the **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** or contact me by joining the **[Support Discord Server](https://discord.elite-bot.com)** and it will be reviewed as soon as possible. 🆘\n\nFor in-depth setup information, please browse the **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** which is always maintained up-to-date and provides you with everything you need to know. 📄`)
                 .setTimestamp()
                 .setFooter({ text: `/help | Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
     
                 dirs.forEach((dir, index) => {
-                    /*embed.addFields({
-                        name: `${emojis[dir] ||''} ${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
-                        value: `${description[dir] ? description[dir] : `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()} Commands`}`, inline: false
-                    })*/
-        
                     menuoptions.push({
                         label: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
                         description: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()} commands page`,
@@ -149,13 +143,6 @@ module.exports = {
                         value: `${page++}`
                     })
                 });
-        
-                const row = new ActionRowBuilder().addComponents(
-                    new StringSelectMenuBuilder()
-                    .setCustomId('select')
-                    .setPlaceholder('Click to see all the categories')
-                    .addOptions(menuoptions)
-                )
     
                 if(value && value !== 'home') {
                     embed.fields = [];
@@ -181,7 +168,7 @@ module.exports = {
     
                         else {
                             getchannel.messages.fetch(interaction.message.id)
-                            .then(async msg => await msg.edit({ embeds: [embed], components: [row], fetchReply: true }));
+                            .then(async msg => await msg.edit({ embeds: [embed], fetchReply: true }));
                         }
                     }
     
@@ -213,7 +200,7 @@ module.exports = {
     
                         else {
                             getchannel.messages.fetch(interaction.message.id)
-                            .then(async msg => await msg.edit({ embeds: [embed], components: [row], fetchReply: true }));
+                            .then(async msg => await msg.edit({ embeds: [embed], fetchReply: true }));
                         }
                     }
     
