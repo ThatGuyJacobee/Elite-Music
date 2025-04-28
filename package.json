@@ -16,7 +16,7 @@
     "discord-api-types": "^0.37.119",
     "discord-player": "^7.1.0",
     "discord-player-youtubei": "^1.4.2",
-    "discord.js": "^14.16.3",
+    "discord.js": "^14.19.1",
     "dotenv": "^16.4.7",
     "ffmpeg-static": "5.2.0",
     "ms": "2.1.3"
