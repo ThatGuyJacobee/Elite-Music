@@ -12,7 +12,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
     "@discordjs/rest": "2.5.0",
-    "@distube/ytdl-core": "^4.16.9",
+    "@distube/ytdl-core": "^4.16.10",
     "bgutils-js": "^3.2.0",
     "discord-api-types": "^0.38.1",
     "discord-player": "^7.1.0",
