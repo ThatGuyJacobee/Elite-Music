@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
-    "@discordjs/rest": "2.5.0",
+    "@discordjs/rest": "2.5.1",
     "@distube/ytdl-core": "^4.16.12",
     "bgutils-js": "^3.2.0",
     "discord-api-types": "^0.38.11",
