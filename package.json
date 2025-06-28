@@ -14,7 +14,7 @@
     "@discordjs/rest": "2.5.0",
     "@distube/ytdl-core": "^4.16.12",
     "bgutils-js": "^3.2.0",
-    "discord-api-types": "^0.38.11",
+    "discord-api-types": "^0.38.13",
     "discord-player": "^7.1.0",
     "discord-player-youtubei": "^1.4.6",
     "discord.js": "^14.19.3",
