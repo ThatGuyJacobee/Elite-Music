@@ -9,110 +9,173 @@ player.events.on("error", (queue, error) => {
 
 player.events.on("playerError", (queue, error) => {
     console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}`);
-    queue.metadata.channel.send({ content: '❌ | Failed to extract the following song... skipping to the next!' })
+    
+    try {
+        if (queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) {
+            queue.metadata.channel.send({ content: '❌ | Failed to extract the following song... skipping to the next!' });
+        }
+    } catch (err) {
+        console.log(`[MUSIC_EVENTS] Failed to send player error message: ${err.message}`);
+    }
 })
 
 player.events.on("playerStart", async (queue, track) => {
-    const progress = queue.node.createProgressBar();
-    var createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
+    async function createNowPlayingEmbed() {
+        const progress = queue.node.createProgressBar({
+            indicator: '🔘',
+            leftChar: '▬',
+            rightChar: '▬',
+            length: 20
+        });
+        const createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
-    // Handle the song/playlist cover image
-    let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` });
-    
-    const npembed = new EmbedBuilder()
-    .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
-    .setThumbnail('attachment://coverimage.jpg')
-    .setColor(client.config.embedColour)
-    .setTitle(`Starting next song... Now Playing 🎵`)
-    .setDescription(`${queue.currentTrack.title} ${track.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}\n${createBar}`)
-    .setTimestamp()
+        const queueSize = queue.tracks.size;
+        const loopMode = queue.repeatMode === 1 ? 'Track' : queue.repeatMode === 2 ? 'Queue' : 'Normal';
+        const pauseStatus = queue.node.isPaused() ? 'Paused' : 'Playing';
+        
+        let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` });
+        
+        const npembed = new EmbedBuilder()
+            .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+            .setThumbnail('attachment://coverimage.jpg')
+            .setColor(client.config.embedColour)
+            .setTitle(`🎵 Now Playing`)
+            .setDescription(`**${queue.currentTrack.title}**${track.queryType != 'arbitrary' ? ` ([Link](${queue.currentTrack.url}))` : ''}`)
+            .addFields(
+                { name: '🎤 Artist', value: queue.currentTrack.author || 'Unknown', inline: true },
+                { name: '⏱️ Duration', value: queue.currentTrack.duration || 'Unknown', inline: true },
+                { name: '📊 Status', value: pauseStatus, inline: true },
+                { name: '🔊 Volume', value: `${queue.node.volume}%`, inline: true },
+                { name: '🔄 Loop Mode', value: loopMode, inline: true },
+                { name: '📑 Queue', value: `${queueSize} song${queueSize !== 1 ? 's' : ''}`, inline: true },
+                { name: '⏳ Progress', value: createBar, inline: false }
+            )
+            .setTimestamp();
 
-    if (queue.currentTrack.requestedBy != null) {
-        npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` })
+        if (queue.currentTrack.requestedBy != null) {
+            npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` });
+        }
+
+        return { embed: npembed, attachment: imageAttachment };
     }
 
-    var finalComponents = [
+    const finalComponents = [
         new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId("np-delete")
-                .setStyle(4)
-                .setLabel("🗑️"),
-            new ButtonBuilder()
                 .setCustomId("np-back")
-                .setStyle(1)
-                .setLabel("⏮️ Previous"),
+                .setStyle(2)
+                .setEmoji("⏮️"),
             new ButtonBuilder()
                 .setCustomId("np-pauseresume")
-                .setStyle(1)
-                .setLabel("⏯️ Play/Pause"),
+                .setStyle(2)
+                .setEmoji("⏯️"),
             new ButtonBuilder()
                 .setCustomId("np-skip")
-                .setStyle(1)
-                .setLabel("⏭️ Skip"),
+                .setStyle(2)
+                .setEmoji("⏭️"),
             new ButtonBuilder()
-                .setCustomId("np-clear")
-                .setStyle(1)
-                .setLabel("🧹 Clear Queue")
+                .setCustomId("np-stop")
+                .setStyle(2)
+                .setEmoji("⏹️")
         ),
         new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId("np-volumeadjust")
                 .setStyle(1)
-                .setLabel("🔊 Adjust Volume"),
+                .setEmoji("🔊")
+                .setLabel("Volume"),
             new ButtonBuilder()
                 .setCustomId("np-loop")
                 .setStyle(1)
-                .setLabel("🔂 Loop Once"),
+                .setEmoji("🔄")
+                .setLabel("Loop"),
             new ButtonBuilder()
                 .setCustomId("np-shuffle")
                 .setStyle(1)
-                .setLabel("🔀 Shuffle Queue"),
+                .setEmoji("🔀")
+                .setLabel("Shuffle"),
             new ButtonBuilder()
-                .setCustomId("np-stop")
-                .setStyle(1)
-                .setLabel("🛑 Stop Queue")
+                .setCustomId("np-clear")
+                .setStyle(4)
+                .setEmoji("🧹")
+                .setLabel("Clear")
         )
     ];
 
-    //Check if bot has message perms
-    if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    var msg = await queue.metadata.channel.send({ embeds: [npembed], components: finalComponents, files: [imageAttachment] })
+    const botPermissions = queue.guild.members.me.permissionsIn(queue.metadata.channel);
+    const requiredPerms = [PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles];
+    const missingPerms = requiredPerms.filter(perm => !botPermissions.has(perm));
     
-    // Dyanmically remove components, using collector to get upcoming messages and check if they are a queue-related event.
-    const filter = (collectorMsg) => {
-        // If the message is an embed, check if it's a queue-related event and if so return true
-        if (collectorMsg.embeds[0]) {
-            if (collectorMsg.embeds[0].title == "Starting next song... Now Playing 🎵" || collectorMsg.embeds[0].title == "Stopped music 🛑" || collectorMsg.embeds[0].title == "Disconnecting 🛑" || collectorMsg.embeds[0].title == "Ending playback 🛑" || collectorMsg.embeds[0].title == "Queue Finished 🛑") {
-                return true;
-            }
-        }
-
-        // Otherwise return false
-        return false;
+    if (missingPerms.length > 0) {
+        console.log(`[MUSIC_EVENTS] Missing permissions in ${queue.metadata.channel.name} (${queue.guild.name}): ${missingPerms.map(p => Object.keys(PermissionFlagsBits).find(k => PermissionFlagsBits[k] === p)).join(', ')}`);
+        return;
     }
-    const collector = queue.metadata.channel.createMessageCollector({ filter, limit: 1, time: queue.currentTrack.durationMS * 3 })
+    
+    const initialEmbed = await createNowPlayingEmbed();
+    var msg;
+    try {
+        msg = await queue.metadata.channel.send({ embeds: [initialEmbed.embed], components: finalComponents, files: [initialEmbed.attachment] });
+    } catch (err) {
+        console.log(`[MUSIC_EVENTS] Failed to send now playing message: ${err.message}`);
+        return;
+    }
 
-    //Remove the buttons if the next song event runs (due to song skip... etc)
-    collector.on('collect', async () => {
+    const UPDATE_INTERVAL_MS = 5000; // 5 seconds - safe and smooth
+    
+    const updateInterval = setInterval(async () => {
+        if (!queue.isPlaying() || !queue.currentTrack || queue.currentTrack.id !== track.id) {
+            clearInterval(updateInterval);
+            return;
+        }
+
         try {
-            msg.edit({ components: [] })
-        }
+            const progress = queue.node.createProgressBar({
+                indicator: '🔘',
+                leftChar: '▬',
+                rightChar: '▬',
+                length: 20
+            });
+            const createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
+            const queueSize = queue.tracks.size;
+            const loopMode = queue.repeatMode === 1 ? 'Track' : queue.repeatMode === 2 ? 'Queue' : 'Normal';
+            const pauseStatus = queue.node.isPaused() ? 'Paused' : 'Playing';
 
-        catch (err) {
-            console.log(`Now playing msg no longer exists! (ID: ${queue.guild.id})`);
-        }
-    })
+            const updatedEmbed = new EmbedBuilder()
+                .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
+                .setThumbnail('attachment://coverimage.jpg')
+                .setColor(client.config.embedColour)
+                .setTitle(`🎵 Now Playing`)
+                .setDescription(`**${queue.currentTrack.title}**${track.queryType != 'arbitrary' ? ` ([Link](${queue.currentTrack.url}))` : ''}`)
+                .addFields(
+                    { name: '🎤 Artist', value: queue.currentTrack.author || 'Unknown', inline: true },
+                    { name: '⏱️ Duration', value: queue.currentTrack.duration || 'Unknown', inline: true },
+                    { name: '📊 Status', value: pauseStatus, inline: true },
+                    { name: '🔊 Volume', value: `${queue.node.volume}%`, inline: true },
+                    { name: '🔄 Loop Mode', value: loopMode, inline: true },
+                    { name: '📑 Queue', value: `${queueSize} song${queueSize !== 1 ? 's' : ''}`, inline: true },
+                    { name: '⏳ Progress', value: createBar, inline: false }
+                )
+                .setTimestamp();
 
-    //Remove the buttons once it expires
-    collector.on('end', async () => {
+            if (queue.currentTrack.requestedBy != null) {
+                updatedEmbed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` });
+            }
+
+            await msg.edit({ embeds: [updatedEmbed], components: finalComponents });
+        } catch (err) {
+            clearInterval(updateInterval);
+        }
+    }, UPDATE_INTERVAL_MS);
+
+    const trackDuration = track.durationMS || track.duration || 600000;
+    setTimeout(() => {
+        clearInterval(updateInterval);
         try {
-            msg.edit({ components: [] })
+            msg.edit({ components: [] }).catch(() => {});
+        } catch (err) {
+            console.log(`[MUSIC_EVENTS] Now playing msg no longer exists! (ID: ${queue.guild.id})`);
         }
-
-        catch (err) {
-            console.log(`Now playing msg no longer exists! (ID: ${queue.guild.id})`);
-        }
-    })
+    }, trackDuration + 5000); // 5 seconds after song ends
 })
 
 player.events.on("disconnect", (queue) => {
@@ -124,9 +187,13 @@ player.events.on("disconnect", (queue) => {
     .setDescription(`I've been inactive for a period of time!`)
     .setTimestamp()
 
-    //Check if bot has message perms
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    queue.metadata.channel.send({ embeds: [disconnectedembed] })
+    
+    try {
+        queue.metadata.channel.send({ embeds: [disconnectedembed] });
+    } catch (err) {
+        console.log(`[MUSIC_EVENTS] Failed to send disconnect message: ${err.message}`);
+    }
 })
 
 player.events.on("emptyChannel", (queue) => {
@@ -140,7 +207,12 @@ player.events.on("emptyChannel", (queue) => {
 
     //Check if bot has message perms
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    queue.metadata.channel.send({ embeds: [emptyembed] })
+    
+    try {
+        queue.metadata.channel.send({ embeds: [emptyembed] });
+    } catch (err) {
+        console.log(`[MUSIC_EVENTS] Failed to send empty channel message: ${err.message}`);
+    }
 })
 
 player.events.on("emptyQueue", (queue) => {
@@ -154,5 +226,10 @@ player.events.on("emptyQueue", (queue) => {
 
     //Check if bot has message perms
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) return console.log(`No Perms! (ID: ${queue.guild.id})`);
-    queue.metadata.channel.send({ embeds: [endembed] })
+    
+    try {
+        queue.metadata.channel.send({ embeds: [endembed] });
+    } catch (err) {
+        console.log(`[MUSIC_EVENTS] Failed to send queue finished message: ${err.message}`);
+    }
 })

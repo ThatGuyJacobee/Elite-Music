@@ -74,9 +74,23 @@ module.exports = {
                 ? client.config.plexAuthtoken
                 : (String(process.env.PLEX_AUTHTOKEN) ? process.env.PLEX_AUTHTOKEN : client.config.plexAuthtoken);
 
-            //Perform validation checks
+            client.config.enableSubsonic = typeof (process.env.ENABLE_SUBSONIC) === 'undefined'
+                ? client.config.enableSubsonic
+                : (String(process.env.ENABLE_SUBSONIC) === 'true' ? true : false);
+
+            client.config.subsonicUrl = typeof (process.env.SUBSONIC_URL) === 'undefined'
+                ? client.config.subsonicUrl
+                : (String(process.env.SUBSONIC_URL) ? process.env.SUBSONIC_URL : client.config.subsonicUrl);
+
+            client.config.subsonicUsername = typeof (process.env.SUBSONIC_USERNAME) === 'undefined'
+                ? client.config.subsonicUsername
+                : (String(process.env.SUBSONIC_USERNAME) ? process.env.SUBSONIC_USERNAME : client.config.subsonicUsername);
+
+            client.config.subsonicPassword = typeof (process.env.SUBSONIC_PASSWORD) === 'undefined'
+                ? client.config.subsonicPassword
+                : (String(process.env.SUBSONIC_PASSWORD) ? process.env.SUBSONIC_PASSWORD : client.config.subsonicPassword);
+
             if (client.config.enablePlex) {
-                //Abort fetch after 3 seconds
                 const controller = new AbortController();
                 setTimeout(() => controller.abort("Fetch aborted: Plex Server URL must be invalid as request received no response."), 3000);
 
@@ -86,7 +100,6 @@ module.exports = {
                     signal: controller.signal
                 })
                 .then(search => {
-                    //401 = Unauthorized, 404 = Not Found, 200 = OK
                     if (search.status == 401) {
                         console.log(`[ELITE_CONFIG] Plex configuration is invalid. Disabling Plex feature... Your Plex Authentication token is not valid.`)
                         client.config.enablePlex = false;
@@ -107,6 +120,24 @@ module.exports = {
                     }
                     client.config.enablePlex = false;
                 })
+            }
+
+            if (client.config.enableSubsonic) {
+                const { getSubsonicClient } = require('../utils/subsonicAPI');
+                const subsonicClient = getSubsonicClient();
+                
+                if (!subsonicClient) {
+                    console.log(`[ELITE_CONFIG] Subsonic configuration is invalid. Disabling Subsonic feature... Missing URL, username, or password.`)
+                    client.config.enableSubsonic = false;
+                } else {
+                    try {
+                        await subsonicClient.ping();
+                        console.log(`[ELITE_CONFIG] Subsonic connection validated successfully!`)
+                    } catch (err) {
+                        console.log(`[ELITE_CONFIG] Subsonic configuration is invalid. Disabling Subsonic feature... Read more in the trace below:\n${err}`)
+                        client.config.enableSubsonic = false;
+                    }
+                }
             }
 
             // Check for an outdated configuration

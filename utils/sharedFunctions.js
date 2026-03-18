@@ -194,14 +194,26 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     }
 }
 
-async function plexAddPlaylist(interaction, itemMetadata, responseType) {
+async function plexAddPlaylist(interaction, itemMetadata, responseType, order = 'regular') {
     var request = await fetch(`${client.config.plexServer}/playlists/${itemMetadata.ratingKey}/items?X-Plex-Token=${client.config.plexAuthtoken}`, {
         method: 'GET',
         headers: { accept: 'application/json'}
     })
 
     var result = await request.json()
-    for await (var item of result.MediaContainer.Metadata) {
+    let songsToAdd = result.MediaContainer.Metadata;
+    
+    if (order === 'reverse') {
+        songsToAdd = [...songsToAdd].reverse();
+    } else if (order === 'shuffle') {
+        songsToAdd = [...songsToAdd];
+        for (let i = songsToAdd.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [songsToAdd[i], songsToAdd[j]] = [songsToAdd[j], songsToAdd[i]];
+        }
+    }
+    
+    for await (var item of songsToAdd) {
         let date = new Date(item.duration)
         //console.log(item)
         var newTrack = new Track(player, {
@@ -229,10 +241,10 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType) {
         }
     }
 
-    await plexQueuePlay(interaction, responseType, itemMetadata, result.MediaContainer.Metadata[0].thumb)
+    await plexQueuePlay(interaction, responseType, itemMetadata, songsToAdd[0].thumb, null, order)
 }
 
-async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {
+async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong, order = 'regular') {
     var queue = await getQueue(interaction);
 
     try {
@@ -265,7 +277,9 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         }
 
         if (itemMetadata.type == 'playlist') {
+            const orderText = order === 'regular' ? '▶️ Regular' : order === 'reverse' ? '◀️ Reverse' : '🔀 Shuffled';
             embed.setDescription(`Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`)
+            embed.addFields({ name: '🔄 Order', value: orderText, inline: true })
         }
 
         else {

@@ -26,7 +26,7 @@ module.exports = {
                 if (curtime < expiration) {
                     const timeleft = (expiration - curtime) / 1000;
 
-                    return interaction.reply({ content: `⏱️ | Cooldown Alert: Please wait **${Match.ceil(timeleft)}** more seconds before using the **/${command.data.name}** command again!`, ephemeral: true })
+                    return interaction.reply({ content: `⏱️ | Cooldown Alert: Please wait **${Math.ceil(timeleft)}** more seconds before using the **/${command.data.name}** command again!`, ephemeral: true })
                 }
             }
 
@@ -46,10 +46,7 @@ module.exports = {
 
         else if (interaction.isStringSelectMenu()) {
             if (interaction.customId == "select") {
-                //console.log(interaction.values);
-                //console.log(interaction)
                 const value = interaction.values[0];
-                //console.log(value)
     
                 const guildid = interaction.guild.id;
                 const dirs = [];
@@ -59,11 +56,9 @@ module.exports = {
                     let commands = fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith(".js"));
                     var cmds = [];
                     commands.map((command) => {
-                        let file = require(`../commands/${dir}/${command}`);
-                        //console.log(file.data.options.length)
-                        //console.log(file.data.options)
+                    let file = require(`../commands/${dir}/${command}`);
     
-                        if (dir == "configuration" || dir == "utilities") {
+                    if (dir == "configuration" || dir == "utilities") {
                             cmds.push({
                                 name: dir,
                                 commands: {
@@ -99,7 +94,6 @@ module.exports = {
                         }
                     });
     
-                    //console.log(cmds);
                     categories.push(cmds.filter(categ => categ.name === dir));
                 })
     
@@ -213,7 +207,6 @@ module.exports = {
             }
         }
         
-        //Check for button interactions
         else if (interaction.isButton()) {
             if (interaction.customId == "queue-delete") {
                 if (client.config.enableDjMode) {
@@ -482,7 +475,6 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
-                //
                 const modal = new ModalBuilder()
                 .setCustomId(`adjust_volume_${interaction.guild.id}`)
                 .setTitle(`Adjsut Volume - Currently at ${queue.node.volume}%`)

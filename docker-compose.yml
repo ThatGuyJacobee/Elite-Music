@@ -1,8 +1,8 @@
 version: '3'
 services:
-    elitemusic:
-        container_name: 'elite-music'
-        image: 'thatguyjacobee/elitemusic:latest'
+    elite-subsonic:
+        container_name: 'elite-subsonic'
+        image: 'ripsawuk/elite-subsonic:latest'
         env_file: 
-           - /path/to/.env
+           - .env
         restart: unless-stopped

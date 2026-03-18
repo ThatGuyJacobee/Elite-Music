@@ -16,7 +16,11 @@ const defaultConsts = {
         djRole: 1234567891011,
         enablePlex: false,
         plexServer: '',
-        plexAuthtoken: ''
+        plexAuthtoken: '',
+        enableSubsonic: false,
+        subsonicUrl: '',
+        subsonicUsername: '',
+        subsonicPassword: ''
     },
     ytdlOptions: {
         filter: 'audioonly',

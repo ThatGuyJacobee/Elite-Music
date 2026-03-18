@@ -14,64 +14,82 @@ module.exports = {
         var queue = player.nodes.get(interaction.guild.id);
         if (!queue || !queue.isPlaying()) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
         
-        const progress = queue.node.createProgressBar();
-        var create = progress.replace(/ 0:00/g, ' ◉ LIVE');
+        const progress = queue.node.createProgressBar({
+            indicator: '🔘',
+            leftChar: '▬',
+            rightChar: '▬',
+            length: 20
+        });
+        const createBar = progress.replace(/ 0:00/g, ' ◉ LIVE');
 
-        var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` })
+        // Get queue info
+        const queueSize = queue.tracks.size;
+        const loopMode = queue.repeatMode === 1 ? 'Track' : queue.repeatMode === 2 ? 'Queue' : 'Normal';
+        const pauseStatus = queue.node.isPaused() ? 'Paused' : 'Playing';
+
+        var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, { name: 'coverimage.jpg', description: `Song Cover Image for ${queue.currentTrack.title}` });
+        
         const npembed = new EmbedBuilder()
-        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-        .setThumbnail('attachment://coverimage.jpg')
-        .setColor(client.config.embedColour)
-        .setTitle(`Now playing 🎵`)
-        .setDescription(`${queue.currentTrack.title} ${queue.currentTrack.queryType != 'arbitrary' ? `([Link](${queue.currentTrack.url}))` : ''}\n${create}`)
-        //.addField('\u200b', progress.replace(/ 0:00/g, ' ◉ LIVE'))
-        .setTimestamp()
+            .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+            .setThumbnail('attachment://coverimage.jpg')
+            .setColor(client.config.embedColour)
+            .setTitle(`🎵 Now Playing`)
+            .setDescription(`**${queue.currentTrack.title}**${queue.currentTrack.queryType != 'arbitrary' ? ` ([Link](${queue.currentTrack.url}))` : ''}`)
+            .addFields(
+                { name: '🎤 Artist', value: queue.currentTrack.author || 'Unknown', inline: true },
+                { name: '⏱️ Duration', value: queue.currentTrack.duration || 'Unknown', inline: true },
+                { name: '📊 Status', value: pauseStatus, inline: true },
+                { name: '🔊 Volume', value: `${queue.node.volume}%`, inline: true },
+                { name: '🔄 Loop Mode', value: loopMode, inline: true },
+                { name: '📑 Queue', value: `${queueSize} song${queueSize !== 1 ? 's' : ''}`, inline: true },
+                { name: '⏳ Progress', value: createBar, inline: false }
+            )
+            .setTimestamp();
 
         if (queue.currentTrack.requestedBy != null) {
-            npembed.setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+            npembed.setFooter({ text: `Requested by: ${queue.currentTrack.requestedBy.discriminator != 0 ? queue.currentTrack.requestedBy.tag : queue.currentTrack.requestedBy.username}` });
         }
         
-        var finalComponents = [
-            actionbutton = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                    .setCustomId("np-delete")
-                    .setStyle(4)
-                    .setLabel("🗑️"),
-                    //.addOptions(options)
+        const finalComponents = [
+            new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
                     .setCustomId("np-back")
-                    .setStyle(1)
-                    .setLabel("⏮️ Previous"),
+                    .setStyle(2)
+                    .setEmoji("⏮️"),
                 new ButtonBuilder()
                     .setCustomId("np-pauseresume")
-                    .setStyle(1)
-                    .setLabel("⏯️ Play/Pause"),
+                    .setStyle(2)
+                    .setEmoji("⏯️"),
                 new ButtonBuilder()
                     .setCustomId("np-skip")
-                    .setStyle(1)
-                    .setLabel("⏭️ Skip"),
+                    .setStyle(2)
+                    .setEmoji("⏭️"),
                 new ButtonBuilder()
-                    .setCustomId("np-clear")
-                    .setStyle(1)
-                    .setLabel("🧹 Clear Queue")
+                    .setCustomId("np-stop")
+                    .setStyle(2)
+                    .setEmoji("⏹️")
             ),
-            actionbutton2 = new ActionRowBuilder().addComponents(
+            new ActionRowBuilder().addComponents(
                 new ButtonBuilder()
                     .setCustomId("np-volumeadjust")
                     .setStyle(1)
-                    .setLabel("🔊 Adjust Volume"),
+                    .setEmoji("🔊")
+                    .setLabel("Volume"),
                 new ButtonBuilder()
                     .setCustomId("np-loop")
                     .setStyle(1)
-                    .setLabel("🔂 Loop Once"),
+                    .setEmoji("🔄")
+                    .setLabel("Loop"),
                 new ButtonBuilder()
                     .setCustomId("np-shuffle")
                     .setStyle(1)
-                    .setLabel("🔀 Shuffle Queue"),
+                    .setEmoji("🔀")
+                    .setLabel("Shuffle"),
                 new ButtonBuilder()
-                    .setCustomId("np-stop")
-                    .setStyle(1)
-                    .setLabel("🛑 Stop Queue")
+                    .setCustomId("np-clear")
+                    .setStyle(4)
+                    .setEmoji("🧹")
+                    .setLabel("Clear")
             )
         ];
 

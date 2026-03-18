@@ -34,7 +34,7 @@ The first step is to clone the repository or download it manually as a folder to
 Head over to the download page and download the .zip source code. Next, using a tool such as [7-Zip](https://www.7-zip.org/), extract the files from the .zip folder. You can now move on to the following steps.
 
 #### Download using Git
-An alternative way to download the repository is through the usage of [Git](https://git-scm.com/). If you do not have Git installed, please use the basic download method. Git users can run the command `git clone https://github.com/ThatGuyJacobee/Elite-Bot-Music/tree/main` to automatically clone the repository to a new folder.
+An alternative way to download the repository is through the usage of [Git](https://git-scm.com/). If you do not have Git installed, please use the basic download method. Git users can run the command `gh repo clone ripsawuk/Elite-Music` to automatically clone the repository to a new folder.
 
 #### Continuing the Setup
 Now that you have downloaded the repository, you can continue with the following steps.
@@ -74,29 +74,29 @@ Elite Music now has Docker image and Docker Compose support, allowing you to sim
 You can access the [Docker Image via Docker Hub](https://hub.docker.com/r/thatguyjacobee/elitemusic) which provides the image and the instructions within the description. The instructions to either install via Docker Run or Docker Compose are also provided below. Once you have installed and configured your bot, you will need to add your bot to your server now in order to use it. Follow this [useful guide](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links) from the discord.js Guide which explains how to do this with great detail if you need help understanding how to do this.
 
 #### Docker Run Command
-You should use the following command to download the image and run it:
+Use the current image and container naming from our compose file:
 ```docker
 docker run -d \
---name=elite-music \
---env-file /path/to/.env \
+--name=elite-subsonic \
+--env-file .env \
 --restart unless-stopped \
-thatguyjacobee/elitemusic:latest
+ripsawuk/elitemusic:latest
 ```
 
 Note: The `--env-file` path is relative to the directory you are running your docker run command from. 
 
-See the [.env.sample file](https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example) on the GitHub repository to view and copy over all of the environmental options into your target .env file for the bot.
+See the [.env.sample file](https://github.com/ripsawuk/Elite-Music/blob/main/.env.example) on the GitHub repository to view and copy over all of the environmental options into your target .env file for the bot.
 
 #### Docker Compose
 Use the following for your `docker-compose.yml` file:
 ```yml
 version: '3'
 services:
-    elitemusic:
-        container_name: 'elite-music'
-        image: 'thatguyjacobee/elitemusic:latest'
+    elitesubsonic:
+        container_name: 'elite-subsonic'
+        image: 'ripsawuk/elite-subsonic:latest'
         env_file: 
-           - /path/to/.env
+           - .env
         restart: unless-stopped
 ```
 
@@ -115,6 +115,24 @@ The Plex optional feature when enabled, allows you to stream music directly from
 1. Firstly, set `ENABLE_PLEX` to `true`.
 2. Next, you must provide a direct URL to your Plex Media Center. The default port that Plex Media Server runs on is `32400`. You can test that your `PLEX_SERVER` URL is correct, by pasting it into any web browser, and it should load successfully with a login page.
 3. Finally, you must place your plex authentication token into the `PLEX_AUTHTOKEN` field. You can do this by browsing the XML file for a library item. Please follow the [official Plex Support article](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) to access your token. Once you have access to it, place it into your .env file.
+
+Usage (after the bot is up):
+- `/plex play query:<song>` — search and play from your library.
+- `/plex albums query:<album>` - search and play albums from your library
+- `/plex playlists query:<playlist>` — list your Plex playlists and enqueue them.
+
+### Subsonic playback
+Subsonic lets you stream from your Subsonic-compatible server (Subsonic/Airsonic/Navidrome/etc.) using the built-in Subsonic commands. All auth is via `.env`; no Discord login commands are required.
+
+1. Set `ENABLE_SUBSONIC` to `true` in `.env`.
+2. Set your server URL: `SUBSONIC_URL='http://YOUR_IP:PORT'`.
+3. Set credentials: `SUBSONIC_USERNAME` and `SUBSONIC_PASSWORD` (account on your Subsonic server).
+4. Restart the bot so the env vars are picked up.
+
+Usage (after the bot is up):
+- `/subsonic play query:<song>` — search and play from your library.
+- `/subsonic albums query:<album>` - search and play albums from your library.
+- `/subsonic playlists query:<playlist>` — list your Subsonic playlists and enqueue them.
 
 ### DJ Mode
 Elite Music comes with a DJ Mode optional feature, which locks down the use of commands and interactions to members who have the specified DJ Role.

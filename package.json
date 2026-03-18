@@ -1,5 +1,5 @@
 {
-  "name": "elite-bot-music",
+  "name": "elite-subsonic",
   "version": "1.0.0",
   "description": "Elite Bot's original music feature moved to a separate discord bot.",
   "main": "index.js",
@@ -20,7 +20,8 @@
     "discord.js": "^14.22.1",
     "dotenv": "^17.2.1",
     "ffmpeg-static": "5.2.0",
-    "ms": "2.1.3"
+    "ms": "2.1.3",
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
