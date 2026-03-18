@@ -47,7 +47,7 @@ const player = new Player(client, {
 })
 player.extractors.loadMulti(DefaultExtractors)
 player.extractors.register(YoutubeiExtractor, {
-    authentication: process.env.YT_CREDS ? process.env.YT_CREDS : null,
+    authentication: process.env.YT_CREDENTIALS ? process.env.YT_CREDENTIALS : null,
 })
 
 //Initialise commands through JSON
