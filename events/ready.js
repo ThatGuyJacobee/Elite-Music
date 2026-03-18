@@ -2,7 +2,7 @@ require("dotenv").config();
 const { checkLatestRelease } = require("../utils/utilityFunctions");
 
 module.exports = {
-    name: "ready",
+    name: "clientReady",
     once: true,
     async execute (client, commands){
         //Configuration checks & initialisation

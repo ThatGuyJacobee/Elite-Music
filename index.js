@@ -64,7 +64,7 @@ fs.readdirSync("./commands/").forEach((dir) => {
 })
 
 //Register all of the commands
-client.once('ready', async function() {
+client.once('clientReady', async function() {
     console.log(`[ELITE_CONFIG] Loading Configuration... (Config Version: ${process.env.CFG_VERSION || 'N/A'})`)
     const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
