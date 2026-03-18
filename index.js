@@ -46,9 +46,7 @@ const player = new Player(client, {
     ytdlOptions: defaultConsts.ytdlOptions
 })
 player.extractors.loadMulti(DefaultExtractors)
-player.extractors.register(YoutubeiExtractor, {
-    authentication: process.env.YT_CREDS ? process.env.YT_CREDS : null,
-})
+player.extractors.register(YoutubeiExtractor, {})
 
 //Initialise commands through JSON
 const commands = [];
