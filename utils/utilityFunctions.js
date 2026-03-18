@@ -9,21 +9,28 @@ async function getImageSize(url) {
 }
 
 async function buildImageAttachment(url, metadata) {
-    // Get the file size of the thumbnail
-    let imgSize = await getImageSize(url);
+    try {
+        // Get the file size of the thumbnail
+        let imgSize = await getImageSize(url);
 
-    // If the item's thumbnail is >10mb, instead display a placeholder image
-    let coverImage;
-    if (imgSize < 10000000) {
-        coverImage = new AttachmentBuilder(url, metadata);
-    }
+        // If the item's thumbnail is >10mb, instead display a placeholder image
+        let coverImage;
+        if (imgSize < 10000000) {
+            coverImage = new AttachmentBuilder(url, metadata);
+        }
 
-    else {
+        else {
+            let defaultImg = fs.readFileSync('./assets/default-thumbnail.png');
+            coverImage = new AttachmentBuilder(defaultImg, { name: 'coverimage.jpg', description: `Cover Image Not Found` })
+        }
+        
+        return coverImage;
+    } catch (error) {
+        console.log("Error building image attachment from source. Defaulting to placeholder image...");
         let defaultImg = fs.readFileSync('./assets/default-thumbnail.png');
-        coverImage = new AttachmentBuilder(defaultImg, { name: 'coverimage.jpg', description: `Cover Image Not Found` })
+        return new AttachmentBuilder(defaultImg, { name: 'coverimage.jpg', description: `Cover Image Not Found` });
     }
     
-    return coverImage;
 }
 
 async function checkLatestRelease() {
