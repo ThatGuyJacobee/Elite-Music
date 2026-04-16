@@ -1,5 +1,24 @@
 const { AttachmentBuilder } = require("discord.js");
-const fs = require('fs');
+const crypto = require("crypto");
+const fs = require("fs");
+
+function normalizeBaseUrl(server) {
+    if (!server || typeof server !== "string") return "";
+    return server.replace(/\/+$/, "");
+}
+
+function toArray(value) {
+    if (value == null) return [];
+    return Array.isArray(value) ? value : [value];
+}
+
+function randomSalt(byteLength = 8) {
+    return crypto.randomBytes(byteLength).toString("hex");
+}
+
+function md5Utf8Hex(value) {
+    return crypto.createHash("md5").update(value, "utf8").digest("hex");
+}
 
 async function getImageSize(url) {
     let request = await fetch(url);
@@ -52,4 +71,12 @@ async function checkLatestRelease() {
     }
 }
 
-module.exports = { getImageSize, buildImageAttachment, checkLatestRelease };
+module.exports = {
+    normalizeBaseUrl,
+    toArray,
+    randomSalt,
+    md5Utf8Hex,
+    getImageSize,
+    buildImageAttachment,
+    checkLatestRelease,
+};
