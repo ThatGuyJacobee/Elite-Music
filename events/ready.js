@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { checkLatestRelease } = require("../utils/utilityFunctions");
+const { ping: subsonicPing } = require("../utils/subsonicAPI");
 
 module.exports = {
     name: "clientReady",
@@ -74,6 +75,30 @@ module.exports = {
                 ? client.config.plexAuthtoken
                 : (String(process.env.PLEX_AUTHTOKEN) ? process.env.PLEX_AUTHTOKEN : client.config.plexAuthtoken);
 
+            client.config.enableSubsonic = typeof (process.env.ENABLE_SUBSONIC) === 'undefined'
+                ? client.config.enableSubsonic
+                : (String(process.env.ENABLE_SUBSONIC) === 'true' ? true : false);
+
+            client.config.subsonicServer = typeof (process.env.SUBSONIC_SERVER) === 'undefined'
+                ? client.config.subsonicServer
+                : (String(process.env.SUBSONIC_SERVER) ? process.env.SUBSONIC_SERVER : client.config.subsonicServer);
+
+            client.config.subsonicUser = typeof (process.env.SUBSONIC_USER) === 'undefined'
+                ? client.config.subsonicUser
+                : (String(process.env.SUBSONIC_USER) ? process.env.SUBSONIC_USER : client.config.subsonicUser);
+
+            client.config.subsonicPass = typeof (process.env.SUBSONIC_PASS) === 'undefined'
+                ? client.config.subsonicPass
+                : (String(process.env.SUBSONIC_PASS) ? process.env.SUBSONIC_PASS : client.config.subsonicPass);
+
+            client.config.subsonicAppName = typeof (process.env.SUBSONIC_APP_NAME) === 'undefined'
+                ? client.config.subsonicAppName
+                : (String(process.env.SUBSONIC_APP_NAME) ? process.env.SUBSONIC_APP_NAME : client.config.subsonicAppName);
+
+            client.config.subsonicApiVersion = typeof (process.env.SUBSONIC_API_VERSION) === 'undefined'
+                ? client.config.subsonicApiVersion
+                : (String(process.env.SUBSONIC_API_VERSION) ? process.env.SUBSONIC_API_VERSION : client.config.subsonicApiVersion);
+
             //Perform validation checks
             if (client.config.enablePlex) {
                 //Abort fetch after 3 seconds
@@ -107,6 +132,22 @@ module.exports = {
                     }
                     client.config.enablePlex = false;
                 })
+            }
+
+            if (client.config.enableSubsonic) {
+                const controller = new AbortController();
+                setTimeout(() => controller.abort("Fetch aborted: Subsonic Server URL must be invalid as request received no response."), 3000);
+
+                try {
+                    await subsonicPing(client.config, { signal: controller.signal });
+                } catch (err) {
+                    if (controller.signal.aborted) {
+                        console.log(`[ELITE_CONFIG] Subsonic configuration is invalid. Disabling Subsonic feature... Read more in the trace below:\n${controller.signal.reason}`)
+                    } else {
+                        console.log(`[ELITE_CONFIG] Subsonic configuration is invalid. Disabling Subsonic feature... Read more in the trace below:\n${err && err.message ? err.message : err}`)
+                    }
+                    client.config.enableSubsonic = false;
+                }
             }
 
             // Check for an outdated configuration
