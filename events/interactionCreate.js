@@ -485,7 +485,7 @@ module.exports = {
                 //
                 const modal = new ModalBuilder()
                 .setCustomId(`adjust_volume_${interaction.guild.id}`)
-                .setTitle(`Adjsut Volume - Currently at ${queue.node.volume}%`)
+                .setTitle(`Adjust Volume - Currently at ${queue.node.volume}%`)
                 .addComponents([
                     new ActionRowBuilder().addComponents(
                     new TextInputBuilder()
