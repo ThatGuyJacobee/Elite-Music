@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { EmbedBuilder, PermissionFlagsBits, ActionRowBuilder, Collection, StringSelectMenuBuilder, TextInputBuilder, ModalBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer, QueueRepeatMode } = require('discord-player');
+const { clearNpControlMessages } = require("../utils/npControlMessages");
 const fs = require("fs");
 const cooldowns = new Map();
 
@@ -631,6 +632,7 @@ module.exports = {
                 .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
                 try {
+                    await clearNpControlMessages(queue);
                     queue.delete();
                     interaction.reply({ embeds: [stopembed] })
                 }

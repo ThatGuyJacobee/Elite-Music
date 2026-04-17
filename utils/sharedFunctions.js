@@ -2,6 +2,7 @@ require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require('discord-player');
 const { buildImageAttachment } = require("../utils/utilityFunctions");
+const { clearNpControlMessages } = require("./npControlMessages");
 const {
     search2: subsonicSearch2,
     getPlaylists: subsonicGetPlaylists,
@@ -67,6 +68,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     }
 
     catch (err) {
+        await clearNpControlMessages(queue);
         queue.delete();
         return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
     }
@@ -248,6 +250,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
     }
 
     catch (err) {
+        await clearNpControlMessages(queue);
         queue.delete();
         return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true })
     }
@@ -488,6 +491,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
     try {
         if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (err) {
+        await clearNpControlMessages(queue);
         queue.delete();
         return interaction.followUp({
             content: `❌ | Ooops... something went wrong, couldn't join your voice channel.`,

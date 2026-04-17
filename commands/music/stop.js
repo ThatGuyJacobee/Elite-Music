@@ -2,6 +2,7 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require('discord-player');
+const { clearNpControlMessages } = require("../../utils/npControlMessages");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -29,6 +30,7 @@ module.exports = {
         .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
 
         try {
+            await clearNpControlMessages(queue);
             queue.delete();
             interaction.reply({ embeds: [stopembed] })
         }
