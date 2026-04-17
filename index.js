@@ -79,6 +79,7 @@ client.once('clientReady', async function() {
 const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js")); //Searches all .js files
 for (const file of eventFiles) { //For each file, check if the event is .once or .on and execute it as specified within the event file itself
     const event = require(`./events/${file}`);
+    if (event.skipDiscordEventRegistration) continue;
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, commands));
     } else {
