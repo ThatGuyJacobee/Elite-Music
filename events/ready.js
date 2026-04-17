@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { checkLatestRelease } = require("../utils/utilityFunctions");
+const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
 
 module.exports = {
@@ -176,8 +176,19 @@ module.exports = {
             resolve();
         })
         .then(() => {
-            console.log(`[ELITE_CONFIG] Configuration loaded... Current config:\n${JSON.stringify(client.config, null, 3)}`)
-            console.log(`Note: If some configuration option is incorrect, please double check that it is correctly set within your .ENV file!\nOtherwise, where a configuraiton option is invalid, the default from defaultConsts.js will be used.`)
+            const verbose = process.env.VERBOSE ? process.env.VERBOSE.toLocaleLowerCase() : "none";
+            const revealSecrets = verbose === "normal" || verbose === "full";
+            const configForLog = redactConfigSecrets(client.config, { revealSecrets });
+
+            console.log(`[ELITE_CONFIG] Configuration loaded... Current config:\n${JSON.stringify(configForLog, null, 3)}`);
+            
+            const hadRedactedSecret = !revealSecrets && ((client.config.plexAuthtoken && String(client.config.plexAuthtoken).length > 0) ||
+                    (client.config.subsonicPass && String(client.config.subsonicPass).length > 0));
+                    
+            if (hadRedactedSecret) {
+                console.log(`[ELITE_CONFIG] Sensitive fields (${CONFIG_SECRET_KEYS.join(', ')}) are masked. Set VERBOSE to normal or full to print them.`);
+            }
+            console.log(`Note: If some configuration option is incorrect, please double check that it is correctly set within your .ENV file!\nOtherwise, where a configuration option is invalid, the default from defaultConsts.js will be used.`);
             console.log("\n[ELITE_STATUS] Loading successful. Core of the bot is ready!");
         })
 

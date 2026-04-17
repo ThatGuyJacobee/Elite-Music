@@ -2,6 +2,9 @@ const { AttachmentBuilder } = require("discord.js");
 const crypto = require("crypto");
 const fs = require("fs");
 
+// Configuration secrets that should not be logged into console during startup
+const CONFIG_SECRET_KEYS = ["plexAuthtoken", "subsonicPass"];
+
 function normalizeBaseUrl(server) {
     if (!server || typeof server !== "string") return "";
     return server.replace(/\/+$/, "");
@@ -18,6 +21,19 @@ function randomSalt(byteLength = 8) {
 
 function md5Utf8Hex(value) {
     return crypto.createHash("md5").update(value, "utf8").digest("hex");
+}
+
+function redactConfigSecrets(config, options = {}) {
+    const { revealSecrets = false } = options;
+    const out = { ...config };
+    if (revealSecrets) return out;
+    for (const key of CONFIG_SECRET_KEYS) {
+        const v = out[key];
+        if (v != null && String(v).length > 0) {
+            out[key] = "********";
+        }
+    }
+    return out;
 }
 
 async function getImageSize(url) {
@@ -72,10 +88,12 @@ async function checkLatestRelease() {
 }
 
 module.exports = {
+    CONFIG_SECRET_KEYS,
     normalizeBaseUrl,
     toArray,
     randomSalt,
     md5Utf8Hex,
+    redactConfigSecrets,
     getImageSize,
     buildImageAttachment,
     checkLatestRelease,
