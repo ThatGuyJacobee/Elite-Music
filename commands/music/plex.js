@@ -1,5 +1,6 @@
 require("dotenv").config();
-const musicFuncs = require('../../utils/sharedFunctions.js')
+const musicFuncs = require('../../utils/sharedFunctions.js');
+const plexFuncs = require('../../utils/plexFunctions.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 
@@ -51,7 +52,7 @@ module.exports = {
             await musicFuncs.getQueue(interaction);
     
             try {
-                var results = await musicFuncs.plexSearchQuery(query);
+                var results = await plexFuncs.plexSearchQuery(query);
                 if (!results.songs && !results.playlists) {
                     return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
                 }
@@ -137,11 +138,11 @@ module.exports = {
                     //console.log(itemFound)
                     
                     if (itemFound.type == 'playlist') {
-                        await musicFuncs.plexAddPlaylist(interaction, itemFound, 'send')
+                        await plexFuncs.plexAddPlaylist(interaction, itemFound, 'send')
                     }
 
                     else {
-                        await musicFuncs.plexAddTrack(interaction, interaction.options.getSubcommand() == "playnext" ? true : false, itemFound, 'send')
+                        await plexFuncs.plexAddTrack(interaction, interaction.options.getSubcommand() == "playnext" ? true : false, itemFound, 'send')
                     }
                 }
             }
@@ -168,7 +169,7 @@ module.exports = {
             await musicFuncs.getQueue(interaction);
 
             try {
-                var results = await musicFuncs.plexSearchQuery(query);
+                var results = await plexFuncs.plexSearchQuery(query);
                 if (!results.songs && !results.playlists) {
                     return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
                 }
@@ -278,12 +279,12 @@ client.on('interactionCreate', async (interaction) => {
             //Playlist
             if (getItemType == 'playlist') {
                 result.MediaContainer.type = getItemType;
-                await musicFuncs.plexAddPlaylist(interaction, result.MediaContainer, 'edit')
+                await plexFuncs.plexAddPlaylist(interaction, result.MediaContainer, 'edit')
             }
 
             //Single song
             else {
-                await musicFuncs.plexAddTrack(interaction, getPlayNext, result.MediaContainer.Metadata[0], 'edit')
+                await plexFuncs.plexAddTrack(interaction, getPlayNext, result.MediaContainer.Metadata[0], 'edit')
             }
         }
     }
