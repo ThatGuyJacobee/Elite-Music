@@ -1,291 +1,239 @@
 require("dotenv").config();
-const musicFuncs = require('../../utils/sharedFunctions.js');
-const plexFuncs = require('../../utils/plexFunctions.js');
+const musicFuncs = require("../../utils/sharedFunctions.js");
+const plexFuncs = require("../../utils/plexFunctions.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
+const pickerEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("plex")
         .setDescription("Play a song into the queue!")
-        .addSubcommand((subcommand) => subcommand
-            .setName("play")
-            .setDescription("Play a song from your plex.")
-            .addStringOption((option) => option
-                .setName("music")
-                .setDescription("Name of the song you want to play.")
-                .setRequired(true)
-            )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("play")
+                .setDescription("Play a song from your plex.")
+                .addStringOption((option) => option
+                    .setName("music")
+                    .setDescription("Name of the song you want to play.")
+                    .setRequired(true),
+                ),
         )
-        .addSubcommand((subcommand) => subcommand
-            .setName("search")
-            .setDescription("Search songs and playlists.")
-            .addStringOption((option) => option
-                .setName("music")
-                .setDescription("Search query for a single song or playlist.")
-                .setRequired(true)
-            )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("search")
+                .setDescription("Search songs and playlists.")
+                .addStringOption((option) => option
+                    .setName("music")
+                    .setDescription("Search query for a single song or playlist.")
+                    .setRequired(true),
+                ),
         )
-        .addSubcommand((subcommand) => subcommand
-            .setName("playnext")
-            .setDescription("Add a song from your plex to the top of the queue.")
-            .addStringOption((option) => option
-                .setName("music")
-                .setDescription("Search query for a single song or playlist.")
-                .setRequired(true)
-            )
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName("playnext")
+                .setDescription("Add a song from your plex to the top of the queue.")
+                .addStringOption((option) => option
+                    .setName("music")
+                    .setDescription("Search query for a single song or playlist.")
+                    .setRequired(true),
+                ),
         ),
     async execute(interaction) {
-        if (interaction.options.getSubcommand() === "play" || interaction.options.getSubcommand() === "playnext") {
-            if (client.config.enableDjMode) {
-                if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
-            }
-    
-            if (!client.config.enablePlex) {
-                return interaction.reply({ content: `❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.`, ephemeral: true });
-            }
-    
-            if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-            if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-            
-            const query = interaction.options.getString("music");
-            await musicFuncs.getQueue(interaction);
-    
-            try {
-                var results = await plexFuncs.plexSearchQuery(query);
-                if (!results.songs && !results.playlists) {
-                    return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
-                }
+        const subcommand = interaction.options.getSubcommand();
+        if (subcommand === "play" || subcommand === "playnext" || subcommand === "search") {
+            return runPlexFlow(interaction, {
+                subcommand,
+                forcePicker: subcommand === "search",
+            });
+        }
+    },
+};
 
-                //Otherwise something is found so defer reply
-                await interaction.deferReply();
+async function assertPlexSlashGuards(interaction) {
+    if (client.config.enableDjMode) {
+        if (!interaction.member.roles.cache.has(client.config.djRole)) {
+            await interaction.reply({
+                content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
+                ephemeral: true,
+            });
+            return false;
+        }
+    }
 
-                //More than one search result, show menu
-                if (results.size >= 2) {
-                    var embedFields = []
-                    let count = 1
-                    let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
+    if (!client.config.enablePlex) {
+        await interaction.reply({
+            content: `❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.`,
+            ephemeral: true,
+        });
+        return false;
+    }
 
-                    var actionmenu = new ActionRowBuilder()
-                        .addComponents(
-                            new StringSelectMenuBuilder()
-                            .setCustomId("plexsearch")
-                            .setMinValues(1)
-                            .setMaxValues(1)
-                            .setPlaceholder('Add an item to queue 👈')
-                        )
-    
-                    if (results.songs) {
-                        for (let item of results.songs) {
-                            if (count > 10) break
+    if (!interaction.member.voice.channelId) {
+        await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
+        return false;
+    }
 
-                            let date = new Date(item.duration)
-                            let songTitle = `${item.parentTitle} - ${item.grandparentTitle}`
-                            embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: songTitle })
-                            
-                            actionmenu.components[0].addOptions(
-                                new StringSelectMenuOptionBuilder()
-                                .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
-                                .setValue(`${item.type}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}_key=${item.key}`) // Schema: [type]_[playnext]_[key=track]...
-                                .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                                .setEmoji(emojis[count-1])
-                            )
-                            count++
-                        }
-                    }
-    
-                    if (results.playlists && interaction.options.getSubcommand() != "playnext") {
-                        for (var item of results.playlists) {
-                            if (count > 10) break
+    if (
+        interaction.guild.members.me.voice.channelId &&
+        interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
+    ) {
+        await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        return false;
+    }
 
-                            let date = new Date(item.duration)
-                            embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.title}` })
-                            
-                            actionmenu.components[0].addOptions(
-                                new StringSelectMenuOptionBuilder()
-                                .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
-                                .setValue(`${item.type}_${interaction.options.getSubcommand() == "playnext" ? "true" : "false"}_key=${item.key}`) // Schema: [type]_[playnext]_[url=track]...
-                                .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                                .setEmoji(emojis[count-1])
-                            )
-                            count++
-                        }
-                    }
+    return true;
+}
 
-                    const searchembed = new EmbedBuilder()
-                    .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                    .setThumbnail(interaction.guild.iconURL({dynamic: true}))
-                    .setTitle(`Plex Search Results 🎵`)
-                    .setDescription('Found multiple songs matching the provided search query, select one form the menu below.')
-                    .addFields(embedFields)
-                    .setColor(client.config.embedColour)
-                    .setTimestamp()
-                    .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+async function runPlexFlow(interaction, { subcommand, forcePicker }) {
+    const guardsOk = await assertPlexSlashGuards(interaction);
+    if (!guardsOk) return;
 
-                    let actionbutton = new ActionRowBuilder().addComponents(
-                        new ButtonBuilder()
-                            .setCustomId("np-delete")
-                            .setStyle(4)
-                            .setLabel("Cancel Search 🗑️"),
-                    )
-                    
-                    interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] })
-                }
+    const query = interaction.options.getString("music");
+    await musicFuncs.getQueue(interaction);
 
-                //There is only one search result, play it direct
-                else {
-                    var itemFound = await (results.songs ? results.songs[0] : null) || (results.playlists ? results.playlists[0] : null)
-                    //console.log(itemFound)
-                    
-                    if (itemFound.type == 'playlist') {
-                        await plexFuncs.plexAddPlaylist(interaction, itemFound, 'send')
-                    }
-
-                    else {
-                        await plexFuncs.plexAddTrack(interaction, interaction.options.getSubcommand() == "playnext" ? true : false, itemFound, 'send')
-                    }
-                }
-            }
-    
-            catch (err) {
-                console.log(err)
-                return interaction.followUp({ content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`, ephemeral: true })
-            }
+    try {
+        const searchResults = await plexFuncs.plexSearchQuery(query);
+        if (!searchResults.songs && !searchResults.playlists) {
+            return interaction.reply({
+                content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
+                ephemeral: true,
+            });
         }
 
-        else if (interaction.options.getSubcommand() === "search") {
-            if (client.config.enableDjMode) {
-                if (!interaction.member.roles.cache.has(client.config.djRole)) return interaction.reply({ content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`, ephemeral: true });
-            }
-    
-            if (!client.config.enablePlex) {
-                return interaction.reply({ content: `❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.`, ephemeral: true });
-            }
-    
-            if (!interaction.member.voice.channelId) return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-            if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-            
-            const query = interaction.options.getString("music");
-            await musicFuncs.getQueue(interaction);
+        await interaction.deferReply();
 
-            try {
-                var results = await plexFuncs.plexSearchQuery(query);
-                if (!results.songs && !results.playlists) {
-                    return interaction.reply({ content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`, ephemeral: true })
-                }
+        const usePlayNext = subcommand === "playnext";
+        const includePlaylists = subcommand !== "playnext";
+        const shouldShowPicker = forcePicker || searchResults.size >= 2;
 
-                //Otherwise something is found so defer reply
-                await interaction.deferReply();
-                
-                var embedFields = []
-                let count = 1
-                let emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣', '6️⃣', '7️⃣', '8️⃣','9️⃣', '🔟']
+        if (shouldShowPicker) {
+            const embedFields = [];
+            let resultIndex = 1;
 
-                var actionmenu = new ActionRowBuilder()
-                    .addComponents(
-                        new StringSelectMenuBuilder()
-                        .setCustomId("plexsearch")
-                        .setMinValues(1)
-                        .setMaxValues(1)
-                        .setPlaceholder('Add an item to queue 👈')
-                    )
-    
-                if (results.songs) {
-                    for (let item of results.songs) {
-                        if (count > 10) break
-                        
-                        let date = new Date(item.duration)
-                        let songTitle = `${item.parentTitle} - ${item.grandparentTitle}`
-                        embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: songTitle })
-                        
-                        actionmenu.components[0].addOptions(
-                            new StringSelectMenuOptionBuilder()
+            const actionRowSelect = new ActionRowBuilder().addComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId("plexsearch")
+                    .setMinValues(1)
+                    .setMaxValues(1)
+                    .setPlaceholder("Add an item to queue 👈"),
+            );
+
+            if (searchResults.songs) {
+                for (const song of searchResults.songs) {
+                    if (resultIndex > 10) break;
+
+                    const durationDate = new Date(song.duration);
+                    const durationLabel = `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`;
+                    const songTitle = `${song.parentTitle} - ${song.grandparentTitle}`;
+                    embedFields.push({
+                        name: `[${resultIndex}] ${song.type.charAt(0).toUpperCase() + song.type.slice(1)} Result (${durationLabel})`,
+                        value: songTitle,
+                    });
+
+                    actionRowSelect.components[0].addOptions(
+                        new StringSelectMenuOptionBuilder()
                             .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
-                            .setValue(`${item.type}_${item.key}`)
-                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                            .setEmoji(emojis[count-1])
-                        )
-                        count++
-                    }
+                            .setValue(`${song.type}_${usePlayNext}_key=${song.key}`)
+                            .setDescription(`Duration - ${durationLabel}`)
+                            .setEmoji(pickerEmojis[resultIndex - 1]),
+                    );
+                    resultIndex++;
                 }
+            }
 
-                if (results.playlists) {
-                    for (var item of results.playlists) {
-                        if (count > 10) break
+            if (searchResults.playlists && includePlaylists) {
+                for (const playlist of searchResults.playlists) {
+                    if (resultIndex > 10) break;
 
-                        let date = new Date(item.duration)
-                        embedFields.push({ name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`, value: `${item.title}` })
-                        
-                        actionmenu.components[0].addOptions(
-                            new StringSelectMenuOptionBuilder()
-                            .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
-                            .setValue(`${item.type}_${item.key}`)
-                            .setDescription(`Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`)
-                            .setEmoji(emojis[count-1])
-                        )
-                        count++
-                    }
+                    const durationDate = new Date(playlist.duration);
+                    const durationLabel = `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`;
+                    embedFields.push({
+                        name: `[${resultIndex}] ${playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1)} Result (${durationLabel})`,
+                        value: `${playlist.title}`,
+                    });
+
+                    actionRowSelect.components[0].addOptions(
+                        new StringSelectMenuOptionBuilder()
+                            .setLabel(playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title)
+                            .setValue(`${playlist.type}_${usePlayNext}_key=${playlist.key}`)
+                            .setDescription(`Duration - ${durationLabel}`)
+                            .setEmoji(pickerEmojis[resultIndex - 1]),
+                    );
+                    resultIndex++;
                 }
+            }
 
-                const searchembed = new EmbedBuilder()
+            const pickerDescription =
+                searchResults.size >= 2
+                    ? "Found multiple songs matching the provided search query, select one form the menu below."
+                    : "Select an item below to add it to the queue.";
+
+            const resultsEmbed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
-                .setThumbnail(interaction.guild.iconURL({dynamic: true}))
+                .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
                 .setTitle(`Plex Search Results 🎵`)
+                .setDescription(pickerDescription)
                 .addFields(embedFields)
                 .setColor(client.config.embedColour)
                 .setTimestamp()
-                .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` })
+                .setFooter({
+                    text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
+                });
 
-                let actionbutton = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder()
-                        .setCustomId("np-delete")
-                        .setStyle(4)
-                        .setLabel("Cancel Search 🗑️"),
-                )
-                
-                interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] })
-            }
+            const cancelRow = new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId("np-delete").setStyle(4).setLabel("Cancel Search 🗑️"),
+            );
 
-            catch (err) {
-                console.log(err)
-                return interaction.followUp({ content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`, ephemeral: true })
+            await interaction.followUp({ embeds: [resultsEmbed], components: [actionRowSelect, cancelRow] });
+        } else {
+            const itemFound =
+                (searchResults.songs && searchResults.songs[0]) || (searchResults.playlists && searchResults.playlists[0]);
+
+            if (itemFound.type == "playlist") {
+                await plexFuncs.plexAddPlaylist(interaction, itemFound, "send");
+            } else {
+                await plexFuncs.plexAddTrack(interaction, usePlayNext, itemFound, "send");
             }
         }
+    } catch (err) {
+        console.log(err);
+        const errorMessage = `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`;
+        if (interaction.deferred) {
+            return interaction
+                .followUp({ content: errorMessage, ephemeral: true })
+                .catch(() => interaction.editReply({ content: errorMessage }));
+        }
+        return interaction.reply({ content: errorMessage, ephemeral: true });
     }
 }
 
-client.on('interactionCreate', async (interaction) => {
+client.on("interactionCreate", async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "plexsearch") {
         await musicFuncs.getQueue(interaction);
-        var allcomponents = interaction.values; // Schema: [type]_[playnext]_[key=track]...
-        //console.log(allcomponents)
 
-        for await (option of allcomponents) {
-            var getItemType = option.split('_')[0]
-            var getPlayNext = option.split('_')[1] != null && option.split('_')[1] == "true" ? true : false
-            var getItemKey = option.split('key=')[1]
+        for await (const selectedValue of interaction.values) {
+            const itemType = selectedValue.split("_")[0];
+            const playNextSegment = selectedValue.split("_")[1];
+            const usePlayNext = playNextSegment != null && playNextSegment == "true";
+            const itemKey = selectedValue.split("key=")[1];
 
-            var request = await fetch(`${client.config.plexServer}${getItemKey}?X-Plex-Token=${client.config.plexAuthtoken}`, {
-                method: 'GET',
-                headers: { accept: 'application/json'}
-            })
+            const metadataRequest = await fetch(`${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`, {
+                method: "GET",
+                headers: { accept: "application/json" },
+            });
 
-            var result = await request.json()
+            const metadataJson = await metadataRequest.json();
 
-            //Defer update from menu interaction
             await interaction.deferUpdate();
 
-            //Playlist
-            if (getItemType == 'playlist') {
-                result.MediaContainer.type = getItemType;
-                await plexFuncs.plexAddPlaylist(interaction, result.MediaContainer, 'edit')
-            }
-
-            //Single song
-            else {
-                await plexFuncs.plexAddTrack(interaction, getPlayNext, result.MediaContainer.Metadata[0], 'edit')
+            if (itemType == "playlist") {
+                metadataJson.MediaContainer.type = itemType;
+                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit");
+            } else {
+                await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
             }
         }
     }
-})
+});
