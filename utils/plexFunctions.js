@@ -117,7 +117,19 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     }
 }
 
-async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMode = "sequential") {
+async function addContainerTracksToQueue(interaction, tracks, nextSong) {
+    const queue = await getQueue(interaction);
+    if (nextSong) {
+        // Insert in reverse so the first track in 'tracks' plays next.
+        for (let index = tracks.length - 1; index >= 0; index--) {
+            queue.insertTrack(tracks[index]);
+        }
+        return;
+    }
+    queue.addTrack(tracks);
+}
+
+async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
     const playlistRequest = await fetch(
         `${client.config.plexServer}/playlists/${itemMetadata.ratingKey}/items?X-Plex-Token=${client.config.plexAuthtoken}`,
         {
@@ -152,14 +164,12 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
         }
     }
 
-    const queue = await getQueue(interaction);
     const orderedTracks = applyTrackOrder(builtTracks, orderMode);
-    queue.addTrack(orderedTracks);
-
-    await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0].thumb);
+    await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
+    await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0].thumb, nextSong);
 }
 
-async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential") {
+async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
     const albumRatingKey = itemMetadata.ratingKey || itemMetadata.key.split("/").pop();
     const albumChildrenRequest = await fetch(
         `${client.config.plexServer}/library/metadata/${albumRatingKey}/children?X-Plex-Token=${client.config.plexAuthtoken}`,
@@ -191,16 +201,15 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
         builtTracks.push(newTrack);
     }
 
-    const queue = await getQueue(interaction);
     const orderedTracks = applyTrackOrder(builtTracks, orderMode);
-    queue.addTrack(orderedTracks);
+    await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
 
     const albumMetadataForEmbed = {
         ...itemMetadata,
         leafCount: builtTracks.length,
     };
 
-    await plexQueuePlay(interaction, responseType, albumMetadataForEmbed, albumChildrenJson.MediaContainer.Metadata[0].thumb);
+    await plexQueuePlay(interaction, responseType, albumMetadataForEmbed, albumChildrenJson.MediaContainer.Metadata[0].thumb, nextSong);
 }
 
 async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {

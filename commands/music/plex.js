@@ -136,7 +136,6 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         await interaction.deferReply();
 
         const usePlayNext = subcommand === "playnext";
-        const includeContainers = subcommand !== "playnext";
         const shouldShowPicker = forcePicker || searchResults.size >= 2;
 
         if (shouldShowPicker) {
@@ -174,7 +173,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
-            if (searchResults.playlists && includeContainers) {
+            if (searchResults.playlists) {
                 for (const playlist of searchResults.playlists) {
                     if (resultIndex > 10) break;
 
@@ -205,7 +204,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
-            if (searchResults.albums && includeContainers) {
+            if (searchResults.albums) {
                 for (const album of searchResults.albums) {
                     if (resultIndex > 10) break;
 
@@ -259,9 +258,9 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 || (searchResults.albums && searchResults.albums[0]);
 
             if (itemFound.type == "playlist") {
-                await plexFuncs.plexAddPlaylist(interaction, itemFound, "send", playlistOrder);
+                await plexFuncs.plexAddPlaylist(interaction, itemFound, "send", playlistOrder, usePlayNext);
             } else if (itemFound.type == "album") {
-                await plexFuncs.plexAddAlbum(interaction, itemFound, "send", playlistOrder);
+                await plexFuncs.plexAddAlbum(interaction, itemFound, "send", playlistOrder, usePlayNext);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, itemFound, "send");
             }
@@ -304,10 +303,10 @@ client.on("interactionCreate", async (interaction) => {
 
             if (itemType == "playlist") {
                 metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit", playlistOrder);
+                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit", playlistOrder, usePlayNext);
             } else if (itemType == "album") {
                 metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddAlbum(interaction, metadataJson.MediaContainer.Metadata[0], "edit", playlistOrder);
+                await plexFuncs.plexAddAlbum(interaction, metadataJson.MediaContainer.Metadata[0], "edit", playlistOrder, usePlayNext);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
             }
