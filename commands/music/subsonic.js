@@ -161,7 +161,6 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         await interaction.deferReply();
 
         const playNextFlag = subcommand === "playnext";
-        const includePlaylists = subcommand !== "playnext";
         const shouldShowPicker = forcePicker || results.size >= 2;
 
         if (shouldShowPicker) {
@@ -201,7 +200,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
-            if (results.playlists && includePlaylists) {
+            if (results.playlists) {
                 for (const item of results.playlists) {
                     if (count > 10) break;
 
@@ -214,7 +213,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                             .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
-                            .setValue(subsonicSelectValue("playlist", false, playlistOrder, item.id))
+                            .setValue(subsonicSelectValue("playlist", playNextFlag, playlistOrder, item.id))
                             .setDescription(
                                 `Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                             )
