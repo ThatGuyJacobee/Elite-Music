@@ -5,6 +5,18 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
 const pickerEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
+// Re-usable slash option for content type selection
+const plexScopeSlashOption = (option) =>
+    option
+        .setName("scope")
+        .setDescription("Pick what type of content to search for.")
+        .setRequired(false)
+        .addChoices(
+            { name: "Auto (all types)", value: "auto" },
+            { name: "Tracks only", value: "track" },
+            { name: "Playlists only", value: "playlist" },
+        );
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("plex")
@@ -17,7 +29,8 @@ module.exports = {
                     .setName("music")
                     .setDescription("Name of the song you want to play.")
                     .setRequired(true),
-                ),
+                )
+                .addStringOption(plexScopeSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -27,7 +40,8 @@ module.exports = {
                     .setName("music")
                     .setDescription("Search query for a single song or playlist.")
                     .setRequired(true),
-                ),
+                )
+                .addStringOption(plexScopeSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -37,7 +51,8 @@ module.exports = {
                     .setName("music")
                     .setDescription("Search query for a single song or playlist.")
                     .setRequired(true),
-                ),
+                )
+                .addStringOption(plexScopeSlashOption),
         ),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -90,10 +105,11 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
     if (!guardsOk) return;
 
     const query = interaction.options.getString("music");
+    const searchScope = interaction.options.getString("scope") ?? "auto";
     await musicFuncs.getQueue(interaction);
 
     try {
-        const searchResults = await plexFuncs.plexSearchQuery(query);
+        const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
         if (!searchResults.songs && !searchResults.playlists) {
             return interaction.reply({
                 content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,

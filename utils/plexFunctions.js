@@ -7,10 +7,19 @@ const { getQueue } = require("./sharedFunctions");
 
 const player = useMainPlayer();
 
-async function plexSearchQuery(query) {
+function plexSearchTypeQueryParam(scope) {
+    if (scope === "track") return "10";
+    if (scope === "playlist") return "15";
+    return "10,15";
+}
+
+async function plexSearchQuery(query, options = {}) {
+    const scope = options.scope ?? "auto";
+    const typeQueryParam = plexSearchTypeQueryParam(scope);
+
     try {
         const searchRequest = await fetch(
-            `${client.config.plexServer}/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${encodeURIComponent(query)}&limit=10&type=10,15`,
+            `${client.config.plexServer}/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${encodeURIComponent(query)}&limit=10&type=${typeQueryParam}`,
             {
                 method: "GET",
                 headers: { accept: "application/json" },
