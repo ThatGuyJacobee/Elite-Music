@@ -17,6 +17,17 @@ const plexScopeSlashOption = (option) =>
             { name: "Playlists only", value: "playlist" },
         );
 
+const plexOrderSlashOption = (option) =>
+    option
+        .setName("order")
+        .setDescription("Order used when adding multiple tracks from a playlist.")
+        .setRequired(false)
+        .addChoices(
+            { name: "Sequential", value: "sequential" },
+            { name: "Shuffle", value: "shuffle" },
+            { name: "Reverse", value: "reverse" },
+        );
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("plex")
@@ -30,7 +41,8 @@ module.exports = {
                     .setDescription("Name of the song you want to play.")
                     .setRequired(true),
                 )
-                .addStringOption(plexScopeSlashOption),
+                .addStringOption(plexScopeSlashOption)
+                .addStringOption(plexOrderSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -41,7 +53,8 @@ module.exports = {
                     .setDescription("Search query for a single song or playlist.")
                     .setRequired(true),
                 )
-                .addStringOption(plexScopeSlashOption),
+                .addStringOption(plexScopeSlashOption)
+                .addStringOption(plexOrderSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -52,7 +65,8 @@ module.exports = {
                     .setDescription("Search query for a single song or playlist.")
                     .setRequired(true),
                 )
-                .addStringOption(plexScopeSlashOption),
+                .addStringOption(plexScopeSlashOption)
+                .addStringOption(plexOrderSlashOption),
         ),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -106,6 +120,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
     const query = interaction.options.getString("music");
     const searchScope = interaction.options.getString("scope") ?? "auto";
+    const playlistOrder = interaction.options.getString("order") ?? "sequential";
     await musicFuncs.getQueue(interaction);
 
     try {
@@ -172,7 +187,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     actionRowSelect.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                             .setLabel(playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title)
-                            .setValue(`${playlist.type}_${usePlayNext}_key=${playlist.key}`)
+                            .setValue(`${playlist.type}_${usePlayNext}_order=${playlistOrder}_key=${playlist.key}`)
                             .setDescription(`Duration - ${durationLabel}`)
                             .setEmoji(pickerEmojis[resultIndex - 1]),
                     );
@@ -207,7 +222,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 (searchResults.songs && searchResults.songs[0]) || (searchResults.playlists && searchResults.playlists[0]);
 
             if (itemFound.type == "playlist") {
-                await plexFuncs.plexAddPlaylist(interaction, itemFound, "send");
+                await plexFuncs.plexAddPlaylist(interaction, itemFound, "send", playlistOrder);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, itemFound, "send");
             }
@@ -233,6 +248,10 @@ client.on("interactionCreate", async (interaction) => {
             const itemType = selectedValue.split("_")[0];
             const playNextSegment = selectedValue.split("_")[1];
             const usePlayNext = playNextSegment != null && playNextSegment == "true";
+            const orderSegment = selectedValue.split("_")[2];
+            const playlistOrder = orderSegment != null && orderSegment.startsWith("order=")
+                ? orderSegment.split("order=")[1]
+                : "sequential";
             const itemKey = selectedValue.split("key=")[1];
 
             const metadataRequest = await fetch(`${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`, {
@@ -246,7 +265,7 @@ client.on("interactionCreate", async (interaction) => {
 
             if (itemType == "playlist") {
                 metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit");
+                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit", playlistOrder);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
             }

@@ -7,6 +7,25 @@ const { getQueue } = require("./sharedFunctions");
 
 const player = useMainPlayer();
 
+function applyTrackOrder(tracks, orderMode = "sequential") {
+    if (orderMode === "reverse") {
+        return [...tracks].reverse();
+    }
+
+    if (orderMode === "shuffle") {
+        const shuffledTracks = [...tracks];
+        for (let index = shuffledTracks.length - 1; index > 0; index--) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            const originalTrack = shuffledTracks[index];
+            shuffledTracks[index] = shuffledTracks[randomIndex];
+            shuffledTracks[randomIndex] = originalTrack;
+        }
+        return shuffledTracks;
+    }
+
+    return tracks;
+}
+
 function plexSearchTypeQueryParam(scope) {
     if (scope === "track") return "10";
     if (scope === "playlist") return "15";
@@ -83,7 +102,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     }
 }
 
-async function plexAddPlaylist(interaction, itemMetadata, responseType) {
+async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMode = "sequential") {
     const playlistRequest = await fetch(
         `${client.config.plexServer}/playlists/${itemMetadata.ratingKey}/items?X-Plex-Token=${client.config.plexAuthtoken}`,
         {
@@ -93,6 +112,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType) {
     );
 
     const playlistJson = await playlistRequest.json();
+    const builtTracks = [];
     for await (const playlistTrack of playlistJson.MediaContainer.Metadata) {
         const durationDate = new Date(playlistTrack.duration);
         const newTrack = new Track(player, {
@@ -111,12 +131,15 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType) {
         });
 
         try {
-            const queue = await getQueue(interaction);
-            queue.addTrack(newTrack);
+            builtTracks.push(newTrack);
         } catch (err) {
             return interaction.followUp({ content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`, ephemeral: true });
         }
     }
+
+    const queue = await getQueue(interaction);
+    const orderedTracks = applyTrackOrder(builtTracks, orderMode);
+    queue.addTrack(orderedTracks);
 
     await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0].thumb);
 }
