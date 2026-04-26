@@ -1,5 +1,6 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
+const subsonicFuncs = require("../../utils/subsonicFunctions.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const {
     ActionRowBuilder,
@@ -115,7 +116,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
     await musicFuncs.getQueue(interaction);
 
     try {
-        const results = await musicFuncs.subsonicSearchQuery(query);
+        const results = await subsonicFuncs.subsonicSearchQuery(query);
         if (!results || (!results.songs?.length && !results.playlists?.length)) {
             return interaction.reply({
                 content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
@@ -217,10 +218,10 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
         const itemFound = (results.songs && results.songs[0]) || (results.playlists && results.playlists[0]);
         if (itemFound.type == "playlist") {
-            return musicFuncs.subsonicAddPlaylist(interaction, itemFound, "send");
+            return subsonicFuncs.subsonicAddPlaylist(interaction, itemFound, "send");
         }
 
-        return musicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
+        return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
     } catch (err) {
         console.log(err);
         return interaction.followUp({
@@ -242,9 +243,9 @@ client.on("interactionCreate", async (interaction) => {
             const { kind, playNext, id } = parseSubsonicSelectValue(option);
 
             if (kind === "playlist") {
-                await musicFuncs.subsonicAddPlaylist(interaction, { type: "playlist", id }, "edit");
+                await subsonicFuncs.subsonicAddPlaylist(interaction, { type: "playlist", id }, "edit");
             } else {
-                await musicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
+                await subsonicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
             }
         }
     }
