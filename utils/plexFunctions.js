@@ -29,7 +29,8 @@ function applyTrackOrder(tracks, orderMode = "sequential") {
 function plexSearchTypeQueryParam(scope) {
     if (scope === "track") return "10";
     if (scope === "playlist") return "15";
-    return "10,15";
+    if (scope === "album") return "9";
+    return "9,10,15";
 }
 
 async function plexSearchQuery(query, options = {}) {
@@ -50,11 +51,13 @@ async function plexSearchQuery(query, options = {}) {
 
         const allSongs = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "track");
         const allPlaylists = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "playlist");
+        const allAlbums = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "album");
 
         return {
             songs: allSongs,
             playlists: allPlaylists,
-            size: (allSongs ? allSongs.length : 0) + (allPlaylists ? allPlaylists.length : 0),
+            albums: allAlbums,
+            size: (allAlbums ? allAlbums.length : 0) + (allSongs ? allSongs.length : 0) + (allPlaylists ? allPlaylists.length : 0),
         };
     } catch (err) {
         console.log(err);
@@ -144,6 +147,50 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
     await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0].thumb);
 }
 
+async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential") {
+    const albumRatingKey = itemMetadata.ratingKey || itemMetadata.key.split("/").pop();
+    const albumChildrenRequest = await fetch(
+        `${client.config.plexServer}/library/metadata/${albumRatingKey}/children?X-Plex-Token=${client.config.plexAuthtoken}`,
+        {
+            method: "GET",
+            headers: { accept: "application/json" },
+        },
+    );
+
+    const albumChildrenJson = await albumChildrenRequest.json();
+    const builtTracks = [];
+    for await (const albumTrack of albumChildrenJson.MediaContainer.Metadata) {
+        const durationDate = new Date(albumTrack.duration);
+        const newTrack = new Track(player, {
+            title: albumTrack.title,
+            author: albumTrack.grandparentTitle,
+            url: `${client.config.plexServer}${albumTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+            thumbnail: `${client.config.plexServer}${albumTrack.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            views: "69",
+            playlist: null,
+            description: null,
+            requestedBy: interaction.user,
+            source: "arbitrary",
+            engine: `${client.config.plexServer}${albumTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+            queryType: QueryType.ARBITRARY,
+        });
+
+        builtTracks.push(newTrack);
+    }
+
+    const queue = await getQueue(interaction);
+    const orderedTracks = applyTrackOrder(builtTracks, orderMode);
+    queue.addTrack(orderedTracks);
+
+    const albumMetadataForEmbed = {
+        ...itemMetadata,
+        leafCount: builtTracks.length,
+    };
+
+    await plexQueuePlay(interaction, responseType, albumMetadataForEmbed, albumChildrenJson.MediaContainer.Metadata[0].thumb);
+}
+
 async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {
     const queue = await getQueue(interaction);
 
@@ -180,6 +227,8 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
 
         if (itemMetadata.type == "playlist") {
             embed.setDescription(`Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`);
+        } else if (itemMetadata.type == "album") {
+            embed.setDescription(`Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs and started to play the queue!`);
         } else {
             embed.setDescription(`Began playing the song **${itemMetadata.title}**!`);
         }
@@ -188,6 +237,9 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
     } else {
         if (itemMetadata.type == "playlist") {
             embed.setDescription(`Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs!`);
+            embed.setTitle(`Added to queue ⏱️`);
+        } else if (itemMetadata.type == "album") {
+            embed.setDescription(`Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs!`);
             embed.setTitle(`Added to queue ⏱️`);
         } else {
             if (nextSong) {
@@ -211,5 +263,6 @@ module.exports = {
     plexSearchQuery,
     plexAddTrack,
     plexAddPlaylist,
+    plexAddAlbum,
     plexQueuePlay,
 };

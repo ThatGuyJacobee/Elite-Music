@@ -15,6 +15,7 @@ const plexScopeSlashOption = (option) =>
             { name: "Auto (all types)", value: "auto" },
             { name: "Tracks only", value: "track" },
             { name: "Playlists only", value: "playlist" },
+            { name: "Albums only", value: "album" },
         );
 
 const plexOrderSlashOption = (option) =>
@@ -125,7 +126,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
     try {
         const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
-        if (!searchResults.songs && !searchResults.playlists) {
+        if (!searchResults.songs && !searchResults.playlists && !searchResults.albums) {
             return interaction.reply({
                 content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
                 ephemeral: true,
@@ -135,7 +136,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         await interaction.deferReply();
 
         const usePlayNext = subcommand === "playnext";
-        const includePlaylists = subcommand !== "playnext";
+        const includeContainers = subcommand !== "playnext";
         const shouldShowPicker = forcePicker || searchResults.size >= 2;
 
         if (shouldShowPicker) {
@@ -173,7 +174,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
-            if (searchResults.playlists && includePlaylists) {
+            if (searchResults.playlists && includeContainers) {
                 for (const playlist of searchResults.playlists) {
                     if (resultIndex > 10) break;
 
@@ -188,6 +189,29 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title)
                             .setValue(`${playlist.type}_${usePlayNext}_order=${playlistOrder}_key=${playlist.key}`)
+                            .setDescription(`Duration - ${durationLabel}`)
+                            .setEmoji(pickerEmojis[resultIndex - 1]),
+                    );
+                    resultIndex++;
+                }
+            }
+
+            if (searchResults.albums && includeContainers) {
+                for (const album of searchResults.albums) {
+                    if (resultIndex > 10) break;
+
+                    const durationDate = new Date(album.duration);
+                    const durationLabel = `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`;
+                    const albumTitle = album.parentTitle ? `${album.title} - ${album.parentTitle}` : album.title;
+                    embedFields.push({
+                        name: `[${resultIndex}] ${album.type.charAt(0).toUpperCase() + album.type.slice(1)} Result (${durationLabel})`,
+                        value: albumTitle,
+                    });
+
+                    actionRowSelect.components[0].addOptions(
+                        new StringSelectMenuOptionBuilder()
+                            .setLabel(albumTitle.length > 100 ? `${albumTitle.substring(0, 97)}...` : albumTitle)
+                            .setValue(`${album.type}_${usePlayNext}_order=${playlistOrder}_key=${album.key}`)
                             .setDescription(`Duration - ${durationLabel}`)
                             .setEmoji(pickerEmojis[resultIndex - 1]),
                     );
@@ -219,10 +243,14 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
             await interaction.followUp({ embeds: [resultsEmbed], components: [actionRowSelect, cancelRow] });
         } else {
             const itemFound =
-                (searchResults.songs && searchResults.songs[0]) || (searchResults.playlists && searchResults.playlists[0]);
+                (searchResults.songs && searchResults.songs[0])
+                || (searchResults.playlists && searchResults.playlists[0])
+                || (searchResults.albums && searchResults.albums[0]);
 
             if (itemFound.type == "playlist") {
                 await plexFuncs.plexAddPlaylist(interaction, itemFound, "send", playlistOrder);
+            } else if (itemFound.type == "album") {
+                await plexFuncs.plexAddAlbum(interaction, itemFound, "send", playlistOrder);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, itemFound, "send");
             }
@@ -266,6 +294,9 @@ client.on("interactionCreate", async (interaction) => {
             if (itemType == "playlist") {
                 metadataJson.MediaContainer.type = itemType;
                 await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit", playlistOrder);
+            } else if (itemType == "album") {
+                metadataJson.MediaContainer.type = itemType;
+                await plexFuncs.plexAddAlbum(interaction, metadataJson.MediaContainer.Metadata[0], "edit", playlistOrder);
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
             }
