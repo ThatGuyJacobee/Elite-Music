@@ -16,15 +16,16 @@ const subsonicScopeSlashOption = (option) =>
         .setDescription("Pick what type of content to search for.")
         .setRequired(false)
         .addChoices(
-            { name: "Auto (tracks + playlists)", value: "auto" },
+            { name: "Auto (all types)", value: "auto" },
             { name: "Tracks only", value: "track" },
             { name: "Playlists only", value: "playlist" },
+            { name: "Albums only", value: "album" },
         );
 
 const subsonicOrderSlashOption = (option) =>
     option
         .setName("order")
-        .setDescription("Order used when adding multiple tracks from a playlist.")
+        .setDescription("Order used when adding multiple tracks from a playlist or album.")
         .setRequired(false)
         .addChoices(
             { name: "Sequential", value: "sequential" },
@@ -151,9 +152,9 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
     try {
         const results = await subsonicFuncs.subsonicSearchQuery(query, { scope: searchScope });
-        if (!results || (!results.songs?.length && !results.playlists?.length)) {
+        if (!results || (!results.songs?.length && !results.playlists?.length && !results.albums?.length)) {
             return interaction.reply({
-                content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
+                content: `❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.`,
                 ephemeral: true,
             });
         }
@@ -223,6 +224,30 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
+            if (results.albums) {
+                for (const item of results.albums) {
+                    if (count > 10) break;
+
+                    const albumSongCount = Number(item.leafCount ?? 0);
+                    const albumSongCountLabel =
+                        Number.isFinite(albumSongCount) && albumSongCount > 0 ? `${albumSongCount} songs` : "";
+                    const albumTitle = item.artist ? `${item.title} - ${item.artist}` : item.title;
+                    embedFields.push({
+                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${albumSongCountLabel ? ` (${albumSongCountLabel})` : ""}`,
+                        value: albumTitle,
+                    });
+
+                    actionmenu.components[0].addOptions(
+                        new StringSelectMenuOptionBuilder()
+                            .setLabel(albumTitle.length > 100 ? `${albumTitle.substring(0, 97)}...` : albumTitle)
+                            .setValue(subsonicSelectValue("album", playNextFlag, playlistOrder, item.id))
+                            .setDescription(albumSongCountLabel || "Album")
+                            .setEmoji(emojis[count - 1]),
+                    );
+                    count++;
+                }
+            }
+
             const searchEmbedDescription = results.size >= 2
                 ? "Found multiple songs matching the provided search query, select one form the menu below."
                 : "Select an item below to add it to the queue.";
@@ -249,9 +274,17 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
             return interaction.followUp({ embeds: [searchEmbed], components: [actionmenu, actionbutton] });
         }
 
-        const itemFound = (results.songs && results.songs[0]) || (results.playlists && results.playlists[0]);
+        const itemFound =
+            (results.songs && results.songs[0]) ||
+            (results.playlists && results.playlists[0]) ||
+            (results.albums && results.albums[0]);
+
         if (itemFound.type == "playlist") {
             return subsonicFuncs.subsonicAddPlaylist(interaction, itemFound, "send", playlistOrder, playNextFlag);
+        }
+
+        if (itemFound.type == "album") {
+            return subsonicFuncs.subsonicAddAlbum(interaction, itemFound, "send", playlistOrder, playNextFlag);
         }
 
         return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
@@ -279,6 +312,14 @@ client.on("interactionCreate", async (interaction) => {
                 await subsonicFuncs.subsonicAddPlaylist(
                     interaction,
                     { type: "playlist", id },
+                    "edit",
+                    order,
+                    playNext,
+                );
+            } else if (kind === "album") {
+                await subsonicFuncs.subsonicAddAlbum(
+                    interaction,
+                    { type: "album", id },
                     "edit",
                     order,
                     playNext,

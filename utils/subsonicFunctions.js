@@ -8,6 +8,7 @@ const {
     search2: subsonicSearch2,
     getPlaylists: subsonicGetPlaylists,
     getPlaylist: subsonicGetPlaylist,
+    getAlbum: subsonicGetAlbum,
     getSong: subsonicGetSong,
     streamUrl: subsonicStreamUrl,
     coverArtUrl: subsonicCoverArtUrl,
@@ -45,21 +46,37 @@ async function addContainerTracksToQueue(interaction, tracks, nextSong) {
     queue.addTrack(tracks);
 }
 
+function sortAlbumSongs(songs) {
+    return [...songs].sort((a, b) => {
+        const discA = Number(a.discNumber ?? a.disc ?? 1);
+        const discB = Number(b.discNumber ?? b.disc ?? 1);
+        if (discA !== discB) return discA - discB;
+        const trackA = Number(a.track ?? 0);
+        const trackB = Number(b.track ?? 0);
+        if (trackA !== trackB) return trackA - trackB;
+        return String(a.title || "").localeCompare(String(b.title || ""));
+    });
+}
+
 async function subsonicSearchQuery(query, options = {}) {
     const scope = options.scope ?? "auto";
 
     try {
         const cfg = client.config;
 
-        const songCount = scope === "playlist" ? 0 : 10;
-        const { songs } = await subsonicSearch2(cfg, query, {
+        const songCount =
+            scope === "playlist" || scope === "album" ? 0 : 10;
+        const albumCount =
+            scope === "track" || scope === "playlist" ? 0 : 10;
+
+        const { songs, albums: albumsRaw } = await subsonicSearch2(cfg, query, {
             songCount,
             artistCount: 0,
-            albumCount: 0,
+            albumCount,
         });
 
         let mappedPlaylists = [];
-        if (scope !== "track") {
+        if (scope !== "track" && scope !== "album") {
             const playlistsRaw = await subsonicGetPlaylists(cfg);
             const normalizedQuery = String(query).toLowerCase();
             const playlistsMatch = playlistsRaw.filter((playlistEntry) =>
@@ -88,25 +105,50 @@ async function subsonicSearchQuery(query, options = {}) {
             coverArt: songEntry.coverArt,
         }));
 
+        const mappedAlbums = albumsRaw.map((albumEntry) => {
+            const albumName = albumEntry.name || albumEntry.title || "Unknown Album";
+            const albumArtist = albumEntry.artist || albumEntry.albumArtist || "";
+            const songCountVal = Number(albumEntry.songCount ?? albumEntry.childCount ?? 0);
+            return {
+                type: "album",
+                id: albumEntry.id,
+                title: albumName,
+                artist: albumArtist,
+                parentTitle: albumArtist ? `${albumName} - ${albumArtist}` : albumName,
+                leafCount: Number.isFinite(songCountVal) ? songCountVal : 0,
+                coverArt: albumEntry.coverArt,
+                duration:
+                    albumEntry.duration != null
+                        ? Number(albumEntry.duration) * 1000
+                        : 0,
+            };
+        });
+
         let songSlice = [];
         let playlistSlice = [];
+        let albumSlice = [];
 
         if (scope === "auto") {
             songSlice = mappedSongs.slice(0, 10);
-            const room = 10 - songSlice.length;
+            let room = 10 - songSlice.length;
             playlistSlice = mappedPlaylists.slice(0, Math.max(0, room));
+            room -= playlistSlice.length;
+            albumSlice = mappedAlbums.slice(0, Math.max(0, room));
         } else if (scope === "track") {
             songSlice = mappedSongs.slice(0, 10);
         } else if (scope === "playlist") {
             playlistSlice = mappedPlaylists.slice(0, 10);
+        } else if (scope === "album") {
+            albumSlice = mappedAlbums.slice(0, 10);
         }
 
-        if (!songSlice.length && !playlistSlice.length) return false;
+        if (!songSlice.length && !playlistSlice.length && !albumSlice.length) return false;
 
         return {
             songs: songSlice,
             playlists: playlistSlice,
-            size: songSlice.length + playlistSlice.length,
+            albums: albumSlice,
+            size: songSlice.length + playlistSlice.length + albumSlice.length,
         };
     } catch (err) {
         console.log(err);
@@ -235,6 +277,70 @@ async function subsonicAddPlaylist(interaction, itemMetadata, responseType, orde
     await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong);
 }
 
+async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
+    const { album, songs: rawSongs } = await subsonicGetAlbum(client.config, itemMetadata.id);
+    const sortedEntries = sortAlbumSongs(rawSongs).filter(
+        (entry) => entry && entry.id != null && entry.id !== "" && !entry.isDir,
+    );
+    if (!sortedEntries.length) {
+        return interaction.followUp({
+            content: `❌ | This album has no playable tracks.`,
+            ephemeral: true,
+        });
+    }
+
+    const albumName = album.name || album.title || itemMetadata.title || "Album";
+    const albumArtist = album.artist || album.albumArtist || itemMetadata.artist || "";
+    const displayTitle = albumArtist ? `${albumName} - ${albumArtist}` : albumName;
+    const title = itemMetadata.parentTitle || displayTitle;
+
+    const builtTracks = [];
+    for (const item of sortedEntries) {
+        const stream = subsonicStreamUrl(client.config, item.id);
+        const thumbUrl =
+            item.coverArt != null && item.coverArt !== ""
+                ? subsonicCoverArtUrl(client.config, item.coverArt, 500)
+                : interaction.client.user.displayAvatarURL();
+
+        const durationDate = new Date(Number(item.duration || 0) * 1000);
+        const newTrack = new Track(player, {
+            title: item.title,
+            author: item.artist || item.albumArtist || albumArtist || "Unknown Artist",
+            url: stream,
+            thumbnail: thumbUrl,
+            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            views: "69",
+            playlist: null,
+            description: null,
+            requestedBy: interaction.user,
+            source: "arbitrary",
+            engine: stream,
+            queryType: QueryType.ARBITRARY,
+        });
+
+        builtTracks.push(newTrack);
+    }
+
+    try {
+        const orderedTracks = applyTrackOrder(builtTracks, orderMode);
+        await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
+    } catch (err) {
+        return interaction.followUp({
+            content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+            ephemeral: true,
+        });
+    }
+
+    const metaOut = {
+        ...itemMetadata,
+        type: "album",
+        title,
+        leafCount: sortedEntries.length,
+    };
+    const firstCover = (sortedEntries[0] && sortedEntries[0].coverArt) || album.coverArt || null;
+    await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong);
+}
+
 async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaultCoverArtId, nextSong) {
     const queue = await getQueue(interaction);
 
@@ -254,9 +360,11 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
             ? subsonicCoverArtUrl(client.config, defaultCoverArtId, 500)
             : interaction.client.user.displayAvatarURL();
 
+    const coverKind =
+        itemMetadata.type === "playlist" ? "Playlist" : itemMetadata.type === "album" ? "Album" : "Song";
     const imageAttachment = await buildImageAttachment(coverUrl, {
         name: "coverimage.jpg",
-        description: `${itemMetadata.type == "playlist" ? "Playlist" : "Song"} Cover Image for ${itemMetadata.title}`,
+        description: `${coverKind} Cover Image for ${itemMetadata.title}`,
     });
 
     const embed = new EmbedBuilder()
@@ -286,6 +394,10 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
             embed.setDescription(
                 `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
             );
+        } else if (itemMetadata.type == "album") {
+            embed.setDescription(
+                `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
+            );
         } else {
             embed.setDescription(`Began playing the song **${itemMetadata.title}**!`);
         }
@@ -301,6 +413,18 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
             } else {
                 embed.setDescription(
                     `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs!`,
+                );
+                embed.setTitle(`Added to queue ⏱️`);
+            }
+        } else if (itemMetadata.type == "album") {
+            if (nextSong) {
+                embed.setDescription(
+                    `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs to the top of the queue (playing next)!`,
+                );
+                embed.setTitle(`Added to the top of the queue ⏱️`);
+            } else {
+                embed.setDescription(
+                    `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs!`,
                 );
                 embed.setTitle(`Added to queue ⏱️`);
             }
@@ -326,5 +450,6 @@ module.exports = {
     subsonicSearchQuery,
     subsonicAddTrack,
     subsonicAddPlaylist,
+    subsonicAddAlbum,
     subsonicQueuePlay,
 };
