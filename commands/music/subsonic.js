@@ -267,7 +267,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
             }
 
             const searchEmbedDescription = results.size >= 2
-                ? "Found multiple songs matching the provided search query, select one from the menu below."
+                ? "Found multiple results matching the provided search query, select one from the menu below."
                 : "Select an item below to add it to the queue.";
 
             const searchEmbed = new EmbedBuilder()

@@ -137,7 +137,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
         if (!searchResults.songs && !searchResults.playlists && !searchResults.albums) {
             return interaction.reply({
-                content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
+                content: `❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.`,
                 ephemeral: true,
             });
         }
@@ -240,7 +240,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
             const pickerDescription =
                 searchResults.size >= 2
-                    ? "Found multiple songs matching the provided search query, select one from the menu below."
+                    ? "Found multiple results matching the provided search query, select one from the menu below."
                     : "Select an item below to add it to the queue.";
 
             const resultsEmbed = new EmbedBuilder()
