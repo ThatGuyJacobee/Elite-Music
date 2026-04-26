@@ -237,7 +237,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
             const pickerDescription =
                 searchResults.size >= 2
-                    ? "Found multiple songs matching the provided search query, select one form the menu below."
+                    ? "Found multiple songs matching the provided search query, select one from the menu below."
                     : "Select an item below to add it to the queue.";
 
             const resultsEmbed = new EmbedBuilder()
