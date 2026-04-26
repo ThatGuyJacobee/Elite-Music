@@ -7,6 +7,18 @@ const { getQueue } = require("./sharedFunctions");
 
 const player = useMainPlayer();
 
+function formatPlexDurationLabel(durationMilliseconds) {
+    const durationAsNumber = Number(durationMilliseconds);
+    if (!Number.isFinite(durationAsNumber) || durationAsNumber < 0) {
+        return "--:--";
+    }
+
+    const totalSeconds = Math.floor(durationAsNumber / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+}
+
 function applyTrackOrder(tracks, orderMode = "sequential") {
     if (orderMode === "reverse") {
         return [...tracks].reverse();
@@ -260,6 +272,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
 }
 
 module.exports = {
+    formatPlexDurationLabel,
     plexSearchQuery,
     plexAddTrack,
     plexAddPlaylist,
