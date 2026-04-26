@@ -10,16 +10,42 @@ const {
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
 
-function subsonicSelectValue(kind, playNext, id) {
-    return `${kind}|${playNext ? "true" : "false"}|${id}`;
+const subsonicScopeSlashOption = (option) =>
+    option
+        .setName("scope")
+        .setDescription("Pick what type of content to search for.")
+        .setRequired(false)
+        .addChoices(
+            { name: "Auto (tracks + playlists)", value: "auto" },
+            { name: "Tracks only", value: "track" },
+            { name: "Playlists only", value: "playlist" },
+        );
+
+const subsonicOrderSlashOption = (option) =>
+    option
+        .setName("order")
+        .setDescription("Order used when adding multiple tracks from a playlist.")
+        .setRequired(false)
+        .addChoices(
+            { name: "Sequential", value: "sequential" },
+            { name: "Shuffle", value: "shuffle" },
+            { name: "Reverse", value: "reverse" },
+        );
+
+function subsonicSelectValue(kind, playNext, order, id) {
+    const orderMode = order && order !== "" ? order : "sequential";
+    return `${kind}|${playNext ? "true" : "false"}|${orderMode}|${id}`;
 }
 
 function parseSubsonicSelectValue(option) {
     const parts = String(option).split("|");
     const kind = parts[0];
     const playNext = parts[1] === "true";
+    if (parts.length >= 4) {
+        return { kind, playNext, order: parts[2], id: parts.slice(3).join("|") };
+    }
     const id = parts.slice(2).join("|");
-    return { kind, playNext, id };
+    return { kind, playNext, order: "sequential", id };
 }
 
 module.exports = {
@@ -32,7 +58,9 @@ module.exports = {
                 .setDescription("Play a song from your Subsonic server.")
                 .addStringOption((option) =>
                     option.setName("music").setDescription("Name of the song you want to play.").setRequired(true),
-                ),
+                )
+                .addStringOption(subsonicScopeSlashOption)
+                .addStringOption(subsonicOrderSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -43,7 +71,9 @@ module.exports = {
                         .setName("music")
                         .setDescription("Search query for a single song or playlist.")
                         .setRequired(true),
-                ),
+                )
+                .addStringOption(subsonicScopeSlashOption)
+                .addStringOption(subsonicOrderSlashOption),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -54,7 +84,9 @@ module.exports = {
                         .setName("music")
                         .setDescription("Search query for a single song or playlist.")
                         .setRequired(true),
-                ),
+                )
+                .addStringOption(subsonicScopeSlashOption)
+                .addStringOption(subsonicOrderSlashOption),
         ),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
@@ -113,10 +145,12 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
     if (!guardsOk) return;
 
     const query = interaction.options.getString("music");
+    const searchScope = interaction.options.getString("scope") ?? "auto";
+    const playlistOrder = interaction.options.getString("order") ?? "sequential";
     await musicFuncs.getQueue(interaction);
 
     try {
-        const results = await subsonicFuncs.subsonicSearchQuery(query);
+        const results = await subsonicFuncs.subsonicSearchQuery(query, { scope: searchScope });
         if (!results || (!results.songs?.length && !results.playlists?.length)) {
             return interaction.reply({
                 content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
@@ -157,7 +191,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                             .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
-                            .setValue(subsonicSelectValue("song", playNextFlag, item.id))
+                            .setValue(subsonicSelectValue("song", playNextFlag, playlistOrder, item.id))
                             .setDescription(
                                 `Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                             )
@@ -180,7 +214,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     actionmenu.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
                             .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
-                            .setValue(subsonicSelectValue("playlist", false, item.id))
+                            .setValue(subsonicSelectValue("playlist", false, playlistOrder, item.id))
                             .setDescription(
                                 `Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
                             )
@@ -218,7 +252,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
         const itemFound = (results.songs && results.songs[0]) || (results.playlists && results.playlists[0]);
         if (itemFound.type == "playlist") {
-            return subsonicFuncs.subsonicAddPlaylist(interaction, itemFound, "send");
+            return subsonicFuncs.subsonicAddPlaylist(interaction, itemFound, "send", playlistOrder, playNextFlag);
         }
 
         return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
@@ -240,10 +274,16 @@ client.on("interactionCreate", async (interaction) => {
         await interaction.deferUpdate();
 
         for await (const option of allcomponents) {
-            const { kind, playNext, id } = parseSubsonicSelectValue(option);
+            const { kind, playNext, order, id } = parseSubsonicSelectValue(option);
 
             if (kind === "playlist") {
-                await subsonicFuncs.subsonicAddPlaylist(interaction, { type: "playlist", id }, "edit");
+                await subsonicFuncs.subsonicAddPlaylist(
+                    interaction,
+                    { type: "playlist", id },
+                    "edit",
+                    order,
+                    playNext,
+                );
             } else {
                 await subsonicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
             }
