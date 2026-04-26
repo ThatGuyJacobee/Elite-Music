@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
-const { buildImageAttachment } = require("./utilityFunctions");
+const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
 const {
@@ -184,13 +184,12 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
             ? subsonicCoverArtUrl(client.config, meta.coverArt, 500)
             : interaction.client.user.displayAvatarURL();
 
-    const durationDate = new Date(meta.duration || 0);
     const newTrack = new Track(player, {
         title: meta.title,
         author: meta.grandparentTitle || "Unknown Artist",
         url: stream,
         thumbnail: thumbUrl,
-        duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+        duration: formatDurationMs(meta.duration || 0),
         views: "69",
         playlist: null,
         description: null,
@@ -238,13 +237,12 @@ async function subsonicAddPlaylist(interaction, itemMetadata, responseType, orde
                 ? subsonicCoverArtUrl(client.config, item.coverArt, 500)
                 : interaction.client.user.displayAvatarURL();
 
-        const durationDate = new Date(Number(item.duration || 0) * 1000);
         const newTrack = new Track(player, {
             title: item.title,
             author: item.artist || "Unknown Artist",
             url: stream,
             thumbnail: thumbUrl,
-            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            duration: formatDurationMs(Number(item.duration || 0) * 1000),
             views: "69",
             playlist: null,
             description: null,
@@ -302,13 +300,12 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
                 ? subsonicCoverArtUrl(client.config, item.coverArt, 500)
                 : interaction.client.user.displayAvatarURL();
 
-        const durationDate = new Date(Number(item.duration || 0) * 1000);
         const newTrack = new Track(player, {
             title: item.title,
             author: item.artist || item.albumArtist || albumArtist || "Unknown Artist",
             url: stream,
             thumbnail: thumbUrl,
-            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            duration: formatDurationMs(Number(item.duration || 0) * 1000),
             views: "69",
             playlist: null,
             description: null,

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const subsonicFuncs = require("../../utils/subsonicFunctions.js");
+const { formatDurationMs } = require("../../utils/utilityFunctions.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const {
     ActionRowBuilder,
@@ -181,10 +182,10 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 for (const item of results.songs) {
                     if (count > 10) break;
 
-                    const date = new Date(item.duration);
+                    const durationLabel = formatDurationMs(item.duration);
                     const songTitle = `${item.parentTitle} - ${item.grandparentTitle}`;
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`,
+                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${durationLabel})`,
                         value: songTitle,
                     });
 
@@ -192,9 +193,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
                             .setValue(subsonicSelectValue("song", playNextFlag, playlistOrder, item.id))
-                            .setDescription(
-                                `Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
-                            )
+                            .setDescription(`Duration - ${durationLabel}`)
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -205,9 +204,9 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 for (const item of results.playlists) {
                     if (count > 10) break;
 
-                    const date = new Date(item.duration || 0);
+                    const playlistDurationLabel = formatDurationMs(item.duration || 0);
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()})`,
+                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${playlistDurationLabel})`,
                         value: `${item.title}`,
                     });
 
@@ -215,9 +214,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
                             .setValue(subsonicSelectValue("playlist", playNextFlag, playlistOrder, item.id))
-                            .setDescription(
-                                `Duration - ${date.getMinutes()}:${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}`,
-                            )
+                            .setDescription(`Duration - ${playlistDurationLabel}`)
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;

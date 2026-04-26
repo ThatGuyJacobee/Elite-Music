@@ -160,8 +160,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 for (const song of searchResults.songs) {
                     if (resultIndex > 10) break;
 
-                    const durationDate = new Date(song.duration);
-                    const durationLabel = `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`;
+                    const durationLabel = plexFuncs.formatPlexDurationLabel(song.duration);
                     const songTitle = `${song.parentTitle} - ${song.grandparentTitle}`;
                     embedFields.push({
                         name: `[${resultIndex}] ${song.type.charAt(0).toUpperCase() + song.type.slice(1)} Result (${durationLabel})`,
