@@ -23,6 +23,18 @@ function md5Utf8Hex(value) {
     return crypto.createHash("md5").update(value, "utf8").digest("hex");
 }
 
+function formatDurationMs(durationMilliseconds) {
+    const durationAsNumber = Number(durationMilliseconds);
+    if (!Number.isFinite(durationAsNumber) || durationAsNumber < 0) {
+        return "--:--";
+    }
+
+    const totalSeconds = Math.floor(durationAsNumber / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+}
+
 function redactConfigSecrets(config, options = {}) {
     const { revealSecrets = false } = options;
     const out = { ...config };
@@ -91,6 +103,7 @@ module.exports = {
     toArray,
     randomSalt,
     md5Utf8Hex,
+    formatDurationMs,
     redactConfigSecrets,
     getImageSize,
     buildImageAttachment,

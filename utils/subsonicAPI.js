@@ -107,6 +107,14 @@ async function getSong(config, id) {
     return Array.isArray(s) ? s[0] : s;
 }
 
+async function getAlbum(config, id) {
+    const root = await subsonicRequest(config, "getAlbum", { id });
+    const album = root.album || {};
+    const songs = toArray(album.song);
+
+    return { album, songs };
+}
+
 function streamUrl(config, songId) {
     return restUrl(config, "stream", { id: songId, format: "raw" });
 }
@@ -127,6 +135,7 @@ module.exports = {
     getPlaylists,
     getPlaylist,
     getSong,
+    getAlbum,
     streamUrl,
     coverArtUrl,
     DEFAULT_API_VERSION,

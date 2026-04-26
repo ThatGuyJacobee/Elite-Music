@@ -27,7 +27,7 @@ const plexScopeSlashOption = (option) =>
 const plexOrderSlashOption = (option) =>
     option
         .setName("order")
-        .setDescription("Order used when adding multiple tracks from a playlist.")
+        .setDescription("Order used when adding multiple tracks from a playlist or album.")
         .setRequired(false)
         .addChoices(
             { name: "Sequential", value: "sequential" },
@@ -38,13 +38,16 @@ const plexOrderSlashOption = (option) =>
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("plex")
-        .setDescription("Play a song into the queue!")
+        .setDescription("Play music from your Plex library into the queue!")
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("play")
-                .setDescription("Play a song from your plex.")
+                .setDescription("Play a track, playlist, or album from your Plex server.")
                 .addStringOption((option) =>
-                    option.setName("music").setDescription("Name of the song you want to play.").setRequired(true),
+                    option
+                        .setName("music")
+                        .setDescription("Search query for a track, playlist, or album.")
+                        .setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
                 .addStringOption(plexOrderSlashOption),
@@ -52,11 +55,11 @@ module.exports = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("search")
-                .setDescription("Search songs and playlists.")
+                .setDescription("Search tracks, playlists, and albums.")
                 .addStringOption((option) =>
                     option
                         .setName("music")
-                        .setDescription("Search query for a single song or playlist.")
+                        .setDescription("Search query for a track, playlist, or album.")
                         .setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
@@ -65,11 +68,11 @@ module.exports = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("playnext")
-                .setDescription("Add a song from your plex to the top of the queue.")
+                .setDescription("Add a track, playlist, or album from your Plex server to play next.")
                 .addStringOption((option) =>
                     option
                         .setName("music")
-                        .setDescription("Search query for a single song or playlist.")
+                        .setDescription("Search query for a track, playlist, or album.")
                         .setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
@@ -134,7 +137,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
         if (!searchResults.songs && !searchResults.playlists && !searchResults.albums) {
             return interaction.reply({
-                content: `❌ | Ooops... something went wrong, couldn't find the song or playlist with the requested query.`,
+                content: `❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.`,
                 ephemeral: true,
             });
         }
@@ -160,8 +163,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                 for (const song of searchResults.songs) {
                     if (resultIndex > 10) break;
 
-                    const durationDate = new Date(song.duration);
-                    const durationLabel = `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`;
+                    const durationLabel = plexFuncs.formatPlexDurationLabel(song.duration);
                     const songTitle = `${song.parentTitle} - ${song.grandparentTitle}`;
                     embedFields.push({
                         name: `[${resultIndex}] ${song.type.charAt(0).toUpperCase() + song.type.slice(1)} Result (${durationLabel})`,
@@ -238,7 +240,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
             const pickerDescription =
                 searchResults.size >= 2
-                    ? "Found multiple songs matching the provided search query, select one form the menu below."
+                    ? "Found multiple results matching the provided search query, select one from the menu below."
                     : "Select an item below to add it to the queue.";
 
             const resultsEmbed = new EmbedBuilder()

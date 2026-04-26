@@ -1,22 +1,14 @@
 require("dotenv").config();
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
-const { buildImageAttachment } = require("./utilityFunctions");
+const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
 
 const player = useMainPlayer();
 
 function formatPlexDurationLabel(durationMilliseconds) {
-    const durationAsNumber = Number(durationMilliseconds);
-    if (!Number.isFinite(durationAsNumber) || durationAsNumber < 0) {
-        return "--:--";
-    }
-
-    const totalSeconds = Math.floor(durationAsNumber / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    return formatDurationMs(durationMilliseconds);
 }
 
 function applyTrackOrder(tracks, orderMode = "sequential") {
@@ -94,13 +86,12 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     const trackJson = await trackRequest.json();
     const songFound = trackJson.MediaContainer.Metadata[0];
 
-    const durationDate = new Date(songFound.duration);
     const newTrack = new Track(player, {
         title: songFound.title,
         author: songFound.grandparentTitle,
         url: `${client.config.plexServer}${songFound.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
         thumbnail: `${client.config.plexServer}${songFound.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-        duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+        duration: formatDurationMs(songFound.duration),
         views: "69",
         playlist: null,
         description: null,
@@ -152,13 +143,12 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
     const playlistJson = await playlistRequest.json();
     const builtTracks = [];
     for await (const playlistTrack of playlistJson.MediaContainer.Metadata) {
-        const durationDate = new Date(playlistTrack.duration);
         const newTrack = new Track(player, {
             title: playlistTrack.title,
             author: playlistTrack.grandparentTitle,
             url: `${client.config.plexServer}${playlistTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
             thumbnail: `${client.config.plexServer}${playlistTrack.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            duration: formatDurationMs(playlistTrack.duration),
             views: "69",
             playlist: null,
             description: null,
@@ -202,13 +192,12 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
     const albumChildrenJson = await albumChildrenRequest.json();
     const builtTracks = [];
     for await (const albumTrack of albumChildrenJson.MediaContainer.Metadata) {
-        const durationDate = new Date(albumTrack.duration);
         const newTrack = new Track(player, {
             title: albumTrack.title,
             author: albumTrack.grandparentTitle,
             url: `${client.config.plexServer}${albumTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
             thumbnail: `${client.config.plexServer}${albumTrack.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-            duration: `${durationDate.getMinutes()}:${durationDate.getSeconds() < 10 ? `0${durationDate.getSeconds()}` : durationDate.getSeconds()}`,
+            duration: formatDurationMs(albumTrack.duration),
             views: "69",
             playlist: null,
             description: null,
