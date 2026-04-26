@@ -53,13 +53,16 @@ function parseSubsonicSelectValue(option) {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("subsonic")
-        .setDescription("Play a song from your Subsonic library into the queue!")
+        .setDescription("Play music from your Subsonic library into the queue!")
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("play")
-                .setDescription("Play a song from your Subsonic server.")
+                .setDescription("Play a track, playlist, or album from your Subsonic server.")
                 .addStringOption((option) =>
-                    option.setName("music").setDescription("Name of the song you want to play.").setRequired(true),
+                    option
+                        .setName("music")
+                        .setDescription("Search query for a track, playlist, or album.")
+                        .setRequired(true),
                 )
                 .addStringOption(subsonicScopeSlashOption)
                 .addStringOption(subsonicOrderSlashOption),
@@ -67,11 +70,11 @@ module.exports = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("search")
-                .setDescription("Search songs and playlists.")
+                .setDescription("Search tracks, playlists, and albums.")
                 .addStringOption((option) =>
                     option
                         .setName("music")
-                        .setDescription("Search query for a single song or playlist.")
+                        .setDescription("Search query for a track, playlist, or album.")
                         .setRequired(true),
                 )
                 .addStringOption(subsonicScopeSlashOption)
@@ -80,11 +83,11 @@ module.exports = {
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("playnext")
-                .setDescription("Add a song from your Subsonic server to the top of the queue.")
+                .setDescription("Add a track, playlist, or album from your Subsonic server to play next.")
                 .addStringOption((option) =>
                     option
                         .setName("music")
-                        .setDescription("Search query for a single song or playlist.")
+                        .setDescription("Search query for a track, playlist, or album.")
                         .setRequired(true),
                 )
                 .addStringOption(subsonicScopeSlashOption)
