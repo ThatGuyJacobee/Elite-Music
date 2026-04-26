@@ -4,7 +4,9 @@
   "description": "Elite Bot's original music feature moved to a separate discord bot.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prettier": "prettier \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --check",
+    "prettier:write": "prettier \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --write"
   },
   "type": "commonjs",
   "author": "ThatGuyJacobee",
