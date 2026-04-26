@@ -204,9 +204,19 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 for (const item of results.playlists) {
                     if (count > 10) break;
 
+                    const playlistSongCount = Number(item.leafCount ?? item.songCount ?? 0);
+                    const playlistSongCountLabel =
+                        Number.isFinite(playlistSongCount) && playlistSongCount > 0 ? `${playlistSongCount} songs` : "";
+
                     const playlistDurationLabel = formatDurationMs(item.duration || 0);
+                    const hasKnownDuration = playlistDurationLabel !== "--:--";
+                    const playlistResultSuffix =
+                        playlistSongCountLabel && hasKnownDuration
+                            ? `${playlistSongCountLabel} - ${playlistDurationLabel}`
+                            : playlistSongCountLabel || (hasKnownDuration ? playlistDurationLabel : "");
+
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${playlistDurationLabel})`,
+                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${playlistResultSuffix ? ` (${playlistResultSuffix})` : ""}`,
                         value: `${item.title}`,
                     });
 
@@ -214,7 +224,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
                             .setValue(subsonicSelectValue("playlist", playNextFlag, playlistOrder, item.id))
-                            .setDescription(`Duration - ${playlistDurationLabel}`)
+                            .setDescription(playlistResultSuffix || "Playlist")
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -228,9 +238,17 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     const albumSongCount = Number(item.leafCount ?? 0);
                     const albumSongCountLabel =
                         Number.isFinite(albumSongCount) && albumSongCount > 0 ? `${albumSongCount} songs` : "";
+
+                    const albumDurationLabel = formatDurationMs(item.duration || 0);
+                    const hasKnownDuration = albumDurationLabel !== "--:--";
+                    const albumResultSuffix =
+                        albumSongCountLabel && hasKnownDuration
+                            ? `${albumSongCountLabel} - ${albumDurationLabel}`
+                            : albumSongCountLabel || (hasKnownDuration ? albumDurationLabel : "");
+
                     const albumTitle = item.artist ? `${item.title} - ${item.artist}` : item.title;
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${albumSongCountLabel ? ` (${albumSongCountLabel})` : ""}`,
+                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${albumResultSuffix ? ` (${albumResultSuffix})` : ""}`,
                         value: albumTitle,
                     });
 
@@ -238,7 +256,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(albumTitle.length > 100 ? `${albumTitle.substring(0, 97)}...` : albumTitle)
                             .setValue(subsonicSelectValue("album", playNextFlag, playlistOrder, item.id))
-                            .setDescription(albumSongCountLabel || "Album")
+                            .setDescription(albumResultSuffix || "Album")
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
