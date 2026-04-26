@@ -305,10 +305,13 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
     } catch (err) {
         console.log(err);
-        return interaction.followUp({
-            content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`,
-            ephemeral: true,
-        });
+        const errorMessage = `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`;
+        if (interaction.deferred) {
+            return interaction
+                .followUp({ content: errorMessage, ephemeral: true })
+                .catch(() => interaction.editReply({ content: errorMessage }));
+        }
+        return interaction.reply({ content: errorMessage, ephemeral: true });
     }
 }
 
