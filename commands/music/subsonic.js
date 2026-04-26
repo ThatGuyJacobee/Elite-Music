@@ -30,11 +30,8 @@ module.exports = {
                 .setName("play")
                 .setDescription("Play a song from your Subsonic server.")
                 .addStringOption((option) =>
-                    option
-                        .setName("music")
-                        .setDescription("Name of the song you want to play.")
-                        .setRequired(true)
-                )
+                    option.setName("music").setDescription("Name of the song you want to play.").setRequired(true),
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -44,8 +41,8 @@ module.exports = {
                     option
                         .setName("music")
                         .setDescription("Search query for a single song or playlist.")
-                        .setRequired(true)
-                )
+                        .setRequired(true),
+                ),
         )
         .addSubcommand((subcommand) =>
             subcommand
@@ -55,8 +52,8 @@ module.exports = {
                     option
                         .setName("music")
                         .setDescription("Search query for a single song or playlist.")
-                        .setRequired(true)
-                )
+                        .setRequired(true),
+                ),
         ),
     async execute(interaction) {
         if (interaction.options.getSubcommand() === "play" || interaction.options.getSubcommand() === "playnext") {

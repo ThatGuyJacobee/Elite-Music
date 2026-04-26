@@ -39,7 +39,7 @@ function redactConfigSecrets(config, options = {}) {
 async function getImageSize(url) {
     let request = await fetch(url);
     if (request.ok) {
-        return request.headers.get('content-length') || 0;
+        return request.headers.get("content-length") || 0;
     }
 }
 
@@ -52,37 +52,35 @@ async function buildImageAttachment(url, metadata) {
         let coverImage;
         if (imgSize < 10000000) {
             coverImage = new AttachmentBuilder(url, metadata);
+        } else {
+            let defaultImg = fs.readFileSync("./assets/default-thumbnail.png");
+            coverImage = new AttachmentBuilder(defaultImg, {
+                name: "coverimage.jpg",
+                description: `Cover Image Not Found`,
+            });
         }
 
-        else {
-            let defaultImg = fs.readFileSync('./assets/default-thumbnail.png');
-            coverImage = new AttachmentBuilder(defaultImg, { name: 'coverimage.jpg', description: `Cover Image Not Found` })
-        }
-        
         return coverImage;
     } catch (error) {
         console.log("Error building image attachment from source. Defaulting to placeholder image...");
-        let defaultImg = fs.readFileSync('./assets/default-thumbnail.png');
-        return new AttachmentBuilder(defaultImg, { name: 'coverimage.jpg', description: `Cover Image Not Found` });
+        let defaultImg = fs.readFileSync("./assets/default-thumbnail.png");
+        return new AttachmentBuilder(defaultImg, { name: "coverimage.jpg", description: `Cover Image Not Found` });
     }
-    
 }
 
 async function checkLatestRelease() {
     let checkGitHub = await fetch("https://api.github.com/repos/ThatGuyJacobee/Elite-Music/releases/latest", {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'Accept': 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-        }
-    })
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    });
 
     if (checkGitHub.ok) {
         let response = await checkGitHub.json();
         return response;
-    }
-
-    else {
+    } else {
         return false;
     }
 }

@@ -7,44 +7,17 @@ const NP_SLASH_TITLE = "Now playing 🎵";
 function buildNpComponents() {
     return [
         new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("np-delete")
-                .setStyle(4)
-                .setLabel("🗑️"),
-            new ButtonBuilder()
-                .setCustomId("np-back")
-                .setStyle(1)
-                .setLabel("⏮️ Previous"),
-            new ButtonBuilder()
-                .setCustomId("np-pauseresume")
-                .setStyle(1)
-                .setLabel("⏯️ Play/Pause"),
-            new ButtonBuilder()
-                .setCustomId("np-skip")
-                .setStyle(1)
-                .setLabel("⏭️ Skip"),
-            new ButtonBuilder()
-                .setCustomId("np-clear")
-                .setStyle(1)
-                .setLabel("🧹 Clear Queue")
+            new ButtonBuilder().setCustomId("np-delete").setStyle(4).setLabel("🗑️"),
+            new ButtonBuilder().setCustomId("np-back").setStyle(1).setLabel("⏮️ Previous"),
+            new ButtonBuilder().setCustomId("np-pauseresume").setStyle(1).setLabel("⏯️ Play/Pause"),
+            new ButtonBuilder().setCustomId("np-skip").setStyle(1).setLabel("⏭️ Skip"),
+            new ButtonBuilder().setCustomId("np-clear").setStyle(1).setLabel("🧹 Clear Queue"),
         ),
         new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("np-volumeadjust")
-                .setStyle(1)
-                .setLabel("🔊 Adjust Volume"),
-            new ButtonBuilder()
-                .setCustomId("np-loop")
-                .setStyle(1)
-                .setLabel("🔂 Loop Once"),
-            new ButtonBuilder()
-                .setCustomId("np-shuffle")
-                .setStyle(1)
-                .setLabel("🔀 Shuffle Queue"),
-            new ButtonBuilder()
-                .setCustomId("np-stop")
-                .setStyle(1)
-                .setLabel("🛑 Stop Queue")
+            new ButtonBuilder().setCustomId("np-volumeadjust").setStyle(1).setLabel("🔊 Adjust Volume"),
+            new ButtonBuilder().setCustomId("np-loop").setStyle(1).setLabel("🔂 Loop Once"),
+            new ButtonBuilder().setCustomId("np-shuffle").setStyle(1).setLabel("🔀 Shuffle Queue"),
+            new ButtonBuilder().setCustomId("np-stop").setStyle(1).setLabel("🛑 Stop Queue"),
         ),
     ];
 }
@@ -63,7 +36,7 @@ function buildNpEmbed(queue, { title, footerMember = null }) {
         .setColor(client.config.embedColour)
         .setTitle(title)
         .setDescription(
-            `${currentTrack.title} ${currentTrack.queryType != "arbitrary" ? `([Link](${currentTrack.url}))` : ""}\n${createBar}`
+            `${currentTrack.title} ${currentTrack.queryType != "arbitrary" ? `([Link](${currentTrack.url}))` : ""}\n${createBar}`,
         )
         .setTimestamp();
 
@@ -91,10 +64,12 @@ function buildPlayerStartNpRefreshEditOptions(queue) {
     const currentTrack = queue.currentTrack;
 
     return {
-        embeds: [buildNpEmbed(queue, {
-            title: NP_PLAYER_START_TITLE,
-            footerMember: currentTrack?.requestedBy != null ? currentTrack.requestedBy : null,
-        })],
+        embeds: [
+            buildNpEmbed(queue, {
+                title: NP_PLAYER_START_TITLE,
+                footerMember: currentTrack?.requestedBy != null ? currentTrack.requestedBy : null,
+            }),
+        ],
         components: buildNpComponents(),
     };
 }

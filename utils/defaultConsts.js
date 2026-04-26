@@ -1,8 +1,8 @@
 //Defaul configruations to use for undefined/incorrect values in the .env file.
 const defaultConsts = {
     config: {
-        embedColour: '#FF0000',
-        presence: '/help | elite-bot.com',
+        embedColour: "#FF0000",
+        presence: "/help | elite-bot.com",
         leaveOnEmpty: false,
         leaveOnEmptyCooldown: 0,
         leaveOnEnd: false,
@@ -15,21 +15,21 @@ const defaultConsts = {
         enableDjMode: false,
         djRole: 1234567891011,
         enablePlex: false,
-        plexServer: '',
-        plexAuthtoken: '',
+        plexServer: "",
+        plexAuthtoken: "",
         enableSubsonic: false,
-        subsonicServer: '',
-        subsonicUser: '',
-        subsonicPass: '',
-        subsonicAppName: 'Elite-Music-Bot',
-        subsonicApiVersion: '1.16.0'
+        subsonicServer: "",
+        subsonicUser: "",
+        subsonicPass: "",
+        subsonicAppName: "Elite-Music-Bot",
+        subsonicApiVersion: "1.16.0",
     },
     ytdlOptions: {
-        filter: 'audioonly',
-        quality: 'highestaudio',
+        filter: "audioonly",
+        quality: "highestaudio",
         highWaterMark: 1 << 30,
         dlChunkSize: 0,
-    }
-}
+    },
+};
 
 module.exports = defaultConsts;

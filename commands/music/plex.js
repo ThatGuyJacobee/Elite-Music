@@ -2,7 +2,13 @@ require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const plexFuncs = require("../../utils/plexFunctions.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require("discord.js");
+const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    EmbedBuilder,
+    StringSelectMenuBuilder,
+    StringSelectMenuOptionBuilder,
+} = require("discord.js");
 const pickerEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 // Re-usable slash option for content type selection
@@ -37,10 +43,8 @@ module.exports = {
             subcommand
                 .setName("play")
                 .setDescription("Play a song from your plex.")
-                .addStringOption((option) => option
-                    .setName("music")
-                    .setDescription("Name of the song you want to play.")
-                    .setRequired(true),
+                .addStringOption((option) =>
+                    option.setName("music").setDescription("Name of the song you want to play.").setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
                 .addStringOption(plexOrderSlashOption),
@@ -49,10 +53,11 @@ module.exports = {
             subcommand
                 .setName("search")
                 .setDescription("Search songs and playlists.")
-                .addStringOption((option) => option
-                    .setName("music")
-                    .setDescription("Search query for a single song or playlist.")
-                    .setRequired(true),
+                .addStringOption((option) =>
+                    option
+                        .setName("music")
+                        .setDescription("Search query for a single song or playlist.")
+                        .setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
                 .addStringOption(plexOrderSlashOption),
@@ -61,10 +66,11 @@ module.exports = {
             subcommand
                 .setName("playnext")
                 .setDescription("Add a song from your plex to the top of the queue.")
-                .addStringOption((option) => option
-                    .setName("music")
-                    .setDescription("Search query for a single song or playlist.")
-                    .setRequired(true),
+                .addStringOption((option) =>
+                    option
+                        .setName("music")
+                        .setDescription("Search query for a single song or playlist.")
+                        .setRequired(true),
                 )
                 .addStringOption(plexScopeSlashOption)
                 .addStringOption(plexOrderSlashOption),
@@ -179,14 +185,14 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
                     const durationLabel = plexFuncs.formatPlexDurationLabel(playlist.duration);
                     const playlistSongCount = Number(playlist.leafCount ?? playlist.childCount ?? 0);
-                    const playlistSongCountLabel = Number.isFinite(playlistSongCount) && playlistSongCount > 0
-                        ? `${playlistSongCount} songs`
-                        : "";
+                    const playlistSongCountLabel =
+                        Number.isFinite(playlistSongCount) && playlistSongCount > 0 ? `${playlistSongCount} songs` : "";
 
                     const hasKnownDuration = durationLabel !== "--:--";
-                    const playlistResultSuffix = playlistSongCountLabel && hasKnownDuration
-                        ? `${playlistSongCountLabel} - ${durationLabel}`
-                        : playlistSongCountLabel || (hasKnownDuration ? durationLabel : "");
+                    const playlistResultSuffix =
+                        playlistSongCountLabel && hasKnownDuration
+                            ? `${playlistSongCountLabel} - ${durationLabel}`
+                            : playlistSongCountLabel || (hasKnownDuration ? durationLabel : "");
 
                     embedFields.push({
                         name: `[${resultIndex}] ${playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1)} Result${playlistResultSuffix ? ` (${playlistResultSuffix})` : ""}`,
@@ -195,7 +201,9 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
                     actionRowSelect.components[0].addOptions(
                         new StringSelectMenuOptionBuilder()
-                            .setLabel(playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title)
+                            .setLabel(
+                                playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title,
+                            )
                             .setValue(`${playlist.type}_${usePlayNext}_order=${playlistOrder}_key=${playlist.key}`)
                             .setDescription(playlistResultSuffix || "Playlist")
                             .setEmoji(pickerEmojis[resultIndex - 1]),
@@ -209,9 +217,8 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     if (resultIndex > 10) break;
 
                     const albumSongCount = Number(album.leafCount ?? album.childCount ?? 0);
-                    const albumSongCountLabel = Number.isFinite(albumSongCount) && albumSongCount > 0
-                        ? `${albumSongCount} songs`
-                        : "";
+                    const albumSongCountLabel =
+                        Number.isFinite(albumSongCount) && albumSongCount > 0 ? `${albumSongCount} songs` : "";
                     const albumTitle = album.parentTitle ? `${album.title} - ${album.parentTitle}` : album.title;
                     embedFields.push({
                         name: `[${resultIndex}] ${album.type.charAt(0).toUpperCase() + album.type.slice(1)} Result${albumSongCountLabel ? ` (${albumSongCountLabel})` : ""}`,
@@ -253,9 +260,9 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
             await interaction.followUp({ embeds: [resultsEmbed], components: [actionRowSelect, cancelRow] });
         } else {
             const itemFound =
-                (searchResults.songs && searchResults.songs[0])
-                || (searchResults.playlists && searchResults.playlists[0])
-                || (searchResults.albums && searchResults.albums[0]);
+                (searchResults.songs && searchResults.songs[0]) ||
+                (searchResults.playlists && searchResults.playlists[0]) ||
+                (searchResults.albums && searchResults.albums[0]);
 
             if (itemFound.type == "playlist") {
                 await plexFuncs.plexAddPlaylist(interaction, itemFound, "send", playlistOrder, usePlayNext);
@@ -287,15 +294,19 @@ client.on("interactionCreate", async (interaction) => {
             const playNextSegment = selectedValue.split("_")[1];
             const usePlayNext = playNextSegment != null && playNextSegment == "true";
             const orderSegment = selectedValue.split("_")[2];
-            const playlistOrder = orderSegment != null && orderSegment.startsWith("order=")
-                ? orderSegment.split("order=")[1]
-                : "sequential";
+            const playlistOrder =
+                orderSegment != null && orderSegment.startsWith("order=")
+                    ? orderSegment.split("order=")[1]
+                    : "sequential";
             const itemKey = selectedValue.split("key=")[1];
 
-            const metadataRequest = await fetch(`${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`, {
-                method: "GET",
-                headers: { accept: "application/json" },
-            });
+            const metadataRequest = await fetch(
+                `${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`,
+                {
+                    method: "GET",
+                    headers: { accept: "application/json" },
+                },
+            );
 
             const metadataJson = await metadataRequest.json();
 
@@ -303,10 +314,22 @@ client.on("interactionCreate", async (interaction) => {
 
             if (itemType == "playlist") {
                 metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddPlaylist(interaction, metadataJson.MediaContainer, "edit", playlistOrder, usePlayNext);
+                await plexFuncs.plexAddPlaylist(
+                    interaction,
+                    metadataJson.MediaContainer,
+                    "edit",
+                    playlistOrder,
+                    usePlayNext,
+                );
             } else if (itemType == "album") {
                 metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddAlbum(interaction, metadataJson.MediaContainer.Metadata[0], "edit", playlistOrder, usePlayNext);
+                await plexFuncs.plexAddAlbum(
+                    interaction,
+                    metadataJson.MediaContainer.Metadata[0],
+                    "edit",
+                    playlistOrder,
+                    usePlayNext,
+                );
             } else {
                 await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
             }

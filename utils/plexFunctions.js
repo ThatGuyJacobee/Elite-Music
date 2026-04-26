@@ -62,14 +62,19 @@ async function plexSearchQuery(query, options = {}) {
         if (searchJson.MediaContainer.size == 0) return false;
 
         const allSongs = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "track");
-        const allPlaylists = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "playlist");
+        const allPlaylists = searchJson.MediaContainer.Metadata.filter(
+            (metadataEntry) => metadataEntry.type == "playlist",
+        );
         const allAlbums = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "album");
 
         return {
             songs: allSongs,
             playlists: allPlaylists,
             albums: allAlbums,
-            size: (allAlbums ? allAlbums.length : 0) + (allSongs ? allSongs.length : 0) + (allPlaylists ? allPlaylists.length : 0),
+            size:
+                (allAlbums ? allAlbums.length : 0) +
+                (allSongs ? allSongs.length : 0) +
+                (allPlaylists ? allPlaylists.length : 0),
         };
     } catch (err) {
         console.log(err);
@@ -78,10 +83,13 @@ async function plexSearchQuery(query, options = {}) {
 }
 
 async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
-    const trackRequest = await fetch(`${client.config.plexServer}${itemMetadata.key}?X-Plex-Token=${client.config.plexAuthtoken}`, {
-        method: "GET",
-        headers: { accept: "application/json" },
-    });
+    const trackRequest = await fetch(
+        `${client.config.plexServer}${itemMetadata.key}?X-Plex-Token=${client.config.plexAuthtoken}`,
+        {
+            method: "GET",
+            headers: { accept: "application/json" },
+        },
+    );
 
     const trackJson = await trackRequest.json();
     const songFound = trackJson.MediaContainer.Metadata[0];
@@ -113,7 +121,10 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
 
         await plexQueuePlay(interaction, responseType, itemMetadata, songFound.thumb, nextSong);
     } catch (err) {
-        return interaction.followUp({ content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`, ephemeral: true });
+        return interaction.followUp({
+            content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+            ephemeral: true,
+        });
     }
 }
 
@@ -160,13 +171,22 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
         try {
             builtTracks.push(newTrack);
         } catch (err) {
-            return interaction.followUp({ content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`, ephemeral: true });
+            return interaction.followUp({
+                content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+                ephemeral: true,
+            });
         }
     }
 
     const orderedTracks = applyTrackOrder(builtTracks, orderMode);
     await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
-    await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0].thumb, nextSong);
+    await plexQueuePlay(
+        interaction,
+        responseType,
+        itemMetadata,
+        playlistJson.MediaContainer.Metadata[0].thumb,
+        nextSong,
+    );
 }
 
 async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -209,7 +229,13 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
         leafCount: builtTracks.length,
     };
 
-    await plexQueuePlay(interaction, responseType, albumMetadataForEmbed, albumChildrenJson.MediaContainer.Metadata[0].thumb, nextSong);
+    await plexQueuePlay(
+        interaction,
+        responseType,
+        albumMetadataForEmbed,
+        albumChildrenJson.MediaContainer.Metadata[0].thumb,
+        nextSong,
+    );
 }
 
 async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {
@@ -220,7 +246,10 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
     } catch (err) {
         await clearNpControlMessages(queue);
         queue.delete();
-        return interaction.followUp({ content: `❌ | Ooops... something went wrong, couldn't join your channel.`, ephemeral: true });
+        return interaction.followUp({
+            content: `❌ | Ooops... something went wrong, couldn't join your channel.`,
+            ephemeral: true,
+        });
     }
 
     const imageAttachment = await buildImageAttachment(
@@ -236,20 +265,29 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         .setThumbnail("attachment://coverimage.jpg")
         .setColor(client.config.embedColour)
         .setTimestamp()
-        .setFooter({ text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}` });
+        .setFooter({
+            text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
+        });
 
     if (!queue.isPlaying()) {
         try {
             await queue.node.play(queue.tracks[0]);
             queue.node.setVolume(client.config.defaultVolume);
         } catch (err) {
-            return interaction.followUp({ content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`, ephemeral: true });
+            return interaction.followUp({
+                content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`,
+                ephemeral: true,
+            });
         }
 
         if (itemMetadata.type == "playlist") {
-            embed.setDescription(`Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`);
+            embed.setDescription(
+                `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
+            );
         } else if (itemMetadata.type == "album") {
-            embed.setDescription(`Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs and started to play the queue!`);
+            embed.setDescription(
+                `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
+            );
         } else {
             embed.setDescription(`Began playing the song **${itemMetadata.title}**!`);
         }
@@ -257,10 +295,14 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         embed.setTitle(`Started playback ▶️`);
     } else {
         if (itemMetadata.type == "playlist") {
-            embed.setDescription(`Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs!`);
+            embed.setDescription(
+                `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs!`,
+            );
             embed.setTitle(`Added to queue ⏱️`);
         } else if (itemMetadata.type == "album") {
-            embed.setDescription(`Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs!`);
+            embed.setDescription(
+                `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs!`,
+            );
             embed.setTitle(`Added to queue ⏱️`);
         } else {
             if (nextSong) {

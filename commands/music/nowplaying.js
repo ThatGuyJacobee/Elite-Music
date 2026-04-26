@@ -5,9 +5,7 @@ const { registerNpControlMessage } = require("../../utils/npControlMessages");
 const { buildNpComponents, buildNpEmbed, NP_SLASH_TITLE } = require("../../utils/nowPlayingUi");
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("nowplaying")
-        .setDescription("Check the currently playing song!"),
+    data: new SlashCommandBuilder().setName("nowplaying").setDescription("Check the currently playing song!"),
     async execute(interaction) {
         if (!interaction.member.voice.channelId) {
             return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
@@ -25,14 +23,14 @@ module.exports = {
             return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
         }
 
-        const footerMember =
-            queue.currentTrack.requestedBy != null ? interaction.user : null;
+        const footerMember = queue.currentTrack.requestedBy != null ? interaction.user : null;
 
         const npembed = buildNpEmbed(queue, {
             title: NP_SLASH_TITLE,
             footerMember,
         });
-        if (!npembed) return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        if (!npembed)
+            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
 
         var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
             name: "coverimage.jpg",
