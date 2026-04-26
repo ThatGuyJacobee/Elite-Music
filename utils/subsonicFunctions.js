@@ -64,10 +64,8 @@ async function subsonicSearchQuery(query, options = {}) {
     try {
         const cfg = client.config;
 
-        const songCount =
-            scope === "playlist" || scope === "album" ? 0 : 10;
-        const albumCount =
-            scope === "track" || scope === "playlist" ? 0 : 10;
+        const songCount = scope === "playlist" || scope === "album" ? 0 : 10;
+        const albumCount = scope === "track" || scope === "playlist" ? 0 : 10;
 
         const { songs, albums: albumsRaw } = await subsonicSearch2(cfg, query, {
             songCount,
@@ -117,10 +115,7 @@ async function subsonicSearchQuery(query, options = {}) {
                 parentTitle: albumArtist ? `${albumName} - ${albumArtist}` : albumName,
                 leafCount: Number.isFinite(songCountVal) ? songCountVal : 0,
                 coverArt: albumEntry.coverArt,
-                duration:
-                    albumEntry.duration != null
-                        ? Number(albumEntry.duration) * 1000
-                        : 0,
+                duration: albumEntry.duration != null ? Number(albumEntry.duration) * 1000 : 0,
             };
         });
 
@@ -217,7 +212,13 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
     }
 }
 
-async function subsonicAddPlaylist(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
+async function subsonicAddPlaylist(
+    interaction,
+    itemMetadata,
+    responseType,
+    orderMode = "sequential",
+    nextSong = false,
+) {
     const { playlist, entries } = await subsonicGetPlaylist(client.config, itemMetadata.id);
     const playlistEntries = entries.filter((entry) => !entry.isDir);
     if (!playlistEntries.length) {
@@ -357,8 +358,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
             ? subsonicCoverArtUrl(client.config, defaultCoverArtId, 500)
             : interaction.client.user.displayAvatarURL();
 
-    const coverKind =
-        itemMetadata.type === "playlist" ? "Playlist" : itemMetadata.type === "album" ? "Album" : "Song";
+    const coverKind = itemMetadata.type === "playlist" ? "Playlist" : itemMetadata.type === "album" ? "Album" : "Song";
     const imageAttachment = await buildImageAttachment(coverUrl, {
         name: "coverimage.jpg",
         description: `${coverKind} Cover Image for ${itemMetadata.title}`,

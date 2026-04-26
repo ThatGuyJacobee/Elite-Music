@@ -266,9 +266,10 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                 }
             }
 
-            const searchEmbedDescription = results.size >= 2
-                ? "Found multiple results matching the provided search query, select one from the menu below."
-                : "Select an item below to add it to the queue.";
+            const searchEmbedDescription =
+                results.size >= 2
+                    ? "Found multiple results matching the provided search query, select one from the menu below."
+                    : "Select an item below to add it to the queue.";
 
             const searchEmbed = new EmbedBuilder()
                 .setAuthor({
@@ -330,21 +331,9 @@ client.on("interactionCreate", async (interaction) => {
             const { kind, playNext, order, id } = parseSubsonicSelectValue(option);
 
             if (kind === "playlist") {
-                await subsonicFuncs.subsonicAddPlaylist(
-                    interaction,
-                    { type: "playlist", id },
-                    "edit",
-                    order,
-                    playNext,
-                );
+                await subsonicFuncs.subsonicAddPlaylist(interaction, { type: "playlist", id }, "edit", order, playNext);
             } else if (kind === "album") {
-                await subsonicFuncs.subsonicAddAlbum(
-                    interaction,
-                    { type: "album", id },
-                    "edit",
-                    order,
-                    playNext,
-                );
+                await subsonicFuncs.subsonicAddAlbum(interaction, { type: "album", id }, "edit", order, playNext);
             } else {
                 await subsonicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
             }
