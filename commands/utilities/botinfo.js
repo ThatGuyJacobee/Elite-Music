@@ -38,7 +38,7 @@ module.exports = {
                 { name: "Uptime Since", value: botuptime, inline: true },
                 {
                     name: "Elite Music Version",
-                    value: `v1.7 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
+                    value: `v1.8 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
                     inline: true,
                 },
                 { name: "\u200b", value: "\u200b", inline: true },
