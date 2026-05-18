@@ -116,6 +116,16 @@ The Plex optional feature when enabled, allows you to stream music directly from
 2. Next, you must provide a direct URL to your Plex Media Center. The default port that Plex Media Server runs on is `32400`. You can test that your `PLEX_SERVER` URL is correct, by pasting it into any web browser, and it should load successfully with a login page.
 3. Finally, you must place your plex authentication token into the `PLEX_AUTHTOKEN` field. You can do this by browsing the XML file for a library item. Please follow the [official Plex Support article](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) to access your token. Once you have access to it, place it into your .env file.
 
+### Subsonic API playback
+The Subsonic API optional feature allows you to stream music directly from your Subsonic-compatible media server through the `/subsonic` command when enabled. This works with any server that implements the [Subsonic REST API](http://www.subsonic.org/pages/api.jsp), such as Navidrome, Airsonic-Advanced, Gonic or others. In order to enable the Subsonic feature, you must go into your `.env` file and set up the configuration for your server.
+
+1. Firstly, set `ENABLE_SUBSONIC` to `true`.
+2. Next, provide the base URL of your Subsonic server in `SUBSONIC_SERVER`. The default port for many Subsonic-compatible servers is `4533` (e.g. `http://[your_ipaddress]:4533`). You can verify that the URL is correct by opening it in a web browser; you should see your server's login or home page load successfully. The bot must be able to reach this address from the machine or container it runs on.
+3. Set `SUBSONIC_USER` and `SUBSONIC_PASS` to a valid account on your server. Elite Music authenticates using the standard Subsonic token scheme, so use the same username and password you would use in a Subsonic client app.
+4. Optionally, set `SUBSONIC_APP_NAME` to identify this bot to your server (defaults to `Elite-Music-Bot` if left unchanged).
+
+Once configured and restarted, the bot will validate the connection on startup and return a configuration loaded message. As long as everything is valid and the feature remains active, you will be able to utilise all of the `/subsonic` commands.
+
 ### DJ Mode
 Elite Music comes with a DJ Mode optional feature, which locks down the use of commands and interactions to members who have the specified DJ Role.
 
