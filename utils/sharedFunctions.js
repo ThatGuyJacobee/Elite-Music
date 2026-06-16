@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
+const { buildRequestedByFooter, buildTrackLinkText, translate } = require("./botText");
 
 //Core music functions
 async function getQueue(interaction) {
@@ -44,7 +45,7 @@ async function addTracks(interaction, nextSong, search, responseType) {
     } catch (err) {
         console.log(err);
         return interaction.followUp({
-            content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+            content: translate(interaction, "errors.addTracks"),
             ephemeral: true,
         });
     }
@@ -59,7 +60,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         await clearNpControlMessages(queue);
         queue.delete();
         return interaction.followUp({
-            content: `❌ | Ooops... something went wrong, couldn't join your channel.`,
+            content: translate(interaction, "errors.joinVoice"),
             ephemeral: true,
         });
     }
@@ -77,9 +78,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         .setThumbnail("attachment://coverimage.jpg")
         .setColor(client.config.embedColour)
         .setTimestamp()
-        .setFooter({
-            text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-        });
+        .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
     if (!queue.isPlaying()) {
         try {
@@ -87,38 +86,55 @@ async function queuePlay(interaction, responseType, search, nextSong) {
             queue.node.setVolume(client.config.defaultVolume);
         } catch (err) {
             return interaction.followUp({
-                content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`,
+                content: translate(interaction, "errors.playback"),
                 ephemeral: true,
             });
         }
 
         if (search.playlist) {
             embed.setDescription(
-                `Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs and started to play the queue!`,
+                translate(interaction, "playback.importedPlaylistStart", {
+                    title: search.tracks[0].playlist.title,
+                    link: `([Link](${search.tracks[0].playlist.url}))`,
+                    count: search.tracks.length,
+                }),
             );
         } else {
             embed.setDescription(
-                `Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != "arbitrary" ? `([Link](${search.tracks[0].url}))` : ""}!`,
+                translate(interaction, "playback.startedSong", {
+                    title: search.tracks[0].title,
+                    link: buildTrackLinkText(search.tracks[0]),
+                }),
             );
         }
 
-        embed.setTitle(`Started playback ▶️`);
+        embed.setTitle(translate(interaction, "playback.startedTitle"));
     } else {
         if (search.playlist) {
             embed.setDescription(
-                `Imported the **${search.tracks[0].playlist.title} ([Link](${search.tracks[0].playlist.url})) playlist** with **${search.tracks.length}** songs!`,
+                translate(interaction, "playback.importedPlaylistQueued", {
+                    title: search.tracks[0].playlist.title,
+                    link: `([Link](${search.tracks[0].playlist.url}))`,
+                    count: search.tracks.length,
+                }),
             );
         } else {
             if (nextSong) {
                 embed.setDescription(
-                    `Added song **${search.tracks[0].title}** ${search.tracks[0].queryType != "arbitrary" ? `([Link](${search.tracks[0].url}))` : ""} to the top of the queue (playing next)!`,
+                    translate(interaction, "playback.queuedSongTop", {
+                        title: search.tracks[0].title,
+                        link: buildTrackLinkText(search.tracks[0]),
+                    }),
                 );
-                embed.setTitle(`Added to the top of the queue ⏱️`);
+                embed.setTitle(translate(interaction, "playback.addedTopTitle"));
             } else {
                 embed.setDescription(
-                    `Began playing the song **${search.tracks[0].title}** ${search.tracks[0].queryType != "arbitrary" ? `([Link](${search.tracks[0].url}))` : ""}!`,
+                    translate(interaction, "playback.queuedSong", {
+                        title: search.tracks[0].title,
+                        link: buildTrackLinkText(search.tracks[0]),
+                    }),
                 );
-                embed.setTitle(`Added to queue ⏱️`);
+                embed.setTitle(translate(interaction, "playback.addedTitle"));
             }
         }
     }

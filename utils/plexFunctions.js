@@ -4,6 +4,7 @@ const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
+const { buildRequestedByFooter, translate } = require("./botText");
 
 const player = useMainPlayer();
 
@@ -113,7 +114,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
         await plexQueuePlay(interaction, responseType, itemMetadata, songFound.thumb, nextSong);
     } catch (err) {
         return interaction.followUp({
-            content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+            content: translate(interaction, "errors.addTracks"),
             ephemeral: true,
         });
     }
@@ -162,7 +163,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
             builtTracks.push(newTrack);
         } catch (err) {
             return interaction.followUp({
-                content: `❌ | Ooops... something went wrong, failed to add the track(s) to the queue.`,
+                content: translate(interaction, "errors.addTracks"),
                 ephemeral: true,
             });
         }
@@ -236,7 +237,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         await clearNpControlMessages(queue);
         queue.delete();
         return interaction.followUp({
-            content: `❌ | Ooops... something went wrong, couldn't join your channel.`,
+            content: translate(interaction, "errors.joinVoice"),
             ephemeral: true,
         });
     }
@@ -254,9 +255,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         .setThumbnail("attachment://coverimage.jpg")
         .setColor(client.config.embedColour)
         .setTimestamp()
-        .setFooter({
-            text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-        });
+        .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
     if (!queue.isPlaying()) {
         try {
@@ -264,42 +263,62 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
             queue.node.setVolume(client.config.defaultVolume);
         } catch (err) {
             return interaction.followUp({
-                content: `❌ | Ooops... something went wrong, there was a playback related error. Please try again.`,
+                content: translate(interaction, "errors.playback"),
                 ephemeral: true,
             });
         }
 
         if (itemMetadata.type == "playlist") {
             embed.setDescription(
-                `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
+                translate(interaction, "playback.importedPlaylistStart", {
+                    title: itemMetadata.title,
+                    link: "",
+                    count: itemMetadata.leafCount,
+                }),
             );
         } else if (itemMetadata.type == "album") {
             embed.setDescription(
-                `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs and started to play the queue!`,
+                translate(interaction, "playback.importedAlbumStart", {
+                    title: itemMetadata.title,
+                    count: itemMetadata.leafCount,
+                }),
             );
         } else {
-            embed.setDescription(`Began playing the song **${itemMetadata.title}**!`);
+            embed.setDescription(
+                translate(interaction, "playback.startedSong", { title: itemMetadata.title, link: "" }),
+            );
         }
 
-        embed.setTitle(`Started playback ▶️`);
+        embed.setTitle(translate(interaction, "playback.startedTitle"));
     } else {
         if (itemMetadata.type == "playlist") {
             embed.setDescription(
-                `Imported the **${itemMetadata.title} playlist** with **${itemMetadata.leafCount}** songs!`,
+                translate(interaction, "playback.importedPlaylistQueued", {
+                    title: itemMetadata.title,
+                    link: "",
+                    count: itemMetadata.leafCount,
+                }),
             );
-            embed.setTitle(`Added to queue ⏱️`);
+            embed.setTitle(translate(interaction, "playback.addedTitle"));
         } else if (itemMetadata.type == "album") {
             embed.setDescription(
-                `Imported the **${itemMetadata.title} album** with **${itemMetadata.leafCount}** songs!`,
+                translate(interaction, "playback.importedAlbumQueued", {
+                    title: itemMetadata.title,
+                    count: itemMetadata.leafCount,
+                }),
             );
-            embed.setTitle(`Added to queue ⏱️`);
+            embed.setTitle(translate(interaction, "playback.addedTitle"));
         } else {
             if (nextSong) {
-                embed.setDescription(`Added song **${itemMetadata.title}** to the top of the queue (playing next)!`);
-                embed.setTitle(`Added to the top of the queue ⏱️`);
+                embed.setDescription(
+                    translate(interaction, "playback.queuedSongTop", { title: itemMetadata.title, link: "" }),
+                );
+                embed.setTitle(translate(interaction, "playback.addedTopTitle"));
             } else {
-                embed.setDescription(`Added song **${itemMetadata.title}** to the queue!`);
-                embed.setTitle(`Added to queue ⏱️`);
+                embed.setDescription(
+                    translate(interaction, "playback.queuedSong", { title: itemMetadata.title, link: "" }),
+                );
+                embed.setTitle(translate(interaction, "playback.addedTitle"));
             }
         }
     }

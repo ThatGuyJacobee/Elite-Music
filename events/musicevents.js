@@ -7,6 +7,7 @@ const {
     buildPlayerStartNpEmbed,
     buildPlayerStartNpRefreshEditOptions,
 } = require("../utils/nowPlayingUi");
+const { translate } = require("../utils/botText");
 
 const player = useMainPlayer();
 
@@ -16,7 +17,7 @@ player.events.on("error", (queue, error) => {
 
 player.events.on("playerError", (queue, error) => {
     console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}`);
-    queue.metadata.channel.send({ content: "❌ | Failed to extract the following song... skipping to the next!" });
+    queue.metadata.channel.send({ content: translate(queue, "errors.extractFailed") });
 });
 
 player.events.on("playerStart", async (queue) => {
@@ -30,7 +31,7 @@ player.events.on("playerStart", async (queue) => {
     const npembed = buildPlayerStartNpEmbed(queue);
     if (!npembed) return;
 
-    const finalComponents = buildNpComponents();
+    const finalComponents = buildNpComponents(queue);
 
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) {
         return console.log(`No Perms! (ID: ${queue.guild.id})`);
@@ -53,8 +54,8 @@ player.events.on("disconnect", async (queue) => {
         .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
         .setThumbnail(queue.guild.iconURL({ dynamic: true }))
         .setColor(client.config.embedColour)
-        .setTitle(`Disconnecting 🛑`)
-        .setDescription(`I've been inactive for a period of time!`)
+        .setTitle(translate(queue, "lifecycle.disconnectTitle"))
+        .setDescription(translate(queue, "lifecycle.disconnectDescription"))
         .setTimestamp();
 
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) {
@@ -70,8 +71,8 @@ player.events.on("emptyChannel", async (queue) => {
         .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
         .setThumbnail(queue.guild.iconURL({ dynamic: true }))
         .setColor(client.config.embedColour)
-        .setTitle(`Ending playback 🛑`)
-        .setDescription(`Nobody is in the voice channel!`)
+        .setTitle(translate(queue, "lifecycle.emptyChannelTitle"))
+        .setDescription(translate(queue, "lifecycle.emptyChannelDescription"))
         .setTimestamp();
 
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) {
@@ -87,8 +88,8 @@ player.events.on("emptyQueue", async (queue) => {
         .setAuthor({ name: player.client.user.tag, iconURL: player.client.user.displayAvatarURL() })
         .setThumbnail(queue.guild.iconURL({ dynamic: true }))
         .setColor(client.config.embedColour)
-        .setTitle(`Queue Finished 🛑`)
-        .setDescription(`The music queue has been finished!`)
+        .setTitle(translate(queue, "lifecycle.queueFinishedTitle"))
+        .setDescription(translate(queue, "lifecycle.queueFinishedDescription"))
         .setTimestamp();
 
     if (!queue.guild.members.me.permissionsIn(queue.metadata.channel).has(PermissionFlagsBits.SendMessages)) {
