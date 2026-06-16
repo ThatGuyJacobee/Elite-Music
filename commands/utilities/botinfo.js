@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, inlineCode } = require("@discordjs/builders");
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const { checkLatestRelease } = require("../../utils/utilityFunctions");
+const { translate } = require("../../utils/botText");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("botinfo").setDescription("Return information about Elite Bot!"),
@@ -17,56 +18,66 @@ module.exports = {
 
         const botembed = new EmbedBuilder()
             .setAuthor({
-                name: interaction.client.user.tag + " - Bot Info",
+                name: translate(interaction, "botinfo.author", { tag: interaction.client.user.tag }),
                 iconURL: interaction.client.user.displayAvatarURL(),
             })
             .setThumbnail(interaction.client.user.displayAvatarURL({ dynamic: true }))
             .setColor(client.config.embedColour)
-            .setTitle("Elite Music Information")
+            .setTitle(translate(interaction, "botinfo.title"))
             .addFields(
                 {
-                    name: "Process",
+                    name: translate(interaction, "botinfo.process"),
                     value: `RAM: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\nNode: ${process.versions.node}`,
                     inline: true,
                 },
                 {
-                    name: "Dependencies",
+                    name: translate(interaction, "botinfo.dependencies"),
                     value: `Discord.js: ${packageJSON.dependencies["discord.js"]}\nDiscord-Player: ${packageJSON.dependencies["discord-player"]}\nYtdl-Core: ${packageJSON.dependencies["@distube/ytdl-core"]}`,
                     inline: true,
                 },
-                { name: "Ping", value: `API: ${Math.round(interaction.client.ws.ping)}ms`, inline: true },
-                { name: "Uptime Since", value: botuptime, inline: true },
                 {
-                    name: "Elite Music Version",
+                    name: translate(interaction, "botinfo.ping"),
+                    value: `API: ${Math.round(interaction.client.ws.ping)}ms`,
+                    inline: true,
+                },
+                { name: translate(interaction, "botinfo.uptime"), value: botuptime, inline: true },
+                {
+                    name: translate(interaction, "botinfo.version"),
                     value: `v1.8 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
                     inline: true,
                 },
                 { name: "\u200b", value: "\u200b", inline: true },
                 {
-                    name: "Developer & Maintainer",
+                    name: translate(interaction, "botinfo.developer"),
                     value: "[ThatGuyJacobee](https://github.com/ThatGuyJacobee)",
                     inline: true,
                 },
                 {
-                    name: "Open Source Project",
-                    value: "Are you interested in improving this open source bot? Or are you looking to host this yourself? Look no further! You can access the public bot [repository here](https://github.com/ThatGuyJacobee/Elite-Bot-Music) and follow the readme instructions for more info! :)",
+                    name: translate(interaction, "botinfo.openSource"),
+                    value: translate(interaction, "botinfo.openSourceDescription"),
                     inline: false,
                 },
             )
             .setTimestamp()
-            .setFooter({ text: `/botinfo - ${interaction.client.user.tag}` });
+            .setFooter({ text: translate(interaction, "botinfo.footer", { tag: interaction.client.user.tag }) });
 
         var actionbuttons = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setURL(`https://github.com/ThatGuyJacobee/Elite-Bot-Music`)
                 .setStyle(5)
-                .setLabel("🛡️ Open Source Repo"),
+                .setLabel(translate(interaction, "botinfo.buttons.repo")),
             new ButtonBuilder()
                 .setURL(`https://hub.docker.com/r/thatguyjacobee/elitemusic`)
                 .setStyle(5)
-                .setLabel("🐳 Docker Hub"),
-            new ButtonBuilder().setURL(`https://elite-bot.com/`).setStyle(5).setLabel("📄 Elite Bot Docs"),
-            new ButtonBuilder().setURL(`https://discord.elite-bot.com/`).setStyle(5).setLabel("🆘 Support Server"),
+                .setLabel(translate(interaction, "botinfo.buttons.docker")),
+            new ButtonBuilder()
+                .setURL(`https://elite-bot.com/`)
+                .setStyle(5)
+                .setLabel(translate(interaction, "botinfo.buttons.docs")),
+            new ButtonBuilder()
+                .setURL(`https://discord.elite-bot.com/`)
+                .setStyle(5)
+                .setLabel(translate(interaction, "botinfo.buttons.support")),
         );
 
         interaction.reply({ embeds: [botembed], components: [actionbuttons] });
