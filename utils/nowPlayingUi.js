@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
-const { buildRequestedByFooter, translate } = require("./botText");
+const { buildRequestedByFooter, buildTrackLinkText, translate } = require("./botText");
 
 // Now Playing UI Constants
 const NP_PLAYER_START_TITLE_KEY = "np.titleStarting";
@@ -42,9 +42,7 @@ function buildNpEmbed(queue, { title, footerMember = null }) {
         .setThumbnail("attachment://coverimage.jpg")
         .setColor(client.config.embedColour)
         .setTitle(translate(queue, title))
-        .setDescription(
-            `${currentTrack.title} ${currentTrack.queryType != "arbitrary" ? `([Link](${currentTrack.url}))` : ""}\n${createBar}`,
-        )
+        .setDescription(`${currentTrack.title} ${buildTrackLinkText(currentTrack)}\n${createBar}`)
         .setTimestamp();
 
     if (footerMember != null) {

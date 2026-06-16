@@ -14,7 +14,13 @@
         "extractFailed": "❌ | Failed to extract the following song... skipping to the next!",
         "subsonicSongMetadata": "❌ | Could not load song metadata from Subsonic.",
         "emptyPlaylist": "❌ | This playlist has no playable tracks.",
-        "emptyAlbum": "❌ | This album has no playable tracks."
+        "emptyAlbum": "❌ | This album has no playable tracks.",
+        "failedToFindMediaQuery": "❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.",
+        "playNextPlaylistOnly": "❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue."
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.",
+        "subsonicDisabled": "❌ | Subsonic is currently disabled! Ask the server admin to enable and configure this in the environment file."
     },
     "guards": {
         "djMode": "❌ | DJ Mode is active! You must have the DJ role {role} to use any music commands!",
@@ -33,10 +39,55 @@
         "clearTitle": "Queue clear 🧹",
         "clearDescription": "The entire music queue has been cleared!",
         "shuffleTitle": "Queue shuffle 🔀",
-        "shuffleDescription": "The entire music queue has been shuffled!"
+        "shuffleDescription": "The entire music queue has been shuffled!",
+        "expired": "Please use **/queue** again to show the embed again.",
+        "historyTitle": "Past Music Queue History 🔙",
+        "historyExpired": "Please use **/queuehistory** again to show the embed again.",
+        "previousPage": "⬅️ Previous Page",
+        "nextPage": "➡️ Next Page"
     },
     "footer": {
-        "requestedBy": "Requested by: {user}"
+        "requestedBy": "Requested by: {user}",
+        "requestedByPage": "Requested by: {user} - Page {page}"
+    },
+    "volume": {
+        "current": "🔊 | The current volume is set to **{volume}%**!",
+        "invalidRange": "❌ | The volume must be set between 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Loop mode on 🔁",
+        "autoplayTitle": "Loop mode on 🤖",
+        "trackMode": "the **current track**",
+        "queueMode": "the **entire queue**",
+        "autoplayMode": "**autoplay music**",
+        "offMode": "**off**",
+        "description": "The loop mode has been set to {mode}!"
+    },
+    "seek": {
+        "title": "Seek song ↪️",
+        "description": "Seeked the current song to {time}! Currently playing {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Jumped to song ⏭️"
+    },
+    "remove": {
+        "title": "Song removed ❌",
+        "description": "Removed track {title} {link} from the queue!",
+        "invalidPosition": "❌ | There is no song at the queried position in the queue. Please try again."
+    },
+    "lyrics": {
+        "notFound": "❌ | No lyrics were found for the requested query!",
+        "title": "Lyrics for {title} by {artist} 🎶",
+        "truncatedSuffix": "\nAnd more...",
+        "fullLyricsButton": "🎶 Full Lyrics"
+    },
+    "audiofilter": {
+        "noneEnabled": "There are currently no audio filters enabled!",
+        "listEnabled": "The currently enabled audio filters are:\n- {filters}",
+        "toggleTitle": "Audio filter toggled 🎵",
+        "toggleDescription": "The **{filter}** audio filter has been {state}!",
+        "stateEnabled": "Enabled",
+        "stateDisabled": "Disabled"
     },
     "playback": {
         "startedTitle": "Started playback ▶️",
@@ -96,7 +147,18 @@
         "resultsTitle": "Music Search Results 🎵",
         "resultsDescription": "Found multiple songs matching the provided search query, select one form the menu below.",
         "cancel": "Cancel Search 🗑️",
-        "duration": "Duration - {duration}"
+        "duration": "Duration - {duration}",
+        "plexTitle": "Plex Search Results 🎵",
+        "subsonicTitle": "Subsonic Search Results 🎵",
+        "multipleResults": "Found multiple results matching the provided search query, select one from the menu below.",
+        "singleResult": "Select an item below to add it to the queue.",
+        "songResult": "[{index}] Song Result ({duration})",
+        "playlistResult": "[{index}] Playlist Result ({duration})",
+        "mediaResult": "[{index}] {type} Result ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} Result",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} songs"
     },
     "np": {
         "titleStarting": "Starting next song... Now Playing 🎵",

@@ -35,6 +35,12 @@ function buildRequestedByFooter(source, user) {
     };
 }
 
+function buildRequestedByPageFooter(source, user, page) {
+    return {
+        text: translate(source, "footer.requestedByPage", { user: getDisplayName(user), page }),
+    };
+}
+
 function buildTrackLinkText(track, label = "Link") {
     if (!track || track.queryType == "arbitrary" || !track.url) {
         return "";
@@ -46,6 +52,7 @@ function buildTrackLinkText(track, label = "Link") {
 module.exports = {
     buildTrackLinkText,
     buildRequestedByFooter,
+    buildRequestedByPageFooter,
     getDisplayName,
     getLocaleFromSource,
     getRequestedByText,

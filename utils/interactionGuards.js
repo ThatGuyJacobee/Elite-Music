@@ -50,10 +50,32 @@ function getQueueEmptyResponse(interaction) {
     };
 }
 
+async function ensurePlexEnabled(interaction) {
+    if (client.config.enablePlex) return true;
+
+    await interaction.reply({
+        content: translate(interaction, "feature.plexDisabled"),
+        ephemeral: true,
+    });
+    return false;
+}
+
+async function ensureSubsonicEnabled(interaction) {
+    if (client.config.enableSubsonic) return true;
+
+    await interaction.reply({
+        content: translate(interaction, "feature.subsonicDisabled"),
+        ephemeral: true,
+    });
+    return false;
+}
+
 module.exports = {
     ensureDjAccess,
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
+    ensurePlexEnabled,
+    ensureSubsonicEnabled,
     getQueueEmptyResponse,
     getQueueNotPlayingResponse,
 };
