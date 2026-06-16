@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
+const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
     name: "clientReady",
@@ -24,6 +25,13 @@ module.exports = {
                     : String(process.env.PRESENCE)
                       ? process.env.PRESENCE
                       : client.config.presence;
+
+            client.config.defaultLocale =
+                typeof process.env.DEFAULT_LOCALE === "undefined"
+                    ? client.config.defaultLocale
+                    : String(process.env.DEFAULT_LOCALE)
+                      ? process.env.DEFAULT_LOCALE
+                      : client.config.defaultLocale;
 
             client.config.leaveOnEmpty =
                 typeof process.env.LEAVE_ON_EMPTY === "undefined"
@@ -165,6 +173,19 @@ module.exports = {
                       ? process.env.SUBSONIC_API_VERSION
                       : client.config.subsonicApiVersion;
 
+            const i18n = createI18n();
+            if (!i18n.hasLocale(client.config.defaultLocale)) {
+                console.log(
+                    `[ELITE_CONFIG] Locale "${client.config.defaultLocale}" was not found. Falling back to ${FALLBACK_LOCALE}.`,
+                );
+                client.config.defaultLocale = FALLBACK_LOCALE;
+            }
+
+            client.i18n = i18n;
+            client.t = function translate(key, variables = {}, locale = client.config.defaultLocale) {
+                return i18n.t(locale, key, variables);
+            };
+
             //Perform validation checks
             if (client.config.enablePlex) {
                 //Abort fetch after 3 seconds
@@ -240,7 +261,7 @@ module.exports = {
             }
 
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.8) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.9) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );

@@ -1,0 +1,144 @@
+{
+    "errors": {
+        "cooldown": "⏱️ | Cooldown Alert: Please wait **{seconds}** more seconds before using the **/{command}** command again!",
+        "commandExecution": "❌ | Apologies, an error occurred while executing your command. Check the logs for the error.",
+        "genericAction": "❌ | Ooops... something went wrong, there was an error {action}. Please try again.",
+        "failedToFindSongQuery": "❌ | Ooops... something went wrong, couldn't find the song with the requested query.",
+        "failedToFindSong": "❌ | Ooops... something went wrong, couldn't find the song.",
+        "playRequest": "❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.",
+        "addTracks": "❌ | Ooops... something went wrong, failed to add the track(s) to the queue.",
+        "joinVoice": "❌ | Ooops... something went wrong, couldn't join your channel.",
+        "joinVoiceChannel": "❌ | Ooops... something went wrong, couldn't join your voice channel.",
+        "playback": "❌ | Ooops... something went wrong, there was a playback related error. Please try again.",
+        "noViewChannel": "Error: I do not have permission to view this channel and cannot edit the help message!",
+        "extractFailed": "❌ | Failed to extract the following song... skipping to the next!",
+        "subsonicSongMetadata": "❌ | Could not load song metadata from Subsonic.",
+        "emptyPlaylist": "❌ | This playlist has no playable tracks.",
+        "emptyAlbum": "❌ | This album has no playable tracks."
+    },
+    "guards": {
+        "djMode": "❌ | DJ Mode is active! You must have the DJ role {role} to use any music commands!",
+        "notInVoice": "❌ | You are not in a voice channel!",
+        "notInBotVoice": "❌ | You are not in my voice channel!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | No music is currently being played!",
+        "empty": "❌ | There is no music is currently in the queue!",
+        "emptyQueued": "❌ | No music is currently queued!",
+        "alreadyFirstPage": "❌ | The queue is already on the first page!",
+        "alreadyLastPage": "❌ | The queue is already on the last page!",
+        "title": "Current Music Queue 🎵",
+        "moreTracks": "...and {count} more track(s)",
+        "nowPlayingField": "Now Playing ▶️",
+        "clearTitle": "Queue clear 🧹",
+        "clearDescription": "The entire music queue has been cleared!",
+        "shuffleTitle": "Queue shuffle 🔀",
+        "shuffleDescription": "The entire music queue has been shuffled!"
+    },
+    "footer": {
+        "requestedBy": "Requested by: {user}"
+    },
+    "playback": {
+        "startedTitle": "Started playback ▶️",
+        "addedTitle": "Added to queue ⏱️",
+        "addedTopTitle": "Added to the top of the queue ⏱️",
+        "startedSong": "Began playing the song **{title}** {link}!",
+        "queuedSong": "Added song **{title}** {link} to the queue!",
+        "queuedSongTop": "Added song **{title}** {link} to the top of the queue (playing next)!",
+        "importedPlaylistStart": "Imported the **{title} {link} playlist** with **{count}** songs and started to play the queue!",
+        "importedPlaylistQueued": "Imported the **{title} {link} playlist** with **{count}** songs!",
+        "importedPlaylistTop": "Imported the **{title} {link} playlist** with **{count}** songs to the top of the queue (playing next)!",
+        "importedAlbumStart": "Imported the **{title} album** with **{count}** songs and started to play the queue!",
+        "importedAlbumQueued": "Imported the **{title} album** with **{count}** songs!",
+        "importedAlbumTop": "Imported the **{title} album** with **{count}** songs to the top of the queue (playing next)!"
+    },
+    "help": {
+        "title": "Elite Music - Help Menu",
+        "homeDescription": "Select a category via the menu below to view the commands available. 📢 \\n\\nExperiencing a bug or have a great suggestion for improvement? Please create an issue on the **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** or contact me by joining the **[Support Discord Server](https://discord.elite-bot.com)** and it will be reviewed as soon as possible. 🆘\\n\\nFor in-depth setup information, please browse the **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** which is always maintained up-to-date and provides you with everything you need to know. 📄",
+        "footer": "/help | Requested by: {user}",
+        "homeOptionLabel": "Home",
+        "homeOptionDescription": "Home Page",
+        "menuPlaceholder": "Click to see all the categories",
+        "categoryPageDescription": "{category} commands page",
+        "categoryFallback": "{category} Commands",
+        "categoryTitle": "Help Menu - {category} Category! {emoji}",
+        "musicDescription": "Music commands.",
+        "utilitiesDescription": "Generally useful commands to use.",
+        "noDescription": "No description",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot Info",
+        "title": "Elite Music Information",
+        "process": "Process",
+        "dependencies": "Dependencies",
+        "ping": "Ping",
+        "uptime": "Uptime Since",
+        "version": "Elite Music Version",
+        "developer": "Developer & Maintainer",
+        "openSource": "Open Source Project",
+        "openSourceDescription": "Are you interested in improving this open source bot? Or are you looking to host this yourself? Look no further! You can access the public bot [repository here](https://github.com/ThatGuyJacobee/Elite-Bot-Music) and follow the readme instructions for more info! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Add an item to queue 👈",
+        "resultsTitle": "Music Search Results 🎵",
+        "resultsDescription": "Found multiple songs matching the provided search query, select one form the menu below.",
+        "cancel": "Cancel Search 🗑️",
+        "duration": "Duration - {duration}"
+    },
+    "np": {
+        "titleStarting": "Starting next song... Now Playing 🎵",
+        "titleCurrent": "Now playing 🎵",
+        "buttons": {
+            "previous": "⏮️ Previous",
+            "pauseResume": "⏯️ Play/Pause",
+            "skip": "⏭️ Skip",
+            "clear": "🧹 Clear Queue",
+            "volume": "🔊 Adjust Volume",
+            "loop": "🔂 Loop Once",
+            "shuffle": "🔀 Shuffle Queue",
+            "stop": "🛑 Stop Queue"
+        },
+        "backTitle": "Playing previous song ⏮️",
+        "backDescription": "Returning next to the previous song: {title} {link}!",
+        "backMissing": "❌ | There is no music history prior to the current song. Please try again.",
+        "pauseTitle": "Song paused ⏸️",
+        "pauseDescription": "Playback has been **{state}**. Currently playing {title} {link}!",
+        "pauseStateResumed": "resumed",
+        "pauseStatePaused": "paused",
+        "skipTitle": "Song skipped ⏭️",
+        "skipDescription": "Now playing: {title} {link}",
+        "stopTitle": "Stopped music 🛑",
+        "stopDescription": "Music has been stopped... leaving the channel!",
+        "loopOffTitle": "Loop mode off 📴",
+        "loopOffDescription": "The loop mode has been set to **off**!",
+        "loopTrackTitle": "Loop mode on 🔂",
+        "loopTrackDescription": "The loop mode has been set to the **current track**!",
+        "volumeTitle": "Volume adjusted 🎧",
+        "volumeDescription": "The volume has been set to **{volume}%**!",
+        "volumeModalTitle": "Adjust Volume - Currently at {volume}%",
+        "volumeModalLabel": "What should the new volume be (0-100)?",
+        "volumeModalPlaceholder": "Your answer...",
+        "volumeModalInvalid": "❌ | The volume must be between 0-100, your input was outside of this."
+    },
+    "lifecycle": {
+        "disconnectTitle": "Disconnecting 🛑",
+        "disconnectDescription": "I've been inactive for a period of time!",
+        "emptyChannelTitle": "Ending playback 🛑",
+        "emptyChannelDescription": "Nobody is in the voice channel!",
+        "queueFinishedTitle": "Queue Finished 🛑",
+        "queueFinishedDescription": "The music queue has been finished!"
+    }
+}
