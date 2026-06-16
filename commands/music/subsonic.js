@@ -10,6 +10,13 @@ const {
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
+const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    ensureSubsonicEnabled,
+} = require("../../utils/interactionGuards");
 
 const subsonicScopeSlashOption = (option) =>
     option
@@ -105,43 +112,10 @@ module.exports = {
 };
 
 async function assertSubsonicSlashGuards(interaction) {
-    if (client.config.enableDjMode) {
-        if (!interaction.member.roles.cache.has(client.config.djRole)) {
-            await interaction.reply({
-                content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                ephemeral: true,
-            });
-            return false;
-        }
-    }
-
-    if (!client.config.enableSubsonic) {
-        await interaction.reply({
-            content: `❌ | Subsonic is currently disabled! Ask the server admin to enable and configure this in the environment file.`,
-            ephemeral: true,
-        });
-        return false;
-    }
-
-    if (!interaction.member.voice.channelId) {
-        await interaction.reply({
-            content: "❌ | You are not in a voice channel!",
-            ephemeral: true,
-        });
-        return false;
-    }
-
-    if (
-        interaction.guild.members.me.voice.channelId &&
-        interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-    ) {
-        await interaction.reply({
-            content: "❌ | You are not in my voice channel!",
-            ephemeral: true,
-        });
-        return false;
-    }
-
+    if (!(await ensureDjAccess(interaction))) return false;
+    if (!(await ensureSubsonicEnabled(interaction))) return false;
+    if (!(await ensureInVoiceChannel(interaction))) return false;
+    if (!(await ensureSameVoiceChannel(interaction))) return false;
     return true;
 }
 
@@ -158,7 +132,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         const results = await subsonicFuncs.subsonicSearchQuery(query, { scope: searchScope });
         if (!results || (!results.songs?.length && !results.playlists?.length && !results.albums?.length)) {
             return interaction.reply({
-                content: `❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.`,
+                content: translate(interaction, "errors.failedToFindMediaQuery"),
                 ephemeral: true,
             });
         }
@@ -178,7 +152,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     .setCustomId("subsonicsearch")
                     .setMinValues(1)
                     .setMaxValues(1)
-                    .setPlaceholder("Add an item to queue 👈"),
+                    .setPlaceholder(translate(interaction, "search.placeholder")),
             );
 
             if (results.songs) {
@@ -188,7 +162,11 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     const durationLabel = formatDurationMs(item.duration);
                     const songTitle = `${item.parentTitle} - ${item.grandparentTitle}`;
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result (${durationLabel})`,
+                        name: translate(interaction, "search.mediaResult", {
+                            index: count,
+                            type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                            suffix: durationLabel,
+                        }),
                         value: songTitle,
                     });
 
@@ -196,7 +174,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
                             .setValue(subsonicSelectValue("song", playNextFlag, playlistOrder, item.id))
-                            .setDescription(`Duration - ${durationLabel}`)
+                            .setDescription(translate(interaction, "search.duration", { duration: durationLabel }))
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -209,7 +187,9 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
                     const playlistSongCount = Number(item.leafCount ?? item.songCount ?? 0);
                     const playlistSongCountLabel =
-                        Number.isFinite(playlistSongCount) && playlistSongCount > 0 ? `${playlistSongCount} songs` : "";
+                        Number.isFinite(playlistSongCount) && playlistSongCount > 0
+                            ? translate(interaction, "search.songCount", { count: playlistSongCount })
+                            : "";
 
                     const playlistDurationLabel = formatDurationMs(item.duration || 0);
                     const hasKnownDuration = playlistDurationLabel !== "--:--";
@@ -219,7 +199,16 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                             : playlistSongCountLabel || (hasKnownDuration ? playlistDurationLabel : "");
 
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${playlistResultSuffix ? ` (${playlistResultSuffix})` : ""}`,
+                        name: playlistResultSuffix
+                            ? translate(interaction, "search.mediaResult", {
+                                  index: count,
+                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  suffix: playlistResultSuffix,
+                              })
+                            : translate(interaction, "search.mediaResultNoSuffix", {
+                                  index: count,
+                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                              }),
                         value: `${item.title}`,
                     });
 
@@ -227,7 +216,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(item.title.length > 100 ? `${item.title.substring(0, 97)}...` : item.title)
                             .setValue(subsonicSelectValue("playlist", playNextFlag, playlistOrder, item.id))
-                            .setDescription(playlistResultSuffix || "Playlist")
+                            .setDescription(playlistResultSuffix || translate(interaction, "search.playlist"))
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -240,7 +229,9 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
                     const albumSongCount = Number(item.leafCount ?? 0);
                     const albumSongCountLabel =
-                        Number.isFinite(albumSongCount) && albumSongCount > 0 ? `${albumSongCount} songs` : "";
+                        Number.isFinite(albumSongCount) && albumSongCount > 0
+                            ? translate(interaction, "search.songCount", { count: albumSongCount })
+                            : "";
 
                     const albumDurationLabel = formatDurationMs(item.duration || 0);
                     const hasKnownDuration = albumDurationLabel !== "--:--";
@@ -251,7 +242,16 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
                     const albumTitle = item.artist ? `${item.title} - ${item.artist}` : item.title;
                     embedFields.push({
-                        name: `[${count}] ${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Result${albumResultSuffix ? ` (${albumResultSuffix})` : ""}`,
+                        name: albumResultSuffix
+                            ? translate(interaction, "search.mediaResult", {
+                                  index: count,
+                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  suffix: albumResultSuffix,
+                              })
+                            : translate(interaction, "search.mediaResultNoSuffix", {
+                                  index: count,
+                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                              }),
                         value: albumTitle,
                     });
 
@@ -259,7 +259,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(albumTitle.length > 100 ? `${albumTitle.substring(0, 97)}...` : albumTitle)
                             .setValue(subsonicSelectValue("album", playNextFlag, playlistOrder, item.id))
-                            .setDescription(albumResultSuffix || "Album")
+                            .setDescription(albumResultSuffix || translate(interaction, "search.album"))
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -268,8 +268,8 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
 
             const searchEmbedDescription =
                 results.size >= 2
-                    ? "Found multiple results matching the provided search query, select one from the menu below."
-                    : "Select an item below to add it to the queue.";
+                    ? translate(interaction, "search.multipleResults")
+                    : translate(interaction, "search.singleResult");
 
             const searchEmbed = new EmbedBuilder()
                 .setAuthor({
@@ -277,17 +277,18 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     iconURL: interaction.client.user.displayAvatarURL(),
                 })
                 .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-                .setTitle(`Subsonic Search Results 🎵`)
+                .setTitle(translate(interaction, "search.subsonicTitle"))
                 .setDescription(searchEmbedDescription)
                 .addFields(embedFields)
                 .setColor(client.config.embedColour)
                 .setTimestamp()
-                .setFooter({
-                    text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-                });
+                .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
             const actionbutton = new ActionRowBuilder().addComponents(
-                new ButtonBuilder().setCustomId("np-delete").setStyle(4).setLabel("Cancel Search 🗑️"),
+                new ButtonBuilder()
+                    .setCustomId("np-delete")
+                    .setStyle(4)
+                    .setLabel(translate(interaction, "search.cancel")),
             );
 
             return interaction.followUp({ embeds: [searchEmbed], components: [actionmenu, actionbutton] });
@@ -309,7 +310,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
     } catch (err) {
         console.log(err);
-        const errorMessage = `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`;
+        const errorMessage = translate(interaction, "errors.playRequest");
         if (interaction.deferred) {
             return interaction
                 .followUp({ content: errorMessage, ephemeral: true })

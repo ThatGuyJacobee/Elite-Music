@@ -317,8 +317,11 @@ module.exports = {
                         new MessageButton()
                             .setCustomId("queue-pageleft")
                             .setStyle("PRIMARY")
-                            .setLabel("⬅️ Previous Page"),
-                        new MessageButton().setCustomId("queue-pageright").setStyle("PRIMARY").setLabel("➡️ Next Page"),
+                            .setLabel(translate(interaction, "queue.previousPage")),
+                        new MessageButton()
+                            .setCustomId("queue-pageright")
+                            .setStyle("PRIMARY")
+                            .setLabel(translate(interaction, "queue.nextPage")),
                     )),
                 ];
 
@@ -372,8 +375,11 @@ module.exports = {
                         new MessageButton()
                             .setCustomId("queue-pageleft")
                             .setStyle("PRIMARY")
-                            .setLabel("⬅️ Previous Page"),
-                        new MessageButton().setCustomId("queue-pageright").setStyle("PRIMARY").setLabel("➡️ Next Page"),
+                            .setLabel(translate(interaction, "queue.previousPage")),
+                        new MessageButton()
+                            .setCustomId("queue-pageright")
+                            .setStyle("PRIMARY")
+                            .setLabel(translate(interaction, "queue.nextPage")),
                     )),
                 ];
 

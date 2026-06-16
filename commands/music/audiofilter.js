@@ -2,6 +2,13 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
+const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    getQueueNotPlayingResponse,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -49,57 +56,49 @@ module.exports = {
         ),
     async execute(interaction) {
         const filter = interaction.options.getString("filter");
-        if (client.config.enableDjMode) {
-            if (!interaction.member.roles.cache.has(client.config.djRole))
-                return interaction.reply({
-                    content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                    ephemeral: true,
-                });
-        }
-
-        if (!interaction.member.voice.channelId)
-            return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (
-            interaction.guild.members.me.voice.channelId &&
-            interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-        )
-            return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!(await ensureDjAccess(interaction))) return;
+        if (!(await ensureInVoiceChannel(interaction))) return;
+        if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const player = useMainPlayer();
         var queue = player.nodes.get(interaction.guild.id);
-        if (!queue || !queue.isPlaying())
-            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
         if (!filter) {
             var curFilters = queue.filters.ffmpeg.getFiltersEnabled();
 
             if (curFilters.length == 0) {
-                interaction.reply({ content: `There are currently no audio filters enabled!` });
+                interaction.reply({ content: translate(interaction, "audiofilter.noneEnabled") });
             } else {
                 interaction.reply({
-                    content: `The currently enabled audio filters are:\n- ${curFilters.join("\n- ")}`,
+                    content: translate(interaction, "audiofilter.listEnabled", { filters: curFilters.join("\n- ") }),
                 });
             }
         } else {
-            const bassboostembed = new EmbedBuilder()
+            const isEnabled = queue.filters.ffmpeg.getFiltersEnabled().includes(filter);
+            const filterembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
                 .setColor(client.config.embedColour)
-                .setTitle(`Audio filter toggled 🎵`)
+                .setTitle(translate(interaction, "audiofilter.toggleTitle"))
                 .setDescription(
-                    `The **${filter}** audio filter has been ${queue.filters.ffmpeg.getFiltersEnabled().includes(filter) ? "Disabled" : "Enabled"}!`,
+                    translate(interaction, "audiofilter.toggleDescription", {
+                        filter,
+                        state: translate(
+                            interaction,
+                            isEnabled ? "audiofilter.stateDisabled" : "audiofilter.stateEnabled",
+                        ),
+                    }),
                 )
                 .setTimestamp()
-                .setFooter({
-                    text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-                });
+                .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
             try {
                 queue.filters.ffmpeg.toggle(filter);
-                interaction.reply({ embeds: [bassboostembed] });
+                interaction.reply({ embeds: [filterembed] });
             } catch (err) {
                 interaction.reply({
-                    content: `❌ | Ooops... something went wrong, there was an error adjusting bassboost option. Please try again.`,
+                    content: translate(interaction, "errors.genericAction", { action: "adjusting the audio filter" }),
                     ephemeral: true,
                 });
             }

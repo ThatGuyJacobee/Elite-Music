@@ -9,6 +9,13 @@ const {
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
+const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    ensurePlexEnabled,
+} = require("../../utils/interactionGuards");
 const pickerEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 // Re-usable slash option for content type selection
@@ -90,37 +97,10 @@ module.exports = {
 };
 
 async function assertPlexSlashGuards(interaction) {
-    if (client.config.enableDjMode) {
-        if (!interaction.member.roles.cache.has(client.config.djRole)) {
-            await interaction.reply({
-                content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                ephemeral: true,
-            });
-            return false;
-        }
-    }
-
-    if (!client.config.enablePlex) {
-        await interaction.reply({
-            content: `❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.`,
-            ephemeral: true,
-        });
-        return false;
-    }
-
-    if (!interaction.member.voice.channelId) {
-        await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        return false;
-    }
-
-    if (
-        interaction.guild.members.me.voice.channelId &&
-        interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-    ) {
-        await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-        return false;
-    }
-
+    if (!(await ensureDjAccess(interaction))) return false;
+    if (!(await ensurePlexEnabled(interaction))) return false;
+    if (!(await ensureInVoiceChannel(interaction))) return false;
+    if (!(await ensureSameVoiceChannel(interaction))) return false;
     return true;
 }
 
@@ -137,7 +117,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
         if (!searchResults.songs && !searchResults.playlists && !searchResults.albums) {
             return interaction.reply({
-                content: `❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.`,
+                content: translate(interaction, "errors.failedToFindMediaQuery"),
                 ephemeral: true,
             });
         }
@@ -156,7 +136,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     .setCustomId("plexsearch")
                     .setMinValues(1)
                     .setMaxValues(1)
-                    .setPlaceholder("Add an item to queue 👈"),
+                    .setPlaceholder(translate(interaction, "search.placeholder")),
             );
 
             if (searchResults.songs) {
@@ -166,7 +146,11 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     const durationLabel = plexFuncs.formatPlexDurationLabel(song.duration);
                     const songTitle = `${song.parentTitle} - ${song.grandparentTitle}`;
                     embedFields.push({
-                        name: `[${resultIndex}] ${song.type.charAt(0).toUpperCase() + song.type.slice(1)} Result (${durationLabel})`,
+                        name: translate(interaction, "search.mediaResult", {
+                            index: resultIndex,
+                            type: song.type.charAt(0).toUpperCase() + song.type.slice(1),
+                            suffix: durationLabel,
+                        }),
                         value: songTitle,
                     });
 
@@ -174,7 +158,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(songTitle.length > 100 ? `${songTitle.substring(0, 97)}...` : songTitle)
                             .setValue(`${song.type}_${usePlayNext}_key=${song.key}`)
-                            .setDescription(`Duration - ${durationLabel}`)
+                            .setDescription(translate(interaction, "search.duration", { duration: durationLabel }))
                             .setEmoji(pickerEmojis[resultIndex - 1]),
                     );
                     resultIndex++;
@@ -188,7 +172,9 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     const durationLabel = plexFuncs.formatPlexDurationLabel(playlist.duration);
                     const playlistSongCount = Number(playlist.leafCount ?? playlist.childCount ?? 0);
                     const playlistSongCountLabel =
-                        Number.isFinite(playlistSongCount) && playlistSongCount > 0 ? `${playlistSongCount} songs` : "";
+                        Number.isFinite(playlistSongCount) && playlistSongCount > 0
+                            ? translate(interaction, "search.songCount", { count: playlistSongCount })
+                            : "";
 
                     const hasKnownDuration = durationLabel !== "--:--";
                     const playlistResultSuffix =
@@ -197,7 +183,16 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                             : playlistSongCountLabel || (hasKnownDuration ? durationLabel : "");
 
                     embedFields.push({
-                        name: `[${resultIndex}] ${playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1)} Result${playlistResultSuffix ? ` (${playlistResultSuffix})` : ""}`,
+                        name: playlistResultSuffix
+                            ? translate(interaction, "search.mediaResult", {
+                                  index: resultIndex,
+                                  type: playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1),
+                                  suffix: playlistResultSuffix,
+                              })
+                            : translate(interaction, "search.mediaResultNoSuffix", {
+                                  index: resultIndex,
+                                  type: playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1),
+                              }),
                         value: `${playlist.title}`,
                     });
 
@@ -207,7 +202,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                                 playlist.title.length > 100 ? `${playlist.title.substring(0, 97)}...` : playlist.title,
                             )
                             .setValue(`${playlist.type}_${usePlayNext}_order=${playlistOrder}_key=${playlist.key}`)
-                            .setDescription(playlistResultSuffix || "Playlist")
+                            .setDescription(playlistResultSuffix || translate(interaction, "search.playlist"))
                             .setEmoji(pickerEmojis[resultIndex - 1]),
                     );
                     resultIndex++;
@@ -220,10 +215,21 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
                     const albumSongCount = Number(album.leafCount ?? album.childCount ?? 0);
                     const albumSongCountLabel =
-                        Number.isFinite(albumSongCount) && albumSongCount > 0 ? `${albumSongCount} songs` : "";
+                        Number.isFinite(albumSongCount) && albumSongCount > 0
+                            ? translate(interaction, "search.songCount", { count: albumSongCount })
+                            : "";
                     const albumTitle = album.parentTitle ? `${album.title} - ${album.parentTitle}` : album.title;
                     embedFields.push({
-                        name: `[${resultIndex}] ${album.type.charAt(0).toUpperCase() + album.type.slice(1)} Result${albumSongCountLabel ? ` (${albumSongCountLabel})` : ""}`,
+                        name: albumSongCountLabel
+                            ? translate(interaction, "search.mediaResult", {
+                                  index: resultIndex,
+                                  type: album.type.charAt(0).toUpperCase() + album.type.slice(1),
+                                  suffix: albumSongCountLabel,
+                              })
+                            : translate(interaction, "search.mediaResultNoSuffix", {
+                                  index: resultIndex,
+                                  type: album.type.charAt(0).toUpperCase() + album.type.slice(1),
+                              }),
                         value: albumTitle,
                     });
 
@@ -231,7 +237,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(albumTitle.length > 100 ? `${albumTitle.substring(0, 97)}...` : albumTitle)
                             .setValue(`${album.type}_${usePlayNext}_order=${playlistOrder}_key=${album.key}`)
-                            .setDescription(albumSongCountLabel || "Album")
+                            .setDescription(albumSongCountLabel || translate(interaction, "search.album"))
                             .setEmoji(pickerEmojis[resultIndex - 1]),
                     );
                     resultIndex++;
@@ -240,23 +246,24 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
 
             const pickerDescription =
                 searchResults.size >= 2
-                    ? "Found multiple results matching the provided search query, select one from the menu below."
-                    : "Select an item below to add it to the queue.";
+                    ? translate(interaction, "search.multipleResults")
+                    : translate(interaction, "search.singleResult");
 
             const resultsEmbed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-                .setTitle(`Plex Search Results 🎵`)
+                .setTitle(translate(interaction, "search.plexTitle"))
                 .setDescription(pickerDescription)
                 .addFields(embedFields)
                 .setColor(client.config.embedColour)
                 .setTimestamp()
-                .setFooter({
-                    text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-                });
+                .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
             const cancelRow = new ActionRowBuilder().addComponents(
-                new ButtonBuilder().setCustomId("np-delete").setStyle(4).setLabel("Cancel Search 🗑️"),
+                new ButtonBuilder()
+                    .setCustomId("np-delete")
+                    .setStyle(4)
+                    .setLabel(translate(interaction, "search.cancel")),
             );
 
             await interaction.followUp({ embeds: [resultsEmbed], components: [actionRowSelect, cancelRow] });
@@ -276,7 +283,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         }
     } catch (err) {
         console.log(err);
-        const errorMessage = `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`;
+        const errorMessage = translate(interaction, "errors.playRequest");
         if (interaction.deferred) {
             return interaction
                 .followUp({ content: errorMessage, ephemeral: true })

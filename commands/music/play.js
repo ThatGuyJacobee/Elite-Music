@@ -65,7 +65,10 @@ module.exports = {
                 for (var result of search.tracks) {
                     if (count > 10) break;
                     foundItems.push({
-                        name: `[${count}] ${!result.playlist ? "Song" : "Playlist"} Result (${result.duration})`,
+                        name: translate(interaction, result.playlist ? "search.playlistResult" : "search.songResult", {
+                            index: count,
+                            duration: result.duration,
+                        }),
                         value: `${result.description}`,
                     });
 

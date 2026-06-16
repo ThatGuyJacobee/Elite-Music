@@ -2,6 +2,13 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
+const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    getQueueNotPlayingResponse,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,26 +21,13 @@ module.exports = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        if (client.config.enableDjMode) {
-            if (!interaction.member.roles.cache.has(client.config.djRole))
-                return interaction.reply({
-                    content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                    ephemeral: true,
-                });
-        }
-
-        if (!interaction.member.voice.channelId)
-            return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (
-            interaction.guild.members.me.voice.channelId &&
-            interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-        )
-            return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!(await ensureDjAccess(interaction))) return;
+        if (!(await ensureInVoiceChannel(interaction))) return;
+        if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const player = useMainPlayer();
         var queue = player.nodes.get(interaction.guild.id);
-        if (!queue || !queue.isPlaying())
-            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
         const queuedTracks = queue.tracks.toArray();
         var skipAmount = interaction.options.getInteger("song");
@@ -43,14 +37,15 @@ module.exports = {
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
             .setColor(client.config.embedColour)
-            .setTitle(`Jumped to song ⏭️`)
+            .setTitle(translate(interaction, "jumpqueue.title"))
             .setDescription(
-                `Now playing: ${queuedTracks[trackIndex].title} ${queuedTracks[trackIndex].queryType != "arbitrary" ? `([Link](${queuedTracks[trackIndex].url}))` : ""}!`,
+                translate(interaction, "np.skipDescription", {
+                    title: queuedTracks[trackIndex].title,
+                    link: buildTrackLinkText(queuedTracks[trackIndex]),
+                }),
             )
             .setTimestamp()
-            .setFooter({
-                text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-            });
+            .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
             queue.node.jump(trackIndex);
@@ -58,7 +53,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
             interaction.reply({
-                content: `❌ | Ooops... something went wrong, there was an error jumping queue. Please try again.`,
+                content: translate(interaction, "errors.genericAction", { action: "jumping queue" }),
                 ephemeral: true,
             });
         }
