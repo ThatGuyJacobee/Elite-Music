@@ -1,0 +1,38 @@
+import type { BotConfig } from "../types";
+
+export const defaultConsts = {
+    config: {
+        embedColour: "#FF0000",
+        presence: "/help | elite-bot.com",
+        leaveOnEmpty: false,
+        leaveOnEmptyCooldown: 0,
+        leaveOnEnd: false,
+        leaveOnEndCooldown: 0,
+        leaveOnStop: false,
+        leaveOnStopCooldown: 0,
+        selfDeafen: true,
+        defaultVolume: 50,
+        smoothVolume: true,
+        enableDjMode: false,
+        djRole: "1234567891011",
+        enablePlex: false,
+        plexServer: "",
+        plexAuthtoken: "",
+        enableSubsonic: false,
+        subsonicServer: "",
+        subsonicUser: "",
+        subsonicPass: "",
+        subsonicAppName: "Elite-Music-Bot",
+        subsonicApiVersion: "1.16.0",
+        enableJellyfin: false,
+        jellyfinServer: "",
+        jellyfinUser: "",
+        jellyfinPass: "",
+    } as BotConfig,
+    ytdlOptions: {
+        filter: "audioonly",
+        quality: "highestaudio",
+        highWaterMark: 1 << 30,
+        dlChunkSize: 0,
+    },
+};
