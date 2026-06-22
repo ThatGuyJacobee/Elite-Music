@@ -16,7 +16,7 @@
     "dependencies": {
         "@discordjs/opus": "^0.10.0",
         "@discordjs/rest": "2.6.1",
-        "@snazzah/davey": "^0.1.11",
+        "@snazzah/davey": "^0.1.12",
         "bgutils-js": "^3.2.0",
         "discord-api-types": "^0.38.47",
         "discord-player": "^7.2.0",
