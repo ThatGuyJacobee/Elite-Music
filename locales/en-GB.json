@@ -137,6 +137,38 @@
         "importedAlbumQueued": "Imported the **{title} album** with **{count}** songs!",
         "importedAlbumTop": "Imported the **{title} album** with **{count}** songs to the top of the queue (playing next)!"
     },
+    "commands": {
+        "audiofilter": "Check or toggle audio filters!",
+        "back": "Play the previous song!",
+        "botinfo": "Return information about Elite Bot!",
+        "clearqueue": "Clear the current music queue!",
+        "help": "Get information about my commands!",
+        "jumpqueue": "Jump to a specific song in the queue!",
+        "loop": "Set the loop type!",
+        "lyrics": "Get the lyrics for a song!",
+        "nowplaying": "Check the currently playing song!",
+        "pause": "Pause the current song at the current time!",
+        "play": "Place a song into the queue!",
+        "playnext": "Add a song to the top of the queue!",
+        "plex": {
+            "play": "Play a track, playlist, or album from your Plex server.",
+            "search": "Search tracks, playlists, and albums.",
+            "playnext": "Add a track, playlist, or album from your Plex server to play next."
+        },
+        "queue": "Check the current music that is in the queue!",
+        "queuehistory": "Check the past history of the queue within the guild!",
+        "remove": "Remove a specific song from the queue!",
+        "seek": "Seek to another time in the current song!",
+        "shuffle": "Shuffle the current queue!",
+        "skip": "Skip the current song!",
+        "stop": "Stops any music playing!",
+        "subsonic": {
+            "play": "Play a track, playlist, or album from your Subsonic server.",
+            "search": "Search tracks, playlists, and albums.",
+            "playnext": "Add a track, playlist, or album from your Subsonic server to play next."
+        },
+        "volume": "Check or set the current music volume!"
+    },
     "help": {
         "title": "Elite Music - Help Menu",
         "homeDescription": "Select a category via the menu below to view the commands available. 📢 \\n\\nExperiencing a bug or have a great suggestion for improvement? Please create an issue on the **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** or contact me by joining the **[Support Discord Server](https://discord.elite-bot.com)** and it will be reviewed as soon as possible. 🆘\\n\\nFor in-depth setup information, please browse the **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** which is always maintained up-to-date and provides you with everything you need to know. 📄",
