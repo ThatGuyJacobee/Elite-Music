@@ -182,7 +182,7 @@
             "query": "Voer de naam van het nummer in.",
             "song": {
                 "remove": "Welk nummer op positie moet uit de wachtrij worden verwijderd?",
-                "jumpqueue": "Welk nummer op positie moet naar voren worden verplaatst in de wachtrij (gebruik /queue om te controleren)?"
+                "jumpqueue": "Welk nummer moet naar voren in de wachtrij? (gebruik /queue)"
             },
             "time": "De tijd waarheen het huidige nummer moet worden doorgespoeld (Voorbeelden: 1s, 1m, 1h)!",
             "amount": "Waarop wil je het volume instellen (0-100)?",

@@ -154,7 +154,7 @@
             "description": "¡Reproduce música desde tu biblioteca de Plex en la cola!",
             "play": "Reproduce una pista, lista de reproducción o álbum desde tu servidor de Plex.",
             "search": "Busca pistas, listas de reproducción y álbumes.",
-            "playnext": "Añade una pista, lista de reproducción o álbum de tu servidor de Plex para reproducirlo a continuación."
+            "playnext": "Añade pista, playlist o álbum de Plex para reproducirla a continuación."
         },
         "queue": "¡Consulta la música actual que está en la cola!",
         "queuehistory": "¡Consulta el historial pasado de la cola dentro del servidor!",
@@ -167,7 +167,7 @@
             "description": "¡Reproduce música desde tu biblioteca de Subsonic en la cola!",
             "play": "Reproduce una pista, lista de reproducción o álbum desde tu servidor de Subsonic.",
             "search": "Busca pistas, listas de reproducción y álbumes.",
-            "playnext": "Añade una pista, lista de reproducción o álbum desde tu servidor de Subsonic para reproducirlo a continuación."
+            "playnext": "Añade pista, playlist o álbum de Subsonic para reproducirla a continuación."
         },
         "volume": "¡Consulta o ajusta el volumen de la música actual!"
     },

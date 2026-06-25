@@ -1,10 +1,20 @@
 const SUBCOMMAND_OPTION_TYPE = 1;
+const DISCORD_DESCRIPTION_MAX_LENGTH = 100;
+const DISCORD_CHOICE_NAME_MAX_LENGTH = 100;
 
 function isResolvableString(value, key) {
     return typeof value === "string" && value !== key;
 }
 
-function buildLocalizationMap(i18n, key, primaryLocale) {
+function clampDiscordText(value, maxLength) {
+    if (typeof value !== "string" || value.length <= maxLength) {
+        return value;
+    }
+
+    return value.slice(0, maxLength);
+}
+
+function buildLocalizationMap(i18n, key, primaryLocale, maxLength = DISCORD_DESCRIPTION_MAX_LENGTH) {
     const localizations = {};
 
     for (const locale of i18n.getAvailableLocales()) {
@@ -12,16 +22,16 @@ function buildLocalizationMap(i18n, key, primaryLocale) {
 
         const value = i18n.t(locale, key);
         if (isResolvableString(value, key)) {
-            localizations[locale] = value;
+            localizations[locale] = clampDiscordText(value, maxLength);
         }
     }
 
     return Object.keys(localizations).length > 0 ? localizations : undefined;
 }
 
-function resolveLocalizedString(i18n, locale, key) {
+function resolveLocalizedString(i18n, locale, key, maxLength = DISCORD_DESCRIPTION_MAX_LENGTH) {
     const value = i18n.t(locale, key);
-    return isResolvableString(value, key) ? value : null;
+    return isResolvableString(value, key) ? clampDiscordText(value, maxLength) : null;
 }
 
 function resolveCommandDescription(i18n, locale, commandName, subcommandName = null) {
@@ -80,7 +90,7 @@ function applyLocalizedDescription(entity, i18n, locale, key, fallbackDescriptio
     if (localized) {
         entity.description = localized;
     } else if (fallbackDescription) {
-        entity.description = fallbackDescription;
+        entity.description = clampDiscordText(fallbackDescription, DISCORD_DESCRIPTION_MAX_LENGTH);
     }
 
     const descriptionLocalizations = buildLocalizationMap(i18n, key, locale);
@@ -98,9 +108,11 @@ function localizeChoices(option, i18n, locale) {
 
         if (localized) {
             choice.name = localized;
+        } else if (choice.name) {
+            choice.name = clampDiscordText(choice.name, DISCORD_CHOICE_NAME_MAX_LENGTH);
         }
 
-        const nameLocalizations = buildLocalizationMap(i18n, choiceKey, locale);
+        const nameLocalizations = buildLocalizationMap(i18n, choiceKey, locale, DISCORD_CHOICE_NAME_MAX_LENGTH);
         if (nameLocalizations) {
             choice.name_localizations = nameLocalizations;
         }

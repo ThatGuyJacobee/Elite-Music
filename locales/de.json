@@ -154,7 +154,7 @@
             "description": "Musik aus deiner Plex-Bibliothek in die Warteschlange abspielen!",
             "play": "Einen Titel, eine Playlist oder ein Album von deinem Plex-Server abspielen.",
             "search": "Titel, Playlists und Alben suchen.",
-            "playnext": "Einen Titel, eine Playlist oder ein Album von deinem Plex-Server hinzufügen, um es als Nächstes abzuspielen."
+            "playnext": "Titel, Playlist oder Album vom Plex-Server als Nächstes abspielen."
         },
         "queue": "Die aktuelle Musik in der Warteschlange prüfen!",
         "queuehistory": "Die vergangene Historie der Warteschlange innerhalb des Servers prüfen!",
@@ -167,7 +167,7 @@
             "description": "Musik aus deiner Subsonic-Bibliothek in die Warteschlange abspielen!",
             "play": "Einen Titel, eine Playlist oder ein Album von deinem Subsonic-Server abspielen.",
             "search": "Titel, Playlists und Alben suchen.",
-            "playnext": "Einen Titel, eine Playlist oder ein Album von deinem Subsonic-Server hinzufügen, um es als Nächstes abzuspielen."
+            "playnext": "Titel, Playlist oder Album vom Subsonic-Server als Nächstes abspielen."
         },
         "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!"
     },
@@ -182,7 +182,7 @@
             "query": "Gib den Namen des Songs ein.",
             "song": {
                 "remove": "Welcher Song mit welcher Nummer soll aus der Warteschlange entfernt werden?",
-                "jumpqueue": "Welcher Song mit welcher Nummer soll an den Anfang der Warteschlange verschoben werden (nutze /queue zum Prüfen)?"
+                "jumpqueue": "Welche Song-Nr. soll an den Anfang der Warteschlange? (Nutze /queue)"
             },
             "time": "Die Zeit, zu der im aktuellen Song gesprungen werden soll (Beispiele: 1s, 1m, 1h)!",
             "amount": "Auf welchen Wert soll die Lautstärke eingestellt werden (0-100)?",

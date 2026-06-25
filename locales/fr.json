@@ -182,7 +182,7 @@
             "query": "Entrez le nom de la chanson.",
             "song": {
                 "remove": "Quelle chanson numéro doit être supprimée de la file d'attente ?",
-                "jumpqueue": "Quelle chanson numéro doit être déplacée au début de la file d'attente (utilisez /queue pour vérifier) ?"
+                "jumpqueue": "Quel n° de chanson doit passer en tête de file ? (voir /queue)"
             },
             "time": "Le moment où avancer dans la chanson actuelle (Exemples : 1s, 1m, 1h) !",
             "amount": "À combien souhaitez-vous régler le volume (0-100) ?",
