@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Enlace",
+        "unknownUser": "Usuario desconocido",
+        "songCoverImage": "Imagen de portada de la canción para {title}",
+        "playlistCoverImage": "Imagen de portada de la lista de reproducción para {title}",
+        "albumCoverImage": "Imagen de portada del álbum para {title}",
+        "coverImageNotFound": "Imagen de portada no encontrada"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Aviso de espera: por favor espera **{seconds}** segundos más antes de usar el comando **/{command}** de nuevo.",
+        "commandExecution": "❌ | Lo sentimos, ocurrió un error al ejecutar tu comando. Revisa los registros para ver el error.",
+        "genericAction": "❌ | Vaya... algo salió mal, hubo un error al {action}. Por favor inténtalo de nuevo.",
+        "failedToFindSongQuery": "❌ | Vaya... algo salió mal, no se pudo encontrar la canción con la búsqueda solicitada.",
+        "failedToFindSong": "❌ | Vaya... algo salió mal, no se pudo encontrar la canción.",
+        "playRequest": "❌ | Vaya... algo salió mal al intentar reproducir la canción solicitada. Por favor inténtalo de nuevo.",
+        "addTracks": "❌ | Vaya... algo salió mal, no se pudieron añadir las pistas a la cola.",
+        "joinVoice": "❌ | Vaya... algo salió mal, no pude unirme a tu canal.",
+        "joinVoiceChannel": "❌ | Vaya... algo salió mal, no pude unirme a tu canal de voz.",
+        "playback": "❌ | Vaya... algo salió mal, hubo un error relacionado con la reproducción. Por favor inténtalo de nuevo.",
+        "noViewChannel": "Error: ¡No tengo permiso para ver este canal y no puedo editar el mensaje de ayuda!",
+        "extractFailed": "❌ | No se pudo extraer la siguiente canción... ¡saltando a la siguiente!",
+        "subsonicSongMetadata": "❌ | No se pudieron cargar los metadatos de la canción desde Subsonic.",
+        "emptyPlaylist": "❌ | Esta lista de reproducción no tiene pistas reproducibles.",
+        "emptyAlbum": "❌ | Este álbum no tiene pistas reproducibles.",
+        "failedToFindMediaQuery": "❌ | Vaya... algo salió mal, no se pudo encontrar la canción, lista de reproducción o álbum con la búsqueda solicitada.",
+        "playNextPlaylistOnly": "❌ | Vaya... solo puedes añadir canciones individuales con este comando. Usa el comando **/play** normal para añadir listas de reproducción a la cola.",
+        "actions": {
+            "skippingSong": "saltando la canción",
+            "clearingQueue": "vaciando la cola",
+            "shufflingQueue": "mezclando la cola",
+            "stoppingQueue": "deteniendo la cola",
+            "adjustingVolume": "ajustando el volumen",
+            "returningToPreviousSong": "volviendo a la canción anterior",
+            "pausing": "pausando",
+            "resuming": "reanudando",
+            "seekingSong": "buscando en la canción",
+            "jumpingQueue": "saltando en la cola",
+            "switchingLoopMode": "cambiando el modo de repetición",
+            "removingSong": "eliminando la canción de la cola",
+            "adjustingAudioFilter": "ajustando el filtro de audio"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | ¡Plex está desactivado! Pide al administrador del servidor que lo active y configure en el archivo de entorno.",
+        "subsonicDisabled": "❌ | ¡Subsonic está desactivado! Pide al administrador del servidor que lo active y configure en el archivo de entorno."
+    },
+    "guards": {
+        "djMode": "❌ | ¡El modo DJ está activo! Debes tener el rol de DJ {role} para usar cualquier comando de música.",
+        "notInVoice": "❌ | ¡No estás en un canal de voz!",
+        "notInBotVoice": "❌ | ¡No estás en mi canal de voz!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | ¡No se está reproduciendo música actualmente!",
+        "empty": "❌ | ¡No hay música actualmente en la cola!",
+        "emptyQueued": "❌ | ¡No hay música en cola actualmente!",
+        "alreadyFirstPage": "❌ | ¡La cola ya está en la primera página!",
+        "alreadyLastPage": "❌ | ¡La cola ya está en la última página!",
+        "title": "Cola de música actual 🎵",
+        "moreTracks": "...y {count} pista(s) más",
+        "nowPlayingField": "Reproduciendo ahora ▶️",
+        "clearTitle": "Cola vaciada 🧹",
+        "clearDescription": "¡Toda la cola de música se ha vaciado!",
+        "shuffleTitle": "Cola mezclada 🔀",
+        "shuffleDescription": "¡Toda la cola de música se ha mezclado!",
+        "expired": "Por favor, usa **/queue** otra vez para volver a mostrar el embed.",
+        "historyTitle": "Historial anterior de la cola de música 🔙",
+        "historyExpired": "Por favor, usa **/queuehistory** otra vez para volver a mostrar el embed.",
+        "previousPage": "⬅️ Página anterior",
+        "nextPage": "➡️ Página siguiente"
+    },
+    "footer": {
+        "requestedBy": "Solicitado por: {user}",
+        "requestedByPage": "Solicitado por: {user} - Página {page}"
+    },
+    "volume": {
+        "current": "🔊 | ¡El volumen actual está configurado en **{volume}%**!",
+        "invalidRange": "❌ | ¡El volumen debe estar entre 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Modo repetición activado 🔁",
+        "autoplayTitle": "Modo repetición activado 🤖",
+        "trackMode": "la **pista actual**",
+        "queueMode": "la **cola completa**",
+        "autoplayMode": "**música automática**",
+        "offMode": "**desactivado**",
+        "description": "¡El modo de repetición se ha establecido en {mode}!"
+    },
+    "seek": {
+        "title": "Buscar en la canción ↪️",
+        "description": "¡La canción actual se ha buscado hasta {time}! Reproduciendo ahora {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Saltado a la canción ⏭️"
+    },
+    "remove": {
+        "title": "Canción eliminada ❌",
+        "description": "¡La pista {title} {link} se ha eliminado de la cola!",
+        "invalidPosition": "❌ | No hay ninguna canción en la posición consultada de la cola. Por favor inténtalo de nuevo."
+    },
+    "lyrics": {
+        "notFound": "❌ | ¡No se encontraron letras para la búsqueda solicitada!",
+        "title": "Letras de {title} por {artist} 🎶",
+        "truncatedSuffix": "\nY más...",
+        "fullLyricsButton": "🎶 Letras completas"
+    },
+    "audiofilter": {
+        "noneEnabled": "¡Actualmente no hay filtros de audio activados!",
+        "listEnabled": "Los filtros de audio activados actualmente son:\n- {filters}",
+        "toggleTitle": "Filtro de audio alternado 🎵",
+        "toggleDescription": "¡El filtro de audio **{filter}** se ha {state}!",
+        "stateEnabled": "activado",
+        "stateDisabled": "desactivado",
+        "filters": {
+            "bassboost": "Realce de graves",
+            "8D": "8D",
+            "subboost": "Realce de subgraves",
+            "nightcore": "Nightcore",
+            "surrounding": "Envolvente",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizador",
+            "lofi": "Lofi",
+            "fadein": "Fundido de entrada"
+        }
+    },
+    "playback": {
+        "startedTitle": "Reproducción iniciada ▶️",
+        "addedTitle": "Añadido a la cola ⏱️",
+        "addedTopTitle": "Añadido al principio de la cola ⏱️",
+        "startedSong": "¡Comenzó a reproducirse la canción **{title}** {link}!",
+        "queuedSong": "¡Se añadió la canción **{title}** {link} a la cola!",
+        "queuedSongTop": "¡Se añadió la canción **{title}** {link} al principio de la cola (se reproducirá a continuación)!",
+        "importedPlaylistStart": "¡Se importó la **lista de reproducción {title} {link}** con **{count}** canciones y comenzó a reproducirse la cola!",
+        "importedPlaylistQueued": "¡Se importó la **lista de reproducción {title} {link}** con **{count}** canciones!",
+        "importedPlaylistTop": "¡Se importó la **lista de reproducción {title} {link}** con **{count}** canciones al principio de la cola (se reproducirá a continuación)!",
+        "importedAlbumStart": "¡Se importó el **álbum {title}** con **{count}** canciones y comenzó a reproducirse la cola!",
+        "importedAlbumQueued": "¡Se importó el **álbum {title}** con **{count}** canciones!",
+        "importedAlbumTop": "¡Se importó el **álbum {title}** con **{count}** canciones al principio de la cola (se reproducirá a continuación)!"
+    },
+    "commands": {
+        "audiofilter": "¡Comprueba o alterna filtros de audio!",
+        "back": "¡Reproduce la canción anterior!",
+        "botinfo": "¡Muestra información sobre Elite Bot!",
+        "clearqueue": "¡Vacía la cola de música actual!",
+        "help": "¡Obtén información sobre mis comandos!",
+        "jumpqueue": "¡Salta a una canción específica de la cola!",
+        "loop": "¡Establece el tipo de repetición!",
+        "lyrics": "¡Obtén la letra de una canción!",
+        "nowplaying": "¡Comprueba la canción que se está reproduciendo!",
+        "pause": "¡Pausa la canción actual en el momento actual!",
+        "play": "¡Añade una canción a la cola!",
+        "playnext": "¡Añade una canción al principio de la cola!",
+        "plex": {
+            "description": "¡Reproduce música desde tu biblioteca de Plex en la cola!",
+            "play": "Reproduce una pista, lista de reproducción o álbum desde tu servidor de Plex.",
+            "search": "Busca pistas, listas de reproducción y álbumes.",
+            "playnext": "Añade una pista, lista de reproducción o álbum de tu servidor de Plex para reproducirlo a continuación."
+        },
+        "queue": "¡Consulta la música actual que está en la cola!",
+        "queuehistory": "¡Consulta el historial pasado de la cola dentro del servidor!",
+        "remove": "¡Elimina una canción específica de la cola!",
+        "seek": "¡Salta a otro momento de la canción actual!",
+        "shuffle": "¡Mezcla la cola actual!",
+        "skip": "¡Salta la canción actual!",
+        "stop": "¡Detiene cualquier música en reproducción!",
+        "subsonic": {
+            "description": "¡Reproduce música desde tu biblioteca de Subsonic en la cola!",
+            "play": "Reproduce una pista, lista de reproducción o álbum desde tu servidor de Subsonic.",
+            "search": "Busca pistas, listas de reproducción y álbumes.",
+            "playnext": "Añade una pista, lista de reproducción o álbum desde tu servidor de Subsonic para reproducirlo a continuación."
+        },
+        "volume": "¡Consulta o ajusta el volumen de la música actual!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "El nombre, URL o URL de lista de reproducción que quieres reproducir.",
+                "playnext": "El nombre o URL de la canción que quieres reproducir (sin listas de reproducción).",
+                "library": "Búsqueda de una pista, lista de reproducción o álbum."
+            },
+            "filter": "¿Qué filtro quieres alternar?",
+            "query": "Introduce el nombre de la canción.",
+            "song": {
+                "remove": "¿Qué canción número debería eliminarse de la cola?",
+                "jumpqueue": "¿Qué canción número debería moverse al principio de la cola (usa /queue para comprobarlo)?"
+            },
+            "time": "El tiempo al que quieres saltar en la canción actual (Ejemplos: 1s, 1m, 1h).",
+            "amount": "¿A qué valor quieres establecer el volumen (0-100)?",
+            "loopmode": "¿Qué modo de repetición quieres activar?",
+            "scope": "Elige qué tipo de contenido quieres buscar.",
+            "order": "Orden utilizado al añadir varias pistas de una lista de reproducción o álbum."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (todos los tipos)",
+                "track": "Solo pistas",
+                "playlist": "Solo listas de reproducción",
+                "album": "Solo álbumes"
+            },
+            "order": {
+                "sequential": "Secuencial",
+                "shuffle": "Aleatorio",
+                "reverse": "Invertido"
+            },
+            "loopmode": {
+                "0": "Desactivado",
+                "1": "Pista",
+                "2": "Cola",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Menú de ayuda",
+        "homeDescription": "Selecciona una categoría usando el menú de abajo para ver los comandos disponibles. 📢 \\n\\n¿Tienes un error o una gran sugerencia de mejora? Por favor, crea un issue en el **[repositorio de GitHub](https://github.com/ThatGuyJacobee/Elite-Music)** o ponte en contacto conmigo uniéndote al **[servidor de soporte de Discord](https://discord.elite-bot.com)** y se revisará lo antes posible. 🆘\\n\\nPara obtener información detallada de configuración, consulta el **[README del repositorio de GitHub](https://github.com/ThatGuyJacobee/Elite-Music)**, que se mantiene siempre actualizado y te proporciona todo lo que necesitas saber. 📄",
+        "footer": "/help | Solicitado por: {user}",
+        "homeOptionLabel": "Inicio",
+        "homeOptionDescription": "Página de inicio",
+        "menuPlaceholder": "Haz clic para ver todas las categorías",
+        "categoryPageDescription": "Página de comandos de {category}",
+        "categoryFallback": "Comandos de {category}",
+        "categoryTitle": "Menú de ayuda - Categoría {category} {emoji}",
+        "categories": {
+            "music": "Música",
+            "utilities": "Utilidades"
+        },
+        "musicDescription": "Comandos de música.",
+        "utilitiesDescription": "Comandos generalmente útiles.",
+        "noDescription": "Sin descripción",
+        "buttons": {
+            "repo": "🛡️ Repositorio de código abierto",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentación de Elite Bot",
+            "support": "🆘 Servidor de soporte"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Información del bot",
+        "title": "Información de Elite Music",
+        "process": "Proceso",
+        "dependencies": "Dependencias",
+        "ping": "Ping",
+        "uptime": "Tiempo activo desde",
+        "version": "Versión de Elite Music",
+        "developer": "Desarrollador y mantenedor",
+        "openSource": "Proyecto de código abierto",
+        "openSourceDescription": "¿Te interesa mejorar este bot de código abierto? ¿O quieres alojarlo tú mismo? No busques más. Puedes acceder al [repositorio público aquí](https://github.com/ThatGuyJacobee/Elite-Bot-Music) y seguir las instrucciones del README para más información. :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Repositorio de código abierto",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentación de Elite Bot",
+            "support": "🆘 Servidor de soporte"
+        }
+    },
+    "search": {
+        "placeholder": "Añade un elemento a la cola 👈",
+        "resultsTitle": "Resultados de búsqueda de música 🎵",
+        "resultsDescription": "Se encontraron varias canciones que coinciden con la búsqueda proporcionada, selecciona una del menú de abajo.",
+        "cancel": "Cancelar búsqueda 🗑️",
+        "duration": "Duración - {duration}",
+        "plexTitle": "Resultados de búsqueda de Plex 🎵",
+        "subsonicTitle": "Resultados de búsqueda de Subsonic 🎵",
+        "multipleResults": "Se encontraron varios resultados que coinciden con la búsqueda proporcionada, selecciona uno del menú de abajo.",
+        "singleResult": "Selecciona un elemento de abajo para añadirlo a la cola.",
+        "songResult": "[{index}] Resultado de canción ({duration})",
+        "playlistResult": "[{index}] Resultado de lista de reproducción ({duration})",
+        "mediaResult": "[{index}] Resultado de {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Resultado de {type}",
+        "track": "Pista",
+        "playlist": "Lista de reproducción",
+        "album": "Álbum",
+        "songCount": "{count} canciones"
+    },
+    "np": {
+        "titleStarting": "Iniciando la siguiente canción... Reproduciendo ahora 🎵",
+        "titleCurrent": "Reproduciendo ahora 🎵",
+        "buttons": {
+            "previous": "⏮️ Anterior",
+            "pauseResume": "⏯️ Reproducir/Pausar",
+            "skip": "⏭️ Saltar",
+            "clear": "🧹 Vaciar cola",
+            "volume": "🔊 Ajustar volumen",
+            "loop": "🔂 Repetir una vez",
+            "shuffle": "🔀 Mezclar cola",
+            "stop": "🛑 Detener cola"
+        },
+        "backTitle": "Reproduciendo la canción anterior ⏮️",
+        "backDescription": "Volviendo a la canción anterior: {title} {link}.",
+        "backMissing": "❌ | No hay historial de música anterior a la canción actual. Por favor inténtalo de nuevo.",
+        "pauseTitle": "Canción pausada ⏸️",
+        "pauseDescription": "La reproducción ha sido **{state}**. Reproduciendo ahora {title} {link}.",
+        "pauseStateResumed": "reanudada",
+        "pauseStatePaused": "pausada",
+        "skipTitle": "Canción saltada ⏭️",
+        "skipDescription": "Reproduciendo ahora: {title} {link}",
+        "stopTitle": "Música detenida 🛑",
+        "stopDescription": "La música se ha detenido... ¡saliendo del canal!",
+        "loopOffTitle": "Modo repetición desactivado 📴",
+        "loopOffDescription": "¡El modo de repetición se ha establecido en **desactivado**!",
+        "loopTrackTitle": "Modo repetición activado 🔂",
+        "loopTrackDescription": "¡El modo de repetición se ha establecido en la **pista actual**!",
+        "volumeTitle": "Volumen ajustado 🎧",
+        "volumeDescription": "¡El volumen se ha establecido en **{volume}%**!",
+        "volumeModalTitle": "Ajustar volumen - Actualmente en {volume}%",
+        "volumeModalLabel": "¿Cuál debería ser el nuevo volumen (0-100)?",
+        "volumeModalPlaceholder": "Tu respuesta...",
+        "volumeModalInvalid": "❌ | El volumen debe estar entre 0-100; tu entrada estaba fuera de ese rango.",
+        "liveIndicator": " ◉ EN DIRECTO"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Desconectando 🛑",
+        "disconnectDescription": "¡He estado inactivo durante un tiempo!",
+        "emptyChannelTitle": "Finalizando reproducción 🛑",
+        "emptyChannelDescription": "¡No hay nadie en el canal de voz!",
+        "queueFinishedTitle": "Cola finalizada 🛑",
+        "queueFinishedDescription": "¡La cola de música ha terminado!"
+    }
+}

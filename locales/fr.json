@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Lien",
+        "unknownUser": "Utilisateur inconnu",
+        "songCoverImage": "Image de couverture du morceau pour {title}",
+        "playlistCoverImage": "Image de couverture de la playlist pour {title}",
+        "albumCoverImage": "Image de couverture de l'album pour {title}",
+        "coverImageNotFound": "Image de couverture introuvable"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Alerte de délai : veuillez attendre encore **{seconds}** secondes avant d'utiliser à nouveau la commande **/{command}**.",
+        "commandExecution": "❌ | Désolé, une erreur s'est produite lors de l'exécution de votre commande. Consultez les journaux pour voir l'erreur.",
+        "genericAction": "❌ | Oups... quelque chose s'est mal passé, une erreur est survenue lors de {action}. Veuillez réessayer.",
+        "failedToFindSongQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson avec la requête demandée.",
+        "failedToFindSong": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson.",
+        "playRequest": "❌ | Oups... quelque chose s'est mal passé lors de la tentative de lecture de la chanson demandée. Veuillez réessayer.",
+        "addTracks": "❌ | Oups... quelque chose s'est mal passé, impossible d'ajouter la ou les pistes à la file d'attente.",
+        "joinVoice": "❌ | Oups... quelque chose s'est mal passé, impossible de rejoindre votre salon.",
+        "joinVoiceChannel": "❌ | Oups... quelque chose s'est mal passé, impossible de rejoindre votre salon vocal.",
+        "playback": "❌ | Oups... quelque chose s'est mal passé, une erreur liée à la lecture s'est produite. Veuillez réessayer.",
+        "noViewChannel": "Erreur : je n'ai pas la permission de voir ce salon et je ne peux pas modifier le message d'aide !",
+        "extractFailed": "❌ | Impossible d'extraire la chanson suivante... passage à la suivante !",
+        "subsonicSongMetadata": "❌ | Impossible de charger les métadonnées de la chanson depuis Subsonic.",
+        "emptyPlaylist": "❌ | Cette playlist ne contient aucune piste jouable.",
+        "emptyAlbum": "❌ | Cet album ne contient aucune piste jouable.",
+        "failedToFindMediaQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson, la playlist ou l'album correspondant à la requête.",
+        "playNextPlaylistOnly": "❌ | Oups... vous ne pouvez ajouter que des chansons individuelles avec cette commande. Utilisez la commande **/play** classique pour ajouter des playlists à la file d'attente.",
+        "actions": {
+            "skippingSong": "le saut de la chanson",
+            "clearingQueue": "la suppression de la file d'attente",
+            "shufflingQueue": "le mélange de la file d'attente",
+            "stoppingQueue": "l'arrêt de la file d'attente",
+            "adjustingVolume": "le réglage du volume",
+            "returningToPreviousSong": "le retour à la chanson précédente",
+            "pausing": "la mise en pause",
+            "resuming": "la reprise",
+            "seekingSong": "le saut dans la chanson",
+            "jumpingQueue": "le saut dans la file d'attente",
+            "switchingLoopMode": "le changement de mode de répétition",
+            "removingSong": "la suppression de la chanson de la file d'attente",
+            "adjustingAudioFilter": "le réglage du filtre audio"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
+        "subsonicDisabled": "❌ | Subsonic est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement."
+    },
+    "guards": {
+        "djMode": "❌ | Le mode DJ est actif ! Vous devez avoir le rôle DJ {role} pour utiliser les commandes de musique !",
+        "notInVoice": "❌ | Vous n'êtes pas dans un salon vocal !",
+        "notInBotVoice": "❌ | Vous n'êtes pas dans mon salon vocal !"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Aucune musique n'est en cours de lecture !",
+        "empty": "❌ | Il n'y a actuellement aucune musique dans la file d'attente !",
+        "emptyQueued": "❌ | Aucune musique n'est actuellement en file d'attente !",
+        "alreadyFirstPage": "❌ | La file d'attente est déjà sur la première page !",
+        "alreadyLastPage": "❌ | La file d'attente est déjà sur la dernière page !",
+        "title": "File d'attente musicale actuelle 🎵",
+        "moreTracks": "...et {count} piste(s) de plus",
+        "nowPlayingField": "Lecture en cours ▶️",
+        "clearTitle": "File d'attente vidée 🧹",
+        "clearDescription": "Toute la file d'attente musicale a été vidée !",
+        "shuffleTitle": "File d'attente mélangée 🔀",
+        "shuffleDescription": "Toute la file d'attente musicale a été mélangée !",
+        "expired": "Veuillez utiliser **/queue** à nouveau pour réafficher l'embed.",
+        "historyTitle": "Historique précédent de la file d'attente musicale 🔙",
+        "historyExpired": "Veuillez utiliser **/queuehistory** à nouveau pour réafficher l'embed.",
+        "previousPage": "⬅️ Page précédente",
+        "nextPage": "➡️ Page suivante"
+    },
+    "footer": {
+        "requestedBy": "Demandé par : {user}",
+        "requestedByPage": "Demandé par : {user} - Page {page}"
+    },
+    "volume": {
+        "current": "🔊 | Le volume actuel est réglé sur **{volume}%** !",
+        "invalidRange": "❌ | Le volume doit être compris entre 0 et 100 % !"
+    },
+    "loop": {
+        "queueTitle": "Mode répétition activé 🔁",
+        "autoplayTitle": "Mode répétition activé 🤖",
+        "trackMode": "la **piste actuelle**",
+        "queueMode": "la **file d'attente entière**",
+        "autoplayMode": "**lecture automatique**",
+        "offMode": "**désactivé**",
+        "description": "Le mode de répétition a été défini sur {mode} !"
+    },
+    "seek": {
+        "title": "Recherche dans la chanson ↪️",
+        "description": "La chanson actuelle a été cherchée jusqu'à {time} ! Lecture en cours {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Sauté jusqu'à la chanson ⏭️"
+    },
+    "remove": {
+        "title": "Chanson supprimée ❌",
+        "description": "La piste {title} {link} a été supprimée de la file d'attente !",
+        "invalidPosition": "❌ | Il n'y a pas de chanson à la position demandée dans la file d'attente. Veuillez réessayer."
+    },
+    "lyrics": {
+        "notFound": "❌ | Aucune parole trouvée pour la requête demandée !",
+        "title": "Paroles de {title} par {artist} 🎶",
+        "truncatedSuffix": "\nEt plus encore...",
+        "fullLyricsButton": "🎶 Paroles complètes"
+    },
+    "audiofilter": {
+        "noneEnabled": "Aucun filtre audio n'est actuellement activé !",
+        "listEnabled": "Les filtres audio actuellement activés sont :\n- {filters}",
+        "toggleTitle": "Filtre audio modifié 🎵",
+        "toggleDescription": "Le filtre audio **{filter}** a été {state} !",
+        "stateEnabled": "activé",
+        "stateDisabled": "désactivé",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Enveloppant",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normaliseur",
+            "lofi": "Lofi",
+            "fadein": "Fondu d'entrée"
+        }
+    },
+    "playback": {
+        "startedTitle": "Lecture lancée ▶️",
+        "addedTitle": "Ajouté à la file d'attente ⏱️",
+        "addedTopTitle": "Ajouté en tête de la file d'attente ⏱️",
+        "startedSong": "La chanson **{title}** {link} a commencé à être lue !",
+        "queuedSong": "La chanson **{title}** {link} a été ajoutée à la file d'attente !",
+        "queuedSongTop": "La chanson **{title}** {link} a été ajoutée en tête de la file d'attente (lecture suivante) !",
+        "importedPlaylistStart": "La **playlist {title} {link}** a été importée avec **{count}** chansons et la file d'attente a commencé à être lue !",
+        "importedPlaylistQueued": "La **playlist {title} {link}** a été importée avec **{count}** chansons !",
+        "importedPlaylistTop": "La **playlist {title} {link}** a été importée avec **{count}** chansons en tête de la file d'attente (lecture suivante) !",
+        "importedAlbumStart": "L'**album {title}** a été importé avec **{count}** chansons et la file d'attente a commencé à être lue !",
+        "importedAlbumQueued": "L'**album {title}** a été importé avec **{count}** chansons !",
+        "importedAlbumTop": "L'**album {title}** a été importé avec **{count}** chansons en tête de la file d'attente (lecture suivante) !"
+    },
+    "commands": {
+        "audiofilter": "Vérifier ou modifier les filtres audio !",
+        "back": "Lire la chanson précédente !",
+        "botinfo": "Afficher des informations sur Elite Bot !",
+        "clearqueue": "Vider la file d'attente musicale actuelle !",
+        "help": "Obtenir des informations sur mes commandes !",
+        "jumpqueue": "Sauter à une chanson précise dans la file d'attente !",
+        "loop": "Définir le type de répétition !",
+        "lyrics": "Obtenir les paroles d'une chanson !",
+        "nowplaying": "Vérifier la chanson en cours de lecture !",
+        "pause": "Mettre en pause la chanson actuelle à l'instant présent !",
+        "play": "Placer une chanson dans la file d'attente !",
+        "playnext": "Ajouter une chanson en tête de la file d'attente !",
+        "plex": {
+            "description": "Lire de la musique depuis votre bibliothèque Plex dans la file d'attente !",
+            "play": "Lire une piste, une playlist ou un album depuis votre serveur Plex.",
+            "search": "Rechercher des pistes, des playlists et des albums.",
+            "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Plex pour lecture suivante."
+        },
+        "queue": "Consulter la musique actuellement présente dans la file d'attente !",
+        "queuehistory": "Consulter l'historique passé de la file d'attente dans le serveur !",
+        "remove": "Supprimer une chanson spécifique de la file d'attente !",
+        "seek": "Avancer à un autre moment dans la chanson actuelle !",
+        "shuffle": "Mélanger la file d'attente actuelle !",
+        "skip": "Passer la chanson actuelle !",
+        "stop": "Arrêter toute musique en cours de lecture !",
+        "subsonic": {
+            "description": "Lire de la musique depuis votre bibliothèque Subsonic dans la file d'attente !",
+            "play": "Lire une piste, une playlist ou un album depuis votre serveur Subsonic.",
+            "search": "Rechercher des pistes, des playlists et des albums.",
+            "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Subsonic pour lecture suivante."
+        },
+        "volume": "Consulter ou régler le volume actuel de la musique !"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Le nom, l'URL ou l'URL de playlist que vous souhaitez lire.",
+                "playnext": "Le nom ou l'URL de la chanson que vous souhaitez lire (sans playlists).",
+                "library": "Requête de recherche pour une piste, une playlist ou un album."
+            },
+            "filter": "Quel filtre souhaitez-vous activer ou désactiver ?",
+            "query": "Entrez le nom de la chanson.",
+            "song": {
+                "remove": "Quelle chanson numéro doit être supprimée de la file d'attente ?",
+                "jumpqueue": "Quelle chanson numéro doit être déplacée au début de la file d'attente (utilisez /queue pour vérifier) ?"
+            },
+            "time": "Le moment où avancer dans la chanson actuelle (Exemples : 1s, 1m, 1h) !",
+            "amount": "À combien souhaitez-vous régler le volume (0-100) ?",
+            "loopmode": "Quel mode de répétition souhaitez-vous activer ?",
+            "scope": "Choisissez quel type de contenu rechercher.",
+            "order": "Ordre utilisé lors de l'ajout de plusieurs pistes depuis une playlist ou un album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (tous les types)",
+                "track": "Pistes uniquement",
+                "playlist": "Playlists uniquement",
+                "album": "Albums uniquement"
+            },
+            "order": {
+                "sequential": "Séquentiel",
+                "shuffle": "Aléatoire",
+                "reverse": "Inverse"
+            },
+            "loopmode": {
+                "0": "Désactivé",
+                "1": "Piste",
+                "2": "File d'attente",
+                "3": "Lecture automatique"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Menu d'aide",
+        "homeDescription": "Sélectionnez une catégorie via le menu ci-dessous pour voir les commandes disponibles. 📢 \\n\\nVous rencontrez un bug ou avez une excellente suggestion d'amélioration ? Veuillez créer une issue sur le **[dépôt GitHub](https://github.com/ThatGuyJacobee/Elite-Music)** ou me contacter en rejoignant le **[serveur Discord de support](https://discord.elite-bot.com)** et elle sera examinée dès que possible. 🆘\\n\\nPour des informations de configuration détaillées, consultez le **[README du dépôt GitHub](https://github.com/ThatGuyJacobee/Elite-Music)**, qui est toujours maintenu à jour et vous fournit tout ce que vous devez savoir. 📄",
+        "footer": "/help | Demandé par : {user}",
+        "homeOptionLabel": "Accueil",
+        "homeOptionDescription": "Page d'accueil",
+        "menuPlaceholder": "Cliquez pour voir toutes les catégories",
+        "categoryPageDescription": "Page des commandes {category}",
+        "categoryFallback": "Commandes {category}",
+        "categoryTitle": "Menu d'aide - Catégorie {category} {emoji}",
+        "categories": {
+            "music": "Musique",
+            "utilities": "Utilitaires"
+        },
+        "musicDescription": "Commandes de musique.",
+        "utilitiesDescription": "Commandes généralement utiles.",
+        "noDescription": "Aucune description",
+        "buttons": {
+            "repo": "🛡️ Dépôt open source",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentation Elite Bot",
+            "support": "🆘 Serveur de support"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Infos du bot",
+        "title": "Informations sur Elite Music",
+        "process": "Processus",
+        "dependencies": "Dépendances",
+        "ping": "Ping",
+        "uptime": "Actif depuis",
+        "version": "Version d'Elite Music",
+        "developer": "Développeur et mainteneur",
+        "openSource": "Projet open source",
+        "openSourceDescription": "Vous souhaitez améliorer ce bot open source ? Ou vous cherchez à l'héberger vous-même ? Ne cherchez pas plus loin. Vous pouvez accéder au [dépôt public ici](https://github.com/ThatGuyJacobee/Elite-Bot-Music) et suivre les instructions du README pour plus d'informations. :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Dépôt open source",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentation Elite Bot",
+            "support": "🆘 Serveur de support"
+        }
+    },
+    "search": {
+        "placeholder": "Ajouter un élément à la file d'attente 👈",
+        "resultsTitle": "Résultats de recherche musicale 🎵",
+        "resultsDescription": "Plusieurs chansons correspondant à la recherche fournie ont été trouvées, sélectionnez-en une dans le menu ci-dessous.",
+        "cancel": "Annuler la recherche 🗑️",
+        "duration": "Durée - {duration}",
+        "plexTitle": "Résultats de recherche Plex 🎵",
+        "subsonicTitle": "Résultats de recherche Subsonic 🎵",
+        "multipleResults": "Plusieurs résultats correspondant à la recherche fournie ont été trouvés, sélectionnez-en un dans le menu ci-dessous.",
+        "singleResult": "Sélectionnez un élément ci-dessous pour l'ajouter à la file d'attente.",
+        "songResult": "[{index}] Résultat de chanson ({duration})",
+        "playlistResult": "[{index}] Résultat de playlist ({duration})",
+        "mediaResult": "[{index}] Résultat de {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Résultat de {type}",
+        "track": "Piste",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} chansons"
+    },
+    "np": {
+        "titleStarting": "Lancement de la prochaine chanson... Lecture en cours 🎵",
+        "titleCurrent": "Lecture en cours 🎵",
+        "buttons": {
+            "previous": "⏮️ Précédent",
+            "pauseResume": "⏯️ Lecture/Pause",
+            "skip": "⏭️ Passer",
+            "clear": "🧹 Vider la file",
+            "volume": "🔊 Régler le volume",
+            "loop": "🔂 Répéter une fois",
+            "shuffle": "🔀 Mélanger la file",
+            "stop": "🛑 Arrêter la file"
+        },
+        "backTitle": "Lecture de la chanson précédente ⏮️",
+        "backDescription": "Retour à la chanson précédente : {title} {link} !",
+        "backMissing": "❌ | Il n'y a pas d'historique de musique avant la chanson actuelle. Veuillez réessayer.",
+        "pauseTitle": "Chanson en pause ⏸️",
+        "pauseDescription": "La lecture a été **{state}**. Lecture en cours {title} {link} !",
+        "pauseStateResumed": "reprise",
+        "pauseStatePaused": "en pause",
+        "skipTitle": "Chanson passée ⏭️",
+        "skipDescription": "Lecture en cours : {title} {link}",
+        "stopTitle": "Musique arrêtée 🛑",
+        "stopDescription": "La musique a été arrêtée... je quitte le salon !",
+        "loopOffTitle": "Mode répétition désactivé 📴",
+        "loopOffDescription": "Le mode de répétition a été réglé sur **désactivé** !",
+        "loopTrackTitle": "Mode répétition activé 🔂",
+        "loopTrackDescription": "Le mode de répétition a été réglé sur la **piste actuelle** !",
+        "volumeTitle": "Volume réglé 🎧",
+        "volumeDescription": "Le volume a été réglé sur **{volume}%** !",
+        "volumeModalTitle": "Régler le volume - Actuellement à {volume}%",
+        "volumeModalLabel": "Quel doit être le nouveau volume (0-100) ?",
+        "volumeModalPlaceholder": "Votre réponse...",
+        "volumeModalInvalid": "❌ | Le volume doit être compris entre 0 et 100 ; votre saisie était en dehors de cette plage.",
+        "liveIndicator": " ◉ EN DIRECT"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Déconnexion 🛑",
+        "disconnectDescription": "Je suis resté inactif pendant un certain temps !",
+        "emptyChannelTitle": "Fin de la lecture 🛑",
+        "emptyChannelDescription": "Personne n'est dans le salon vocal !",
+        "queueFinishedTitle": "File d'attente terminée 🛑",
+        "queueFinishedDescription": "La file d'attente musicale est terminée !"
+    }
+}
