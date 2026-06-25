@@ -22,9 +22,27 @@ function getClientFromSource(source) {
     return source?.client ?? source?.guild?.client ?? source?.metadata?.channel?.client ?? global.client;
 }
 
+function getSourceLocale(source) {
+    return (
+        source?.locale ??
+        source?.interaction?.locale ??
+        source?.metadata?.locale ??
+        source?.metadata?.interaction?.locale
+    );
+}
+
 function getLocaleFromSource(source) {
     const clientInstance = getClientFromSource(source);
-    return clientInstance?.config?.defaultLocale ?? FALLBACK_LOCALE;
+    const primaryLocale = clientInstance?.config?.primaryLocale ?? FALLBACK_LOCALE;
+    const localeMode = clientInstance?.config?.localeMode ?? "global";
+
+    if (localeMode !== "user") {
+        return primaryLocale;
+    }
+
+    const sourceLocale = getSourceLocale(source);
+    const matchedLocale = clientInstance?.i18n?.getSupportedLocale?.(sourceLocale);
+    return matchedLocale ?? primaryLocale;
 }
 
 function translate(source, key, variables = {}) {

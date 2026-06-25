@@ -4,11 +4,11 @@ function isResolvableString(value, key) {
     return typeof value === "string" && value !== key;
 }
 
-function buildLocalizationMap(i18n, key, defaultLocale) {
+function buildLocalizationMap(i18n, key, primaryLocale) {
     const localizations = {};
 
     for (const locale of i18n.getAvailableLocales()) {
-        if (locale === defaultLocale) continue;
+        if (locale === primaryLocale) continue;
 
         const value = i18n.t(locale, key);
         if (isResolvableString(value, key)) {

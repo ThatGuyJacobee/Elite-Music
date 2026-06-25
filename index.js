@@ -65,9 +65,9 @@ fs.readdirSync("./commands/").forEach((dir) => {
 client.once("clientReady", async function () {
     console.log(`[ELITE_CONFIG] Loading Configuration... (Config Version: ${process.env.CFG_VERSION || "N/A"})`);
     const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
-    const defaultLocale = process.env.DEFAULT_LOCALE || FALLBACK_LOCALE;
-    const i18n = createI18n({ fallbackLocale: defaultLocale });
-    const localizedCommands = localizeSlashCommands(commands, i18n, defaultLocale);
+    const primaryLocale = process.env.PRIMARY_LOCALE || FALLBACK_LOCALE;
+    const i18n = createI18n({ fallbackLocale: primaryLocale });
+    const localizedCommands = localizeSlashCommands(commands, i18n, primaryLocale);
 
     try {
         await rest.put(Routes.applicationCommands(client.user.id), { body: localizedCommands });

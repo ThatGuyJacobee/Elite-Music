@@ -30,11 +30,20 @@ async function getQueue(interaction) {
                 channel: interaction.channel,
                 requestedBy: interaction.user,
                 client: interaction.guild.members.me,
+                locale: interaction.locale,
             },
         });
     }
 
-    return player.nodes.get(interaction.guild.id);
+    const queue = player.nodes.get(interaction.guild.id);
+    if (queue?.metadata) {
+        queue.metadata.channel = interaction.channel;
+        queue.metadata.requestedBy = interaction.user;
+        queue.metadata.client = interaction.guild.members.me;
+        queue.metadata.locale = interaction.locale;
+    }
+
+    return queue;
 }
 
 async function addTracks(interaction, nextSong, search, responseType) {

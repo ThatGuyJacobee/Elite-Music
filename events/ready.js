@@ -26,12 +26,19 @@ module.exports = {
                       ? process.env.PRESENCE
                       : client.config.presence;
 
-            client.config.defaultLocale =
-                typeof process.env.DEFAULT_LOCALE === "undefined"
-                    ? client.config.defaultLocale
-                    : String(process.env.DEFAULT_LOCALE)
-                      ? process.env.DEFAULT_LOCALE
-                      : client.config.defaultLocale;
+            client.config.primaryLocale =
+                typeof process.env.PRIMARY_LOCALE === "undefined"
+                    ? client.config.primaryLocale
+                    : String(process.env.PRIMARY_LOCALE)
+                      ? process.env.PRIMARY_LOCALE
+                      : client.config.primaryLocale;
+
+            client.config.localeMode =
+                typeof process.env.LOCALE_MODE === "undefined"
+                    ? client.config.localeMode
+                    : String(process.env.LOCALE_MODE)
+                      ? process.env.LOCALE_MODE.toLowerCase()
+                      : client.config.localeMode;
 
             client.config.leaveOnEmpty =
                 typeof process.env.LEAVE_ON_EMPTY === "undefined"
@@ -174,16 +181,23 @@ module.exports = {
                       : client.config.subsonicApiVersion;
 
             const i18n = createI18n();
-            if (!i18n.hasLocale(client.config.defaultLocale)) {
+            if (!i18n.hasLocale(client.config.primaryLocale)) {
                 console.log(
-                    `[ELITE_CONFIG] Locale "${client.config.defaultLocale}" was not found. Falling back to ${FALLBACK_LOCALE}.`,
+                    `[ELITE_CONFIG] Locale "${client.config.primaryLocale}" was not found. Falling back to ${FALLBACK_LOCALE}.`,
                 );
-                client.config.defaultLocale = FALLBACK_LOCALE;
+                client.config.primaryLocale = FALLBACK_LOCALE;
             }
 
-            client.i18n = i18n;
-            client.t = function translate(key, variables = {}, locale = client.config.defaultLocale) {
-                return i18n.t(locale, key, variables);
+            if (!["global", "user"].includes(client.config.localeMode)) {
+                console.log(
+                    `[ELITE_CONFIG] LOCALE_MODE "${client.config.localeMode}" is invalid. Falling back to global.`,
+                );
+                client.config.localeMode = "global";
+            }
+
+            client.i18n = createI18n({ fallbackLocale: client.config.primaryLocale });
+            client.t = function translate(key, variables = {}, locale = client.config.primaryLocale) {
+                return client.i18n.t(locale, key, variables);
             };
 
             //Perform validation checks
