@@ -43,7 +43,7 @@ module.exports = {
                 { name: translate(interaction, "botinfo.uptime"), value: botuptime, inline: true },
                 {
                     name: translate(interaction, "botinfo.version"),
-                    value: `v1.8 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
+                    value: `v1.9 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
                     inline: true,
                 },
                 { name: "\u200b", value: "\u200b", inline: true },
