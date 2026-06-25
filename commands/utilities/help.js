@@ -1,37 +1,15 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ButtonBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
-const fs = require("fs");
 const { getDisplayName, translate, translateHelpCategory } = require("../../utils/botText");
+const { HELP_CATEGORY_EMOJIS, loadHelpCommandCategories } = require("../../utils/helpCommands");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("help").setDescription("Get information about my commands!"),
     cooldown: 30,
     async execute(interaction) {
-        const guildid = interaction.guild.id;
-        const dirs = [];
-        const categories = [];
-
-        fs.readdirSync("./commands/").forEach((dir) => {
-            let commands = fs.readdirSync(`./commands/${dir}`).filter((file) => file.endsWith(".js"));
-            const cmds = commands.map((command) => {
-                let file = require(`../../commands/${dir}/${command}`);
-                return {
-                    name: dir,
-                    commands: {
-                        name: file.data.name,
-                        description: file.data.description,
-                    },
-                };
-            });
-
-            categories.push(cmds.filter((categ) => categ.name === dir));
-        });
-
+        const categories = loadHelpCommandCategories(interaction);
+        const dirs = categories.map((cat) => cat[0].name);
         let page = 0;
-        const emojis = {
-            music: "🎵",
-            utilities: "🛄",
-        };
 
         const description = {
             music: translate(interaction, "help.musicDescription"),
@@ -47,10 +25,6 @@ module.exports = {
             },
         ];
 
-        categories.forEach((cat) => {
-            dirs.push(cat[0].name);
-        });
-
         const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setColor(client.config.embedColour)
@@ -59,11 +33,11 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: translate(interaction, "help.footer", { user: getDisplayName(interaction.user) }) });
 
-        dirs.forEach((dir, index) => {
+        dirs.forEach((dir) => {
             const categoryLabel = translateHelpCategory(interaction, dir);
 
             embed.addFields({
-                name: `${emojis[dir] || ""} ${categoryLabel}`,
+                name: `${HELP_CATEGORY_EMOJIS[dir] || ""} ${categoryLabel}`,
                 value: `${description[dir] ? description[dir] : translate(interaction, "help.categoryFallback", { category: categoryLabel })}`,
             });
 
@@ -72,7 +46,7 @@ module.exports = {
                 description: translate(interaction, "help.categoryPageDescription", {
                     category: categoryLabel,
                 }),
-                emoji: `${emojis[dir] || ""}`,
+                emoji: `${HELP_CATEGORY_EMOJIS[dir] || ""}`,
                 value: `${page++}`,
             });
         });

@@ -11,7 +11,6 @@ const {
 } = require("discord.js");
 const { useMainPlayer, QueueRepeatMode } = require("discord-player");
 const { clearNpControlMessages } = require("../utils/npControlMessages");
-const fs = require("fs");
 const {
     buildRequestedByFooter,
     buildCoverImageDescription,
@@ -21,6 +20,7 @@ const {
     translateGenericAction,
     translateHelpCategory,
 } = require("../utils/botText");
+const { HELP_CATEGORY_EMOJIS, loadHelpCommandCategories } = require("../utils/helpCommands");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -83,58 +83,9 @@ module.exports = {
                 //console.log(value)
 
                 const guildid = interaction.guild.id;
-                const dirs = [];
-                const categories = [];
-
-                fs.readdirSync("./commands/").forEach((dir) => {
-                    let commands = fs.readdirSync(`./commands/${dir}`).filter((file) => file.endsWith(".js"));
-                    var cmds = [];
-                    commands.map((command) => {
-                        let file = require(`../commands/${dir}/${command}`);
-                        //console.log(file.data.options.length)
-                        //console.log(file.data.options)
-
-                        if (dir == "configuration" || dir == "utilities") {
-                            cmds.push({
-                                name: dir,
-                                commands: {
-                                    name: file.data.name,
-                                    description: file.data.description,
-                                },
-                            });
-                        } else {
-                            //Finished code for displaying each subcommand
-                            if (file.data.options.length == 0 || file.data.options[0].type != null) {
-                                cmds.push({
-                                    name: dir,
-                                    commands: {
-                                        name: file.data.name,
-                                        description: file.data.description,
-                                    },
-                                });
-                            } else {
-                                file.data.options.forEach((id) => {
-                                    cmds.push({
-                                        name: dir,
-                                        commands: {
-                                            name: file.data.name + " " + id.name,
-                                            description: id.description,
-                                        },
-                                    });
-                                });
-                            }
-                        }
-                    });
-
-                    //console.log(cmds);
-                    categories.push(cmds.filter((categ) => categ.name === dir));
-                });
-
+                const categories = loadHelpCommandCategories(interaction);
+                const dirs = categories.map((cat) => cat[0].name);
                 let page = 0;
-                const emojis = {
-                    music: "🎵",
-                    utilities: "🛄",
-                };
 
                 const description = {
                     music: translate(interaction, "help.musicDescription"),
@@ -149,10 +100,6 @@ module.exports = {
                         value: "home",
                     },
                 ];
-
-                categories.forEach((cat) => {
-                    dirs.push(cat[0].name);
-                });
 
                 const embed = new EmbedBuilder()
                     .setAuthor({
@@ -175,7 +122,7 @@ module.exports = {
                         description: translate(interaction, "help.categoryPageDescription", {
                             category: categoryLabel,
                         }),
-                        emoji: `${emojis[dir] || ""}`,
+                        emoji: `${HELP_CATEGORY_EMOJIS[dir] || ""}`,
                         value: `${page++}`,
                     });
                 });
@@ -185,14 +132,16 @@ module.exports = {
                     embed.setTitle(
                         translate(interaction, "help.categoryTitle", {
                             category: translateHelpCategory(interaction, categories[value][0].name),
-                            emoji: emojis[categories[value][0].name] ? emojis[categories[value][0].name] : "",
+                            emoji: HELP_CATEGORY_EMOJIS[categories[value][0].name]
+                                ? HELP_CATEGORY_EMOJIS[categories[value][0].name]
+                                : "",
                         }),
                     );
 
                     categories[value].forEach((cmd) => {
                         embed.addFields({
                             name: `\`/${cmd.commands.name}\``,
-                            value: `${cmd.commands.description || translate(interaction, "help.noDescription")}`,
+                            value: cmd.commands.description,
                             inline: true,
                         });
                     });
@@ -232,7 +181,7 @@ module.exports = {
                         const categoryLabel = translateHelpCategory(interaction, dir);
 
                         embed.addFields({
-                            name: `${emojis[dir] || ""} ${categoryLabel}`,
+                            name: `${HELP_CATEGORY_EMOJIS[dir] || ""} ${categoryLabel}`,
                             value: `${
                                 description[dir]
                                     ? description[dir]
