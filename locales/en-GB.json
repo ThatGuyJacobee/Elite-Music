@@ -1,4 +1,12 @@
 {
+    "common": {
+        "link": "Link",
+        "unknownUser": "Unknown User",
+        "songCoverImage": "Song Cover Image for {title}",
+        "playlistCoverImage": "Playlist Cover Image for {title}",
+        "albumCoverImage": "Album Cover Image for {title}",
+        "coverImageNotFound": "Cover Image Not Found"
+    },
     "errors": {
         "cooldown": "⏱️ | Cooldown Alert: Please wait **{seconds}** more seconds before using the **/{command}** command again!",
         "commandExecution": "❌ | Apologies, an error occurred while executing your command. Check the logs for the error.",
@@ -16,7 +24,22 @@
         "emptyPlaylist": "❌ | This playlist has no playable tracks.",
         "emptyAlbum": "❌ | This album has no playable tracks.",
         "failedToFindMediaQuery": "❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.",
-        "playNextPlaylistOnly": "❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue."
+        "playNextPlaylistOnly": "❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue.",
+        "actions": {
+            "skippingSong": "skipping the song",
+            "clearingQueue": "clearing the queue",
+            "shufflingQueue": "shuffling the queue",
+            "stoppingQueue": "stopping the queue",
+            "adjustingVolume": "adjusting the volume",
+            "returningToPreviousSong": "returning to the previous song",
+            "pausing": "pausing",
+            "resuming": "resuming",
+            "seekingSong": "seeking the song",
+            "jumpingQueue": "jumping queue",
+            "switchingLoopMode": "switching loop mode",
+            "removingSong": "removing the song from the queue",
+            "adjustingAudioFilter": "adjusting the audio filter"
+        }
     },
     "feature": {
         "plexDisabled": "❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.",
@@ -87,7 +110,18 @@
         "toggleTitle": "Audio filter toggled 🎵",
         "toggleDescription": "The **{filter}** audio filter has been {state}!",
         "stateEnabled": "Enabled",
-        "stateDisabled": "Disabled"
+        "stateDisabled": "Disabled",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
     },
     "playback": {
         "startedTitle": "Started playback ▶️",
@@ -113,6 +147,10 @@
         "categoryPageDescription": "{category} commands page",
         "categoryFallback": "{category} Commands",
         "categoryTitle": "Help Menu - {category} Category! {emoji}",
+        "categories": {
+            "music": "Music",
+            "utilities": "Utilities"
+        },
         "musicDescription": "Music commands.",
         "utilitiesDescription": "Generally useful commands to use.",
         "noDescription": "No description",
@@ -156,6 +194,7 @@
         "playlistResult": "[{index}] Playlist Result ({duration})",
         "mediaResult": "[{index}] {type} Result ({suffix})",
         "mediaResultNoSuffix": "[{index}] {type} Result",
+        "track": "Track",
         "playlist": "Playlist",
         "album": "Album",
         "songCount": "{count} songs"
@@ -193,7 +232,8 @@
         "volumeModalTitle": "Adjust Volume - Currently at {volume}%",
         "volumeModalLabel": "What should the new volume be (0-100)?",
         "volumeModalPlaceholder": "Your answer...",
-        "volumeModalInvalid": "❌ | The volume must be between 0-100, your input was outside of this."
+        "volumeModalInvalid": "❌ | The volume must be between 0-100, your input was outside of this.",
+        "liveIndicator": " ◉ LIVE"
     },
     "lifecycle": {
         "disconnectTitle": "Disconnecting 🛑",
