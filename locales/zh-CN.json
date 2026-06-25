@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "链接",
+        "unknownUser": "未知用户",
+        "songCoverImage": "{title} 的歌曲封面",
+        "playlistCoverImage": "{title} 的播放列表封面",
+        "albumCoverImage": "{title} 的专辑封面",
+        "coverImageNotFound": "未找到封面图片"
+    },
+    "errors": {
+        "cooldown": "⏱️ | 冷却提示：请再等待 **{seconds}** 秒后再使用 **/{command}** 命令！",
+        "commandExecution": "❌ | 抱歉，执行命令时发生错误。请查看日志了解详情。",
+        "genericAction": "❌ | 哎呀... 出了点问题，{action} 时发生错误。请重试。",
+        "failedToFindSongQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲。",
+        "failedToFindSong": "❌ | 哎呀... 出了点问题，找不到该歌曲。",
+        "playRequest": "❌ | 哎呀... 播放请求的歌曲时出了问题。请重试。",
+        "addTracks": "❌ | 哎呀... 出了点问题，无法将歌曲添加到队列。",
+        "joinVoice": "❌ | 哎呀... 出了点问题，无法加入您的频道。",
+        "joinVoiceChannel": "❌ | 哎呀... 出了点问题，无法加入您的语音频道。",
+        "playback": "❌ | 哎呀... 出了点问题，发生播放相关错误。请重试。",
+        "noViewChannel": "错误：我没有查看此频道的权限，无法编辑帮助消息！",
+        "extractFailed": "❌ | 无法提取以下歌曲... 正在跳到下一首！",
+        "subsonicSongMetadata": "❌ | 无法从 Subsonic 加载歌曲元数据。",
+        "emptyPlaylist": "❌ | 此播放列表没有可播放的歌曲。",
+        "emptyAlbum": "❌ | 此专辑没有可播放的歌曲。",
+        "failedToFindMediaQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲、播放列表或专辑。",
+        "playNextPlaylistOnly": "❌ | 哎呀... 此命令只能添加单曲。请使用普通的 **/play** 命令将播放列表添加到队列。",
+        "actions": {
+            "skippingSong": "跳过歌曲",
+            "clearingQueue": "清空队列",
+            "shufflingQueue": "随机播放队列",
+            "stoppingQueue": "停止队列",
+            "adjustingVolume": "调整音量",
+            "returningToPreviousSong": "返回上一首歌曲",
+            "pausing": "暂停",
+            "resuming": "恢复播放",
+            "seekingSong": "跳转歌曲进度",
+            "jumpingQueue": "跳转队列",
+            "switchingLoopMode": "切换循环模式",
+            "removingSong": "从队列中移除歌曲",
+            "adjustingAudioFilter": "调整音频滤镜"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
+        "subsonicDisabled": "❌ | Subsonic 当前已禁用！请让服务器管理员在环境文件中启用并配置。"
+    },
+    "guards": {
+        "djMode": "❌ | DJ 模式已激活！您必须拥有 DJ 角色 {role} 才能使用任何音乐命令！",
+        "notInVoice": "❌ | 您不在语音频道中！",
+        "notInBotVoice": "❌ | 您不在我的语音频道中！"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | 当前没有正在播放的音乐！",
+        "empty": "❌ | 队列中没有音乐！",
+        "emptyQueued": "❌ | 当前队列中没有待播放的音乐！",
+        "alreadyFirstPage": "❌ | 队列已在第一页！",
+        "alreadyLastPage": "❌ | 队列已在最后一页！",
+        "title": "当前音乐队列 🎵",
+        "moreTracks": "...还有 {count} 首歌曲",
+        "nowPlayingField": "正在播放 ▶️",
+        "clearTitle": "清空队列 🧹",
+        "clearDescription": "整个音乐队列已清空！",
+        "shuffleTitle": "随机播放队列 🔀",
+        "shuffleDescription": "整个音乐队列已随机打乱！",
+        "expired": "请再次使用 **/queue** 以重新显示嵌入消息。",
+        "historyTitle": "历史音乐队列记录 🔙",
+        "historyExpired": "请再次使用 **/queuehistory** 以重新显示嵌入消息。",
+        "previousPage": "⬅️ 上一页",
+        "nextPage": "➡️ 下一页"
+    },
+    "footer": {
+        "requestedBy": "请求者：{user}",
+        "requestedByPage": "请求者：{user} - 第 {page} 页"
+    },
+    "volume": {
+        "current": "🔊 | 当前音量已设置为 **{volume}%**！",
+        "invalidRange": "❌ | 音量必须在 0-100% 之间！"
+    },
+    "loop": {
+        "queueTitle": "循环模式已开启 🔁",
+        "autoplayTitle": "循环模式已开启 🤖",
+        "trackMode": "**当前歌曲**",
+        "queueMode": "**整个队列**",
+        "autoplayMode": "**自动播放**",
+        "offMode": "**关闭**",
+        "description": "循环模式已设置为 {mode}！"
+    },
+    "seek": {
+        "title": "跳转歌曲 ↪️",
+        "description": "已将当前歌曲跳转到 {time}！当前正在播放 {title} {link}。"
+    },
+    "jumpqueue": {
+        "title": "跳转到歌曲 ⏭️"
+    },
+    "remove": {
+        "title": "歌曲已移除 ❌",
+        "description": "已从队列中移除 {title} {link}！",
+        "invalidPosition": "❌ | 队列中该位置没有歌曲。请重试。"
+    },
+    "lyrics": {
+        "notFound": "❌ | 未找到与搜索条件匹配的歌词！",
+        "title": "{artist} 的 {title} 歌词 🎶",
+        "truncatedSuffix": "\n还有更多...",
+        "fullLyricsButton": "🎶 完整歌词"
+    },
+    "audiofilter": {
+        "noneEnabled": "当前没有启用的音频滤镜！",
+        "listEnabled": "当前启用的音频滤镜：\n- {filters}",
+        "toggleTitle": "音频滤镜已切换 🎵",
+        "toggleDescription": "**{filter}** 音频滤镜已{state}！",
+        "stateEnabled": "启用",
+        "stateDisabled": "禁用",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "开始播放 ▶️",
+        "addedTitle": "已添加到队列 ⏱️",
+        "addedTopTitle": "已添加到队列顶部 ⏱️",
+        "startedSong": "开始播放歌曲 **{title}** {link}！",
+        "queuedSong": "已将歌曲 **{title}** {link} 添加到队列！",
+        "queuedSongTop": "已将歌曲 **{title}** {link} 添加到队列顶部（下一首播放）！",
+        "importedPlaylistStart": "已导入 **{title} {link} 播放列表**（**{count}** 首歌曲）并开始播放队列！",
+        "importedPlaylistQueued": "已导入 **{title} {link} 播放列表**（**{count}** 首歌曲）！",
+        "importedPlaylistTop": "已将 **{title} {link} 播放列表**（**{count}** 首歌曲）导入到队列顶部（下一首播放）！",
+        "importedAlbumStart": "已导入 **{title} 专辑**（**{count}** 首歌曲）并开始播放队列！",
+        "importedAlbumQueued": "已导入 **{title} 专辑**（**{count}** 首歌曲）！",
+        "importedAlbumTop": "已将 **{title} 专辑**（**{count}** 首歌曲）导入到队列顶部（下一首播放）！"
+    },
+    "commands": {
+        "audiofilter": "查看或切换音频滤镜！",
+        "back": "播放上一首歌曲！",
+        "botinfo": "返回 Elite Bot 的相关信息！",
+        "clearqueue": "清空当前音乐队列！",
+        "help": "获取有关命令的信息！",
+        "jumpqueue": "跳转到队列中的特定歌曲！",
+        "loop": "设置循环类型！",
+        "lyrics": "获取歌曲歌词！",
+        "nowplaying": "查看当前正在播放的歌曲！",
+        "pause": "在当前时间点暂停当前歌曲！",
+        "play": "将歌曲放入队列！",
+        "playnext": "将歌曲添加到队列顶部！",
+        "plex": {
+            "description": "从 Plex 音乐库播放音乐到队列！",
+            "play": "从 Plex 服务器播放歌曲、播放列表或专辑。",
+            "search": "搜索歌曲、播放列表和专辑。",
+            "playnext": "从 Plex 服务器添加歌曲、播放列表或专辑到下一首播放。"
+        },
+        "queue": "查看当前队列中的音乐！",
+        "queuehistory": "查看服务器内的队列历史记录！",
+        "remove": "从队列中移除特定歌曲！",
+        "seek": "跳转到当前歌曲的其他时间点！",
+        "shuffle": "随机打乱当前队列！",
+        "skip": "跳过当前歌曲！",
+        "stop": "停止所有正在播放的音乐！",
+        "subsonic": {
+            "description": "从 Subsonic 音乐库播放音乐到队列！",
+            "play": "从 Subsonic 服务器播放歌曲、播放列表或专辑。",
+            "search": "搜索歌曲、播放列表和专辑。",
+            "playnext": "从 Subsonic 服务器添加歌曲、播放列表或专辑到下一首播放。"
+        },
+        "volume": "查看或设置当前音乐音量！"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "要播放的歌曲名称、URL 或播放列表 URL。",
+                "playnext": "要播放的歌曲名称或 URL（不支持播放列表）。",
+                "library": "搜索歌曲、播放列表或专辑的查询。"
+            },
+            "filter": "您想切换哪个滤镜？",
+            "query": "输入歌曲名称。",
+            "song": {
+                "remove": "要从队列中移除第几首歌曲？",
+                "jumpqueue": "要移到队列最前面的歌曲 #编号（用 /queue 查看）"
+            },
+            "time": "跳转当前歌曲的时间（例如：1s、1m、1h）！",
+            "amount": "您想将音量设置为多少（0-100）？",
+            "loopmode": "您想激活哪种循环模式？",
+            "scope": "选择要搜索的内容类型。",
+            "order": "从播放列表或专辑添加多首歌曲时使用的顺序。"
+        },
+        "choices": {
+            "scope": {
+                "auto": "自动（所有类型）",
+                "track": "仅歌曲",
+                "playlist": "仅播放列表",
+                "album": "仅专辑"
+            },
+            "order": {
+                "sequential": "顺序",
+                "shuffle": "随机",
+                "reverse": "倒序"
+            },
+            "loopmode": {
+                "0": "关闭",
+                "1": "单曲",
+                "2": "队列",
+                "3": "自动播放"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - 帮助菜单",
+        "homeDescription": "通过下方菜单选择类别以查看可用命令。 📢 \\n\\n遇到 Bug 或有改进建议？请在 **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** 上创建 Issue，或加入 **[Support Discord Server](https://discord.elite-bot.com)** 与我联系，我们会尽快审核。 🆘\\n\\n有关详细的设置信息，请浏览始终维护至最新状态的 **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**，其中提供了您需要了解的一切。 📄",
+        "footer": "/help | 请求者：{user}",
+        "homeOptionLabel": "首页",
+        "homeOptionDescription": "首页",
+        "menuPlaceholder": "点击查看所有类别",
+        "categoryPageDescription": "{category} 命令页面",
+        "categoryFallback": "{category} 命令",
+        "categoryTitle": "帮助菜单 - {category} 类别！ {emoji}",
+        "categories": {
+            "music": "音乐",
+            "utilities": "实用工具"
+        },
+        "musicDescription": "音乐命令。",
+        "utilitiesDescription": "一般实用的命令。",
+        "noDescription": "无描述",
+        "buttons": {
+            "repo": "🛡️ 开源仓库",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 文档",
+            "support": "🆘 支持服务器"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - 机器人信息",
+        "title": "Elite Music 信息",
+        "process": "进程",
+        "dependencies": "依赖项",
+        "ping": "Ping",
+        "uptime": "运行时间",
+        "version": "Elite Music 版本",
+        "developer": "开发者 & 维护者",
+        "openSource": "开源项目",
+        "openSourceDescription": "您有兴趣改进这个开源机器人吗？或者想自己托管？不用再找了！您可以访问公开机器人的 [仓库](https://github.com/ThatGuyJacobee/Elite-Bot-Music) 并按照 readme 说明获取更多信息！ :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ 开源仓库",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 文档",
+            "support": "🆘 支持服务器"
+        }
+    },
+    "search": {
+        "placeholder": "添加到队列 👈",
+        "resultsTitle": "音乐搜索结果 🎵",
+        "resultsDescription": "找到多首与搜索条件匹配的歌曲，请从下方菜单中选择。",
+        "cancel": "取消搜索 🗑️",
+        "duration": "时长 - {duration}",
+        "plexTitle": "Plex 搜索结果 🎵",
+        "subsonicTitle": "Subsonic 搜索结果 🎵",
+        "multipleResults": "找到多个与搜索条件匹配的结果，请从下方菜单中选择。",
+        "singleResult": "从下方选择一项添加到队列。",
+        "songResult": "[{index}] 歌曲结果 ({duration})",
+        "playlistResult": "[{index}] 播放列表结果 ({duration})",
+        "mediaResult": "[{index}] {type} 结果 ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} 结果",
+        "track": "歌曲",
+        "playlist": "播放列表",
+        "album": "专辑",
+        "songCount": "{count} 首歌曲"
+    },
+    "np": {
+        "titleStarting": "正在开始下一首... 正在播放 🎵",
+        "titleCurrent": "正在播放 🎵",
+        "buttons": {
+            "previous": "⏮️ 上一首",
+            "pauseResume": "⏯️ 播放/暂停",
+            "skip": "⏭️ 跳过",
+            "clear": "🧹 清空队列",
+            "volume": "🔊 调整音量",
+            "loop": "🔂 单曲循环",
+            "shuffle": "🔀 随机队列",
+            "stop": "🛑 停止队列"
+        },
+        "backTitle": "播放上一首 ⏮️",
+        "backDescription": "接下来将返回上一首：{title} {link}！",
+        "backMissing": "❌ | 当前歌曲之前没有音乐历史记录。请重试。",
+        "pauseTitle": "歌曲已暂停 ⏸️",
+        "pauseDescription": "播放已**{state}**。当前正在播放 {title} {link}！",
+        "pauseStateResumed": "恢复",
+        "pauseStatePaused": "暂停",
+        "skipTitle": "歌曲已跳过 ⏭️",
+        "skipDescription": "正在播放：{title} {link}",
+        "stopTitle": "音乐已停止 🛑",
+        "stopDescription": "音乐已停止... 正在离开频道！",
+        "loopOffTitle": "循环模式已关闭 📴",
+        "loopOffDescription": "循环模式已设置为 **关闭**！",
+        "loopTrackTitle": "循环模式已开启 🔂",
+        "loopTrackDescription": "循环模式已设置为 **当前歌曲**！",
+        "volumeTitle": "音量已调整 🎧",
+        "volumeDescription": "音量已设置为 **{volume}%**！",
+        "volumeModalTitle": "调整音量 - 当前 {volume}%",
+        "volumeModalLabel": "新音量应为多少（0-100）？",
+        "volumeModalPlaceholder": "您的回答...",
+        "volumeModalInvalid": "❌ | 音量必须在 0-100 之间，您的输入超出此范围。",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "正在断开连接 🛑",
+        "disconnectDescription": "我已闲置一段时间！",
+        "emptyChannelTitle": "结束播放 🛑",
+        "emptyChannelDescription": "语音频道中没有人！",
+        "queueFinishedTitle": "队列已完成 🛑",
+        "queueFinishedDescription": "音乐队列已播放完毕！"
+    }
+}

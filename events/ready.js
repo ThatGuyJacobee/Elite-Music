@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
+const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
     name: "clientReady",
@@ -24,6 +25,20 @@ module.exports = {
                     : String(process.env.PRESENCE)
                       ? process.env.PRESENCE
                       : client.config.presence;
+
+            client.config.primaryLocale =
+                typeof process.env.PRIMARY_LOCALE === "undefined"
+                    ? client.config.primaryLocale
+                    : String(process.env.PRIMARY_LOCALE)
+                      ? process.env.PRIMARY_LOCALE
+                      : client.config.primaryLocale;
+
+            client.config.localeMode =
+                typeof process.env.LOCALE_MODE === "undefined"
+                    ? client.config.localeMode
+                    : String(process.env.LOCALE_MODE)
+                      ? process.env.LOCALE_MODE.toLowerCase()
+                      : client.config.localeMode;
 
             client.config.leaveOnEmpty =
                 typeof process.env.LEAVE_ON_EMPTY === "undefined"
@@ -165,6 +180,26 @@ module.exports = {
                       ? process.env.SUBSONIC_API_VERSION
                       : client.config.subsonicApiVersion;
 
+            const i18n = createI18n();
+            if (!i18n.hasLocale(client.config.primaryLocale)) {
+                console.log(
+                    `[ELITE_CONFIG] Locale "${client.config.primaryLocale}" was not found. Falling back to ${FALLBACK_LOCALE}.`,
+                );
+                client.config.primaryLocale = FALLBACK_LOCALE;
+            }
+
+            if (!["global", "user"].includes(client.config.localeMode)) {
+                console.log(
+                    `[ELITE_CONFIG] LOCALE_MODE "${client.config.localeMode}" is invalid. Falling back to global.`,
+                );
+                client.config.localeMode = "global";
+            }
+
+            client.i18n = createI18n({ fallbackLocale: client.config.primaryLocale });
+            client.t = function translate(key, variables = {}, locale = client.config.primaryLocale) {
+                return client.i18n.t(locale, key, variables);
+            };
+
             //Perform validation checks
             if (client.config.enablePlex) {
                 //Abort fetch after 3 seconds
@@ -240,7 +275,7 @@ module.exports = {
             }
 
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.8) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.9) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );

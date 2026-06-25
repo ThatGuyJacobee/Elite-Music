@@ -2,42 +2,40 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { registerNpControlMessage } = require("../../utils/npControlMessages");
-const { buildNpComponents, buildNpEmbed, NP_SLASH_TITLE } = require("../../utils/nowPlayingUi");
+const { buildNpComponents, buildNpEmbed, NP_SLASH_TITLE_KEY } = require("../../utils/nowPlayingUi");
+const { buildCoverImageDescription } = require("../../utils/botText");
+const {
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    getQueueNotPlayingResponse,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("nowplaying").setDescription("Check the currently playing song!"),
     async execute(interaction) {
-        if (!interaction.member.voice.channelId) {
-            return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        }
-        if (
-            interaction.guild.members.me.voice.channelId &&
-            interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-        ) {
-            return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
-        }
+        if (!(await ensureInVoiceChannel(interaction))) return;
+        if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const player = useMainPlayer();
         var queue = player.nodes.get(interaction.guild.id);
         if (!queue || !queue.isPlaying()) {
-            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+            return interaction.reply(getQueueNotPlayingResponse(interaction));
         }
 
         const footerMember = queue.currentTrack.requestedBy != null ? interaction.user : null;
 
         const npembed = buildNpEmbed(queue, {
-            title: NP_SLASH_TITLE,
+            title: NP_SLASH_TITLE_KEY,
             footerMember,
         });
-        if (!npembed)
-            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        if (!npembed) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
         var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
             name: "coverimage.jpg",
-            description: `Song Cover Image for ${queue.currentTrack.title}`,
+            description: buildCoverImageDescription(interaction, "song", queue.currentTrack.title),
         });
 
-        const finalComponents = buildNpComponents();
+        const finalComponents = buildNpComponents(interaction);
 
         await interaction.reply({ embeds: [npembed], components: finalComponents, files: [coverImage] });
         const msg = await interaction.fetchReply();

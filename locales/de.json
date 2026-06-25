@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Unbekannter Benutzer",
+        "songCoverImage": "Song-Coverbild für {title}",
+        "playlistCoverImage": "Playlist-Coverbild für {title}",
+        "albumCoverImage": "Album-Coverbild für {title}",
+        "coverImageNotFound": "Coverbild nicht gefunden"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Abklingzeit-Hinweis: Bitte warte noch **{seconds}** Sekunden, bevor du den Befehl **/{command}** erneut benutzt.",
+        "commandExecution": "❌ | Entschuldigung, beim Ausführen deines Befehls ist ein Fehler aufgetreten. Prüfe die Logs für den Fehler.",
+        "genericAction": "❌ | Ups... etwas ist schiefgelaufen, beim {action} ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "failedToFindSongQuery": "❌ | Ups... etwas ist schiefgelaufen, die gesuchte Songanfrage konnte nicht gefunden werden.",
+        "failedToFindSong": "❌ | Ups... etwas ist schiefgelaufen, der Song konnte nicht gefunden werden.",
+        "playRequest": "❌ | Ups... etwas ist schiefgelaufen, während versucht wurde, den angeforderten Song abzuspielen. Bitte versuche es erneut.",
+        "addTracks": "❌ | Ups... etwas ist schiefgelaufen, die Spur(en) konnten nicht zur Warteschlange hinzugefügt werden.",
+        "joinVoice": "❌ | Ups... etwas ist schiefgelaufen, ich konnte deinem Kanal nicht beitreten.",
+        "joinVoiceChannel": "❌ | Ups... etwas ist schiefgelaufen, ich konnte deinem Sprachkanal nicht beitreten.",
+        "playback": "❌ | Ups... etwas ist schiefgelaufen, es ist ein Wiedergabefehler aufgetreten. Bitte versuche es erneut.",
+        "noViewChannel": "Fehler: Ich habe keine Berechtigung, diesen Kanal zu sehen, und kann die Hilfenachricht nicht bearbeiten!",
+        "extractFailed": "❌ | Der folgende Song konnte nicht extrahiert werden... weiter zum nächsten!",
+        "subsonicSongMetadata": "❌ | Song-Metadaten von Subsonic konnten nicht geladen werden.",
+        "emptyPlaylist": "❌ | Diese Playlist enthält keine abspielbaren Titel.",
+        "emptyAlbum": "❌ | Dieses Album enthält keine abspielbaren Titel.",
+        "failedToFindMediaQuery": "❌ | Ups... etwas ist schiefgelaufen, der Song, die Playlist oder das Album mit der gesuchten Anfrage konnte nicht gefunden werden.",
+        "playNextPlaylistOnly": "❌ | Ups... mit diesem Befehl kannst du nur einzelne Songs hinzufügen. Verwende den normalen Befehl **/play**, um Playlists zur Warteschlange hinzuzufügen.",
+        "actions": {
+            "skippingSong": "das Überspringen des Songs",
+            "clearingQueue": "das Leeren der Warteschlange",
+            "shufflingQueue": "das Mischen der Warteschlange",
+            "stoppingQueue": "das Stoppen der Warteschlange",
+            "adjustingVolume": "die Lautstärke anzupassen",
+            "returningToPreviousSong": "zur vorherigen Song zurückzukehren",
+            "pausing": "das Pausieren",
+            "resuming": "das Fortsetzen",
+            "seekingSong": "im Song zu springen",
+            "jumpingQueue": "in der Warteschlange zu springen",
+            "switchingLoopMode": "den Wiederholungsmodus zu wechseln",
+            "removingSong": "den Song aus der Warteschlange zu entfernen",
+            "adjustingAudioFilter": "den Audiofilter anzupassen"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
+        "subsonicDisabled": "❌ | Subsonic ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren."
+    },
+    "guards": {
+        "djMode": "❌ | DJ-Modus ist aktiv! Du musst die DJ-Rolle {role} haben, um Musikbefehle zu verwenden!",
+        "notInVoice": "❌ | Du bist in keinem Sprachkanal!",
+        "notInBotVoice": "❌ | Du bist nicht in meinem Sprachkanal!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Es wird derzeit keine Musik abgespielt!",
+        "empty": "❌ | Derzeit befindet sich keine Musik in der Warteschlange!",
+        "emptyQueued": "❌ | Es ist derzeit keine Musik in der Warteschlange!",
+        "alreadyFirstPage": "❌ | Die Warteschlange ist bereits auf der ersten Seite!",
+        "alreadyLastPage": "❌ | Die Warteschlange ist bereits auf der letzten Seite!",
+        "title": "Aktuelle Musik-Warteschlange 🎵",
+        "moreTracks": "...und {count} weitere Spur(en)",
+        "nowPlayingField": "Jetzt läuft ▶️",
+        "clearTitle": "Warteschlange geleert 🧹",
+        "clearDescription": "Die gesamte Musik-Warteschlange wurde geleert!",
+        "shuffleTitle": "Warteschlange gemischt 🔀",
+        "shuffleDescription": "Die gesamte Musik-Warteschlange wurde gemischt!",
+        "expired": "Bitte verwende **/queue** erneut, um das Embed wieder anzuzeigen.",
+        "historyTitle": "Vergangene Musik-Warteschlangen-Historie 🔙",
+        "historyExpired": "Bitte verwende **/queuehistory** erneut, um das Embed wieder anzuzeigen.",
+        "previousPage": "⬅️ Vorherige Seite",
+        "nextPage": "➡️ Nächste Seite"
+    },
+    "footer": {
+        "requestedBy": "Angefragt von: {user}",
+        "requestedByPage": "Angefragt von: {user} - Seite {page}"
+    },
+    "volume": {
+        "current": "🔊 | Die aktuelle Lautstärke ist auf **{volume}%** eingestellt!",
+        "invalidRange": "❌ | Die Lautstärke muss zwischen 0-100% liegen!"
+    },
+    "loop": {
+        "queueTitle": "Wiederholungsmodus an 🔁",
+        "autoplayTitle": "Wiederholungsmodus an 🤖",
+        "trackMode": "der **aktuelle Titel**",
+        "queueMode": "die **gesamte Warteschlange**",
+        "autoplayMode": "**Autoplay-Musik**",
+        "offMode": "**aus**",
+        "description": "Der Wiederholungsmodus wurde auf {mode} gesetzt!"
+    },
+    "seek": {
+        "title": "Song vorspulen ↪️",
+        "description": "Der aktuelle Song wurde zu {time} vorgezogen! Derzeit läuft {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Zum Song gesprungen ⏭️"
+    },
+    "remove": {
+        "title": "Song entfernt ❌",
+        "description": "Titel {title} {link} wurde aus der Warteschlange entfernt!",
+        "invalidPosition": "❌ | An der abgefragten Position in der Warteschlange gibt es keinen Song. Bitte versuche es erneut."
+    },
+    "lyrics": {
+        "notFound": "❌ | Für die angeforderte Anfrage wurden keine Songtexte gefunden!",
+        "title": "Songtexte für {title} von {artist} 🎶",
+        "truncatedSuffix": "\nUnd mehr...",
+        "fullLyricsButton": "🎶 Vollständige Songtexte"
+    },
+    "audiofilter": {
+        "noneEnabled": "Derzeit sind keine Audiofilter aktiviert!",
+        "listEnabled": "Die derzeit aktivierten Audiofilter sind:\n- {filters}",
+        "toggleTitle": "Audiofilter umgeschaltet 🎵",
+        "toggleDescription": "Der Audiofilter **{filter}** wurde {state}!",
+        "stateEnabled": "aktiviert",
+        "stateDisabled": "deaktiviert",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Wiedergabe gestartet ▶️",
+        "addedTitle": "Zur Warteschlange hinzugefügt ⏱️",
+        "addedTopTitle": "An den Anfang der Warteschlange hinzugefügt ⏱️",
+        "startedSong": "Der Song **{title}** {link} wurde gestartet!",
+        "queuedSong": "Der Song **{title}** {link} wurde der Warteschlange hinzugefügt!",
+        "queuedSongTop": "Der Song **{title}** {link} wurde an den Anfang der Warteschlange hinzugefügt (wird als Nächstes abgespielt)!",
+        "importedPlaylistStart": "Die **Playlist {title} {link}** wurde mit **{count}** Songs importiert und die Warteschlange wurde gestartet!",
+        "importedPlaylistQueued": "Die **Playlist {title} {link}** wurde mit **{count}** Songs importiert!",
+        "importedPlaylistTop": "Die **Playlist {title} {link}** wurde mit **{count}** Songs an den Anfang der Warteschlange importiert (wird als Nächstes abgespielt)!",
+        "importedAlbumStart": "Das **Album {title}** wurde mit **{count}** Songs importiert und die Warteschlange wurde gestartet!",
+        "importedAlbumQueued": "Das **Album {title}** wurde mit **{count}** Songs importiert!",
+        "importedAlbumTop": "Das **Album {title}** wurde mit **{count}** Songs an den Anfang der Warteschlange importiert (wird als Nächstes abgespielt)!"
+    },
+    "commands": {
+        "audiofilter": "Audiofilter prüfen oder umschalten!",
+        "back": "Den vorherigen Song abspielen!",
+        "botinfo": "Informationen über Elite Bot anzeigen!",
+        "clearqueue": "Die aktuelle Musik-Warteschlange leeren!",
+        "help": "Informationen über meine Befehle erhalten!",
+        "jumpqueue": "Zu einem bestimmten Song in der Warteschlange springen!",
+        "loop": "Den Wiederholungstyp festlegen!",
+        "lyrics": "Die Songtexte für einen Song abrufen!",
+        "nowplaying": "Den aktuell abgespielten Song prüfen!",
+        "pause": "Den aktuellen Song zum aktuellen Zeitpunkt pausieren!",
+        "play": "Einen Song in die Warteschlange legen!",
+        "playnext": "Einen Song an den Anfang der Warteschlange setzen!",
+        "plex": {
+            "description": "Musik aus deiner Plex-Bibliothek in die Warteschlange abspielen!",
+            "play": "Einen Titel, eine Playlist oder ein Album von deinem Plex-Server abspielen.",
+            "search": "Titel, Playlists und Alben suchen.",
+            "playnext": "Titel, Playlist oder Album vom Plex-Server als Nächstes abspielen."
+        },
+        "queue": "Die aktuelle Musik in der Warteschlange prüfen!",
+        "queuehistory": "Die vergangene Historie der Warteschlange innerhalb des Servers prüfen!",
+        "remove": "Einen bestimmten Song aus der Warteschlange entfernen!",
+        "seek": "Zu einer anderen Zeit im aktuellen Song springen!",
+        "shuffle": "Die aktuelle Warteschlange mischen!",
+        "skip": "Den aktuellen Song überspringen!",
+        "stop": "Jegliche Musik stoppen!",
+        "subsonic": {
+            "description": "Musik aus deiner Subsonic-Bibliothek in die Warteschlange abspielen!",
+            "play": "Einen Titel, eine Playlist oder ein Album von deinem Subsonic-Server abspielen.",
+            "search": "Titel, Playlists und Alben suchen.",
+            "playnext": "Titel, Playlist oder Album vom Subsonic-Server als Nächstes abspielen."
+        },
+        "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Der Name, die URL oder die Playlist-URL, die du abspielen möchtest.",
+                "playnext": "Der Name oder die URL des Songs, den du abspielen möchtest (keine Playlists).",
+                "library": "Suchanfrage für einen Titel, eine Playlist oder ein Album."
+            },
+            "filter": "Welchen Filter möchtest du umschalten?",
+            "query": "Gib den Namen des Songs ein.",
+            "song": {
+                "remove": "Welcher Song mit welcher Nummer soll aus der Warteschlange entfernt werden?",
+                "jumpqueue": "Welche Song-Nr. soll an den Anfang der Warteschlange? (Nutze /queue)"
+            },
+            "time": "Die Zeit, zu der im aktuellen Song gesprungen werden soll (Beispiele: 1s, 1m, 1h)!",
+            "amount": "Auf welchen Wert soll die Lautstärke eingestellt werden (0-100)?",
+            "loopmode": "Welchen Wiederholungsmodus möchtest du aktivieren?",
+            "scope": "Wähle aus, welche Art von Inhalt gesucht werden soll.",
+            "order": "Reihenfolge beim Hinzufügen mehrerer Titel aus einer Playlist oder einem Album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (alle Typen)",
+                "track": "Nur Titel",
+                "playlist": "Nur Playlists",
+                "album": "Nur Alben"
+            },
+            "order": {
+                "sequential": "Sequenziell",
+                "shuffle": "Zufällig",
+                "reverse": "Umgekehrt"
+            },
+            "loopmode": {
+                "0": "Aus",
+                "1": "Titel",
+                "2": "Warteschlange",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Hilfemenü",
+        "homeDescription": "Wähle unten im Menü eine Kategorie aus, um die verfügbaren Befehle zu sehen. 📢 \\n\\nHast du einen Fehler entdeckt oder einen tollen Verbesserungsvorschlag? Bitte erstelle ein Issue im **[GitHub-Repository](https://github.com/ThatGuyJacobee/Elite-Music)** oder kontaktiere mich, indem du dem **[Support-Discord-Server](https://discord.elite-bot.com)** beitrittst, und es wird so schnell wie möglich geprüft. 🆘\\n\\nFür ausführliche Setup-Informationen lies bitte das **[GitHub-Repository-ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, das immer aktuell gepflegt wird und dir alles gibt, was du wissen musst. 📄",
+        "footer": "/help | Angefragt von: {user}",
+        "homeOptionLabel": "Start",
+        "homeOptionDescription": "Startseite",
+        "menuPlaceholder": "Klicken, um alle Kategorien zu sehen",
+        "categoryPageDescription": "{category}-Befehlsseite",
+        "categoryFallback": "{category}-Befehle",
+        "categoryTitle": "Hilfemenü - Kategorie {category}! {emoji}",
+        "categories": {
+            "music": "Musik",
+            "utilities": "Hilfsfunktionen"
+        },
+        "musicDescription": "Musikbefehle.",
+        "utilitiesDescription": "Allgemein nützliche Befehle.",
+        "noDescription": "Keine Beschreibung",
+        "buttons": {
+            "repo": "🛡️ Open-Source-Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support-Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot-Info",
+        "title": "Elite Music Informationen",
+        "process": "Prozess",
+        "dependencies": "Abhängigkeiten",
+        "ping": "Ping",
+        "uptime": "Läuft seit",
+        "version": "Elite Music Version",
+        "developer": "Entwickler & Betreuer",
+        "openSource": "Open-Source-Projekt",
+        "openSourceDescription": "Interessierst du dich dafür, diesen Open-Source-Bot zu verbessern? Oder möchtest du ihn selbst hosten? Dann bist du hier richtig. Du kannst auf das [öffentliche Repository hier](https://github.com/ThatGuyJacobee/Elite-Bot-Music) zugreifen und die Readme-Anweisungen für weitere Informationen befolgen. :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open-Source-Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support-Server"
+        }
+    },
+    "search": {
+        "placeholder": "Ein Element zur Warteschlange hinzufügen 👈",
+        "resultsTitle": "Musik-Suchergebnisse 🎵",
+        "resultsDescription": "Mehrere Songs, die zur angegebenen Suche passen, wurden gefunden. Wähle einen aus dem Menü unten aus.",
+        "cancel": "Suche abbrechen 🗑️",
+        "duration": "Dauer - {duration}",
+        "plexTitle": "Plex-Suchergebnisse 🎵",
+        "subsonicTitle": "Subsonic-Suchergebnisse 🎵",
+        "multipleResults": "Mehrere Treffer, die zur angegebenen Suche passen, wurden gefunden. Wähle einen aus dem Menü unten aus.",
+        "singleResult": "Wähle unten ein Element aus, um es zur Warteschlange hinzuzufügen.",
+        "songResult": "[{index}] Song-Ergebnis ({duration})",
+        "playlistResult": "[{index}] Playlist-Ergebnis ({duration})",
+        "mediaResult": "[{index}] {type}-Ergebnis ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type}-Ergebnis",
+        "track": "Titel",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} Songs"
+    },
+    "np": {
+        "titleStarting": "Nächsten Song starten... Jetzt läuft 🎵",
+        "titleCurrent": "Jetzt läuft 🎵",
+        "buttons": {
+            "previous": "⏮️ Zurück",
+            "pauseResume": "⏯️ Abspielen/Pause",
+            "skip": "⏭️ Überspringen",
+            "clear": "🧹 Warteschlange leeren",
+            "volume": "🔊 Lautstärke anpassen",
+            "loop": "🔂 Einmal wiederholen",
+            "shuffle": "🔀 Warteschlange mischen",
+            "stop": "🛑 Warteschlange stoppen"
+        },
+        "backTitle": "Vorherigen Song abspielen ⏮️",
+        "backDescription": "Als Nächstes zurück zum vorherigen Song: {title} {link}!",
+        "backMissing": "❌ | Es gibt keinen Musikhistorie-Eintrag vor dem aktuellen Song. Bitte versuche es erneut.",
+        "pauseTitle": "Song pausiert ⏸️",
+        "pauseDescription": "Die Wiedergabe wurde **{state}**. Jetzt läuft {title} {link}!",
+        "pauseStateResumed": "fortgesetzt",
+        "pauseStatePaused": "pausiert",
+        "skipTitle": "Song übersprungen ⏭️",
+        "skipDescription": "Jetzt läuft: {title} {link}",
+        "stopTitle": "Musik gestoppt 🛑",
+        "stopDescription": "Die Musik wurde gestoppt... ich verlasse den Kanal!",
+        "loopOffTitle": "Wiederholungsmodus aus 📴",
+        "loopOffDescription": "Der Wiederholungsmodus wurde auf **aus** gesetzt!",
+        "loopTrackTitle": "Wiederholungsmodus an 🔂",
+        "loopTrackDescription": "Der Wiederholungsmodus wurde auf den **aktuellen Titel** gesetzt!",
+        "volumeTitle": "Lautstärke angepasst 🎧",
+        "volumeDescription": "Die Lautstärke wurde auf **{volume}%** gesetzt!",
+        "volumeModalTitle": "Lautstärke anpassen - Aktuell bei {volume}%",
+        "volumeModalLabel": "Wie hoch soll die neue Lautstärke sein (0-100)?",
+        "volumeModalPlaceholder": "Deine Antwort...",
+        "volumeModalInvalid": "❌ | Die Lautstärke muss zwischen 0 und 100 liegen, deine Eingabe lag außerhalb dieses Bereichs.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Verbindung getrennt 🛑",
+        "disconnectDescription": "Ich war eine Weile inaktiv!",
+        "emptyChannelTitle": "Wiedergabe beenden 🛑",
+        "emptyChannelDescription": "Niemand ist im Sprachkanal!",
+        "queueFinishedTitle": "Warteschlange beendet 🛑",
+        "queueFinishedDescription": "Die Musik-Warteschlange ist beendet!"
+    }
+}

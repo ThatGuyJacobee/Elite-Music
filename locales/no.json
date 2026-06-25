@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Lenke",
+        "unknownUser": "Ukjent bruker",
+        "songCoverImage": "Omslagsbilde for sangen {title}",
+        "playlistCoverImage": "Omslagsbilde for spillelisten {title}",
+        "albumCoverImage": "Omslagsbilde for albumet {title}",
+        "coverImageNotFound": "Omslagsbilde ikke funnet"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Nedkjøling: Vent **{seconds}** sekunder til før du bruker kommandoen **/{command}** igjen!",
+        "commandExecution": "❌ | Beklager, det oppstod en feil under kjøring av kommandoen. Sjekk loggene for feilen.",
+        "genericAction": "❌ | Oisann... noe gikk galt under {action}. Prøv igjen.",
+        "failedToFindSongQuery": "❌ | Oisann... noe gikk galt, fant ikke sangen med det gitte søket.",
+        "failedToFindSong": "❌ | Oisann... noe gikk galt, fant ikke sangen.",
+        "playRequest": "❌ | Oisann... noe gikk galt mens jeg forsøkte å spille den forespurte sangen. Prøv igjen.",
+        "addTracks": "❌ | Oisann... noe gikk galt, klarte ikke å legge til sporet/sporene i køen.",
+        "joinVoice": "❌ | Oisann... noe gikk galt, klarte ikke å bli med i kanalen din.",
+        "joinVoiceChannel": "❌ | Oisann... noe gikk galt, klarte ikke å bli med i tale-kanalen din.",
+        "playback": "❌ | Oisann... noe gikk galt, det oppstod en avspillingsfeil. Prøv igjen.",
+        "noViewChannel": "Feil: Jeg har ikke tillatelse til å se denne kanalen og kan ikke redigere hjelpeteksten!",
+        "extractFailed": "❌ | Klarte ikke å hente ut følgende sang... hopper til neste!",
+        "subsonicSongMetadata": "❌ | Klarte ikke å laste sangmetadata fra Subsonic.",
+        "emptyPlaylist": "❌ | Denne spillelisten har ingen spillbare spor.",
+        "emptyAlbum": "❌ | Dette albumet har ingen spillbare spor.",
+        "failedToFindMediaQuery": "❌ | Oisann... noe gikk galt, fant ikke sangen, spillelisten eller albumet med det gitte søket.",
+        "playNextPlaylistOnly": "❌ | Oisann... du kan bare legge til enkeltlåter med denne kommandoen. Bruk den vanlige **/play**-kommandoen for å legge spillelister i køen.",
+        "actions": {
+            "skippingSong": "hopper over sangen",
+            "clearingQueue": "tømmer køen",
+            "shufflingQueue": "blander køen",
+            "stoppingQueue": "stopper køen",
+            "adjustingVolume": "justerer volumet",
+            "returningToPreviousSong": "går tilbake til forrige sang",
+            "pausing": "setter på pause",
+            "resuming": "gjenopptar",
+            "seekingSong": "spoler i sangen",
+            "jumpingQueue": "hopper i køen",
+            "switchingLoopMode": "bytter gjentakelsesmodus",
+            "removingSong": "fjerner sangen fra køen",
+            "adjustingAudioFilter": "justerer lydfilteret"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen.",
+        "subsonicDisabled": "❌ | Subsonic er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen."
+    },
+    "guards": {
+        "djMode": "❌ | DJ-modus er aktiv! Du må ha DJ-rollen {role} for å bruke musikkkommandoer!",
+        "notInVoice": "❌ | Du er ikke i en talekanal!",
+        "notInBotVoice": "❌ | Du er ikke i min talekanal!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Ingen musikk spilles akkurat nå!",
+        "empty": "❌ | Det er ingen musikk i køen akkurat nå!",
+        "emptyQueued": "❌ | Ingen musikk er lagt i kø akkurat nå!",
+        "alreadyFirstPage": "❌ | Køen er allerede på første side!",
+        "alreadyLastPage": "❌ | Køen er allerede på siste side!",
+        "title": "Gjeldende musikkø 🎵",
+        "moreTracks": "...og {count} flere spor",
+        "nowPlayingField": "Spilles nå ▶️",
+        "clearTitle": "Kø tømt 🧹",
+        "clearDescription": "Hele musikkøen er blitt tømt!",
+        "shuffleTitle": "Kø blandet 🔀",
+        "shuffleDescription": "Hele musikkøen er blitt blandet!",
+        "expired": "Bruk **/queue** igjen for å vise embed-en på nytt.",
+        "historyTitle": "Tidligere musikkøhistorikk 🔙",
+        "historyExpired": "Bruk **/queuehistory** igjen for å vise embed-en på nytt.",
+        "previousPage": "⬅️ Forrige side",
+        "nextPage": "➡️ Neste side"
+    },
+    "footer": {
+        "requestedBy": "Forespurt av: {user}",
+        "requestedByPage": "Forespurt av: {user} - Side {page}"
+    },
+    "volume": {
+        "current": "🔊 | Nåværende volum er satt til **{volume}%**!",
+        "invalidRange": "❌ | Volumet må være mellom 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Gjenta-modus på 🔁",
+        "autoplayTitle": "Gjenta-modus på 🤖",
+        "trackMode": "det **nåværende sporet**",
+        "queueMode": "**hele køen**",
+        "autoplayMode": "**autospill musikk**",
+        "offMode": "**av**",
+        "description": "Gjenta-modus er satt til {mode}!"
+    },
+    "seek": {
+        "title": "Søk i sang ↪️",
+        "description": "Spolte den nåværende sangen til {time}! Spiller nå {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Hoppet til sang ⏭️"
+    },
+    "remove": {
+        "title": "Sang fjernet ❌",
+        "description": "Fjernet sporet {title} {link} fra køen!",
+        "invalidPosition": "❌ | Det finnes ingen sang på den oppgitte plasseringen i køen. Prøv igjen."
+    },
+    "lyrics": {
+        "notFound": "❌ | Fant ingen tekst for det forespurte søket!",
+        "title": "Tekst for {title} av {artist} 🎶",
+        "truncatedSuffix": "\nOg mer...",
+        "fullLyricsButton": "🎶 Full tekst"
+    },
+    "audiofilter": {
+        "noneEnabled": "Det er for øyeblikket ingen lydfiltre aktivert!",
+        "listEnabled": "De aktive lydfiltrene er:\n- {filters}",
+        "toggleTitle": "Lydfilter vekslet 🎵",
+        "toggleDescription": "Lydfilteret **{filter}** ble {state}!",
+        "stateEnabled": "aktivert",
+        "stateDisabled": "deaktivert",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Avspilling startet ▶️",
+        "addedTitle": "Lagt til i kø ⏱️",
+        "addedTopTitle": "Lagt øverst i køen ⏱️",
+        "startedSong": "Begynte å spille sangen **{title}** {link}!",
+        "queuedSong": "La sangen **{title}** {link} i køen!",
+        "queuedSongTop": "La sangen **{title}** {link} øverst i køen (spilles neste)!",
+        "importedPlaylistStart": "Importerte spillelisten **{title} {link}** med **{count}** sanger og begynte å spille køen!",
+        "importedPlaylistQueued": "Importerte spillelisten **{title} {link}** med **{count}** sanger!",
+        "importedPlaylistTop": "Importerte spillelisten **{title} {link}** med **{count}** sanger til toppen av køen (spilles neste)!",
+        "importedAlbumStart": "Importerte albumet **{title}** med **{count}** sanger og begynte å spille køen!",
+        "importedAlbumQueued": "Importerte albumet **{title}** med **{count}** sanger!",
+        "importedAlbumTop": "Importerte albumet **{title}** med **{count}** sanger til toppen av køen (spilles neste)!"
+    },
+    "commands": {
+        "audiofilter": "Sjekk eller bytt lydfiltre!",
+        "back": "Spill forrige sang!",
+        "botinfo": "Vis informasjon om Elite Bot!",
+        "clearqueue": "Tøm den nåværende musikkøen!",
+        "help": "Få informasjon om kommandoene mine!",
+        "jumpqueue": "Hopp til en bestemt sang i køen!",
+        "loop": "Angi gjentakelsestype!",
+        "lyrics": "Få teksten til en sang!",
+        "nowplaying": "Sjekk sangen som spilles nå!",
+        "pause": "Sett den nåværende sangen på pause!",
+        "play": "Legg en sang i køen!",
+        "playnext": "Legg en sang øverst i køen!",
+        "plex": {
+            "description": "Spill musikk fra Plex-biblioteket inn i køen!",
+            "play": "Spill et spor, en spilleliste eller et album fra Plex-serveren din.",
+            "search": "Søk etter spor, spillelister og album.",
+            "playnext": "Legg et spor, en spilleliste eller et album fra Plex-serveren din i køen som neste."
+        },
+        "queue": "Sjekk musikken som er i køen!",
+        "queuehistory": "Sjekk tidligere køhistorikk i serveren!",
+        "remove": "Fjern en bestemt sang fra køen!",
+        "seek": "Spol til et annet tidspunkt i den nåværende sangen!",
+        "shuffle": "Bland den nåværende køen!",
+        "skip": "Hopp over den nåværende sangen!",
+        "stop": "Stopp all musikk som spilles!",
+        "subsonic": {
+            "description": "Spill musikk fra Subsonic-biblioteket inn i køen!",
+            "play": "Spill et spor, en spilleliste eller et album fra Subsonic-serveren din.",
+            "search": "Søk etter spor, spillelister og album.",
+            "playnext": "Legg et spor, en spilleliste eller et album fra Subsonic-serveren din i køen som neste."
+        },
+        "volume": "Sjekk eller sett nåværende musikkvolum!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Navnet, URL-en eller spilleliste-URL-en du vil spille.",
+                "playnext": "Navnet eller URL-en til sangen du vil spille (ingen spillelister).",
+                "library": "Søketøy for et spor, en spilleliste eller et album."
+            },
+            "filter": "Hvilket filter vil du slå av/på?",
+            "query": "Skriv inn navnet på sangen.",
+            "song": {
+                "remove": "Hvilket sangnummer skal fjernes fra køen?",
+                "jumpqueue": "Hvilket sangnummer skal flyttes til starten av køen (bruk /queue for å sjekke)?"
+            },
+            "time": "Tiden du vil spole til i den nåværende sangen (Eksempler: 1s, 1m, 1h)!",
+            "amount": "Hva vil du sette volumet til (0-100)?",
+            "loopmode": "Hvilken gjentakelsesmodus vil du aktivere?",
+            "scope": "Velg hvilken type innhold du vil søke etter.",
+            "order": "Rekkefølge brukt når flere spor legges til fra en spilleliste eller et album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (alle typer)",
+                "track": "Bare spor",
+                "playlist": "Bare spillelister",
+                "album": "Bare album"
+            },
+            "order": {
+                "sequential": "Sekvensielt",
+                "shuffle": "Bland",
+                "reverse": "Omvendt"
+            },
+            "loopmode": {
+                "0": "Av",
+                "1": "Spor",
+                "2": "Kø",
+                "3": "Autospill"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Hjelpemeny",
+        "homeDescription": "Velg en kategori via menyen nedenfor for å se tilgjengelige kommandoer. 📢 \\n\\nOpplever du en feil eller har du et godt forslag til forbedring? Opprett en sak på **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** eller kontakt meg ved å bli med i **[Support Discord Server](https://discord.elite-bot.com)**, så blir det vurdert så snart som mulig. 🆘\\n\\nFor mer detaljert oppsettinformasjon kan du se **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, som alltid holdes oppdatert og gir deg alt du trenger å vite. 📄",
+        "footer": "/help | Forespurt av: {user}",
+        "homeOptionLabel": "Hjem",
+        "homeOptionDescription": "Hjemmeside",
+        "menuPlaceholder": "Klikk for å se alle kategoriene",
+        "categoryPageDescription": "{category}-kommandoer side",
+        "categoryFallback": "{category}-kommandoer",
+        "categoryTitle": "Hjelpemeny - {category} kategori! {emoji}",
+        "categories": {
+            "music": "Musikk",
+            "utilities": "Verktøy"
+        },
+        "musicDescription": "Musikkkommandoer.",
+        "utilitiesDescription": "Generelt nyttige kommandoer.",
+        "noDescription": "Ingen beskrivelse",
+        "buttons": {
+            "repo": "🛡️ Åpen kildekode-repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot-dokumentasjon",
+            "support": "🆘 Støtteserver"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Botinformasjon",
+        "title": "Elite Music-informasjon",
+        "process": "Prosess",
+        "dependencies": "Avhengigheter",
+        "ping": "Ping",
+        "uptime": "Oppe siden",
+        "version": "Elite Music-versjon",
+        "developer": "Utvikler og vedlikeholder",
+        "openSource": "Åpen kildekode-prosjekt",
+        "openSourceDescription": "Vil du forbedre denne åpne boten? Eller ønsker du å drifte den selv? Da er du på rett sted! Du kan besøke den offentlige [repoen her](https://github.com/ThatGuyJacobee/Elite-Bot-Music) og følge README-instruksjonene for mer info! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Åpen kildekode-repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot-dokumentasjon",
+            "support": "🆘 Støtteserver"
+        }
+    },
+    "search": {
+        "placeholder": "Legg et element i kø 👈",
+        "resultsTitle": "Musikksøkeresultater 🎵",
+        "resultsDescription": "Fant flere sanger som samsvarer med søket, velg én fra menyen nedenfor.",
+        "cancel": "Avbryt søk 🗑️",
+        "duration": "Varighet - {duration}",
+        "plexTitle": "Plex-søkeresultater 🎵",
+        "subsonicTitle": "Subsonic-søkeresultater 🎵",
+        "multipleResults": "Fant flere resultater som samsvarer med søket, velg ett fra menyen nedenfor.",
+        "singleResult": "Velg et element nedenfor for å legge det til i køen.",
+        "songResult": "[{index}] Sangresultat ({duration})",
+        "playlistResult": "[{index}] Spilleliste-resultat ({duration})",
+        "mediaResult": "[{index}] {type}-resultat ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type}-resultat",
+        "track": "Spor",
+        "playlist": "Spilleliste",
+        "album": "Album",
+        "songCount": "{count} sanger"
+    },
+    "np": {
+        "titleStarting": "Starter neste sang... Spiller nå 🎵",
+        "titleCurrent": "Spiller nå 🎵",
+        "buttons": {
+            "previous": "⏮️ Forrige",
+            "pauseResume": "⏯️ Spill/Pause",
+            "skip": "⏭️ Hopp over",
+            "clear": "🧹 Tøm kø",
+            "volume": "🔊 Juster volum",
+            "loop": "🔂 Gjenta én gang",
+            "shuffle": "🔀 Bland kø",
+            "stop": "🛑 Stopp kø"
+        },
+        "backTitle": "Spiller forrige sang ⏮️",
+        "backDescription": "Går tilbake til forrige sang: {title} {link}!",
+        "backMissing": "❌ | Det finnes ingen musikkhistorikk før den nåværende sangen. Prøv igjen.",
+        "pauseTitle": "Sang satt på pause ⏸️",
+        "pauseDescription": "Avspillingen har blitt **{state}**. Spiller nå {title} {link}!",
+        "pauseStateResumed": "gjenopptatt",
+        "pauseStatePaused": "satt på pause",
+        "skipTitle": "Sang hoppet over ⏭️",
+        "skipDescription": "Spiller nå: {title} {link}",
+        "stopTitle": "Musikk stoppet 🛑",
+        "stopDescription": "Musikken har blitt stoppet... forlater kanalen!",
+        "loopOffTitle": "Gjenta-modus av 📴",
+        "loopOffDescription": "Gjenta-modus er satt til **av**!",
+        "loopTrackTitle": "Gjenta-modus på 🔂",
+        "loopTrackDescription": "Gjenta-modus er satt til **det nåværende sporet**!",
+        "volumeTitle": "Volum justert 🎧",
+        "volumeDescription": "Volumet er satt til **{volume}%**!",
+        "volumeModalTitle": "Juster volum - Nå på {volume}%",
+        "volumeModalLabel": "Hva skal det nye volumet være (0-100)?",
+        "volumeModalPlaceholder": "Ditt svar...",
+        "volumeModalInvalid": "❌ | Volumet må være mellom 0-100, inndataen din var utenfor dette.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Kobler fra 🛑",
+        "disconnectDescription": "Jeg har vært inaktiv en stund!",
+        "emptyChannelTitle": "Avslutter avspilling 🛑",
+        "emptyChannelDescription": "Ingen er i talekanalen!",
+        "queueFinishedTitle": "Køen er ferdig 🛑",
+        "queueFinishedDescription": "Musikkøen er ferdig!"
+    }
+}

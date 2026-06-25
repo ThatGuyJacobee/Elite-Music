@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Bağlantı",
+        "unknownUser": "Bilinmeyen Kullanıcı",
+        "songCoverImage": "{title} için Şarkı Kapak Görseli",
+        "playlistCoverImage": "{title} için Çalma Listesi Kapak Görseli",
+        "albumCoverImage": "{title} için Albüm Kapak Görseli",
+        "coverImageNotFound": "Kapak Görseli Bulunamadı"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Bekleme Uyarısı: **/{command}** komutunu tekrar kullanmadan önce lütfen **{seconds}** saniye daha bekleyin!",
+        "commandExecution": "❌ | Üzgünüz, komutunuz çalıştırılırken bir hata oluştu. Hata için günlükleri kontrol edin.",
+        "genericAction": "❌ | Hay aksi... bir şeyler ters gitti, {action} sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+        "failedToFindSongQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı bulunamadı.",
+        "failedToFindSong": "❌ | Hay aksi... bir şeyler ters gitti, şarkı bulunamadı.",
+        "playRequest": "❌ | Hay aksi... istenen şarkıyı çalmaya çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
+        "addTracks": "❌ | Hay aksi... bir şeyler ters gitti, parça(lar) kuyruğa eklenemedi.",
+        "joinVoice": "❌ | Hay aksi... bir şeyler ters gitti, kanalınıza katılamadım.",
+        "joinVoiceChannel": "❌ | Hay aksi... bir şeyler ters gitti, ses kanalınıza katılamadım.",
+        "playback": "❌ | Hay aksi... bir şeyler ters gitti, oynatmayla ilgili bir hata oluştu. Lütfen tekrar deneyin.",
+        "noViewChannel": "Hata: Bu kanalı görüntüleme iznim yok ve yardım mesajını düzenleyemiyorum!",
+        "extractFailed": "❌ | Aşağıdaki şarkı çıkarılamadı... bir sonrakine geçiliyor!",
+        "subsonicSongMetadata": "❌ | Subsonic'ten şarkı meta verileri yüklenemedi.",
+        "emptyPlaylist": "❌ | Bu çalma listesinde çalınabilir parça yok.",
+        "emptyAlbum": "❌ | Bu albümde çalınabilir parça yok.",
+        "failedToFindMediaQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı, çalma listesi veya albüm bulunamadı.",
+        "playNextPlaylistOnly": "❌ | Hay aksi... bu komutla yalnızca tek şarkılar ekleyebilirsiniz. Çalma listelerini kuyruğa eklemek için normal **/play** komutunu kullanın.",
+        "actions": {
+            "skippingSong": "şarkıyı atlama",
+            "clearingQueue": "kuyruğu temizleme",
+            "shufflingQueue": "kuyruğu karıştırma",
+            "stoppingQueue": "kuyruğu durdurma",
+            "adjustingVolume": "ses seviyesini ayarlama",
+            "returningToPreviousSong": "önceki şarkıya dönme",
+            "pausing": "duraklatma",
+            "resuming": "devam ettirme",
+            "seekingSong": "şarkıda konum atlama",
+            "jumpingQueue": "kuyrukta atlama",
+            "switchingLoopMode": "döngü modunu değiştirme",
+            "removingSong": "şarkıyı kuyruktan kaldırma",
+            "adjustingAudioFilter": "ses filtresini ayarlama"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
+        "subsonicDisabled": "❌ | Subsonic şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin."
+    },
+    "guards": {
+        "djMode": "❌ | DJ Modu aktif! Müzik komutlarını kullanmak için DJ rolüne {role} sahip olmalısınız!",
+        "notInVoice": "❌ | Bir ses kanalında değilsiniz!",
+        "notInBotVoice": "❌ | Benim ses kanalımdayken değilsiniz!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Şu anda müzik çalmıyor!",
+        "empty": "❌ | Kuyrukta şu anda müzik yok!",
+        "emptyQueued": "❌ | Şu anda kuyrukta müzik yok!",
+        "alreadyFirstPage": "❌ | Kuyruk zaten ilk sayfada!",
+        "alreadyLastPage": "❌ | Kuyruk zaten son sayfada!",
+        "title": "Mevcut Müzik Kuyruğu 🎵",
+        "moreTracks": "...ve {count} parça daha",
+        "nowPlayingField": "Şimdi Çalıyor ▶️",
+        "clearTitle": "Kuyruk temizlendi 🧹",
+        "clearDescription": "Tüm müzik kuyruğu temizlendi!",
+        "shuffleTitle": "Kuyruk karıştırıldı 🔀",
+        "shuffleDescription": "Tüm müzik kuyruğu karıştırıldı!",
+        "expired": "Embed'i tekrar göstermek için lütfen **/queue** komutunu tekrar kullanın.",
+        "historyTitle": "Geçmiş Müzik Kuyruğu 🔙",
+        "historyExpired": "Embed'i tekrar göstermek için lütfen **/queuehistory** komutunu tekrar kullanın.",
+        "previousPage": "⬅️ Önceki Sayfa",
+        "nextPage": "➡️ Sonraki Sayfa"
+    },
+    "footer": {
+        "requestedBy": "İsteyen: {user}",
+        "requestedByPage": "İsteyen: {user} - Sayfa {page}"
+    },
+    "volume": {
+        "current": "🔊 | Mevcut ses seviyesi **{volume}%** olarak ayarlandı!",
+        "invalidRange": "❌ | Ses seviyesi 0-100% arasında olmalıdır!"
+    },
+    "loop": {
+        "queueTitle": "Döngü modu açık 🔁",
+        "autoplayTitle": "Döngü modu açık 🤖",
+        "trackMode": "**mevcut parça**",
+        "queueMode": "**tüm kuyruk**",
+        "autoplayMode": "**otomatik çalma**",
+        "offMode": "**kapalı**",
+        "description": "Döngü modu {mode} olarak ayarlandı!"
+    },
+    "seek": {
+        "title": "Şarkıda konum atla ↪️",
+        "description": "Mevcut şarkı {time} konumuna atlandı! Şu anda çalıyor: {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Şarkıya atlandı ⏭️"
+    },
+    "remove": {
+        "title": "Şarkı kaldırıldı ❌",
+        "description": "{title} {link} parçası kuyruktan kaldırıldı!",
+        "invalidPosition": "❌ | Kuyrukta sorgulanan konumda şarkı yok. Lütfen tekrar deneyin."
+    },
+    "lyrics": {
+        "notFound": "❌ | İstenen sorgu için şarkı sözü bulunamadı!",
+        "title": "{artist} - {title} Şarkı Sözleri 🎶",
+        "truncatedSuffix": "\nVe daha fazlası...",
+        "fullLyricsButton": "🎶 Tam Sözler"
+    },
+    "audiofilter": {
+        "noneEnabled": "Şu anda etkin ses filtresi yok!",
+        "listEnabled": "Şu anda etkin ses filtreleri:\n- {filters}",
+        "toggleTitle": "Ses filtresi değiştirildi 🎵",
+        "toggleDescription": "**{filter}** ses filtresi {state}!",
+        "stateEnabled": "Etkinleştirildi",
+        "stateDisabled": "Devre Dışı Bırakıldı",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Oynatma başladı ▶️",
+        "addedTitle": "Kuyruğa eklendi ⏱️",
+        "addedTopTitle": "Kuyruğun başına eklendi ⏱️",
+        "startedSong": "**{title}** {link} şarkısı çalmaya başladı!",
+        "queuedSong": "**{title}** {link} şarkısı kuyruğa eklendi!",
+        "queuedSongTop": "**{title}** {link} şarkısı kuyruğun başına eklendi (sırada bir sonraki)!",
+        "importedPlaylistStart": "**{title} {link} çalma listesi** **{count}** şarkıyla içe aktarıldı ve kuyruk çalmaya başladı!",
+        "importedPlaylistQueued": "**{title} {link} çalma listesi** **{count}** şarkıyla içe aktarıldı!",
+        "importedPlaylistTop": "**{title} {link} çalma listesi** **{count}** şarkıyla kuyruğun başına eklendi (sırada bir sonraki)!",
+        "importedAlbumStart": "**{title} albümü** **{count}** şarkıyla içe aktarıldı ve kuyruk çalmaya başladı!",
+        "importedAlbumQueued": "**{title} albümü** **{count}** şarkıyla içe aktarıldı!",
+        "importedAlbumTop": "**{title} albümü** **{count}** şarkıyla kuyruğun başına eklendi (sırada bir sonraki)!"
+    },
+    "commands": {
+        "audiofilter": "Ses filtrelerini kontrol et veya değiştir!",
+        "back": "Önceki şarkıyı çal!",
+        "botinfo": "Elite Bot hakkında bilgi döndür!",
+        "clearqueue": "Mevcut müzik kuyruğunu temizle!",
+        "help": "Komutlarım hakkında bilgi al!",
+        "jumpqueue": "Kuyruktaki belirli bir şarkıya atla!",
+        "loop": "Döngü türünü ayarla!",
+        "lyrics": "Bir şarkının sözlerini al!",
+        "nowplaying": "Şu anda çalan şarkıyı kontrol et!",
+        "pause": "Mevcut şarkıyı bulunduğu anda duraklat!",
+        "play": "Bir şarkıyı kuyruğa ekle!",
+        "playnext": "Bir şarkıyı kuyruğun başına ekle!",
+        "plex": {
+            "description": "Plex kütüphanenizden müziği kuyruğa ekle!",
+            "play": "Plex sunucunuzdan bir parça, çalma listesi veya albüm çal.",
+            "search": "Parça, çalma listesi ve albüm ara.",
+            "playnext": "Plex sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
+        },
+        "queue": "Kuyruktaki mevcut müziği kontrol et!",
+        "queuehistory": "Sunucudaki kuyruk geçmişini kontrol et!",
+        "remove": "Kuyruktan belirli bir şarkıyı kaldır!",
+        "seek": "Mevcut şarkıda başka bir zamana atla!",
+        "shuffle": "Mevcut kuyruğu karıştır!",
+        "skip": "Mevcut şarkıyı atla!",
+        "stop": "Çalan tüm müziği durdur!",
+        "subsonic": {
+            "description": "Subsonic kütüphanenizden müziği kuyruğa ekle!",
+            "play": "Subsonic sunucunuzdan bir parça, çalma listesi veya albüm çal.",
+            "search": "Parça, çalma listesi ve albüm ara.",
+            "playnext": "Subsonic sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
+        },
+        "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Çalmak istediğiniz ad, URL veya çalma listesi URL'si.",
+                "playnext": "Çalmak istediğiniz şarkının adı veya URL'si (çalma listesi yok).",
+                "library": "Parça, çalma listesi veya albüm için arama sorgusu."
+            },
+            "filter": "Hangi filtreyi değiştirmek istiyorsunuz?",
+            "query": "Şarkının adını girin.",
+            "song": {
+                "remove": "Kuyruktan hangi #no. şarkı kaldırılsın?",
+                "jumpqueue": "Kuyruğun başına hangi #no. şarkı taşınsın (/queue ile kontrol edin)?"
+            },
+            "time": "Mevcut şarkıda atlama zamanı (Örnekler: 1s, 1m, 1h)!",
+            "amount": "Ses seviyesini ne olarak ayarlamak istiyorsunuz (0-100)?",
+            "loopmode": "Hangi döngü modunu etkinleştirmek istiyorsunuz?",
+            "scope": "Aranacak içerik türünü seçin.",
+            "order": "Çalma listesi veya albümden birden fazla parça eklerken kullanılan sıra."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Otomatik (tüm türler)",
+                "track": "Yalnızca parçalar",
+                "playlist": "Yalnızca çalma listeleri",
+                "album": "Yalnızca albümler"
+            },
+            "order": {
+                "sequential": "Sıralı",
+                "shuffle": "Karışık",
+                "reverse": "Ters"
+            },
+            "loopmode": {
+                "0": "Kapalı",
+                "1": "Parça",
+                "2": "Kuyruk",
+                "3": "Otomatik Çalma"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Yardım Menüsü",
+        "homeDescription": "Mevcut komutları görmek için aşağıdaki menüden bir kategori seçin. 📢 \\n\\nBir hata mı yaşıyorsunuz veya harika bir geliştirme öneriniz mi var? Lütfen **[GitHub Deposu](https://github.com/ThatGuyJacobee/Elite-Music)** üzerinde bir issue oluşturun veya **[Destek Discord Sunucusu](https://discord.elite-bot.com)**'na katılarak benimle iletişime geçin; en kısa sürede incelenecektir. 🆘\\n\\nAyrıntılı kurulum bilgileri için her zaman güncel tutulan ve bilmeniz gereken her şeyi sağlayan **[GitHub Deposu ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** dosyasına göz atın. 📄",
+        "footer": "/help | İsteyen: {user}",
+        "homeOptionLabel": "Ana Sayfa",
+        "homeOptionDescription": "Ana Sayfa",
+        "menuPlaceholder": "Tüm kategorileri görmek için tıklayın",
+        "categoryPageDescription": "{category} komutları sayfası",
+        "categoryFallback": "{category} Komutları",
+        "categoryTitle": "Yardım Menüsü - {category} Kategorisi! {emoji}",
+        "categories": {
+            "music": "Müzik",
+            "utilities": "Araçlar"
+        },
+        "musicDescription": "Müzik komutları.",
+        "utilitiesDescription": "Genel olarak kullanışlı komutlar.",
+        "noDescription": "Açıklama yok",
+        "buttons": {
+            "repo": "🛡️ Açık Kaynak Deposu",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Dokümantasyonu",
+            "support": "🆘 Destek Sunucusu"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot Bilgisi",
+        "title": "Elite Music Bilgileri",
+        "process": "İşlem",
+        "dependencies": "Bağımlılıklar",
+        "ping": "Ping",
+        "uptime": "Çalışma Süresi",
+        "version": "Elite Music Sürümü",
+        "developer": "Geliştirici ve Bakımcı",
+        "openSource": "Açık Kaynak Proje",
+        "openSourceDescription": "Bu açık kaynak botu geliştirmek mi istiyorsunuz? Yoksa kendiniz mi barındırmak istiyorsunuz? Doğru yerdesiniz! [Herkese açık bot deposuna buradan](https://github.com/ThatGuyJacobee/Elite-Bot-Music) erişebilir ve daha fazla bilgi için readme talimatlarını takip edebilirsiniz! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Açık Kaynak Deposu",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Dokümantasyonu",
+            "support": "🆘 Destek Sunucusu"
+        }
+    },
+    "search": {
+        "placeholder": "Kuyruğa öğe ekle 👈",
+        "resultsTitle": "Müzik Arama Sonuçları 🎵",
+        "resultsDescription": "Verilen arama sorgusuyla eşleşen birden fazla şarkı bulundu, aşağıdaki menüden birini seçin.",
+        "cancel": "Aramayı İptal Et 🗑️",
+        "duration": "Süre - {duration}",
+        "plexTitle": "Plex Arama Sonuçları 🎵",
+        "subsonicTitle": "Subsonic Arama Sonuçları 🎵",
+        "multipleResults": "Verilen arama sorgusuyla eşleşen birden fazla sonuç bulundu, aşağıdaki menüden birini seçin.",
+        "singleResult": "Kuyruğa eklemek için aşağıdan bir öğe seçin.",
+        "songResult": "[{index}] Şarkı Sonucu ({duration})",
+        "playlistResult": "[{index}] Çalma Listesi Sonucu ({duration})",
+        "mediaResult": "[{index}] {type} Sonucu ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} Sonucu",
+        "track": "Parça",
+        "playlist": "Çalma Listesi",
+        "album": "Albüm",
+        "songCount": "{count} şarkı"
+    },
+    "np": {
+        "titleStarting": "Sonraki şarkı başlıyor... Şimdi Çalıyor 🎵",
+        "titleCurrent": "Şimdi çalıyor 🎵",
+        "buttons": {
+            "previous": "⏮️ Önceki",
+            "pauseResume": "⏯️ Oynat/Duraklat",
+            "skip": "⏭️ Atla",
+            "clear": "🧹 Kuyruğu Temizle",
+            "volume": "🔊 Ses Ayarla",
+            "loop": "🔂 Bir Kez Döngü",
+            "shuffle": "🔀 Kuyruğu Karıştır",
+            "stop": "🛑 Kuyruğu Durdur"
+        },
+        "backTitle": "Önceki şarkı çalınıyor ⏮️",
+        "backDescription": "Önceki şarkıya dönülüyor: {title} {link}!",
+        "backMissing": "❌ | Mevcut şarkıdan önce müzik geçmişi yok. Lütfen tekrar deneyin.",
+        "pauseTitle": "Şarkı duraklatıldı ⏸️",
+        "pauseDescription": "Oynatma **{state}**. Şu anda çalıyor: {title} {link}!",
+        "pauseStateResumed": "devam ettirildi",
+        "pauseStatePaused": "duraklatıldı",
+        "skipTitle": "Şarkı atlandı ⏭️",
+        "skipDescription": "Şimdi çalıyor: {title} {link}",
+        "stopTitle": "Müzik durduruldu 🛑",
+        "stopDescription": "Müzik durduruldu... kanaldan ayrılıyorum!",
+        "loopOffTitle": "Döngü modu kapalı 📴",
+        "loopOffDescription": "Döngü modu **kapalı** olarak ayarlandı!",
+        "loopTrackTitle": "Döngü modu açık 🔂",
+        "loopTrackDescription": "Döngü modu **mevcut parça** olarak ayarlandı!",
+        "volumeTitle": "Ses seviyesi ayarlandı 🎧",
+        "volumeDescription": "Ses seviyesi **{volume}%** olarak ayarlandı!",
+        "volumeModalTitle": "Ses Ayarla - Şu an {volume}%",
+        "volumeModalLabel": "Yeni ses seviyesi ne olmalı (0-100)?",
+        "volumeModalPlaceholder": "Yanıtınız...",
+        "volumeModalInvalid": "❌ | Ses seviyesi 0-100 arasında olmalıdır, girdiniz bu aralığın dışındaydı.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Bağlantı kesiliyor 🛑",
+        "disconnectDescription": "Bir süredir etkin değildim!",
+        "emptyChannelTitle": "Oynatma sonlandırılıyor 🛑",
+        "emptyChannelDescription": "Ses kanalında kimse yok!",
+        "queueFinishedTitle": "Kuyruk Bitti 🛑",
+        "queueFinishedDescription": "Müzik kuyruğu tamamlandı!"
+    }
+}

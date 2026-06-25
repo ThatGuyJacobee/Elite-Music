@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "リンク",
+        "unknownUser": "不明なユーザー",
+        "songCoverImage": "{title} の曲カバー画像",
+        "playlistCoverImage": "{title} のプレイリストカバー画像",
+        "albumCoverImage": "{title} のアルバムカバー画像",
+        "coverImageNotFound": "カバー画像が見つかりません"
+    },
+    "errors": {
+        "cooldown": "⏱️ | クールダウン: **/{command}** コマンドを再度使用するまで、あと **{seconds}** 秒お待ちください！",
+        "commandExecution": "❌ | 申し訳ありません。コマンドの実行中にエラーが発生しました。ログでエラーを確認してください。",
+        "genericAction": "❌ | おっと... 問題が発生しました。{action} 中にエラーが発生しました。もう一度お試しください。",
+        "failedToFindSongQuery": "❌ | おっと... 問題が発生しました。指定されたクエリで曲が見つかりませんでした。",
+        "failedToFindSong": "❌ | おっと... 問題が発生しました。曲が見つかりませんでした。",
+        "playRequest": "❌ | おっと... リクエストされた曲の再生中に問題が発生しました。もう一度お試しください。",
+        "addTracks": "❌ | おっと... 問題が発生しました。曲をキューに追加できませんでした。",
+        "joinVoice": "❌ | おっと... 問題が発生しました。チャンネルに参加できませんでした。",
+        "joinVoiceChannel": "❌ | おっと... 問題が発生しました。ボイスチャンネルに参加できませんでした。",
+        "playback": "❌ | おっと... 問題が発生しました。再生に関するエラーが発生しました。もう一度お試しください。",
+        "noViewChannel": "エラー: このチャンネルを表示する権限がなく、ヘルプメッセージを編集できません！",
+        "extractFailed": "❌ | 次の曲の抽出に失敗しました... 次の曲にスキップします！",
+        "subsonicSongMetadata": "❌ | Subsonic から曲のメタデータを読み込めませんでした。",
+        "emptyPlaylist": "❌ | このプレイリストには再生可能な曲がありません。",
+        "emptyAlbum": "❌ | このアルバムには再生可能な曲がありません。",
+        "failedToFindMediaQuery": "❌ | おっと... 問題が発生しました。指定されたクエリで曲、プレイリスト、またはアルバムが見つかりませんでした。",
+        "playNextPlaylistOnly": "❌ | おっと... このコマンドでは単曲のみ追加できます。プレイリストをキューに追加するには通常の **/play** コマンドを使用してください。",
+        "actions": {
+            "skippingSong": "曲をスキップ",
+            "clearingQueue": "キューをクリア",
+            "shufflingQueue": "キューをシャッフル",
+            "stoppingQueue": "キューを停止",
+            "adjustingVolume": "音量を調整",
+            "returningToPreviousSong": "前の曲に戻る",
+            "pausing": "一時停止",
+            "resuming": "再生再開",
+            "seekingSong": "曲をシーク",
+            "jumpingQueue": "キューをジャンプ",
+            "switchingLoopMode": "ループモードを切り替え",
+            "removingSong": "キューから曲を削除",
+            "adjustingAudioFilter": "オーディオフィルターを調整"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
+        "subsonicDisabled": "❌ | Subsonic は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。"
+    },
+    "guards": {
+        "djMode": "❌ | DJ モードが有効です！音楽コマンドを使用するには DJ ロール {role} が必要です！",
+        "notInVoice": "❌ | ボイスチャンネルに参加していません！",
+        "notInBotVoice": "❌ | ボットと同じボイスチャンネルにいません！"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | 現在再生中の音楽はありません！",
+        "empty": "❌ | キューに音楽がありません！",
+        "emptyQueued": "❌ | 現在キューに登録されている音楽はありません！",
+        "alreadyFirstPage": "❌ | キューはすでに最初のページです！",
+        "alreadyLastPage": "❌ | キューはすでに最後のページです！",
+        "title": "現在のミュージックキュー 🎵",
+        "moreTracks": "...他 {count} 曲",
+        "nowPlayingField": "再生中 ▶️",
+        "clearTitle": "キューをクリア 🧹",
+        "clearDescription": "ミュージックキュー全体がクリアされました！",
+        "shuffleTitle": "キューをシャッフル 🔀",
+        "shuffleDescription": "ミュージックキュー全体がシャッフルされました！",
+        "expired": "埋め込みを再度表示するには **/queue** を使用してください。",
+        "historyTitle": "過去のミュージックキュー履歴 🔙",
+        "historyExpired": "埋め込みを再度表示するには **/queuehistory** を使用してください。",
+        "previousPage": "⬅️ 前のページ",
+        "nextPage": "➡️ 次のページ"
+    },
+    "footer": {
+        "requestedBy": "リクエスト: {user}",
+        "requestedByPage": "リクエスト: {user} - ページ {page}"
+    },
+    "volume": {
+        "current": "🔊 | 現在の音量は **{volume}%** に設定されています！",
+        "invalidRange": "❌ | 音量は 0〜100% の間で設定する必要があります！"
+    },
+    "loop": {
+        "queueTitle": "ループモード ON 🔁",
+        "autoplayTitle": "ループモード ON 🤖",
+        "trackMode": "**現在の曲**",
+        "queueMode": "**キュー全体**",
+        "autoplayMode": "**自動再生**",
+        "offMode": "**オフ**",
+        "description": "ループモードが {mode} に設定されました！"
+    },
+    "seek": {
+        "title": "曲をシーク ↪️",
+        "description": "現在の曲を {time} にシークしました！現在再生中: {title} {link}。"
+    },
+    "jumpqueue": {
+        "title": "曲にジャンプ ⏭️"
+    },
+    "remove": {
+        "title": "曲を削除 ❌",
+        "description": "キューから {title} {link} を削除しました！",
+        "invalidPosition": "❌ | 指定された位置に曲がありません。もう一度お試しください。"
+    },
+    "lyrics": {
+        "notFound": "❌ | 指定されたクエリの歌詞が見つかりませんでした！",
+        "title": "{artist} の {title} の歌詞 🎶",
+        "truncatedSuffix": "\n他にも...",
+        "fullLyricsButton": "🎶 歌詞全文"
+    },
+    "audiofilter": {
+        "noneEnabled": "現在有効なオーディオフィルターはありません！",
+        "listEnabled": "現在有効なオーディオフィルター:\n- {filters}",
+        "toggleTitle": "オーディオフィルターを切り替え 🎵",
+        "toggleDescription": "**{filter}** オーディオフィルターが {state} になりました！",
+        "stateEnabled": "有効",
+        "stateDisabled": "無効",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "再生開始 ▶️",
+        "addedTitle": "キューに追加 ⏱️",
+        "addedTopTitle": "キューの先頭に追加 ⏱️",
+        "startedSong": "曲 **{title}** {link} の再生を開始しました！",
+        "queuedSong": "曲 **{title}** {link} をキューに追加しました！",
+        "queuedSongTop": "曲 **{title}** {link} をキューの先頭に追加しました（次に再生）！",
+        "importedPlaylistStart": "**{title} {link} プレイリスト**（**{count}** 曲）をインポートし、キューの再生を開始しました！",
+        "importedPlaylistQueued": "**{title} {link} プレイリスト**（**{count}** 曲）をインポートしました！",
+        "importedPlaylistTop": "**{title} {link} プレイリスト**（**{count}** 曲）をキューの先頭にインポートしました（次に再生）！",
+        "importedAlbumStart": "**{title} アルバム**（**{count}** 曲）をインポートし、キューの再生を開始しました！",
+        "importedAlbumQueued": "**{title} アルバム**（**{count}** 曲）をインポートしました！",
+        "importedAlbumTop": "**{title} アルバム**（**{count}** 曲）をキューの先頭にインポートしました（次に再生）！"
+    },
+    "commands": {
+        "audiofilter": "オーディオフィルターを確認または切り替えます！",
+        "back": "前の曲を再生します！",
+        "botinfo": "Elite Bot に関する情報を表示します！",
+        "clearqueue": "現在のミュージックキューをクリアします！",
+        "help": "コマンドに関する情報を取得します！",
+        "jumpqueue": "キュー内の特定の曲にジャンプします！",
+        "loop": "ループタイプを設定します！",
+        "lyrics": "曲の歌詞を取得します！",
+        "nowplaying": "現在再生中の曲を確認します！",
+        "pause": "現在の曲を現在の位置で一時停止します！",
+        "play": "曲をキューに追加します！",
+        "playnext": "曲をキューの先頭に追加します！",
+        "plex": {
+            "description": "Plex ライブラリから音楽をキューに再生します！",
+            "play": "Plex サーバーから曲、プレイリスト、またはアルバムを再生します。",
+            "search": "曲、プレイリスト、アルバムを検索します。",
+            "playnext": "Plex サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
+        },
+        "queue": "現在キューにある音楽を確認します！",
+        "queuehistory": "ギルド内のキュー履歴を確認します！",
+        "remove": "キューから特定の曲を削除します！",
+        "seek": "現在の曲の別の時間位置にシークします！",
+        "shuffle": "現在のキューをシャッフルします！",
+        "skip": "現在の曲をスキップします！",
+        "stop": "再生中の音楽を停止します！",
+        "subsonic": {
+            "description": "Subsonic ライブラリから音楽をキューに再生します！",
+            "play": "Subsonic サーバーから曲、プレイリスト、またはアルバムを再生します。",
+            "search": "曲、プレイリスト、アルバムを検索します。",
+            "playnext": "Subsonic サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
+        },
+        "volume": "現在の音量を確認または設定します！"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "再生したい曲名、URL、またはプレイリスト URL。",
+                "playnext": "再生したい曲名または URL（プレイリスト不可）。",
+                "library": "曲、プレイリスト、またはアルバムの検索クエリ。"
+            },
+            "filter": "切り替えるフィルターを選択してください。",
+            "query": "曲名を入力してください。",
+            "song": {
+                "remove": "キューから削除する曲の #番号は？",
+                "jumpqueue": "キューの先頭に移動する曲の #番号（/queue で確認）"
+            },
+            "time": "現在の曲をシークする時間（例: 1s、1m、1h）！",
+            "amount": "設定する音量（0-100）は？",
+            "loopmode": "有効にするループモードは？",
+            "scope": "検索するコンテンツの種類を選択してください。",
+            "order": "プレイリストまたはアルバムから複数曲を追加する際の順序。"
+        },
+        "choices": {
+            "scope": {
+                "auto": "自動（すべて）",
+                "track": "曲のみ",
+                "playlist": "プレイリストのみ",
+                "album": "アルバムのみ"
+            },
+            "order": {
+                "sequential": "順番通り",
+                "shuffle": "シャッフル",
+                "reverse": "逆順"
+            },
+            "loopmode": {
+                "0": "オフ",
+                "1": "曲",
+                "2": "キュー",
+                "3": "自動再生"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - ヘルプメニュー",
+        "homeDescription": "下のメニューからカテゴリを選択して、利用可能なコマンドを表示してください。 📢 \\n\\nバグを見つけた、または改善の提案がありますか？**[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** で Issue を作成するか、**[Support Discord Server](https://discord.elite-bot.com)** に参加してご連絡ください。できるだけ早く確認します。 🆘\\n\\n詳細なセットアップ情報については、常に最新の状態が維持されている **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** をご覧ください。必要な情報がすべて記載されています。 📄",
+        "footer": "/help | リクエスト: {user}",
+        "homeOptionLabel": "ホーム",
+        "homeOptionDescription": "ホームページ",
+        "menuPlaceholder": "クリックしてすべてのカテゴリを表示",
+        "categoryPageDescription": "{category} コマンドページ",
+        "categoryFallback": "{category} コマンド",
+        "categoryTitle": "ヘルプメニュー - {category} カテゴリ！ {emoji}",
+        "categories": {
+            "music": "音楽",
+            "utilities": "ユーティリティ"
+        },
+        "musicDescription": "音楽コマンド。",
+        "utilitiesDescription": "一般的に便利なコマンド。",
+        "noDescription": "説明なし",
+        "buttons": {
+            "repo": "🛡️ オープンソースリポジトリ",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot ドキュメント",
+            "support": "🆘 サポートサーバー"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - ボット情報",
+        "title": "Elite Music 情報",
+        "process": "プロセス",
+        "dependencies": "依存関係",
+        "ping": "Ping",
+        "uptime": "稼働時間",
+        "version": "Elite Music バージョン",
+        "developer": "開発者 & メンテナー",
+        "openSource": "オープンソースプロジェクト",
+        "openSourceDescription": "このオープンソースボットの改善に興味がありますか？自分でホストしたいですか？こちらをご覧ください！公開ボットの [リポジトリはこちら](https://github.com/ThatGuyJacobee/Elite-Bot-Music) からアクセスでき、readme の手順に従って詳細を確認できます！ :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ オープンソースリポジトリ",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot ドキュメント",
+            "support": "🆘 サポートサーバー"
+        }
+    },
+    "search": {
+        "placeholder": "キューに追加 👈",
+        "resultsTitle": "音楽検索結果 🎵",
+        "resultsDescription": "検索クエリに一致する複数の曲が見つかりました。下のメニューから選択してください。",
+        "cancel": "検索をキャンセル 🗑️",
+        "duration": "再生時間 - {duration}",
+        "plexTitle": "Plex 検索結果 🎵",
+        "subsonicTitle": "Subsonic 検索結果 🎵",
+        "multipleResults": "検索クエリに一致する複数の結果が見つかりました。下のメニューから選択してください。",
+        "singleResult": "下から項目を選択してキューに追加してください。",
+        "songResult": "[{index}] 曲の結果 ({duration})",
+        "playlistResult": "[{index}] プレイリストの結果 ({duration})",
+        "mediaResult": "[{index}] {type} の結果 ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} の結果",
+        "track": "曲",
+        "playlist": "プレイリスト",
+        "album": "アルバム",
+        "songCount": "{count} 曲"
+    },
+    "np": {
+        "titleStarting": "次の曲を開始中... 再生中 🎵",
+        "titleCurrent": "再生中 🎵",
+        "buttons": {
+            "previous": "⏮️ 前へ",
+            "pauseResume": "⏯️ 再生/一時停止",
+            "skip": "⏭️ スキップ",
+            "clear": "🧹 キューをクリア",
+            "volume": "🔊 音量調整",
+            "loop": "🔂 1曲ループ",
+            "shuffle": "🔀 キューをシャッフル",
+            "stop": "🛑 キューを停止"
+        },
+        "backTitle": "前の曲を再生 ⏮️",
+        "backDescription": "次に前の曲に戻ります: {title} {link}！",
+        "backMissing": "❌ | 現在の曲より前の履歴がありません。もう一度お試しください。",
+        "pauseTitle": "曲を一時停止 ⏸️",
+        "pauseDescription": "再生が **{state}** されました。現在再生中: {title} {link}！",
+        "pauseStateResumed": "再開",
+        "pauseStatePaused": "一時停止",
+        "skipTitle": "曲をスキップ ⏭️",
+        "skipDescription": "再生中: {title} {link}",
+        "stopTitle": "音楽を停止 🛑",
+        "stopDescription": "音楽を停止しました... チャンネルから退出します！",
+        "loopOffTitle": "ループモード OFF 📴",
+        "loopOffDescription": "ループモードが **オフ** に設定されました！",
+        "loopTrackTitle": "ループモード ON 🔂",
+        "loopTrackDescription": "ループモードが **現在の曲** に設定されました！",
+        "volumeTitle": "音量を調整 🎧",
+        "volumeDescription": "音量が **{volume}%** に設定されました！",
+        "volumeModalTitle": "音量調整 - 現在 {volume}%",
+        "volumeModalLabel": "新しい音量は？（0-100）",
+        "volumeModalPlaceholder": "入力してください...",
+        "volumeModalInvalid": "❌ | 音量は 0〜100 の間である必要があります。入力値が範囲外です。",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "切断中 🛑",
+        "disconnectDescription": "しばらくの間、非アクティブでした！",
+        "emptyChannelTitle": "再生を終了 🛑",
+        "emptyChannelDescription": "ボイスチャンネルに誰もいません！",
+        "queueFinishedTitle": "キュー終了 🛑",
+        "queueFinishedDescription": "ミュージックキューが終了しました！"
+    }
+}

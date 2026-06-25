@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "ลิงก์",
+        "unknownUser": "ผู้ใช้ที่ไม่รู้จัก",
+        "songCoverImage": "ภาพปกเพลงสำหรับ {title}",
+        "playlistCoverImage": "ภาพปกเพลย์ลิสต์สำหรับ {title}",
+        "albumCoverImage": "ภาพปกอัลบั้มสำหรับ {title}",
+        "coverImageNotFound": "ไม่พบภาพปก"
+    },
+    "errors": {
+        "cooldown": "⏱️ | แจ้งเตือนคูลดาวน์: กรุณารออีก **{seconds}** วินาทีก่อนใช้คำสั่ง **/{command}** อีกครั้ง!",
+        "commandExecution": "❌ | ขออภัย เกิดข้อผิดพลาดขณะดำเนินการคำสั่งของคุณ ตรวจสอบบันทึกเพื่อดูข้อผิดพลาด",
+        "genericAction": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด เกิดข้อผิดพลาดขณะ{action} กรุณาลองอีกครั้ง",
+        "failedToFindSongQuery": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่พบเพลงตามคำค้นหาที่ร้องขอ",
+        "failedToFindSong": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่พบเพลง",
+        "playRequest": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาดขณะพยายามเล่นเพลงที่ร้องขอ กรุณาลองอีกครั้ง",
+        "addTracks": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่สามารถเพิ่มแทร็กลงในคิวได้",
+        "joinVoice": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่สามารถเข้าร่วมช่องของคุณได้",
+        "joinVoiceChannel": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่สามารถเข้าร่วมช่องเสียงของคุณได้",
+        "playback": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด เกิดข้อผิดพลาดเกี่ยวกับการเล่น กรุณาลองอีกครั้ง",
+        "noViewChannel": "ข้อผิดพลาด: ฉันไม่มีสิทธิ์ดูช่องนี้และไม่สามารถแก้ไขข้อความช่วยเหลือได้!",
+        "extractFailed": "❌ | ไม่สามารถดึงเพลงต่อไปนี้ได้... ข้ามไปเพลงถัดไป!",
+        "subsonicSongMetadata": "❌ | ไม่สามารถโหลดข้อมูลเมตาของเพลงจาก Subsonic ได้",
+        "emptyPlaylist": "❌ | เพลย์ลิสต์นี้ไม่มีแทร็กที่เล่นได้",
+        "emptyAlbum": "❌ | อัลบั้มนี้ไม่มีแทร็กที่เล่นได้",
+        "failedToFindMediaQuery": "❌ | อุ๊ปส์... มีบางอย่างผิดพลาด ไม่พบเพลง เพลย์ลิสต์ หรืออัลบั้มตามคำค้นหาที่ร้องขอ",
+        "playNextPlaylistOnly": "❌ | อุ๊ปส์... คุณสามารถเพิ่มเพลงเดี่ยวด้วยคำสั่งนี้เท่านั้น ใช้คำสั่ง **/play** ปกติเพื่อเพิ่มเพลย์ลิสต์ลงในคิว",
+        "actions": {
+            "skippingSong": "ข้ามเพลง",
+            "clearingQueue": "ล้างคิว",
+            "shufflingQueue": "สลับคิว",
+            "stoppingQueue": "หยุดคิว",
+            "adjustingVolume": "ปรับระดับเสียง",
+            "returningToPreviousSong": "กลับไปเพลงก่อนหน้า",
+            "pausing": "หยุดชั่วคราว",
+            "resuming": "เล่นต่อ",
+            "seekingSong": "ข้ามไปตำแหน่งในเพลง",
+            "jumpingQueue": "ข้ามในคิว",
+            "switchingLoopMode": "เปลี่ยนโหมดวนซ้ำ",
+            "removingSong": "ลบเพลงออกจากคิว",
+            "adjustingAudioFilter": "ปรับตัวกรองเสียง"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex ถูกปิดใช้งานอยู่! ขอให้ผู้ดูแลเซิร์ฟเวอร์เปิดใช้งานและตั้งค่าในไฟล์ environment",
+        "subsonicDisabled": "❌ | Subsonic ถูกปิดใช้งานอยู่! ขอให้ผู้ดูแลเซิร์ฟเวอร์เปิดใช้งานและตั้งค่าในไฟล์ environment"
+    },
+    "guards": {
+        "djMode": "❌ | โหมด DJ เปิดอยู่! คุณต้องมีบทบาท DJ {role} จึงจะใช้คำสั่งเพลงได้!",
+        "notInVoice": "❌ | คุณไม่ได้อยู่ในช่องเสียง!",
+        "notInBotVoice": "❌ | คุณไม่ได้อยู่ในช่องเสียงของฉัน!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | ขณะนี้ไม่มีเพลงกำลังเล่น!",
+        "empty": "❌ | ขณะนี้ไม่มีเพลงในคิว!",
+        "emptyQueued": "❌ | ขณะนี้ไม่มีเพลงที่รอในคิว!",
+        "alreadyFirstPage": "❌ | คิวอยู่ที่หน้าแรกแล้ว!",
+        "alreadyLastPage": "❌ | คิวอยู่ที่หน้าสุดท้ายแล้ว!",
+        "title": "คิวเพลงปัจจุบัน 🎵",
+        "moreTracks": "...และอีก {count} แทร็ก",
+        "nowPlayingField": "กำลังเล่น ▶️",
+        "clearTitle": "ล้างคิว 🧹",
+        "clearDescription": "ล้างคิวเพลงทั้งหมดแล้ว!",
+        "shuffleTitle": "สลับคิว 🔀",
+        "shuffleDescription": "สลับคิวเพลงทั้งหมดแล้ว!",
+        "expired": "กรุณาใช้ **/queue** อีกครั้งเพื่อแสดง embed อีกครั้ง",
+        "historyTitle": "ประวัติคิวเพลงที่ผ่านมา 🔙",
+        "historyExpired": "กรุณาใช้ **/queuehistory** อีกครั้งเพื่อแสดง embed อีกครั้ง",
+        "previousPage": "⬅️ หน้าก่อนหน้า",
+        "nextPage": "➡️ หน้าถัดไป"
+    },
+    "footer": {
+        "requestedBy": "ร้องขอโดย: {user}",
+        "requestedByPage": "ร้องขอโดย: {user} - หน้า {page}"
+    },
+    "volume": {
+        "current": "🔊 | ระดับเสียงปัจจุบันตั้งไว้ที่ **{volume}%**!",
+        "invalidRange": "❌ | ระดับเสียงต้องตั้งระหว่าง 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "เปิดโหมดวนซ้ำ 🔁",
+        "autoplayTitle": "เปิดโหมดวนซ้ำ 🤖",
+        "trackMode": "**แทร็กปัจจุบัน**",
+        "queueMode": "**คิวทั้งหมด**",
+        "autoplayMode": "**เล่นอัตโนมัติ**",
+        "offMode": "**ปิด**",
+        "description": "ตั้งโหมดวนซ้ำเป็น {mode} แล้ว!"
+    },
+    "seek": {
+        "title": "ข้ามในเพลง ↪️",
+        "description": "ข้ามเพลงปัจจุบันไปที่ {time}! กำลังเล่น {title} {link}"
+    },
+    "jumpqueue": {
+        "title": "ข้ามไปเพลง ⏭️"
+    },
+    "remove": {
+        "title": "ลบเพลงแล้ว ❌",
+        "description": "ลบแทร็ก {title} {link} ออกจากคิวแล้ว!",
+        "invalidPosition": "❌ | ไม่มีเพลงในตำแหน่งที่ค้นหาในคิว กรุณาลองอีกครั้ง"
+    },
+    "lyrics": {
+        "notFound": "❌ | ไม่พบเนื้อเพลงตามคำค้นหาที่ร้องขอ!",
+        "title": "เนื้อเพลง {title} โดย {artist} 🎶",
+        "truncatedSuffix": "\nและอีก...",
+        "fullLyricsButton": "🎶 เนื้อเพลงเต็ม"
+    },
+    "audiofilter": {
+        "noneEnabled": "ขณะนี้ไม่มีตัวกรองเสียงที่เปิดใช้งาน!",
+        "listEnabled": "ตัวกรองเสียงที่เปิดใช้งานอยู่:\n- {filters}",
+        "toggleTitle": "สลับตัวกรองเสียง 🎵",
+        "toggleDescription": "ตัวกรองเสียง **{filter}** ถูก{state}แล้ว!",
+        "stateEnabled": "เปิดใช้งาน",
+        "stateDisabled": "ปิดใช้งาน",
+        "filters": {
+            "bassboost": "เบสบูสต์",
+            "8D": "8D",
+            "subboost": "ซับบูสต์",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "เริ่มเล่น ▶️",
+        "addedTitle": "เพิ่มลงคิว ⏱️",
+        "addedTopTitle": "เพิ่มไว้ด้านบนคิว ⏱️",
+        "startedSong": "เริ่มเล่นเพลง **{title}** {link}!",
+        "queuedSong": "เพิ่มเพลง **{title}** {link} ลงในคิวแล้ว!",
+        "queuedSongTop": "เพิ่มเพลง **{title}** {link} ไว้ด้านบนคิว (เล่นถัดไป)!",
+        "importedPlaylistStart": "นำเข้า **{title} {link} เพลย์ลิสต์** **{count}** เพลงและเริ่มเล่นคิว!",
+        "importedPlaylistQueued": "นำเข้า **{title} {link} เพลย์ลิสต์** **{count}** เพลงแล้ว!",
+        "importedPlaylistTop": "นำเข้า **{title} {link} เพลย์ลิสต์** **{count}** เพลงไว้ด้านบนคิว (เล่นถัดไป)!",
+        "importedAlbumStart": "นำเข้า **{title} อัลบั้ม** **{count}** เพลงและเริ่มเล่นคิว!",
+        "importedAlbumQueued": "นำเข้า **{title} อัลบั้ม** **{count}** เพลงแล้ว!",
+        "importedAlbumTop": "นำเข้า **{title} อัลบั้ม** **{count}** เพลงไว้ด้านบนคิว (เล่นถัดไป)!"
+    },
+    "commands": {
+        "audiofilter": "ตรวจสอบหรือสลับตัวกรองเสียง!",
+        "back": "เล่นเพลงก่อนหน้า!",
+        "botinfo": "แสดงข้อมูลเกี่ยวกับ Elite Bot!",
+        "clearqueue": "ล้างคิวเพลงปัจจุบัน!",
+        "help": "ดูข้อมูลเกี่ยวกับคำสั่งของฉัน!",
+        "jumpqueue": "ข้ามไปเพลงที่ต้องการในคิว!",
+        "loop": "ตั้งประเภทการวนซ้ำ!",
+        "lyrics": "ดูเนื้อเพลง!",
+        "nowplaying": "ตรวจสอบเพลงที่กำลังเล่น!",
+        "pause": "หยุดเพลงปัจจุบันชั่วคราว!",
+        "play": "เพิ่มเพลงลงในคิว!",
+        "playnext": "เพิ่มเพลงไว้ด้านบนคิว!",
+        "plex": {
+            "description": "เล่นเพลงจากไลบรารี Plex ของคุณลงในคิว!",
+            "play": "เล่นแทร็ก เพลย์ลิสต์ หรืออัลบั้มจากเซิร์ฟเวอร์ Plex ของคุณ",
+            "search": "ค้นหาแทร็ก เพลย์ลิสต์ และอัลบั้ม",
+            "playnext": "เพิ่มแทร็ก เพลย์ลิสต์ หรืออัลบั้มจาก Plex เพื่อเล่นถัดไป"
+        },
+        "queue": "ตรวจสอบเพลงที่อยู่ในคิวปัจจุบัน!",
+        "queuehistory": "ดูประวัติคิวที่ผ่านมาในเซิร์ฟเวอร์!",
+        "remove": "ลบเพลงที่ต้องการออกจากคิว!",
+        "seek": "ข้ามไปเวลาอื่นในเพลงปัจจุบัน!",
+        "shuffle": "สลับคิวปัจจุบัน!",
+        "skip": "ข้ามเพลงปัจจุบัน!",
+        "stop": "หยุดเพลงที่กำลังเล่น!",
+        "subsonic": {
+            "description": "เล่นเพลงจากไลบรารี Subsonic ของคุณลงในคิว!",
+            "play": "เล่นแทร็ก เพลย์ลิสต์ หรืออัลบั้มจากเซิร์ฟเวอร์ Subsonic ของคุณ",
+            "search": "ค้นหาแทร็ก เพลย์ลิสต์ และอัลบั้ม",
+            "playnext": "เพิ่มแทร็ก เพลย์ลิสต์ หรืออัลบั้มจาก Subsonic เพื่อเล่นถัดไป"
+        },
+        "volume": "ตรวจสอบหรือตั้งระดับเสียงเพลงปัจจุบัน!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "ชื่อ URL หรือ URL เพลย์ลิสต์ที่คุณต้องการเล่น",
+                "playnext": "ชื่อหรือ URL ของเพลงที่คุณต้องการเล่น (ไม่รวมเพลย์ลิสต์)",
+                "library": "คำค้นหาสำหรับแทร็ก เพลย์ลิสต์ หรืออัลบั้ม"
+            },
+            "filter": "คุณต้องการสลับตัวกรองใด?",
+            "query": "ใส่ชื่อเพลง",
+            "song": {
+                "remove": "ควรลบเพลงลำดับที่ #เท่าไหร่ออกจากคิว?",
+                "jumpqueue": "ย้ายเพลงลำดับที่ #เท่าไหร่ไปด้านหน้าคิว (ใช้ /queue ตรวจสอบ)?"
+            },
+            "time": "เวลาที่จะข้ามในเพลงปัจจุบัน (ตัวอย่าง: 1s, 1m, 1h)!",
+            "amount": "คุณต้องการตั้งระดับเสียงเป็นเท่าใด (0-100)?",
+            "loopmode": "คุณต้องการเปิดโหมดวนซ้ำแบบใด?",
+            "scope": "เลือกประเภทเนื้อหาที่จะค้นหา",
+            "order": "ลำดับที่ใช้เมื่อเพิ่มหลายแทร็กจากเพลย์ลิสต์หรืออัลบั้ม"
+        },
+        "choices": {
+            "scope": {
+                "auto": "อัตโนมัติ (ทุกประเภท)",
+                "track": "เฉพาะแทร็ก",
+                "playlist": "เฉพาะเพลย์ลิสต์",
+                "album": "เฉพาะอัลบั้ม"
+            },
+            "order": {
+                "sequential": "ตามลำดับ",
+                "shuffle": "สลับ",
+                "reverse": "ย้อนกลับ"
+            },
+            "loopmode": {
+                "0": "ปิด",
+                "1": "แทร็ก",
+                "2": "คิว",
+                "3": "เล่นอัตโนมัติ"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - เมนูช่วยเหลือ",
+        "homeDescription": "เลือกหมวดหมู่จากเมนูด้านล่างเพื่อดูคำสั่งที่มี 📢 \\n\\nพบบั๊กหรือมีข้อเสนอแนะที่ดี? กรุณาสร้าง issue บน **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** หรือติดต่อฉันโดยเข้าร่วม **[Support Discord Server](https://discord.elite-bot.com)** และจะได้รับการตรวจสอบโดยเร็ว 🆘\\n\\nสำหรับข้อมูลการตั้งค่าโดยละเอียด กรุณาดู **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** ซึ่งอัปเดตอยู่เสมอและมีทุกอย่างที่คุณต้องการ 📄",
+        "footer": "/help | ร้องขอโดย: {user}",
+        "homeOptionLabel": "หน้าแรก",
+        "homeOptionDescription": "หน้าแรก",
+        "menuPlaceholder": "คลิกเพื่อดูหมวดหมู่ทั้งหมด",
+        "categoryPageDescription": "หน้าคำสั่ง {category}",
+        "categoryFallback": "คำสั่ง {category}",
+        "categoryTitle": "เมนูช่วยเหลือ - หมวด {category}! {emoji}",
+        "categories": {
+            "music": "เพลง",
+            "utilities": "ยูทิลิตี้"
+        },
+        "musicDescription": "คำสั่งเพลง",
+        "utilitiesDescription": "คำสั่งที่มีประโยชน์ทั่วไป",
+        "noDescription": "ไม่มีคำอธิบาย",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - ข้อมูลบอท",
+        "title": "ข้อมูล Elite Music",
+        "process": "โปรเซส",
+        "dependencies": "Dependencies",
+        "ping": "Ping",
+        "uptime": "เวลาออนไลน์",
+        "version": "Elite Music Version",
+        "developer": "นักพัฒนาและผู้ดูแล",
+        "openSource": "โปรเจกต์ Open Source",
+        "openSourceDescription": "สนใจปรับปรุงบอท open source นี้หรือไม่? หรือต้องการโฮสต์เอง? ไม่ต้องมองหาที่อื่น! คุณสามารถเข้าถึง [repository บอทสาธารณะที่นี่](https://github.com/ThatGuyJacobee/Elite-Bot-Music) และทำตามคำแนะนำ readme เพื่อข้อมูลเพิ่มเติม! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "เพิ่มรายการลงคิว 👈",
+        "resultsTitle": "ผลการค้นหาเพลง 🎵",
+        "resultsDescription": "พบหลายเพลงที่ตรงกับคำค้นหา เลือกจากเมนูด้านล่าง",
+        "cancel": "ยกเลิกการค้นหา 🗑️",
+        "duration": "ระยะเวลา - {duration}",
+        "plexTitle": "ผลการค้นหา Plex 🎵",
+        "subsonicTitle": "ผลการค้นหา Subsonic 🎵",
+        "multipleResults": "พบหลายผลลัพธ์ที่ตรงกับคำค้นหา เลือกจากเมนูด้านล่าง",
+        "singleResult": "เลือกรายการด้านล่างเพื่อเพิ่มลงในคิว",
+        "songResult": "[{index}] ผลเพลง ({duration})",
+        "playlistResult": "[{index}] ผลเพลย์ลิสต์ ({duration})",
+        "mediaResult": "[{index}] ผล{type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] ผล{type}",
+        "track": "แทร็ก",
+        "playlist": "เพลย์ลิสต์",
+        "album": "อัลบั้ม",
+        "songCount": "{count} เพลง"
+    },
+    "np": {
+        "titleStarting": "กำลังเริ่มเพลงถัดไป... กำลังเล่น 🎵",
+        "titleCurrent": "กำลังเล่น 🎵",
+        "buttons": {
+            "previous": "⏮️ ก่อนหน้า",
+            "pauseResume": "⏯️ เล่น/หยุด",
+            "skip": "⏭️ ข้าม",
+            "clear": "🧹 ล้างคิว",
+            "volume": "🔊 ปรับระดับเสียง",
+            "loop": "🔂 วนซ้ำครั้งเดียว",
+            "shuffle": "🔀 สลับคิว",
+            "stop": "🛑 หยุดคิว"
+        },
+        "backTitle": "เล่นเพลงก่อนหน้า ⏮️",
+        "backDescription": "กำลังกลับไปเพลงก่อนหน้า: {title} {link}!",
+        "backMissing": "❌ | ไม่มีประวัติเพลงก่อนเพลงปัจจุบัน กรุณาลองอีกครั้ง",
+        "pauseTitle": "หยุดเพลงชั่วคราว ⏸️",
+        "pauseDescription": "การเล่นถูก**{state}**แล้ว กำลังเล่น {title} {link}!",
+        "pauseStateResumed": "เล่นต่อ",
+        "pauseStatePaused": "หยุดชั่วคราว",
+        "skipTitle": "ข้ามเพลงแล้ว ⏭️",
+        "skipDescription": "กำลังเล่น: {title} {link}",
+        "stopTitle": "หยุดเพลงแล้ว 🛑",
+        "stopDescription": "หยุดเพลงแล้ว... กำลังออกจากช่อง!",
+        "loopOffTitle": "ปิดโหมดวนซ้ำ 📴",
+        "loopOffDescription": "ตั้งโหมดวนซ้ำเป็น**ปิด**แล้ว!",
+        "loopTrackTitle": "เปิดโหมดวนซ้ำ 🔂",
+        "loopTrackDescription": "ตั้งโหมดวนซ้ำเป็น**แทร็กปัจจุบัน**แล้ว!",
+        "volumeTitle": "ปรับระดับเสียงแล้ว 🎧",
+        "volumeDescription": "ตั้งระดับเสียงเป็น **{volume}%** แล้ว!",
+        "volumeModalTitle": "ปรับระดับเสียง - ปัจจุบัน {volume}%",
+        "volumeModalLabel": "ระดับเสียงใหม่ควรเป็นเท่าใด (0-100)?",
+        "volumeModalPlaceholder": "คำตอบของคุณ...",
+        "volumeModalInvalid": "❌ | ระดับเสียงต้องอยู่ระหว่าง 0-100 ค่าที่คุณใส่อยู่นอกช่วงนี้",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "กำลังตัดการเชื่อมต่อ 🛑",
+        "disconnectDescription": "ฉันไม่ได้ใช้งานมาระยะหนึ่งแล้ว!",
+        "emptyChannelTitle": "สิ้นสุดการเล่น 🛑",
+        "emptyChannelDescription": "ไม่มีใครอยู่ในช่องเสียง!",
+        "queueFinishedTitle": "คิวจบแล้ว 🛑",
+        "queueFinishedDescription": "คิวเพลงเล่นจบแล้ว!"
+    }
+}

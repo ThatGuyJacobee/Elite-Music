@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Nepoznati korisnik",
+        "songCoverImage": "Naslovnica pjesme za {title}",
+        "playlistCoverImage": "Naslovnica playliste za {title}",
+        "albumCoverImage": "Naslovnica albuma za {title}",
+        "coverImageNotFound": "Naslovnica nije pronađena"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Upozorenje o čekanju: Pričekajte još **{seconds}** sekundi prije ponovne upotrebe naredbe **/{command}**!",
+        "commandExecution": "❌ | Ispričavamo se, došlo je do pogreške pri izvršavanju naredbe. Provjerite zapise za detalje.",
+        "genericAction": "❌ | Ups... nešto je pošlo po krivu, došlo je do pogreške pri {action}. Pokušajte ponovno.",
+        "failedToFindSongQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu za traženi upit.",
+        "failedToFindSong": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu.",
+        "playRequest": "❌ | Ups... nešto je pošlo po krivu pri pokušaju reprodukcije tražene pjesme. Pokušajte ponovno.",
+        "addTracks": "❌ | Ups... nešto je pošlo po krivu, nismo uspjeli dodati pjesmu/e u red čekanja.",
+        "joinVoice": "❌ | Ups... nešto je pošlo po krivu, nismo se mogli pridružiti vašem kanalu.",
+        "joinVoiceChannel": "❌ | Ups... nešto je pošlo po krivu, nismo se mogli pridružiti vašem glasovnom kanalu.",
+        "playback": "❌ | Ups... nešto je pošlo po krivu, došlo je do pogreške povezane s reprodukcijom. Pokušajte ponovno.",
+        "noViewChannel": "Pogreška: Nemam dopuštenje za pregled ovog kanala i ne mogu urediti poruku pomoći!",
+        "extractFailed": "❌ | Nismo uspjeli izdvojiti sljedeću pjesmu... prelazimo na sljedeću!",
+        "subsonicSongMetadata": "❌ | Nismo mogli učitati metapodatke pjesme iz Subsonic-a.",
+        "emptyPlaylist": "❌ | Ova playlista nema pjesama koje se mogu reproducirati.",
+        "emptyAlbum": "❌ | Ovaj album nema pjesama koje se mogu reproducirati.",
+        "failedToFindMediaQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu, playlistu ili album za traženi upit.",
+        "playNextPlaylistOnly": "❌ | Ups... ovom naredbom možete dodati samo pojedinačne pjesme. Koristite običnu naredbu **/play** za dodavanje playlista u red čekanja.",
+        "actions": {
+            "skippingSong": "preskakanje pjesme",
+            "clearingQueue": "brisanje reda čekanja",
+            "shufflingQueue": "miješanje reda čekanja",
+            "stoppingQueue": "zaustavljanje reda čekanja",
+            "adjustingVolume": "podešavanje glasnoće",
+            "returningToPreviousSong": "povratak na prethodnu pjesmu",
+            "pausing": "pauziranje",
+            "resuming": "nastavljanje",
+            "seekingSong": "premotavanje pjesme",
+            "jumpingQueue": "skok u redu čekanja",
+            "switchingLoopMode": "promjena načina petlje",
+            "removingSong": "uklanjanje pjesme iz reda čekanja",
+            "adjustingAudioFilter": "podešavanje audio filtra"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
+        "subsonicDisabled": "❌ | Subsonic je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja."
+    },
+    "guards": {
+        "djMode": "❌ | DJ način rada je aktivan! Morate imati DJ ulogu {role} za korištenje glazbenih naredbi!",
+        "notInVoice": "❌ | Niste u glasovnom kanalu!",
+        "notInBotVoice": "❌ | Niste u mom glasovnom kanalu!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Trenutačno se ne reproducira glazba!",
+        "empty": "❌ | Trenutačno nema glazbe u redu čekanja!",
+        "emptyQueued": "❌ | Trenutačno nema glazbe u redu za reprodukciju!",
+        "alreadyFirstPage": "❌ | Red čekanja je već na prvoj stranici!",
+        "alreadyLastPage": "❌ | Red čekanja je već na zadnjoj stranici!",
+        "title": "Trenutačni glazbeni red čekanja 🎵",
+        "moreTracks": "...i još {count} pjesma/e",
+        "nowPlayingField": "Sada se reproducira ▶️",
+        "clearTitle": "Brisanje reda čekanja 🧹",
+        "clearDescription": "Cijeli glazbeni red čekanja je obrisan!",
+        "shuffleTitle": "Miješanje reda čekanja 🔀",
+        "shuffleDescription": "Cijeli glazbeni red čekanja je promiješan!",
+        "expired": "Molimo koristite **/queue** ponovno za prikaz embed poruke.",
+        "historyTitle": "Povijest prošlog glazbenog reda čekanja 🔙",
+        "historyExpired": "Molimo koristite **/queuehistory** ponovno za prikaz embed poruke.",
+        "previousPage": "⬅️ Prethodna stranica",
+        "nextPage": "➡️ Sljedeća stranica"
+    },
+    "footer": {
+        "requestedBy": "Zatražio/la: {user}",
+        "requestedByPage": "Zatražio/la: {user} - Stranica {page}"
+    },
+    "volume": {
+        "current": "🔊 | Trenutačna glasnoća je postavljena na **{volume}%**!",
+        "invalidRange": "❌ | Glasnoća mora biti postavljena između 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Način petlje uključen 🔁",
+        "autoplayTitle": "Način petlje uključen 🤖",
+        "trackMode": "**trenutačnu pjesmu**",
+        "queueMode": "**cijeli red čekanja**",
+        "autoplayMode": "**automatsku reprodukciju**",
+        "offMode": "**isključeno**",
+        "description": "Način petlje postavljen je na {mode}!"
+    },
+    "seek": {
+        "title": "Premotavanje pjesme ↪️",
+        "description": "Trenutačna pjesma premotana je na {time}! Sada se reproducira {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Preskočeno na pjesmu ⏭️"
+    },
+    "remove": {
+        "title": "Pjesma uklonjena ❌",
+        "description": "Pjesma {title} {link} uklonjena je iz reda čekanja!",
+        "invalidPosition": "❌ | Nema pjesme na traženoj poziciji u redu čekanja. Pokušajte ponovno."
+    },
+    "lyrics": {
+        "notFound": "❌ | Nisu pronađeni tekstovi za traženi upit!",
+        "title": "Tekst pjesme {title} od {artist} 🎶",
+        "truncatedSuffix": "\nI više...",
+        "fullLyricsButton": "🎶 Cijeli tekst"
+    },
+    "audiofilter": {
+        "noneEnabled": "Trenutačno nema uključenih audio filtara!",
+        "listEnabled": "Trenutačno uključeni audio filteri su:\n- {filters}",
+        "toggleTitle": "Audio filter prebačen 🎵",
+        "toggleDescription": "Audio filter **{filter}** je {state}!",
+        "stateEnabled": "Uključen",
+        "stateDisabled": "Isključen",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Reprodukcija započeta ▶️",
+        "addedTitle": "Dodano u red čekanja ⏱️",
+        "addedTopTitle": "Dodano na vrh reda čekanja ⏱️",
+        "startedSong": "Započeta reprodukcija pjesme **{title}** {link}!",
+        "queuedSong": "Pjesma **{title}** {link} dodana je u red čekanja!",
+        "queuedSongTop": "Pjesma **{title}** {link} dodana je na vrh reda čekanja (sljedeća)!",
+        "importedPlaylistStart": "Uvezena **playlista {title} {link}** s **{count}** pjesama i započeta reprodukcija reda čekanja!",
+        "importedPlaylistQueued": "Uvezena **playlista {title} {link}** s **{count}** pjesama!",
+        "importedPlaylistTop": "Uvezena **playlista {title} {link}** s **{count}** pjesama na vrh reda čekanja (sljedeća)!",
+        "importedAlbumStart": "Uvezen **album {title}** s **{count}** pjesama i započeta reprodukcija reda čekanja!",
+        "importedAlbumQueued": "Uvezen **album {title}** s **{count}** pjesama!",
+        "importedAlbumTop": "Uvezen **album {title}** s **{count}** pjesama na vrh reda čekanja (sljedeća)!"
+    },
+    "commands": {
+        "audiofilter": "Provjerite ili uključite/isključite audio filtere!",
+        "back": "Reproducirajte prethodnu pjesmu!",
+        "botinfo": "Vratite informacije o Elite Botu!",
+        "clearqueue": "Obrišite trenutačni glazbeni red čekanja!",
+        "help": "Dobijte informacije o mojim naredbama!",
+        "jumpqueue": "Preskočite na određenu pjesmu u redu čekanja!",
+        "loop": "Postavite vrstu petlje!",
+        "lyrics": "Dobijte tekst pjesme!",
+        "nowplaying": "Provjerite trenutačno reproduciranu pjesmu!",
+        "pause": "Pauzirajte trenutačnu pjesmu u trenutnom trenutku!",
+        "play": "Dodajte pjesmu u red čekanja!",
+        "playnext": "Dodajte pjesmu na vrh reda čekanja!",
+        "plex": {
+            "description": "Reproducirajte glazbu iz vaše Plex biblioteke u red čekanja!",
+            "play": "Reproducirajte pjesmu, playlistu ili album s vašeg Plex poslužitelja.",
+            "search": "Pretražite pjesme, playliste i albume.",
+            "playnext": "Dodajte pjesmu, playlistu ili album s Plex poslužitelja za sljedeću reprodukciju."
+        },
+        "queue": "Provjerite trenutačnu glazbu u redu čekanja!",
+        "queuehistory": "Provjerite prošlu povijest reda čekanja unutar guilda!",
+        "remove": "Uklonite određenu pjesmu iz reda čekanja!",
+        "seek": "Premotajte na drugo vrijeme u trenutačnoj pjesmi!",
+        "shuffle": "Promiješajte trenutačni red čekanja!",
+        "skip": "Preskočite trenutačnu pjesmu!",
+        "stop": "Zaustavlja svaku reproduciranu glazbu!",
+        "subsonic": {
+            "description": "Reproducirajte glazbu iz vaše Subsonic biblioteke u red čekanja!",
+            "play": "Reproducirajte pjesmu, playlistu ili album s vašeg Subsonic poslužitelja.",
+            "search": "Pretražite pjesme, playliste i albume.",
+            "playnext": "Dodajte pjesmu, playlistu ili album s Subsonic poslužitelja za sljedeću reprodukciju."
+        },
+        "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Naziv, URL ili URL playliste koju želite reproducirati.",
+                "playnext": "Naziv ili URL pjesme koju želite reproducirati (bez playlista).",
+                "library": "Upit za pretraživanje pjesme, playliste ili albuma."
+            },
+            "filter": "Koji filter želite uključiti/isključiti?",
+            "query": "Unesite naziv pjesme.",
+            "song": {
+                "remove": "Koja pjesma po broju treba biti uklonjena iz reda čekanja?",
+                "jumpqueue": "Koja pjesma po broju treba biti premještena na vrh reda (koristite /queue)?"
+            },
+            "time": "Vrijeme za premotavanje trenutačne pjesme (Primjeri: 1s, 1m, 1h)!",
+            "amount": "Na koju vrijednost želite postaviti glasnoću (0-100)?",
+            "loopmode": "Koji način petlje želite aktivirati?",
+            "scope": "Odaberite vrstu sadržaja za pretraživanje.",
+            "order": "Redoslijed pri dodavanju više pjesama iz playliste ili albuma."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (sve vrste)",
+                "track": "Samo pjesme",
+                "playlist": "Samo playliste",
+                "album": "Samo albumi"
+            },
+            "order": {
+                "sequential": "Sekvencijalno",
+                "shuffle": "Nasumično",
+                "reverse": "Obrnuto"
+            },
+            "loopmode": {
+                "0": "Off",
+                "1": "Track",
+                "2": "Queue",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Izbornik pomoći",
+        "homeDescription": "Odaberite kategoriju putem izbornika u nastavku za pregled dostupnih naredbi. 📢 \\n\\nImate grešku ili odličan prijedlog za poboljšanje? Molimo stvorite issue na **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** ili me kontaktirajte pridruživanjem **[Support Discord Server](https://discord.elite-bot.com)** i bit će pregledano što je prije moguće. 🆘\\n\\nZa detaljne informacije o postavljanju, pregledajte **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** koji se uvijek održava ažurnim i pruža sve što trebate znati. 📄",
+        "footer": "/help | Zatražio/la: {user}",
+        "homeOptionLabel": "Početna",
+        "homeOptionDescription": "Početna stranica",
+        "menuPlaceholder": "Kliknite za pregled svih kategorija",
+        "categoryPageDescription": "Stranica naredbi {category}",
+        "categoryFallback": "Naredbe {category}",
+        "categoryTitle": "Izbornik pomoći - Kategorija {category}! {emoji}",
+        "categories": {
+            "music": "Glazba",
+            "utilities": "Alati"
+        },
+        "musicDescription": "Glazbene naredbe.",
+        "utilitiesDescription": "Općenito korisne naredbe.",
+        "noDescription": "Nema opisa",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Informacije o botu",
+        "title": "Informacije o Elite Music",
+        "process": "Proces",
+        "dependencies": "Ovisnosti",
+        "ping": "Ping",
+        "uptime": "Vrijeme rada od",
+        "version": "Verzija Elite Music",
+        "developer": "Razvojni programer i održavatelj",
+        "openSource": "Projekt otvorenog koda",
+        "openSourceDescription": "Zanima vas poboljšanje ovog bota otvorenog koda? Ili ga želite sami hostati? Ne tražite dalje! Možete pristupiti [javnom repozitoriju bota ovdje](https://github.com/ThatGuyJacobee/Elite-Bot-Music) i slijediti upute u readme za više informacija! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Dodajte stavku u red čekanja 👈",
+        "resultsTitle": "Rezultati pretraživanja glazbe 🎵",
+        "resultsDescription": "Pronađeno je više pjesama koje odgovaraju upitu, odaberite jednu iz izbornika u nastavku.",
+        "cancel": "Otkaži pretraživanje 🗑️",
+        "duration": "Trajanje - {duration}",
+        "plexTitle": "Rezultati pretraživanja Plex 🎵",
+        "subsonicTitle": "Rezultati pretraživanja Subsonic 🎵",
+        "multipleResults": "Pronađeno je više rezultata koji odgovaraju upitu, odaberite jedan iz izbornika u nastavku.",
+        "singleResult": "Odaberite stavku u nastavku za dodavanje u red čekanja.",
+        "songResult": "[{index}] Rezultat pjesme ({duration})",
+        "playlistResult": "[{index}] Rezultat playliste ({duration})",
+        "mediaResult": "[{index}] Rezultat {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Rezultat {type}",
+        "track": "Pjesma",
+        "playlist": "Playlista",
+        "album": "Album",
+        "songCount": "{count} pjesama"
+    },
+    "np": {
+        "titleStarting": "Započinje sljedeća pjesma... Sada se reproducira 🎵",
+        "titleCurrent": "Sada se reproducira 🎵",
+        "buttons": {
+            "previous": "⏮️ Prethodna",
+            "pauseResume": "⏯️ Reproduciraj/Pauza",
+            "skip": "⏭️ Preskoči",
+            "clear": "🧹 Obriši red čekanja",
+            "volume": "🔊 Podesi glasnoću",
+            "loop": "🔂 Petlja jednom",
+            "shuffle": "🔀 Promiješaj red čekanja",
+            "stop": "🛑 Zaustavi red čekanja"
+        },
+        "backTitle": "Reprodukcija prethodne pjesme ⏮️",
+        "backDescription": "Sljedeće se vraćamo na prethodnu pjesmu: {title} {link}!",
+        "backMissing": "❌ | Nema glazbene povijesti prije trenutačne pjesme. Pokušajte ponovno.",
+        "pauseTitle": "Pjesma pauzirana ⏸️",
+        "pauseDescription": "Reprodukcija je **{state}**. Sada se reproducira {title} {link}!",
+        "pauseStateResumed": "nastavljena",
+        "pauseStatePaused": "pauzirana",
+        "skipTitle": "Pjesma preskočena ⏭️",
+        "skipDescription": "Sada se reproducira: {title} {link}",
+        "stopTitle": "Glazba zaustavljena 🛑",
+        "stopDescription": "Glazba je zaustavljena... napuštam kanal!",
+        "loopOffTitle": "Način petlje isključen 📴",
+        "loopOffDescription": "Način petlje postavljen je na **isključeno**!",
+        "loopTrackTitle": "Način petlje uključen 🔂",
+        "loopTrackDescription": "Način petlje postavljen je na **trenutačnu pjesmu**!",
+        "volumeTitle": "Glasnoća podešena 🎧",
+        "volumeDescription": "Glasnoća je postavljena na **{volume}%**!",
+        "volumeModalTitle": "Podešavanje glasnoće - Trenutačno {volume}%",
+        "volumeModalLabel": "Kolika bi trebala biti nova glasnoća (0-100)?",
+        "volumeModalPlaceholder": "Vaš odgovor...",
+        "volumeModalInvalid": "❌ | Glasnoća mora biti između 0-100, vaš unos je izvan tog raspona.",
+        "liveIndicator": " ◉ UŽIVO"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Prekid veze 🛑",
+        "disconnectDescription": "Bio sam neaktivan određeno vrijeme!",
+        "emptyChannelTitle": "Završetak reprodukcije 🛑",
+        "emptyChannelDescription": "Nitko nije u glasovnom kanalu!",
+        "queueFinishedTitle": "Red čekanja završen 🛑",
+        "queueFinishedDescription": "Glazbeni red čekanja je završen!"
+    }
+}

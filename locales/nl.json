@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Onbekende gebruiker",
+        "songCoverImage": "Songcoverafbeelding voor {title}",
+        "playlistCoverImage": "Playlistcoverafbeelding voor {title}",
+        "albumCoverImage": "Albumcoverafbeelding voor {title}",
+        "coverImageNotFound": "Coverafbeelding niet gevonden"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Wachtbericht: wacht nog **{seconds}** seconden voordat je het commando **/{command}** opnieuw gebruikt.",
+        "commandExecution": "❌ | Sorry, er is een fout opgetreden bij het uitvoeren van je commando. Controleer de logs voor de fout.",
+        "genericAction": "❌ | Oeps... er ging iets mis, er is een fout opgetreden tijdens {action}. Probeer het opnieuw.",
+        "failedToFindSongQuery": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden met de opgegeven zoekopdracht.",
+        "failedToFindSong": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden.",
+        "playRequest": "❌ | Oeps... er ging iets mis tijdens het proberen af te spelen van het gevraagde nummer. Probeer het opnieuw.",
+        "addTracks": "❌ | Oeps... er ging iets mis, de track(s) konden niet aan de wachtrij worden toegevoegd.",
+        "joinVoice": "❌ | Oeps... er ging iets mis, ik kon je kanaal niet joinen.",
+        "joinVoiceChannel": "❌ | Oeps... er ging iets mis, ik kon je spraakkanaal niet joinen.",
+        "playback": "❌ | Oeps... er ging iets mis, er was een afspeelfout. Probeer het opnieuw.",
+        "noViewChannel": "Fout: ik heb geen toestemming om dit kanaal te bekijken en kan het helpbericht niet bewerken!",
+        "extractFailed": "❌ | Kan het volgende nummer niet extraheren... doorgaan naar de volgende!",
+        "subsonicSongMetadata": "❌ | Kan de songmetadata van Subsonic niet laden.",
+        "emptyPlaylist": "❌ | Deze afspeellijst bevat geen afspeelbare tracks.",
+        "emptyAlbum": "❌ | Dit album bevat geen afspeelbare tracks.",
+        "failedToFindMediaQuery": "❌ | Oeps... er ging iets mis, het nummer, de afspeellijst of het album kon niet worden gevonden met de opgegeven zoekopdracht.",
+        "playNextPlaylistOnly": "❌ | Oeps... je kunt met dit commando alleen losse nummers toevoegen. Gebruik het normale commando **/play** om afspeellijsten aan de wachtrij toe te voegen.",
+        "actions": {
+            "skippingSong": "het nummer overslaan",
+            "clearingQueue": "de wachtrij leegmaken",
+            "shufflingQueue": "de wachtrij schudden",
+            "stoppingQueue": "de wachtrij stoppen",
+            "adjustingVolume": "het volume aanpassen",
+            "returningToPreviousSong": "teruggaan naar het vorige nummer",
+            "pausing": "pauzeren",
+            "resuming": "hervatten",
+            "seekingSong": "door het nummer zoeken",
+            "jumpingQueue": "door de wachtrij springen",
+            "switchingLoopMode": "de herhalingsmodus wijzigen",
+            "removingSong": "het nummer uit de wachtrij verwijderen",
+            "adjustingAudioFilter": "het audiofilter aanpassen"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
+        "subsonicDisabled": "❌ | Subsonic is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren."
+    },
+    "guards": {
+        "djMode": "❌ | DJ-modus is actief! Je moet de DJ-rol {role} hebben om muziekcommando's te gebruiken!",
+        "notInVoice": "❌ | Je zit niet in een spraakkanaal!",
+        "notInBotVoice": "❌ | Je zit niet in mijn spraakkanaal!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Er wordt momenteel geen muziek afgespeeld!",
+        "empty": "❌ | Er staat momenteel geen muziek in de wachtrij!",
+        "emptyQueued": "❌ | Er staat momenteel geen muziek in de wachtrij!",
+        "alreadyFirstPage": "❌ | De wachtrij staat al op de eerste pagina!",
+        "alreadyLastPage": "❌ | De wachtrij staat al op de laatste pagina!",
+        "title": "Huidige muziekwachtrij 🎵",
+        "moreTracks": "...en {count} meer track(s)",
+        "nowPlayingField": "Nu afspelen ▶️",
+        "clearTitle": "Wachtrij geleegd 🧹",
+        "clearDescription": "De hele muziekwachtrij is geleegd!",
+        "shuffleTitle": "Wachtrij geschud 🔀",
+        "shuffleDescription": "De hele muziekwachtrij is geschud!",
+        "expired": "Gebruik **/queue** opnieuw om het embed opnieuw te tonen.",
+        "historyTitle": "Vorige muziekwachtrijgeschiedenis 🔙",
+        "historyExpired": "Gebruik **/queuehistory** opnieuw om het embed opnieuw te tonen.",
+        "previousPage": "⬅️ Vorige pagina",
+        "nextPage": "➡️ Volgende pagina"
+    },
+    "footer": {
+        "requestedBy": "Aangevraagd door: {user}",
+        "requestedByPage": "Aangevraagd door: {user} - Pagina {page}"
+    },
+    "volume": {
+        "current": "🔊 | Het huidige volume staat op **{volume}%**!",
+        "invalidRange": "❌ | Het volume moet tussen 0-100% liggen!"
+    },
+    "loop": {
+        "queueTitle": "Herhalingsmodus aan 🔁",
+        "autoplayTitle": "Herhalingsmodus aan 🤖",
+        "trackMode": "het **huidige nummer**",
+        "queueMode": "de **hele wachtrij**",
+        "autoplayMode": "**autoplay muziek**",
+        "offMode": "**uit**",
+        "description": "De herhalingsmodus is ingesteld op {mode}!"
+    },
+    "seek": {
+        "title": "Nummer doorspoelen ↪️",
+        "description": "Het huidige nummer is doorgestoken naar {time}! Nu afspelen {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Gesprongen naar nummer ⏭️"
+    },
+    "remove": {
+        "title": "Nummer verwijderd ❌",
+        "description": "Track {title} {link} is uit de wachtrij verwijderd!",
+        "invalidPosition": "❌ | Er is geen nummer op de opgegeven positie in de wachtrij. Probeer het opnieuw."
+    },
+    "lyrics": {
+        "notFound": "❌ | Er zijn geen songteksten gevonden voor de opgegeven zoekopdracht!",
+        "title": "Songteksten voor {title} van {artist} 🎶",
+        "truncatedSuffix": "\nEn meer...",
+        "fullLyricsButton": "🎶 Volledige songteksten"
+    },
+    "audiofilter": {
+        "noneEnabled": "Er zijn momenteel geen audiofilters ingeschakeld!",
+        "listEnabled": "De momenteel ingeschakelde audiofilters zijn:\n- {filters}",
+        "toggleTitle": "Audiofilter omgeschakeld 🎵",
+        "toggleDescription": "Het audiofilter **{filter}** is {state}!",
+        "stateEnabled": "ingeschakeld",
+        "stateDisabled": "uitgeschakeld",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Afspelen gestart ▶️",
+        "addedTitle": "Toegevoegd aan wachtrij ⏱️",
+        "addedTopTitle": "Toegevoegd bovenaan de wachtrij ⏱️",
+        "startedSong": "Het nummer **{title}** {link} is begonnen met afspelen!",
+        "queuedSong": "Het nummer **{title}** {link} is toegevoegd aan de wachtrij!",
+        "queuedSongTop": "Het nummer **{title}** {link} is toegevoegd bovenaan de wachtrij (speelt daarna)!",
+        "importedPlaylistStart": "De **playlist {title} {link}** is geïmporteerd met **{count}** nummers en begon met afspelen!",
+        "importedPlaylistQueued": "De **playlist {title} {link}** is geïmporteerd met **{count}** nummers!",
+        "importedPlaylistTop": "De **playlist {title} {link}** is geïmporteerd met **{count}** nummers bovenaan de wachtrij (speelt daarna)!",
+        "importedAlbumStart": "Het **album {title}** is geïmporteerd met **{count}** nummers en begon met afspelen!",
+        "importedAlbumQueued": "Het **album {title}** is geïmporteerd met **{count}** nummers!",
+        "importedAlbumTop": "Het **album {title}** is geïmporteerd met **{count}** nummers bovenaan de wachtrij (speelt daarna)!"
+    },
+    "commands": {
+        "audiofilter": "Audiofilters bekijken of omzetten!",
+        "back": "Speel het vorige nummer af!",
+        "botinfo": "Informatie over Elite Bot tonen!",
+        "clearqueue": "De huidige muziekwachtrij leegmaken!",
+        "help": "Informatie over mijn commando's krijgen!",
+        "jumpqueue": "Naar een specifiek nummer in de wachtrij springen!",
+        "loop": "Het herhalingstype instellen!",
+        "lyrics": "De songteksten van een nummer ophalen!",
+        "nowplaying": "Het huidige nummer bekijken!",
+        "pause": "Het huidige nummer op dit moment pauzeren!",
+        "play": "Een nummer in de wachtrij plaatsen!",
+        "playnext": "Een nummer bovenaan de wachtrij toevoegen!",
+        "plex": {
+            "description": "Muziek afspelen uit je Plex-bibliotheek in de wachtrij!",
+            "play": "Speel een track, playlist of album van je Plex-server af.",
+            "search": "Zoek naar tracks, playlists en albums.",
+            "playnext": "Voeg een track, playlist of album van je Plex-server toe om daarna af te spelen."
+        },
+        "queue": "De huidige muziek in de wachtrij bekijken!",
+        "queuehistory": "De vorige geschiedenis van de wachtrij binnen de server bekijken!",
+        "remove": "Een specifiek nummer uit de wachtrij verwijderen!",
+        "seek": "Naar een ander moment in het huidige nummer springen!",
+        "shuffle": "De huidige wachtrij schudden!",
+        "skip": "Het huidige nummer overslaan!",
+        "stop": "Alle muziek stoppen!",
+        "subsonic": {
+            "description": "Muziek afspelen uit je Subsonic-bibliotheek in de wachtrij!",
+            "play": "Speel een track, playlist of album van je Subsonic-server af.",
+            "search": "Zoek naar tracks, playlists en albums.",
+            "playnext": "Voeg een track, playlist of album van je Subsonic-server toe om daarna af te spelen."
+        },
+        "volume": "Het huidige muziekv volume bekijken of instellen!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "De naam, URL of playlist-URL die je wilt afspelen.",
+                "playnext": "De naam of URL van het nummer dat je wilt afspelen (geen playlists).",
+                "library": "Zoekopdracht voor een track, playlist of album."
+            },
+            "filter": "Welk filter wil je omzetten?",
+            "query": "Voer de naam van het nummer in.",
+            "song": {
+                "remove": "Welk nummer op positie moet uit de wachtrij worden verwijderd?",
+                "jumpqueue": "Welk nummer moet naar voren in de wachtrij? (gebruik /queue)"
+            },
+            "time": "De tijd waarheen het huidige nummer moet worden doorgespoeld (Voorbeelden: 1s, 1m, 1h)!",
+            "amount": "Waarop wil je het volume instellen (0-100)?",
+            "loopmode": "Welke herhalingsmodus wil je activeren?",
+            "scope": "Kies welk type inhoud je wilt zoeken.",
+            "order": "Volgorde bij het toevoegen van meerdere tracks uit een playlist of album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (alle types)",
+                "track": "Alleen tracks",
+                "playlist": "Alleen playlists",
+                "album": "Alleen albums"
+            },
+            "order": {
+                "sequential": "Opeenvolgend",
+                "shuffle": "Willekeurig",
+                "reverse": "Omgekeerd"
+            },
+            "loopmode": {
+                "0": "Uit",
+                "1": "Track",
+                "2": "Wachtrij",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Helpmenu",
+        "homeDescription": "Selecteer hieronder een categorie om de beschikbare commando's te bekijken. 📢 \\n\\nHeb je een bug gevonden of een geweldig verbeteridee? Maak dan een issue aan in de **[GitHub-repository](https://github.com/ThatGuyJacobee/Elite-Music)** of neem contact op door lid te worden van de **[Support Discord-server](https://discord.elite-bot.com)** en het wordt zo snel mogelijk beoordeeld. 🆘\\n\\nVoor uitgebreide installatie-informatie, bekijk de **[GitHub-repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, die altijd up-to-date wordt gehouden en alles biedt wat je moet weten. 📄",
+        "footer": "/help | Aangevraagd door: {user}",
+        "homeOptionLabel": "Home",
+        "homeOptionDescription": "Startpagina",
+        "menuPlaceholder": "Klik om alle categorieën te zien",
+        "categoryPageDescription": "{category}-commando's pagina",
+        "categoryFallback": "{category} Commando's",
+        "categoryTitle": "Helpmenu - Categorie {category}! {emoji}",
+        "categories": {
+            "music": "Muziek",
+            "utilities": "Hulpmiddelen"
+        },
+        "musicDescription": "Muziekcommando's.",
+        "utilitiesDescription": "Algemeen nuttige commando's.",
+        "noDescription": "Geen beschrijving",
+        "buttons": {
+            "repo": "🛡️ Open-source repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Supportserver"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Botinfo",
+        "title": "Elite Music informatie",
+        "process": "Proces",
+        "dependencies": "Afhankelijkheden",
+        "ping": "Ping",
+        "uptime": "Actief sinds",
+        "version": "Elite Music-versie",
+        "developer": "Ontwikkelaar & beheerder",
+        "openSource": "Open-source project",
+        "openSourceDescription": "Wil je deze open-source bot verbeteren? Of wil je hem zelf hosten? Zoek dan niet verder. Je kunt de [openbare repository hier](https://github.com/ThatGuyJacobee/Elite-Bot-Music) openen en de readme-instructies volgen voor meer info! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open-source repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Supportserver"
+        }
+    },
+    "search": {
+        "placeholder": "Voeg een item toe aan de wachtrij 👈",
+        "resultsTitle": "Muziekzoekresultaten 🎵",
+        "resultsDescription": "Er zijn meerdere nummers gevonden die overeenkomen met de opgegeven zoekopdracht, selecteer er een uit het menu hieronder.",
+        "cancel": "Zoeken annuleren 🗑️",
+        "duration": "Duur - {duration}",
+        "plexTitle": "Plex-zoekresultaten 🎵",
+        "subsonicTitle": "Subsonic-zoekresultaten 🎵",
+        "multipleResults": "Er zijn meerdere resultaten gevonden die overeenkomen met de opgegeven zoekopdracht, selecteer er een uit het menu hieronder.",
+        "singleResult": "Selecteer hieronder een item om het aan de wachtrij toe te voegen.",
+        "songResult": "[{index}] Nummerresultaat ({duration})",
+        "playlistResult": "[{index}] Playlistresultaat ({duration})",
+        "mediaResult": "[{index}] {type}-resultaat ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type}-resultaat",
+        "track": "Track",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} nummers"
+    },
+    "np": {
+        "titleStarting": "Volgend nummer starten... Nu afspelen 🎵",
+        "titleCurrent": "Nu afspelen 🎵",
+        "buttons": {
+            "previous": "⏮️ Vorige",
+            "pauseResume": "⏯️ Afspelen/Pauze",
+            "skip": "⏭️ Overslaan",
+            "clear": "🧹 Wachtrij leegmaken",
+            "volume": "🔊 Volume aanpassen",
+            "loop": "🔂 Eén keer herhalen",
+            "shuffle": "🔀 Wachtrij schudden",
+            "stop": "🛑 Wachtrij stoppen"
+        },
+        "backTitle": "Vorige nummer afspelen ⏮️",
+        "backDescription": "Terug naar het vorige nummer: {title} {link}!",
+        "backMissing": "❌ | Er is geen muziekhistorie vóór het huidige nummer. Probeer het opnieuw.",
+        "pauseTitle": "Nummer gepauzeerd ⏸️",
+        "pauseDescription": "Het afspelen is **{state}**. Nu afspelen {title} {link}!",
+        "pauseStateResumed": "hervat",
+        "pauseStatePaused": "gepauzeerd",
+        "skipTitle": "Nummer overgeslagen ⏭️",
+        "skipDescription": "Nu afspelen: {title} {link}",
+        "stopTitle": "Muziek gestopt 🛑",
+        "stopDescription": "De muziek is gestopt... ik verlaat het kanaal!",
+        "loopOffTitle": "Herhalingsmodus uit 📴",
+        "loopOffDescription": "De herhalingsmodus is ingesteld op **uit**!",
+        "loopTrackTitle": "Herhalingsmodus aan 🔂",
+        "loopTrackDescription": "De herhalingsmodus is ingesteld op de **huidige track**!",
+        "volumeTitle": "Volume aangepast 🎧",
+        "volumeDescription": "Het volume is ingesteld op **{volume}%**!",
+        "volumeModalTitle": "Volume aanpassen - Huidig op {volume}%",
+        "volumeModalLabel": "Waarop moet het nieuwe volume staan (0-100)?",
+        "volumeModalPlaceholder": "Je antwoord...",
+        "volumeModalInvalid": "❌ | Het volume moet tussen 0 en 100 liggen, je invoer lag buiten dit bereik.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Verbinding verbreken 🛑",
+        "disconnectDescription": "Ik ben een tijdje inactief geweest!",
+        "emptyChannelTitle": "Afspeelbeurt beëindigen 🛑",
+        "emptyChannelDescription": "Niemand zit in het spraakkanaal!",
+        "queueFinishedTitle": "Wachtrij voltooid 🛑",
+        "queueFinishedDescription": "De muziekwachtrij is voltooid!"
+    }
+}

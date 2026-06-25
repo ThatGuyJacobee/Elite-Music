@@ -2,6 +2,13 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
+const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    getQueueNotPlayingResponse,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,52 +22,40 @@ module.exports = {
         ),
     async execute(interaction) {
         const vol = interaction.options.getInteger("amount");
-        if (client.config.enableDjMode) {
-            if (!interaction.member.roles.cache.has(client.config.djRole))
-                return interaction.reply({
-                    content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                    ephemeral: true,
-                });
-        }
-
-        if (!interaction.member.voice.channelId)
-            return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (
-            interaction.guild.members.me.voice.channelId &&
-            interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-        )
-            return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!(await ensureDjAccess(interaction))) return;
+        if (!(await ensureInVoiceChannel(interaction))) return;
+        if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const player = useMainPlayer();
         var queue = player.nodes.get(interaction.guild.id);
-        if (!queue || !queue.isPlaying())
-            return interaction.reply({ content: `❌ | No music is currently being played!`, ephemeral: true });
+        if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
         if (vol == null)
             return interaction.reply({
-                content: `🔊 | The current volume is set to **${queue.node.volume}%**!`,
+                content: translate(interaction, "volume.current", { volume: queue.node.volume }),
                 ephemeral: true,
             });
         if (vol > 100 || vol < 0)
-            return interaction.reply({ content: `❌ | The volume must be set between 0-100%!`, ephemeral: true });
+            return interaction.reply({
+                content: translate(interaction, "volume.invalidRange"),
+                ephemeral: true,
+            });
 
         const volumeembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
             .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
             .setColor(client.config.embedColour)
-            .setTitle(`Volume adjusted 🎧`)
-            .setDescription(`The volume has been set to **${vol}%**!`)
+            .setTitle(translate(interaction, "np.volumeTitle"))
+            .setDescription(translate(interaction, "np.volumeDescription", { volume: vol }))
             .setTimestamp()
-            .setFooter({
-                text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-            });
+            .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
             queue.node.setVolume(vol);
             interaction.reply({ embeds: [volumeembed] });
         } catch (err) {
             interaction.reply({
-                content: `❌ | Ooops... something went wrong, there was an error adjusting the volume. Please try again.`,
+                content: translateGenericAction(interaction, "adjustingVolume"),
                 ephemeral: true,
             });
         }

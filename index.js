@@ -48,6 +48,8 @@ player.extractors.register(YoutubeiExtractor, {
 //Initialise commands through JSON
 const commands = [];
 client.commands = new Collection(); //Creates new command collection
+const { createI18n, FALLBACK_LOCALE } = require("./utils/i18n");
+const { localizeSlashCommands } = require("./utils/slashLocalizations");
 fs.readdirSync("./commands/").forEach((dir) => {
     const commandFiles = fs.readdirSync(`./commands/${dir}`).filter((file) => file.endsWith(".js"));
 
@@ -63,9 +65,14 @@ fs.readdirSync("./commands/").forEach((dir) => {
 client.once("clientReady", async function () {
     console.log(`[ELITE_CONFIG] Loading Configuration... (Config Version: ${process.env.CFG_VERSION || "N/A"})`);
     const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+    const primaryLocale = process.env.PRIMARY_LOCALE || FALLBACK_LOCALE;
+    const localeMode = String(process.env.LOCALE_MODE || "global").toLowerCase();
+    const resolvedLocaleMode = ["global", "user"].includes(localeMode) ? localeMode : "global";
+    const i18n = createI18n({ fallbackLocale: primaryLocale });
+    const localizedCommands = localizeSlashCommands(commands, i18n, primaryLocale, resolvedLocaleMode);
 
     try {
-        await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+        await rest.put(Routes.applicationCommands(client.user.id), { body: localizedCommands });
         console.log("[ELITE_CMDS] Commands registered (production)!");
     } catch (err) {
         console.error(err);

@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Tautan",
+        "unknownUser": "Pengguna Tidak Dikenal",
+        "songCoverImage": "Gambar Sampul Lagu untuk {title}",
+        "playlistCoverImage": "Gambar Sampul Playlist untuk {title}",
+        "albumCoverImage": "Gambar Sampul Album untuk {title}",
+        "coverImageNotFound": "Gambar Sampul Tidak Ditemukan"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Peringatan Cooldown: Harap tunggu **{seconds}** detik lagi sebelum menggunakan perintah **/{command}** lagi!",
+        "commandExecution": "❌ | Maaf, terjadi kesalahan saat menjalankan perintah Anda. Periksa log untuk melihat kesalahan.",
+        "genericAction": "❌ | Ups... ada yang salah, terjadi kesalahan saat {action}. Silakan coba lagi.",
+        "failedToFindSongQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu dengan kueri yang diminta.",
+        "failedToFindSong": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu.",
+        "playRequest": "❌ | Ups... ada yang salah saat mencoba memutar lagu yang diminta. Silakan coba lagi.",
+        "addTracks": "❌ | Ups... ada yang salah, gagal menambahkan trek ke antrean.",
+        "joinVoice": "❌ | Ups... ada yang salah, tidak dapat bergabung ke saluran Anda.",
+        "joinVoiceChannel": "❌ | Ups... ada yang salah, tidak dapat bergabung ke saluran suara Anda.",
+        "playback": "❌ | Ups... ada yang salah, terjadi kesalahan terkait pemutaran. Silakan coba lagi.",
+        "noViewChannel": "Kesalahan: Saya tidak memiliki izin untuk melihat saluran ini dan tidak dapat mengedit pesan bantuan!",
+        "extractFailed": "❌ | Gagal mengekstrak lagu berikut... melanjutkan ke berikutnya!",
+        "subsonicSongMetadata": "❌ | Tidak dapat memuat metadata lagu dari Subsonic.",
+        "emptyPlaylist": "❌ | Playlist ini tidak memiliki trek yang dapat diputar.",
+        "emptyAlbum": "❌ | Album ini tidak memiliki trek yang dapat diputar.",
+        "failedToFindMediaQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu, playlist, atau album dengan kueri yang diminta.",
+        "playNextPlaylistOnly": "❌ | Ups... Anda hanya dapat menambahkan lagu tunggal dengan perintah ini. Gunakan perintah **/play** biasa untuk menambahkan playlist ke antrean.",
+        "actions": {
+            "skippingSong": "melewati lagu",
+            "clearingQueue": "membersihkan antrean",
+            "shufflingQueue": "mengacak antrean",
+            "stoppingQueue": "menghentikan antrean",
+            "adjustingVolume": "menyesuaikan volume",
+            "returningToPreviousSong": "kembali ke lagu sebelumnya",
+            "pausing": "menjeda",
+            "resuming": "melanjutkan",
+            "seekingSong": "melompat dalam lagu",
+            "jumpingQueue": "melompat antrean",
+            "switchingLoopMode": "mengganti mode loop",
+            "removingSong": "menghapus lagu dari antrean",
+            "adjustingAudioFilter": "menyesuaikan filter audio"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
+        "subsonicDisabled": "❌ | Subsonic saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment."
+    },
+    "guards": {
+        "djMode": "❌ | Mode DJ aktif! Anda harus memiliki peran DJ {role} untuk menggunakan perintah musik!",
+        "notInVoice": "❌ | Anda tidak berada di saluran suara!",
+        "notInBotVoice": "❌ | Anda tidak berada di saluran suara saya!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Tidak ada musik yang sedang diputar!",
+        "empty": "❌ | Tidak ada musik di antrean saat ini!",
+        "emptyQueued": "❌ | Tidak ada musik yang sedang mengantre!",
+        "alreadyFirstPage": "❌ | Antrean sudah berada di halaman pertama!",
+        "alreadyLastPage": "❌ | Antrean sudah berada di halaman terakhir!",
+        "title": "Antrean Musik Saat Ini 🎵",
+        "moreTracks": "...dan {count} trek lagi",
+        "nowPlayingField": "Sedang Diputar ▶️",
+        "clearTitle": "Antrean dibersihkan 🧹",
+        "clearDescription": "Seluruh antrean musik telah dibersihkan!",
+        "shuffleTitle": "Antrean diacak 🔀",
+        "shuffleDescription": "Seluruh antrean musik telah diacak!",
+        "expired": "Silakan gunakan **/queue** lagi untuk menampilkan embed kembali.",
+        "historyTitle": "Riwayat Antrean Musik Sebelumnya 🔙",
+        "historyExpired": "Silakan gunakan **/queuehistory** lagi untuk menampilkan embed kembali.",
+        "previousPage": "⬅️ Halaman Sebelumnya",
+        "nextPage": "➡️ Halaman Berikutnya"
+    },
+    "footer": {
+        "requestedBy": "Diminta oleh: {user}",
+        "requestedByPage": "Diminta oleh: {user} - Halaman {page}"
+    },
+    "volume": {
+        "current": "🔊 | Volume saat ini disetel ke **{volume}%**!",
+        "invalidRange": "❌ | Volume harus disetel antara 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Mode loop aktif 🔁",
+        "autoplayTitle": "Mode loop aktif 🤖",
+        "trackMode": "**trek saat ini**",
+        "queueMode": "**seluruh antrean**",
+        "autoplayMode": "**musik autoplay**",
+        "offMode": "**mati**",
+        "description": "Mode loop telah disetel ke {mode}!"
+    },
+    "seek": {
+        "title": "Lompat lagu ↪️",
+        "description": "Melompat lagu saat ini ke {time}! Sedang memutar {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Melompat ke lagu ⏭️"
+    },
+    "remove": {
+        "title": "Lagu dihapus ❌",
+        "description": "Trek {title} {link} dihapus dari antrean!",
+        "invalidPosition": "❌ | Tidak ada lagu di posisi yang diminta dalam antrean. Silakan coba lagi."
+    },
+    "lyrics": {
+        "notFound": "❌ | Tidak ada lirik yang ditemukan untuk kueri yang diminta!",
+        "title": "Lirik {title} oleh {artist} 🎶",
+        "truncatedSuffix": "\nDan lainnya...",
+        "fullLyricsButton": "🎶 Lirik Lengkap"
+    },
+    "audiofilter": {
+        "noneEnabled": "Saat ini tidak ada filter audio yang diaktifkan!",
+        "listEnabled": "Filter audio yang saat ini diaktifkan:\n- {filters}",
+        "toggleTitle": "Filter audio dialihkan 🎵",
+        "toggleDescription": "Filter audio **{filter}** telah {state}!",
+        "stateEnabled": "Diaktifkan",
+        "stateDisabled": "Dinonaktifkan",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Pemutaran dimulai ▶️",
+        "addedTitle": "Ditambahkan ke antrean ⏱️",
+        "addedTopTitle": "Ditambahkan ke atas antrean ⏱️",
+        "startedSong": "Mulai memutar lagu **{title}** {link}!",
+        "queuedSong": "Lagu **{title}** {link} ditambahkan ke antrean!",
+        "queuedSongTop": "Lagu **{title}** {link} ditambahkan ke atas antrean (diputar berikutnya)!",
+        "importedPlaylistStart": "Mengimpor **{title} {link} playlist** dengan **{count}** lagu dan mulai memutar antrean!",
+        "importedPlaylistQueued": "Mengimpor **{title} {link} playlist** dengan **{count}** lagu!",
+        "importedPlaylistTop": "Mengimpor **{title} {link} playlist** dengan **{count}** lagu ke atas antrean (diputar berikutnya)!",
+        "importedAlbumStart": "Mengimpor **{title} album** dengan **{count}** lagu dan mulai memutar antrean!",
+        "importedAlbumQueued": "Mengimpor **{title} album** dengan **{count}** lagu!",
+        "importedAlbumTop": "Mengimpor **{title} album** dengan **{count}** lagu ke atas antrean (diputar berikutnya)!"
+    },
+    "commands": {
+        "audiofilter": "Periksa atau alihkan filter audio!",
+        "back": "Putar lagu sebelumnya!",
+        "botinfo": "Tampilkan informasi tentang Elite Bot!",
+        "clearqueue": "Bersihkan antrean musik saat ini!",
+        "help": "Dapatkan informasi tentang perintah saya!",
+        "jumpqueue": "Lompat ke lagu tertentu dalam antrean!",
+        "loop": "Atur jenis loop!",
+        "lyrics": "Dapatkan lirik lagu!",
+        "nowplaying": "Periksa lagu yang sedang diputar!",
+        "pause": "Jeda lagu saat ini pada waktu saat ini!",
+        "play": "Masukkan lagu ke antrean!",
+        "playnext": "Tambahkan lagu ke atas antrean!",
+        "plex": {
+            "description": "Putar musik dari perpustakaan Plex Anda ke antrean!",
+            "play": "Putar trek, playlist, atau album dari server Plex Anda.",
+            "search": "Cari trek, playlist, dan album.",
+            "playnext": "Tambahkan trek, playlist, atau album dari Plex untuk diputar berikutnya."
+        },
+        "queue": "Periksa musik yang ada di antrean saat ini!",
+        "queuehistory": "Periksa riwayat antrean sebelumnya di guild!",
+        "remove": "Hapus lagu tertentu dari antrean!",
+        "seek": "Lompat ke waktu lain dalam lagu saat ini!",
+        "shuffle": "Acak antrean saat ini!",
+        "skip": "Lewati lagu saat ini!",
+        "stop": "Hentikan musik yang sedang diputar!",
+        "subsonic": {
+            "description": "Putar musik dari perpustakaan Subsonic Anda ke antrean!",
+            "play": "Putar trek, playlist, atau album dari server Subsonic Anda.",
+            "search": "Cari trek, playlist, dan album.",
+            "playnext": "Tambahkan trek, playlist, atau album dari Subsonic untuk diputar berikutnya."
+        },
+        "volume": "Periksa atau atur volume musik saat ini!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Nama, URL, atau URL playlist yang ingin Anda putar.",
+                "playnext": "Nama atau URL lagu yang ingin Anda putar (bukan playlist).",
+                "library": "Kueri pencarian untuk trek, playlist, atau album."
+            },
+            "filter": "Filter apa yang ingin Anda alihkan?",
+            "query": "Masukkan nama lagu.",
+            "song": {
+                "remove": "Lagu #no. berapa yang harus dihapus dari antrean?",
+                "jumpqueue": "Lagu #no. berapa yang dipindah ke depan antrean (gunakan /queue)?"
+            },
+            "time": "Waktu untuk melompat dalam lagu saat ini (Contoh: 1s, 1m, 1h)!",
+            "amount": "Volume apa yang ingin Anda setel (0-100)?",
+            "loopmode": "Mode loop apa yang ingin Anda aktifkan?",
+            "scope": "Pilih jenis konten yang akan dicari.",
+            "order": "Urutan saat menambahkan beberapa trek dari playlist atau album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Otomatis (semua jenis)",
+                "track": "Hanya trek",
+                "playlist": "Hanya playlist",
+                "album": "Hanya album"
+            },
+            "order": {
+                "sequential": "Berurutan",
+                "shuffle": "Acak",
+                "reverse": "Terbalik"
+            },
+            "loopmode": {
+                "0": "Mati",
+                "1": "Trek",
+                "2": "Antrean",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Menu Bantuan",
+        "homeDescription": "Pilih kategori melalui menu di bawah untuk melihat perintah yang tersedia. 📢 \\n\\nMengalami bug atau punya saran perbaikan? Silakan buat issue di **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** atau hubungi saya dengan bergabung ke **[Support Discord Server](https://discord.elite-bot.com)** dan akan segera ditinjau. 🆘\\n\\nUntuk informasi pengaturan mendalam, silakan lihat **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** yang selalu diperbarui dan memberikan semua yang Anda perlu ketahui. 📄",
+        "footer": "/help | Diminta oleh: {user}",
+        "homeOptionLabel": "Beranda",
+        "homeOptionDescription": "Halaman Beranda",
+        "menuPlaceholder": "Klik untuk melihat semua kategori",
+        "categoryPageDescription": "Halaman perintah {category}",
+        "categoryFallback": "Perintah {category}",
+        "categoryTitle": "Menu Bantuan - Kategori {category}! {emoji}",
+        "categories": {
+            "music": "Musik",
+            "utilities": "Utilitas"
+        },
+        "musicDescription": "Perintah musik.",
+        "utilitiesDescription": "Perintah umum yang berguna.",
+        "noDescription": "Tidak ada deskripsi",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Info Bot",
+        "title": "Informasi Elite Music",
+        "process": "Proses",
+        "dependencies": "Dependensi",
+        "ping": "Ping",
+        "uptime": "Waktu Aktif",
+        "version": "Elite Music Version",
+        "developer": "Pengembang & Pemelihara",
+        "openSource": "Proyek Open Source",
+        "openSourceDescription": "Tertarik meningkatkan bot open source ini? Atau ingin menghosting sendiri? Tidak perlu cari lagi! Anda dapat mengakses [repositori bot publik di sini](https://github.com/ThatGuyJacobee/Elite-Bot-Music) dan ikuti instruksi readme untuk info lebih lanjut! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Tambahkan item ke antrean 👈",
+        "resultsTitle": "Hasil Pencarian Musik 🎵",
+        "resultsDescription": "Ditemukan beberapa lagu yang cocok dengan kueri pencarian, pilih satu dari menu di bawah.",
+        "cancel": "Batalkan Pencarian 🗑️",
+        "duration": "Durasi - {duration}",
+        "plexTitle": "Hasil Pencarian Plex 🎵",
+        "subsonicTitle": "Hasil Pencarian Subsonic 🎵",
+        "multipleResults": "Ditemukan beberapa hasil yang cocok dengan kueri pencarian, pilih satu dari menu di bawah.",
+        "singleResult": "Pilih item di bawah untuk menambahkannya ke antrean.",
+        "songResult": "[{index}] Hasil Lagu ({duration})",
+        "playlistResult": "[{index}] Hasil Playlist ({duration})",
+        "mediaResult": "[{index}] Hasil {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Hasil {type}",
+        "track": "Trek",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} lagu"
+    },
+    "np": {
+        "titleStarting": "Memulai lagu berikutnya... Sedang Diputar 🎵",
+        "titleCurrent": "Sedang diputar 🎵",
+        "buttons": {
+            "previous": "⏮️ Sebelumnya",
+            "pauseResume": "⏯️ Putar/Jeda",
+            "skip": "⏭️ Lewati",
+            "clear": "🧹 Bersihkan Antrean",
+            "volume": "🔊 Sesuaikan Volume",
+            "loop": "🔂 Loop Sekali",
+            "shuffle": "🔀 Acak Antrean",
+            "stop": "🛑 Hentikan Antrean"
+        },
+        "backTitle": "Memutar lagu sebelumnya ⏮️",
+        "backDescription": "Selanjutnya kembali ke lagu sebelumnya: {title} {link}!",
+        "backMissing": "❌ | Tidak ada riwayat musik sebelum lagu saat ini. Silakan coba lagi.",
+        "pauseTitle": "Lagu dijeda ⏸️",
+        "pauseDescription": "Pemutaran telah **{state}**. Sedang memutar {title} {link}!",
+        "pauseStateResumed": "dilanjutkan",
+        "pauseStatePaused": "dijeda",
+        "skipTitle": "Lagu dilewati ⏭️",
+        "skipDescription": "Sedang memutar: {title} {link}",
+        "stopTitle": "Musik dihentikan 🛑",
+        "stopDescription": "Musik telah dihentikan... meninggalkan saluran!",
+        "loopOffTitle": "Mode loop mati 📴",
+        "loopOffDescription": "Mode loop telah disetel ke **mati**!",
+        "loopTrackTitle": "Mode loop aktif 🔂",
+        "loopTrackDescription": "Mode loop telah disetel ke **trek saat ini**!",
+        "volumeTitle": "Volume disesuaikan 🎧",
+        "volumeDescription": "Volume telah disetel ke **{volume}%**!",
+        "volumeModalTitle": "Sesuaikan Volume - Saat ini {volume}%",
+        "volumeModalLabel": "Volume baru harus berapa (0-100)?",
+        "volumeModalPlaceholder": "Jawaban Anda...",
+        "volumeModalInvalid": "❌ | Volume harus antara 0-100, input Anda di luar rentang ini.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Memutuskan koneksi 🛑",
+        "disconnectDescription": "Saya tidak aktif selama beberapa waktu!",
+        "emptyChannelTitle": "Mengakhiri pemutaran 🛑",
+        "emptyChannelDescription": "Tidak ada orang di saluran suara!",
+        "queueFinishedTitle": "Antrean Selesai 🛑",
+        "queueFinishedDescription": "Antrean musik telah selesai!"
+    }
+}

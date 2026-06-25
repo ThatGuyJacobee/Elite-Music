@@ -3,6 +3,8 @@ const defaultConsts = {
     config: {
         embedColour: "#FF0000",
         presence: "/help | elite-bot.com",
+        primaryLocale: "en-GB",
+        localeMode: "global",
         leaveOnEmpty: false,
         leaveOnEmptyCooldown: 0,
         leaveOnEnd: false,

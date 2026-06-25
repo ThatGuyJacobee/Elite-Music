@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Άγνωστος χρήστης",
+        "songCoverImage": "Εξώφυλλο τραγουδιού για {title}",
+        "playlistCoverImage": "Εξώφυλλο playlist για {title}",
+        "albumCoverImage": "Εξώφυλλο άλμπουμ για {title}",
+        "coverImageNotFound": "Το εξώφυλλο δεν βρέθηκε"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Ειδοποίηση αναμονής: Περίμενε **{seconds}** ακόμη δευτερόλεπτα πριν χρησιμοποιήσεις ξανά την εντολή **/{command}**!",
+        "commandExecution": "❌ | Συγγνώμη, προέκυψε σφάλμα κατά την εκτέλεση της εντολής σου. Έλεγξε τα logs για το σφάλμα.",
+        "genericAction": "❌ | Ωχ... κάτι πήγε στραβά, προέκυψε σφάλμα κατά {action}. Δοκίμασε ξανά.",
+        "failedToFindSongQuery": "❌ | Ωχ... κάτι πήγε στραβά, δεν βρέθηκε το τραγούδι με το ζητούμενο ερώτημα.",
+        "failedToFindSong": "❌ | Ωχ... κάτι πήγε στραβά, δεν βρέθηκε το τραγούδι.",
+        "playRequest": "❌ | Ωχ... κάτι πήγε στραβά κατά την προσπάθεια αναπαραγωγής του ζητούμενου τραγουδιού. Δοκίμασε ξανά.",
+        "addTracks": "❌ | Ωχ... κάτι πήγε στραβά, αποτυχία προσθήκης του/των κομματιού/ων στην ουρά.",
+        "joinVoice": "❌ | Ωχ... κάτι πήγε στραβά, δεν ήταν δυνατή η σύνδεση στο κανάλι σου.",
+        "joinVoiceChannel": "❌ | Ωχ... κάτι πήγε στραβά, δεν ήταν δυνατή η σύνδεση στο φωνητικό κανάλι σου.",
+        "playback": "❌ | Ωχ... κάτι πήγε στραβά, προέκυψε σφάλμα αναπαραγωγής. Δοκίμασε ξανά.",
+        "noViewChannel": "Σφάλμα: Δεν έχω άδεια να δω αυτό το κανάλι και δεν μπορώ να επεξεργαστώ το μήνυμα βοήθειας!",
+        "extractFailed": "❌ | Αποτυχία εξαγωγής του ακόλουθου τραγουδιού... μετάβαση στο επόμενο!",
+        "subsonicSongMetadata": "❌ | Δεν ήταν δυνατή η φόρτωση μεταδεδομένων τραγουδιού από το Subsonic.",
+        "emptyPlaylist": "❌ | Αυτή η playlist δεν έχει αναπαραγώγιμα κομμάτια.",
+        "emptyAlbum": "❌ | Αυτό το άλμπουμ δεν έχει αναπαραγώγιμα κομμάτια.",
+        "failedToFindMediaQuery": "❌ | Ωχ... κάτι πήγε στραβά, δεν βρέθηκε το τραγούδι, η playlist ή το άλμπουμ με το ζητούμενο ερώτημα.",
+        "playNextPlaylistOnly": "❌ | Ωχ... μπορείς να προσθέσεις μόνο μεμονωμένα τραγούδια με αυτή την εντολή. Χρησιμοποίησε την κανονική εντολή **/play** για να προσθέσεις playlists στην ουρά.",
+        "actions": {
+            "skippingSong": "παράλειψη του τραγουδιού",
+            "clearingQueue": "εκκαθάριση της ουράς",
+            "shufflingQueue": "ανακάτεμα της ουράς",
+            "stoppingQueue": "διακοπή της ουράς",
+            "adjustingVolume": "ρύθμιση της έντασης",
+            "returningToPreviousSong": "επιστροφή στο προηγούμενο τραγούδι",
+            "pausing": "παύση",
+            "resuming": "συνέχιση",
+            "seekingSong": "αναζήτηση στο τραγούδι",
+            "jumpingQueue": "μετάβαση στην ουρά",
+            "switchingLoopMode": "αλλαγή λειτουργίας επανάληψης",
+            "removingSong": "αφαίρεση του τραγουδιού από την ουρά",
+            "adjustingAudioFilter": "ρύθμιση του φίλτρου ήχου"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Το Plex είναι αυτή τη στιγμή απενεργοποιημένο! Ζήτησε από τον διαχειριστή του server να το ενεργοποιήσει και να το ρυθμίσει στο αρχείο περιβάλλοντος.",
+        "subsonicDisabled": "❌ | Το Subsonic είναι αυτή τη στιγμή απενεργοποιημένο! Ζήτησε από τον διαχειριστή του server να το ενεργοποιήσει και να το ρυθμίσει στο αρχείο περιβάλλοντος."
+    },
+    "guards": {
+        "djMode": "❌ | Η λειτουργία DJ είναι ενεργή! Πρέπει να έχεις τον ρόλο DJ {role} για να χρησιμοποιήσεις εντολές μουσικής!",
+        "notInVoice": "❌ | Δεν βρίσκεσαι σε φωνητικό κανάλι!",
+        "notInBotVoice": "❌ | Δεν βρίσκεσαι στο φωνητικό κανάλι μου!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Δεν παίζει μουσική αυτή τη στιγμή!",
+        "empty": "❌ | Δεν υπάρχει μουσική στην ουρά αυτή τη στιγμή!",
+        "emptyQueued": "❌ | Δεν υπάρχει μουσική στην ουρά αυτή τη στιγμή!",
+        "alreadyFirstPage": "❌ | Η ουρά βρίσκεται ήδη στην πρώτη σελίδα!",
+        "alreadyLastPage": "❌ | Η ουρά βρίσκεται ήδη στην τελευταία σελίδα!",
+        "title": "Τρέχουσα μουσική ουρά 🎵",
+        "moreTracks": "...και {count} ακόμη κομμάτι/α",
+        "nowPlayingField": "Παίζει τώρα ▶️",
+        "clearTitle": "Ουρά εκκαθαρίστηκε 🧹",
+        "clearDescription": "Η ολόκληρη μουσική ουρά εκκαθαρίστηκε!",
+        "shuffleTitle": "Ουρά ανακατέθηκε 🔀",
+        "shuffleDescription": "Η ολόκληρη μουσική ουρά ανακατέθηκε!",
+        "expired": "Χρησιμοποίησε ξανά την **/queue** για να εμφανιστεί ξανά το embed.",
+        "historyTitle": "Ιστορικό προηγούμενης μουσικής ουράς 🔙",
+        "historyExpired": "Χρησιμοποίησε ξανά την **/queuehistory** για να εμφανιστεί ξανά το embed.",
+        "previousPage": "⬅️ Προηγούμενη σελίδα",
+        "nextPage": "➡️ Επόμενη σελίδα"
+    },
+    "footer": {
+        "requestedBy": "Ζητήθηκε από: {user}",
+        "requestedByPage": "Ζητήθηκε από: {user} - Σελίδα {page}"
+    },
+    "volume": {
+        "current": "🔊 | Η τρέχουσα ένταση είναι **{volume}%**!",
+        "invalidRange": "❌ | Η ένταση πρέπει να είναι μεταξύ 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Λειτουργία επανάληψης ενεργή 🔁",
+        "autoplayTitle": "Λειτουργία επανάληψης ενεργή 🤖",
+        "trackMode": "το **τρέχον κομμάτι**",
+        "queueMode": "την **ολόκληρη ουρά**",
+        "autoplayMode": "**αυτόματη αναπαραγωγή μουσικής**",
+        "offMode": "**απενεργοποιημένη**",
+        "description": "Η λειτουργία επανάληψης ορίστηκε σε {mode}!"
+    },
+    "seek": {
+        "title": "Αναζήτηση στο τραγούδι ↪️",
+        "description": "Μεταβήκαμε στο {time} του τρέχοντος τραγουδιού! Παίζει τώρα {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Μετάβαση σε τραγούδι ⏭️"
+    },
+    "remove": {
+        "title": "Τραγούδι αφαιρέθηκε ❌",
+        "description": "Αφαιρέθηκε το κομμάτι {title} {link} από την ουρά!",
+        "invalidPosition": "❌ | Δεν υπάρχει τραγούδι στη ζητούμενη θέση στην ουρά. Δοκίμασε ξανά."
+    },
+    "lyrics": {
+        "notFound": "❌ | Δεν βρέθηκαν στίχοι για το ζητούμενο ερώτημα!",
+        "title": "Στίχοι για {title} από {artist} 🎶",
+        "truncatedSuffix": "\nΚαι περισσότερα...",
+        "fullLyricsButton": "🎶 Πλήρεις στίχοι"
+    },
+    "audiofilter": {
+        "noneEnabled": "Δεν υπάρχουν ενεργά φίλτρα ήχου αυτή τη στιγμή!",
+        "listEnabled": "Τα ενεργά φίλτρα ήχου είναι:\n- {filters}",
+        "toggleTitle": "Φίλτρο ήχου εναλλάχθηκε 🎵",
+        "toggleDescription": "Το φίλτρο ήχου **{filter}** έχει {state}!",
+        "stateEnabled": "Ενεργοποιημένο",
+        "stateDisabled": "Απενεργοποιημένο",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Η αναπαραγωγή ξεκίνησε ▶️",
+        "addedTitle": "Προστέθηκε στην ουρά ⏱️",
+        "addedTopTitle": "Προστέθηκε στην κορυφή της ουράς ⏱️",
+        "startedSong": "Ξεκίνησε η αναπαραγωγή του τραγουδιού **{title}** {link}!",
+        "queuedSong": "Προστέθηκε το τραγούδι **{title}** {link} στην ουρά!",
+        "queuedSongTop": "Προστέθηκε το τραγούδι **{title}** {link} στην κορυφή της ουράς (παίζει επόμενο)!",
+        "importedPlaylistStart": "Εισήχθη η **playlist {title} {link}** με **{count}** τραγούδια και ξεκίνησε η αναπαραγωγή της ουράς!",
+        "importedPlaylistQueued": "Εισήχθη η **playlist {title} {link}** με **{count}** τραγούδια!",
+        "importedPlaylistTop": "Εισήχθη η **playlist {title} {link}** με **{count}** τραγούδια στην κορυφή της ουράς (παίζει επόμενο)!",
+        "importedAlbumStart": "Εισήχθη το **άλμπουμ {title}** με **{count}** τραγούδια και ξεκίνησε η αναπαραγωγή της ουράς!",
+        "importedAlbumQueued": "Εισήχθη το **άλμπουμ {title}** με **{count}** τραγούδια!",
+        "importedAlbumTop": "Εισήχθη το **άλμπουμ {title}** με **{count}** τραγούδια στην κορυφή της ουράς (παίζει επόμενο)!"
+    },
+    "commands": {
+        "audiofilter": "Έλεγξε ή εναλλάξε φίλτρα ήχου!",
+        "back": "Παίξε το προηγούμενο τραγούδι!",
+        "botinfo": "Επέστρεψε πληροφορίες για το Elite Bot!",
+        "clearqueue": "Εκκαθάρισε την τρέχουσα μουσική ουρά!",
+        "help": "Λάβε πληροφορίες για τις εντολές μου!",
+        "jumpqueue": "Μετάβαση σε συγκεκριμένο τραγούδι στην ουρά!",
+        "loop": "Ορισμός τύπου επανάληψης!",
+        "lyrics": "Λάβε τους στίχους ενός τραγουδιού!",
+        "nowplaying": "Έλεγξε το τραγούδι που παίζει τώρα!",
+        "pause": "Παύση του τρέχοντος τραγουδιού!",
+        "play": "Τοποθέτησε ένα τραγούδι στην ουρά!",
+        "playnext": "Πρόσθεσε ένα τραγούδι στην κορυφή της ουράς!",
+        "plex": {
+            "description": "Παίξε μουσική από τη βιβλιοθήκη Plex σου στην ουρά!",
+            "play": "Παίξε ένα κομμάτι, playlist ή άλμπουμ από τον Plex server σου.",
+            "search": "Αναζήτησε κομμάτια, playlists και άλμπουμ.",
+            "playnext": "Πρόσθεσε κομμάτι, playlist ή άλμπουμ από τον Plex server σου για επόμενη αναπαραγωγή."
+        },
+        "queue": "Έλεγξε τη μουσική που βρίσκεται στην ουρά!",
+        "queuehistory": "Έλεγξε το προηγούμενο ιστορικό της ουράς στον server!",
+        "remove": "Αφαίρεσε ένα συγκεκριμένο τραγούδι από την ουρά!",
+        "seek": "Μετάβαση σε άλλη ώρα στο τρέχον τραγούδι!",
+        "shuffle": "Ανακάτεψε την τρέχουσα ουρά!",
+        "skip": "Παράλειψε το τρέχον τραγούδι!",
+        "stop": "Σταματά κάθε μουσική αναπαραγωγή!",
+        "subsonic": {
+            "description": "Παίξε μουσική από τη βιβλιοθήκη Subsonic σου στην ουρά!",
+            "play": "Παίξε ένα κομμάτι, playlist ή άλμπουμ από τον Subsonic server σου.",
+            "search": "Αναζήτησε κομμάτια, playlists και άλμπουμ.",
+            "playnext": "Πρόσθεσε κομμάτι, playlist ή άλμπουμ από τον Subsonic server σου για επόμενη αναπαραγωγή."
+        },
+        "volume": "Έλεγξε ή όρισε την τρέχουσα ένταση μουσικής!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Το όνομα, η URL ή η URL playlist που θέλεις να παίξεις.",
+                "playnext": "Το όνομα ή η URL του τραγουδιού που θέλεις να παίξεις (χωρίς playlists).",
+                "library": "Ερώτημα αναζήτησης για κομμάτι, playlist ή άλμπουμ."
+            },
+            "filter": "Ποιο φίλτρο θέλεις να εναλλάξεις;",
+            "query": "Εισήγαγε το όνομα του τραγουδιού.",
+            "song": {
+                "remove": "Ποιο τραγούδι #no. πρέπει να αφαιρεθεί από την ουρά;",
+                "jumpqueue": "Ποιο τραγούδι #no. πρέπει να μεταφερθεί μπροστά (χρησιμοποίησε /queue);"
+            },
+            "time": "Η ώρα για αναζήτηση στο τρέχον τραγούδι (Παραδείγματα: 1s, 1m, 1h)!",
+            "amount": "Τι ένταση θέλεις να ορίσεις (0-100);",
+            "loopmode": "Ποια λειτουργία επανάληψης θέλεις να ενεργοποιήσεις;",
+            "scope": "Επίλεξε τι τύπο περιεχομένου θέλεις να αναζητήσεις.",
+            "order": "Σειρά κατά την προσθήκη πολλών κομματιών από playlist ή άλμπουμ."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Αυτόματο (όλοι οι τύποι)",
+                "track": "Μόνο κομμάτια",
+                "playlist": "Μόνο playlists",
+                "album": "Μόνο άλμπουμ"
+            },
+            "order": {
+                "sequential": "Διαδοχικά",
+                "shuffle": "Τυχαία",
+                "reverse": "Αντίστροφα"
+            },
+            "loopmode": {
+                "0": "Ανενεργή",
+                "1": "Κομμάτι",
+                "2": "Ουρά",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Μενού βοήθειας",
+        "homeDescription": "Επίλεξε μια κατηγορία από το μενού παρακάτω για να δεις τις διαθέσιμες εντολές. 📢 \\n\\nΑντιμετωπίζεις σφάλμα ή έχεις μια καλή πρόταση βελτίωσης; Δημιούργησε issue στο **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** ή επικοινώνησε μαζί μου μπαίνοντας στο **[Support Discord Server](https://discord.elite-bot.com)** και θα εξεταστεί το συντομότερο δυνατό. 🆘\\n\\nΓια λεπτομερείς πληροφορίες εγκατάστασης, δες το **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** που ενημερώνεται πάντα και σου δίνει ό,τι χρειάζεσαι. 📄",
+        "footer": "/help | Ζητήθηκε από: {user}",
+        "homeOptionLabel": "Αρχική",
+        "homeOptionDescription": "Αρχική σελίδα",
+        "menuPlaceholder": "Κάνε κλικ για να δεις όλες τις κατηγορίες",
+        "categoryPageDescription": "Σελίδα εντολών {category}",
+        "categoryFallback": "Εντολές {category}",
+        "categoryTitle": "Μενού βοήθειας - Κατηγορία {category}! {emoji}",
+        "categories": {
+            "music": "Μουσική",
+            "utilities": "Βοηθητικά"
+        },
+        "musicDescription": "Εντολές μουσικής.",
+        "utilitiesDescription": "Γενικά χρήσιμες εντολές.",
+        "noDescription": "Χωρίς περιγραφή",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot Info",
+        "title": "Elite Music Information",
+        "process": "Διαδικασία",
+        "dependencies": "Εξαρτήσεις",
+        "ping": "Ping",
+        "uptime": "Χρόνος λειτουργίας από",
+        "version": "Elite Music Version",
+        "developer": "Προγραμματιστής & Συντηρητής",
+        "openSource": "Έργο Open Source",
+        "openSourceDescription": "Ενδιαφέρεσαι να βελτιώσεις αυτό το open source bot; Ή θέλεις να το φιλοξενήσεις μόνος σου; Μην ψάχνεις άλλο! Μπορείς να αποκτήσεις πρόσβαση στο δημόσιο [repository εδώ](https://github.com/ThatGuyJacobee/Elite-Bot-Music) και να ακολουθήσεις τις οδηγίες readme για περισσότερες πληροφορίες! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Πρόσθεσε στοιχείο στην ουρά 👈",
+        "resultsTitle": "Αποτελέσματα αναζήτησης μουσικής 🎵",
+        "resultsDescription": "Βρέθηκαν πολλά τραγούδια που ταιριάζουν με το ερώτημα αναζήτησης, επίλεξε ένα από το μενού παρακάτω.",
+        "cancel": "Ακύρωση αναζήτησης 🗑️",
+        "duration": "Διάρκεια - {duration}",
+        "plexTitle": "Αποτελέσματα αναζήτησης Plex 🎵",
+        "subsonicTitle": "Αποτελέσματα αναζήτησης Subsonic 🎵",
+        "multipleResults": "Βρέθηκαν πολλαπλά αποτελέσματα που ταιριάζουν με το ερώτημα αναζήτησης, επίλεξε ένα από το μενού παρακάτω.",
+        "singleResult": "Επίλεξε ένα στοιχείο παρακάτω για να το προσθέσεις στην ουρά.",
+        "songResult": "[{index}] Αποτέλεσμα τραγουδιού ({duration})",
+        "playlistResult": "[{index}] Αποτέλεσμα playlist ({duration})",
+        "mediaResult": "[{index}] Αποτέλεσμα {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Αποτέλεσμα {type}",
+        "track": "Κομμάτι",
+        "playlist": "Playlist",
+        "album": "Άλμπουμ",
+        "songCount": "{count} τραγούδια"
+    },
+    "np": {
+        "titleStarting": "Ξεκινά το επόμενο τραγούδι... Παίζει τώρα 🎵",
+        "titleCurrent": "Παίζει τώρα 🎵",
+        "buttons": {
+            "previous": "⏮️ Προηγούμενο",
+            "pauseResume": "⏯️ Αναπαραγωγή/Παύση",
+            "skip": "⏭️ Παράλειψη",
+            "clear": "🧹 Εκκαθάριση ουράς",
+            "volume": "🔊 Ρύθμιση έντασης",
+            "loop": "🔂 Επανάληψη μία φορά",
+            "shuffle": "🔀 Ανακάτεμα ουράς",
+            "stop": "🛑 Διακοπή ουράς"
+        },
+        "backTitle": "Παίζει προηγούμενο τραγούδι ⏮️",
+        "backDescription": "Επιστροφή στο προηγούμενο τραγούδι: {title} {link}!",
+        "backMissing": "❌ | Δεν υπάρχει ιστορικό μουσικής πριν από το τρέχον τραγούδι. Δοκίμασε ξανά.",
+        "pauseTitle": "Το τραγούδι παύθηκε ⏸️",
+        "pauseDescription": "Η αναπαραγωγή **{state}**. Παίζει τώρα {title} {link}!",
+        "pauseStateResumed": "συνεχίστηκε",
+        "pauseStatePaused": "παύθηκε",
+        "skipTitle": "Το τραγούδι παραλείφθηκε ⏭️",
+        "skipDescription": "Παίζει τώρα: {title} {link}",
+        "stopTitle": "Η μουσική σταμάτησε 🛑",
+        "stopDescription": "Η μουσική σταμάτησε... αποχώρηση από το κανάλι!",
+        "loopOffTitle": "Λειτουργία επανάληψης ανενεργή 📴",
+        "loopOffDescription": "Η λειτουργία επανάληψης ορίστηκε σε **απενεργοποιημένη**!",
+        "loopTrackTitle": "Λειτουργία επανάληψης ενεργή 🔂",
+        "loopTrackDescription": "Η λειτουργία επανάληψης ορίστηκε στο **τρέχον κομμάτι**!",
+        "volumeTitle": "Η ένταση ρυθμίστηκε 🎧",
+        "volumeDescription": "Η ένταση ορίστηκε σε **{volume}%**!",
+        "volumeModalTitle": "Ρύθμιση έντασης - Τρέχουσα {volume}%",
+        "volumeModalLabel": "Ποια πρέπει να είναι η νέα ένταση (0-100);",
+        "volumeModalPlaceholder": "Η απάντησή σου...",
+        "volumeModalInvalid": "❌ | Η ένταση πρέπει να είναι μεταξύ 0-100, η είσοδός σου ήταν εκτός αυτού.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Αποσύνδεση 🛑",
+        "disconnectDescription": "Ήμουν ανενεργός για κάποιο χρονικό διάστημα!",
+        "emptyChannelTitle": "Τερματισμός αναπαραγωγής 🛑",
+        "emptyChannelDescription": "Δεν υπάρχει κανείς στο φωνητικό κανάλι!",
+        "queueFinishedTitle": "Η ουρά ολοκληρώθηκε 🛑",
+        "queueFinishedDescription": "Η μουσική ουρά ολοκληρώθηκε!"
+    }
+}

@@ -9,6 +9,8 @@ const {
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
 const { useMainPlayer, QueryType } = require("discord-player");
+const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { ensureDjAccess, ensureInVoiceChannel, ensureSameVoiceChannel } = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,21 +23,9 @@ module.exports = {
                 .setRequired(true),
         ),
     async execute(interaction) {
-        if (client.config.enableDjMode) {
-            if (!interaction.member.roles.cache.has(client.config.djRole))
-                return interaction.reply({
-                    content: `❌ | DJ Mode is active! You must have the DJ role <@&${client.config.djRole}> to use any music commands!`,
-                    ephemeral: true,
-                });
-        }
-
-        if (!interaction.member.voice.channelId)
-            return await interaction.reply({ content: "❌ | You are not in a voice channel!", ephemeral: true });
-        if (
-            interaction.guild.members.me.voice.channelId &&
-            interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId
-        )
-            return await interaction.reply({ content: "❌ | You are not in my voice channel!", ephemeral: true });
+        if (!(await ensureDjAccess(interaction))) return;
+        if (!(await ensureInVoiceChannel(interaction))) return;
+        if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const query = interaction.options.getString("music");
         const player = useMainPlayer();
@@ -49,7 +39,7 @@ module.exports = {
 
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({
-                    content: `❌ | Ooops... something went wrong, couldn't find the song with the requested query.`,
+                    content: translate(interaction, "errors.failedToFindSongQuery"),
                     ephemeral: true,
                 });
             }
@@ -68,14 +58,17 @@ module.exports = {
                         .setCustomId("playsearch")
                         .setMinValues(1)
                         .setMaxValues(1)
-                        .setPlaceholder("Add an item to queue 👈"),
+                        .setPlaceholder(translate(interaction, "search.placeholder")),
                     //.addOptions(options)
                 );
 
                 for (var result of search.tracks) {
                     if (count > 10) break;
                     foundItems.push({
-                        name: `[${count}] ${!result.playlist ? "Song" : "Playlist"} Result (${result.duration})`,
+                        name: translate(interaction, result.playlist ? "search.playlistResult" : "search.songResult", {
+                            index: count,
+                            duration: result.duration,
+                        }),
                         value: `${result.description}`,
                     });
 
@@ -83,7 +76,7 @@ module.exports = {
                         new StringSelectMenuOptionBuilder()
                             .setLabel(result.title.length > 100 ? `${result.title.substring(0, 97)}...` : result.title)
                             .setValue(`${!result.playlist ? "song" : "playlist"}_false_url=${result.url}`) // Schema: [type]_[playnext]_[url=track]...
-                            .setDescription(`Duration - ${result.duration}`)
+                            .setDescription(translate(interaction, "search.duration", { duration: result.duration }))
                             .setEmoji(emojis[count - 1]),
                     );
                     count++;
@@ -95,19 +88,18 @@ module.exports = {
                         iconURL: interaction.client.user.displayAvatarURL(),
                     })
                     .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-                    .setTitle(`Music Search Results 🎵`)
-                    .setDescription(
-                        "Found multiple songs matching the provided search query, select one form the menu below.",
-                    )
+                    .setTitle(translate(interaction, "search.resultsTitle"))
+                    .setDescription(translate(interaction, "search.resultsDescription"))
                     .addFields(foundItems)
                     .setColor(client.config.embedColour)
                     .setTimestamp()
-                    .setFooter({
-                        text: `Requested by: ${interaction.user.discriminator != 0 ? interaction.user.tag : interaction.user.username}`,
-                    });
+                    .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
                 let actionbutton = new ActionRowBuilder().addComponents(
-                    new ButtonBuilder().setCustomId("np-delete").setStyle(4).setLabel("Cancel Search 🗑️"),
+                    new ButtonBuilder()
+                        .setCustomId("np-delete")
+                        .setStyle(4)
+                        .setLabel(translate(interaction, "search.cancel")),
                 );
 
                 interaction.followUp({ embeds: [searchembed], components: [actionmenu, actionbutton] });
@@ -120,7 +112,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return interaction.followUp({
-                content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`,
+                content: translate(interaction, "errors.playRequest"),
                 ephemeral: true,
             });
         }
@@ -145,7 +137,7 @@ client.on("interactionCreate", async (interaction) => {
 
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({
-                    content: `❌ | Ooops... something went wrong, couldn't find the song.`,
+                    content: translate(interaction, "errors.failedToFindSong"),
                     ephemeral: true,
                 });
             }
@@ -157,7 +149,7 @@ client.on("interactionCreate", async (interaction) => {
         } catch (err) {
             console.log(err);
             return interaction.followUp({
-                content: `❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.`,
+                content: translate(interaction, "errors.playRequest"),
                 ephemeral: true,
             });
         }
