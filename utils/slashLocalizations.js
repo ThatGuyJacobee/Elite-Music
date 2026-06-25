@@ -84,7 +84,11 @@ function resolveChoiceDescriptionKey(optionName, value) {
     return `slash.choices.${optionName}.${value}`;
 }
 
-function applyLocalizedDescription(entity, i18n, locale, key, fallbackDescription) {
+function shouldRegisterSlashLocalizations(localeMode) {
+    return localeMode === "user";
+}
+
+function applyLocalizedDescription(entity, i18n, locale, key, fallbackDescription, localeMode) {
     const localized = resolveLocalizedString(i18n, locale, key);
 
     if (localized) {
@@ -93,13 +97,18 @@ function applyLocalizedDescription(entity, i18n, locale, key, fallbackDescriptio
         entity.description = clampDiscordText(fallbackDescription, DISCORD_DESCRIPTION_MAX_LENGTH);
     }
 
+    if (!shouldRegisterSlashLocalizations(localeMode)) {
+        delete entity.description_localizations;
+        return;
+    }
+
     const descriptionLocalizations = buildLocalizationMap(i18n, key, locale);
     if (descriptionLocalizations) {
         entity.description_localizations = descriptionLocalizations;
     }
 }
 
-function localizeChoices(option, i18n, locale) {
+function localizeChoices(option, i18n, locale, localeMode) {
     if (!option.choices) return;
 
     for (const choice of option.choices) {
@@ -112,6 +121,11 @@ function localizeChoices(option, i18n, locale) {
             choice.name = clampDiscordText(choice.name, DISCORD_CHOICE_NAME_MAX_LENGTH);
         }
 
+        if (!shouldRegisterSlashLocalizations(localeMode)) {
+            delete choice.name_localizations;
+            continue;
+        }
+
         const nameLocalizations = buildLocalizationMap(i18n, choiceKey, locale, DISCORD_CHOICE_NAME_MAX_LENGTH);
         if (nameLocalizations) {
             choice.name_localizations = nameLocalizations;
@@ -119,7 +133,7 @@ function localizeChoices(option, i18n, locale) {
     }
 }
 
-function localizeOptions(options, i18n, locale, commandName, subcommandName = null) {
+function localizeOptions(options, i18n, locale, commandName, localeMode, subcommandName = null) {
     if (!options) return;
 
     for (const option of options) {
@@ -127,33 +141,33 @@ function localizeOptions(options, i18n, locale, commandName, subcommandName = nu
             const resolved = resolveCommandDescription(i18n, locale, commandName, option.name);
 
             if (resolved) {
-                applyLocalizedDescription(option, i18n, locale, resolved.key, option.description);
+                applyLocalizedDescription(option, i18n, locale, resolved.key, option.description, localeMode);
             }
 
-            localizeOptions(option.options, i18n, locale, commandName, option.name);
+            localizeOptions(option.options, i18n, locale, commandName, localeMode, option.name);
             continue;
         }
 
         const optionKey = resolveOptionDescriptionKey(commandName, subcommandName, option.name);
-        applyLocalizedDescription(option, i18n, locale, optionKey, option.description);
-        localizeChoices(option, i18n, locale);
+        applyLocalizedDescription(option, i18n, locale, optionKey, option.description, localeMode);
+        localizeChoices(option, i18n, locale, localeMode);
     }
 }
 
-function localizeSlashCommand(command, i18n, locale) {
+function localizeSlashCommand(command, i18n, locale, localeMode = "global") {
     const localized = structuredClone(command);
     const resolved = resolveCommandDescription(i18n, locale, localized.name);
 
     if (resolved) {
-        applyLocalizedDescription(localized, i18n, locale, resolved.key, localized.description);
+        applyLocalizedDescription(localized, i18n, locale, resolved.key, localized.description, localeMode);
     }
 
-    localizeOptions(localized.options, i18n, locale, localized.name);
+    localizeOptions(localized.options, i18n, locale, localized.name, localeMode);
     return localized;
 }
 
-function localizeSlashCommands(commands, i18n, locale) {
-    return commands.map((command) => localizeSlashCommand(command, i18n, locale));
+function localizeSlashCommands(commands, i18n, locale, localeMode = "global") {
+    return commands.map((command) => localizeSlashCommand(command, i18n, locale, localeMode));
 }
 
 module.exports = {
