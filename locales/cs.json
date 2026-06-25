@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Neznámý uživatel",
+        "songCoverImage": "Obal skladby pro {title}",
+        "playlistCoverImage": "Obal playlistu pro {title}",
+        "albumCoverImage": "Obal alba pro {title}",
+        "coverImageNotFound": "Obal nebyl nalezen"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Upozornění na čekání: Počkejte ještě **{seconds}** sekund, než znovu použijete příkaz **/{command}**!",
+        "commandExecution": "❌ | Omlouváme se, při provádění příkazu došlo k chybě. Zkontrolujte protokoly pro podrobnosti.",
+        "genericAction": "❌ | Ups... něco se pokazilo, došlo k chybě při {action}. Zkuste to prosím znovu.",
+        "failedToFindSongQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu pro zadaný dotaz.",
+        "failedToFindSong": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu.",
+        "playRequest": "❌ | Ups... něco se pokazilo při pokusu o přehrání požadované skladby. Zkuste to prosím znovu.",
+        "addTracks": "❌ | Ups... něco se pokazilo, nepodařilo se přidat skladbu/y do fronty.",
+        "joinVoice": "❌ | Ups... něco se pokazilo, nepodařilo se připojit k vašemu kanálu.",
+        "joinVoiceChannel": "❌ | Ups... něco se pokazilo, nepodařilo se připojit k vašemu hlasovému kanálu.",
+        "playback": "❌ | Ups... něco se pokazilo, došlo k chybě související s přehráváním. Zkuste to prosím znovu.",
+        "noViewChannel": "Chyba: Nemám oprávnění zobrazit tento kanál a nemohu upravit zprávu nápovědy!",
+        "extractFailed": "❌ | Nepodařilo se extrahovat následující skladbu... přecházím na další!",
+        "subsonicSongMetadata": "❌ | Nepodařilo se načíst metadata skladby ze Subsonic.",
+        "emptyPlaylist": "❌ | Tento playlist neobsahuje žádné přehratelné skladby.",
+        "emptyAlbum": "❌ | Toto album neobsahuje žádné přehratelné skladby.",
+        "failedToFindMediaQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu, playlist nebo album pro zadaný dotaz.",
+        "playNextPlaylistOnly": "❌ | Ups... tímto příkazem můžete přidat pouze jednotlivé skladby. Pro přidání playlistů do fronty použijte běžný příkaz **/play**.",
+        "actions": {
+            "skippingSong": "přeskakování skladby",
+            "clearingQueue": "vymazání fronty",
+            "shufflingQueue": "zamíchání fronty",
+            "stoppingQueue": "zastavení fronty",
+            "adjustingVolume": "nastavení hlasitosti",
+            "returningToPreviousSong": "návrat k předchozí skladbě",
+            "pausing": "pozastavení",
+            "resuming": "obnovení",
+            "seekingSong": "posun ve skladbě",
+            "jumpingQueue": "přeskočení ve frontě",
+            "switchingLoopMode": "přepnutí režimu opakování",
+            "removingSong": "odebrání skladby z fronty",
+            "adjustingAudioFilter": "nastavení audio filtru"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
+        "subsonicDisabled": "❌ | Subsonic je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí."
+    },
+    "guards": {
+        "djMode": "❌ | Režim DJ je aktivní! Pro použití hudebních příkazů musíte mít roli DJ {role}!",
+        "notInVoice": "❌ | Nejste v hlasovém kanálu!",
+        "notInBotVoice": "❌ | Nejste v mém hlasovém kanálu!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Momentálně se nepřehrává žádná hudba!",
+        "empty": "❌ | Ve frontě momentálně není žádná hudba!",
+        "emptyQueued": "❌ | Momentálně není ve frontě žádná hudba!",
+        "alreadyFirstPage": "❌ | Fronta je již na první stránce!",
+        "alreadyLastPage": "❌ | Fronta je již na poslední stránce!",
+        "title": "Aktuální hudební fronta 🎵",
+        "moreTracks": "...a dalších {count} skladeb",
+        "nowPlayingField": "Právě hraje ▶️",
+        "clearTitle": "Vymazání fronty 🧹",
+        "clearDescription": "Celá hudební fronta byla vymazána!",
+        "shuffleTitle": "Zamíchání fronty 🔀",
+        "shuffleDescription": "Celá hudební fronta byla zamíchána!",
+        "expired": "Pro opětovné zobrazení embedu použijte znovu **/queue**.",
+        "historyTitle": "Historie minulé hudební fronty 🔙",
+        "historyExpired": "Pro opětovné zobrazení embedu použijte znovu **/queuehistory**.",
+        "previousPage": "⬅️ Předchozí stránka",
+        "nextPage": "➡️ Další stránka"
+    },
+    "footer": {
+        "requestedBy": "Požádal/a: {user}",
+        "requestedByPage": "Požádal/a: {user} - Stránka {page}"
+    },
+    "volume": {
+        "current": "🔊 | Aktuální hlasitost je nastavena na **{volume}%**!",
+        "invalidRange": "❌ | Hlasitost musí být nastavena mezi 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Režim opakování zapnut 🔁",
+        "autoplayTitle": "Režim opakování zapnut 🤖",
+        "trackMode": "**aktuální skladbu**",
+        "queueMode": "**celou frontu**",
+        "autoplayMode": "**automatické přehrávání**",
+        "offMode": "**vypnuto**",
+        "description": "Režim opakování byl nastaven na {mode}!"
+    },
+    "seek": {
+        "title": "Posun ve skladbě ↪️",
+        "description": "Aktuální skladba byla posunuta na {time}! Právě hraje {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Přeskočeno na skladbu ⏭️"
+    },
+    "remove": {
+        "title": "Skladba odebrána ❌",
+        "description": "Skladba {title} {link} byla odebrána z fronty!",
+        "invalidPosition": "❌ | Ve frontě není skladba na zadané pozici. Zkuste to prosím znovu."
+    },
+    "lyrics": {
+        "notFound": "❌ | Pro zadaný dotaz nebyly nalezeny žádné texty!",
+        "title": "Text skladby {title} od {artist} 🎶",
+        "truncatedSuffix": "\nA další...",
+        "fullLyricsButton": "🎶 Celý text"
+    },
+    "audiofilter": {
+        "noneEnabled": "Momentálně nejsou aktivní žádné audio filtry!",
+        "listEnabled": "Aktivní audio filtry jsou:\n- {filters}",
+        "toggleTitle": "Audio filtr přepnut 🎵",
+        "toggleDescription": "Audio filtr **{filter}** byl {state}!",
+        "stateEnabled": "Zapnut",
+        "stateDisabled": "Vypnut",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Přehrávání zahájeno ▶️",
+        "addedTitle": "Přidáno do fronty ⏱️",
+        "addedTopTitle": "Přidáno na začátek fronty ⏱️",
+        "startedSong": "Zahájeno přehrávání skladby **{title}** {link}!",
+        "queuedSong": "Skladba **{title}** {link} byla přidána do fronty!",
+        "queuedSongTop": "Skladba **{title}** {link} byla přidána na začátek fronty (hraje další)!",
+        "importedPlaylistStart": "Importován **playlist {title} {link}** s **{count}** skladbami a zahájeno přehrávání fronty!",
+        "importedPlaylistQueued": "Importován **playlist {title} {link}** s **{count}** skladbami!",
+        "importedPlaylistTop": "Importován **playlist {title} {link}** s **{count}** skladbami na začátek fronty (hraje další)!",
+        "importedAlbumStart": "Importováno **album {title}** s **{count}** skladbami a zahájeno přehrávání fronty!",
+        "importedAlbumQueued": "Importováno **album {title}** s **{count}** skladbami!",
+        "importedAlbumTop": "Importováno **album {title}** s **{count}** skladbami na začátek fronty (hraje další)!"
+    },
+    "commands": {
+        "audiofilter": "Zkontrolujte nebo přepněte audio filtry!",
+        "back": "Přehrajte předchozí skladbu!",
+        "botinfo": "Vraťte informace o Elite Bot!",
+        "clearqueue": "Vymažte aktuální hudební frontu!",
+        "help": "Získejte informace o mých příkazech!",
+        "jumpqueue": "Přeskočte na konkrétní skladbu ve frontě!",
+        "loop": "Nastavte typ opakování!",
+        "lyrics": "Získejte text skladby!",
+        "nowplaying": "Zkontrolujte právě hrající skladbu!",
+        "pause": "Pozastavte aktuální skladbu v aktuálním okamžiku!",
+        "play": "Přidejte skladbu do fronty!",
+        "playnext": "Přidejte skladbu na začátek fronty!",
+        "plex": {
+            "description": "Přehrajte hudbu z vaší Plex knihovny do fronty!",
+            "play": "Přehrajte skladbu, playlist nebo album z vašeho Plex serveru.",
+            "search": "Vyhledejte skladby, playlisty a alba.",
+            "playnext": "Přidejte skladbu, playlist nebo album z Plex serveru pro další přehrání."
+        },
+        "queue": "Zkontrolujte aktuální hudbu ve frontě!",
+        "queuehistory": "Zkontrolujte minulou historii fronty v guildě!",
+        "remove": "Odeberte konkrétní skladbu z fronty!",
+        "seek": "Přejděte na jiný čas v aktuální skladbě!",
+        "shuffle": "Zamíchejte aktuální frontu!",
+        "skip": "Přeskočte aktuální skladbu!",
+        "stop": "Zastaví veškerou přehrávanou hudbu!",
+        "subsonic": {
+            "description": "Přehrajte hudbu z vaší Subsonic knihovny do fronty!",
+            "play": "Přehrajte skladbu, playlist nebo album z vašeho Subsonic serveru.",
+            "search": "Vyhledejte skladby, playlisty a alba.",
+            "playnext": "Přidejte skladbu, playlist nebo album ze Subsonic serveru pro další přehrání."
+        },
+        "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Název, URL nebo URL playlistu, který chcete přehrát.",
+                "playnext": "Název nebo URL skladby, kterou chcete přehrát (bez playlistů).",
+                "library": "Vyhledávací dotaz pro skladbu, playlist nebo album."
+            },
+            "filter": "Který filtr chcete přepnout?",
+            "query": "Zadejte název skladby.",
+            "song": {
+                "remove": "Která skladba podle čísla má být odebrána z fronty?",
+                "jumpqueue": "Která skladba podle čísla má být přesunuta na začátek fronty (použijte /queue)?"
+            },
+            "time": "Čas pro posun v aktuální skladbě (Příklady: 1s, 1m, 1h)!",
+            "amount": "Na jakou hodnotu chcete nastavit hlasitost (0-100)?",
+            "loopmode": "Který režim opakování chcete aktivovat?",
+            "scope": "Vyberte typ obsahu pro vyhledávání.",
+            "order": "Pořadí při přidávání více skladeb z playlistu nebo alba."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (všechny typy)",
+                "track": "Pouze skladby",
+                "playlist": "Pouze playlisty",
+                "album": "Pouze alba"
+            },
+            "order": {
+                "sequential": "Postupně",
+                "shuffle": "Náhodně",
+                "reverse": "Obráceně"
+            },
+            "loopmode": {
+                "0": "Off",
+                "1": "Track",
+                "2": "Queue",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Nabídka nápovědy",
+        "homeDescription": "Vyberte kategorii v nabídce níže pro zobrazení dostupných příkazů. 📢 \\n\\nNarazili jste na chybu nebo máte skvělý návrh na vylepšení? Vytvořte prosím issue v **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** nebo mě kontaktujte připojením k **[Support Discord Server](https://discord.elite-bot.com)** a bude to co nejdříve zkontrolováno. 🆘\\n\\nPro podrobné informace o nastavení si prohlédněte **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, který je vždy udržován aktuální a poskytuje vše, co potřebujete vědět. 📄",
+        "footer": "/help | Požádal/a: {user}",
+        "homeOptionLabel": "Domů",
+        "homeOptionDescription": "Domovská stránka",
+        "menuPlaceholder": "Klikněte pro zobrazení všech kategorií",
+        "categoryPageDescription": "Stránka příkazů {category}",
+        "categoryFallback": "Příkazy {category}",
+        "categoryTitle": "Nabídka nápovědy - Kategorie {category}! {emoji}",
+        "categories": {
+            "music": "Hudba",
+            "utilities": "Nástroje"
+        },
+        "musicDescription": "Hudební příkazy.",
+        "utilitiesDescription": "Obecně užitečné příkazy.",
+        "noDescription": "Bez popisu",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Informace o botu",
+        "title": "Informace o Elite Music",
+        "process": "Proces",
+        "dependencies": "Závislosti",
+        "ping": "Ping",
+        "uptime": "Doba běhu od",
+        "version": "Verze Elite Music",
+        "developer": "Vývojář a správce",
+        "openSource": "Projekt s otevřeným zdrojovým kódem",
+        "openSourceDescription": "Zajímá vás vylepšení tohoto bota s otevřeným kódem? Nebo ho chcete hostovat sami? Hledejte dál! Můžete přistoupit k [veřejnému repozitáři bota zde](https://github.com/ThatGuyJacobee/Elite-Bot-Music) a postupovat podle readme pro více informací! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Přidejte položku do fronty 👈",
+        "resultsTitle": "Výsledky hledání hudby 🎵",
+        "resultsDescription": "Nalezeno více skladeb odpovídajících dotazu, vyberte jednu z nabídky níže.",
+        "cancel": "Zrušit hledání 🗑️",
+        "duration": "Délka - {duration}",
+        "plexTitle": "Výsledky hledání Plex 🎵",
+        "subsonicTitle": "Výsledky hledání Subsonic 🎵",
+        "multipleResults": "Nalezeno více výsledků odpovídajících dotazu, vyberte jeden z nabídky níže.",
+        "singleResult": "Vyberte položku níže pro přidání do fronty.",
+        "songResult": "[{index}] Výsledek skladby ({duration})",
+        "playlistResult": "[{index}] Výsledek playlistu ({duration})",
+        "mediaResult": "[{index}] Výsledek {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Výsledek {type}",
+        "track": "Skladba",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} skladeb"
+    },
+    "np": {
+        "titleStarting": "Začíná další skladba... Právě hraje 🎵",
+        "titleCurrent": "Právě hraje 🎵",
+        "buttons": {
+            "previous": "⏮️ Předchozí",
+            "pauseResume": "⏯️ Přehrát/Pauza",
+            "skip": "⏭️ Přeskočit",
+            "clear": "🧹 Vymazat frontu",
+            "volume": "🔊 Nastavit hlasitost",
+            "loop": "🔂 Opakovat jednou",
+            "shuffle": "🔀 Zamíchat frontu",
+            "stop": "🛑 Zastavit frontu"
+        },
+        "backTitle": "Přehrávání předchozí skladby ⏮️",
+        "backDescription": "Další se vrátíme k předchozí skladbě: {title} {link}!",
+        "backMissing": "❌ | Před aktuální skladbou není žádná hudební historie. Zkuste to prosím znovu.",
+        "pauseTitle": "Skladba pozastavena ⏸️",
+        "pauseDescription": "Přehrávání bylo **{state}**. Právě hraje {title} {link}!",
+        "pauseStateResumed": "obnoveno",
+        "pauseStatePaused": "pozastaveno",
+        "skipTitle": "Skladba přeskočena ⏭️",
+        "skipDescription": "Právě hraje: {title} {link}",
+        "stopTitle": "Hudba zastavena 🛑",
+        "stopDescription": "Hudba byla zastavena... opouštím kanál!",
+        "loopOffTitle": "Režim opakování vypnut 📴",
+        "loopOffDescription": "Režim opakování byl nastaven na **vypnuto**!",
+        "loopTrackTitle": "Režim opakování zapnut 🔂",
+        "loopTrackDescription": "Režim opakování byl nastaven na **aktuální skladbu**!",
+        "volumeTitle": "Hlasitost upravena 🎧",
+        "volumeDescription": "Hlasitost byla nastavena na **{volume}%**!",
+        "volumeModalTitle": "Nastavení hlasitosti - Aktuálně {volume}%",
+        "volumeModalLabel": "Jaká by měla být nová hlasitost (0-100)?",
+        "volumeModalPlaceholder": "Vaše odpověď...",
+        "volumeModalInvalid": "❌ | Hlasitost musí být mezi 0-100, váš vstup je mimo tento rozsah.",
+        "liveIndicator": " ◉ ŽIVĚ"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Odpojování 🛑",
+        "disconnectDescription": "Byl jsem neaktivní po určitou dobu!",
+        "emptyChannelTitle": "Ukončení přehrávání 🛑",
+        "emptyChannelDescription": "V hlasovém kanálu nikdo není!",
+        "queueFinishedTitle": "Fronta dokončena 🛑",
+        "queueFinishedDescription": "Hudební fronta byla dokončena!"
+    }
+}

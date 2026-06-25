@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Länk",
+        "unknownUser": "Okänd användare",
+        "songCoverImage": "Omslagsbild för låten {title}",
+        "playlistCoverImage": "Omslagsbild för spellistan {title}",
+        "albumCoverImage": "Omslagsbild för albumet {title}",
+        "coverImageNotFound": "Omslagsbild hittades inte"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Nedkylning: Vänta **{seconds}** sekunder till innan du använder kommandot **/{command}** igen!",
+        "commandExecution": "❌ | Tyvärr, ett fel uppstod när ditt kommando kördes. Kontrollera loggarna för felet.",
+        "genericAction": "❌ | Ojdå... något gick fel, det uppstod ett fel vid {action}. Försök igen.",
+        "failedToFindSongQuery": "❌ | Ojdå... något gick fel, kunde inte hitta låten med den angivna sökningen.",
+        "failedToFindSong": "❌ | Ojdå... något gick fel, kunde inte hitta låten.",
+        "playRequest": "❌ | Ojdå... något gick fel medan jag försökte spela den begärda låten. Försök igen.",
+        "addTracks": "❌ | Ojdå... något gick fel, kunde inte lägga till spåret/spåren i kön.",
+        "joinVoice": "❌ | Ojdå... något gick fel, kunde inte gå med i din kanal.",
+        "joinVoiceChannel": "❌ | Ojdå... något gick fel, kunde inte gå med i din röstkanal.",
+        "playback": "❌ | Ojdå... något gick fel, ett uppspelningsfel uppstod. Försök igen.",
+        "noViewChannel": "Fel: Jag har inte behörighet att se den här kanalen och kan inte redigera hjälpmeddelandet!",
+        "extractFailed": "❌ | Kunde inte extrahera följande låt... hoppar till nästa!",
+        "subsonicSongMetadata": "❌ | Kunde inte ladda låtmetadata från Subsonic.",
+        "emptyPlaylist": "❌ | Den här spellistan har inga spelbara spår.",
+        "emptyAlbum": "❌ | Det här albumet har inga spelbara spår.",
+        "failedToFindMediaQuery": "❌ | Ojdå... något gick fel, kunde inte hitta låten, spellistan eller albumet med den angivna sökningen.",
+        "playNextPlaylistOnly": "❌ | Ojdå... du kan bara lägga till enstaka låtar med det här kommandot. Använd det vanliga **/play**-kommandot för att lägga spellistor i kön.",
+        "actions": {
+            "skippingSong": "hoppar över låten",
+            "clearingQueue": "rensar kön",
+            "shufflingQueue": "blandar kön",
+            "stoppingQueue": "stoppar kön",
+            "adjustingVolume": "justerar volymen",
+            "returningToPreviousSong": "går tillbaka till föregående låt",
+            "pausing": "pausar",
+            "resuming": "återupptar",
+            "seekingSong": "spolar i låten",
+            "jumpingQueue": "hoppar i kön",
+            "switchingLoopMode": "byter loopläge",
+            "removingSong": "tar bort låten från kön",
+            "adjustingAudioFilter": "justerar ljudfiltret"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen.",
+        "subsonicDisabled": "❌ | Subsonic är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen."
+    },
+    "guards": {
+        "djMode": "❌ | DJ-läge är aktivt! Du måste ha DJ-rollen {role} för att använda musikkommandon!",
+        "notInVoice": "❌ | Du är inte i en röstkanal!",
+        "notInBotVoice": "❌ | Du är inte i min röstkanal!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Ingen musik spelas just nu!",
+        "empty": "❌ | Det finns ingen musik i kön just nu!",
+        "emptyQueued": "❌ | Ingen musik är köad just nu!",
+        "alreadyFirstPage": "❌ | Kön är redan på första sidan!",
+        "alreadyLastPage": "❌ | Kön är redan på sista sidan!",
+        "title": "Nuvarande musikkö 🎵",
+        "moreTracks": "...och {count} fler spår",
+        "nowPlayingField": "Spelas nu ▶️",
+        "clearTitle": "Kön rensad 🧹",
+        "clearDescription": "Hela musikkön har rensats!",
+        "shuffleTitle": "Kön blandad 🔀",
+        "shuffleDescription": "Hela musikkön har blandats!",
+        "expired": "Använd **/queue** igen för att visa inbäddningen igen.",
+        "historyTitle": "Tidigare musikköhistorik 🔙",
+        "historyExpired": "Använd **/queuehistory** igen för att visa inbäddningen igen.",
+        "previousPage": "⬅️ Föregående sida",
+        "nextPage": "➡️ Nästa sida"
+    },
+    "footer": {
+        "requestedBy": "Begärt av: {user}",
+        "requestedByPage": "Begärt av: {user} - Sida {page}"
+    },
+    "volume": {
+        "current": "🔊 | Nuvarande volym är satt till **{volume}%**!",
+        "invalidRange": "❌ | Volymen måste vara mellan 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Loop-läge på 🔁",
+        "autoplayTitle": "Loop-läge på 🤖",
+        "trackMode": "det **nuvarande spåret**",
+        "queueMode": "**hela kön**",
+        "autoplayMode": "**autouppspelning av musik**",
+        "offMode": "**av**",
+        "description": "Loop-läget har satts till {mode}!"
+    },
+    "seek": {
+        "title": "Hoppa i låt ↪️",
+        "description": "Spolade den nuvarande låten till {time}! Spelar nu {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Hoppade till låt ⏭️"
+    },
+    "remove": {
+        "title": "Låt borttagen ❌",
+        "description": "Tog bort spåret {title} {link} från kön!",
+        "invalidPosition": "❌ | Det finns ingen låt på den angivna platsen i kön. Försök igen."
+    },
+    "lyrics": {
+        "notFound": "❌ | Inga texter hittades för den begärda sökningen!",
+        "title": "Texter för {title} av {artist} 🎶",
+        "truncatedSuffix": "\nOch mer...",
+        "fullLyricsButton": "🎶 Hela texten"
+    },
+    "audiofilter": {
+        "noneEnabled": "Det finns för närvarande inga ljudfilter aktiverade!",
+        "listEnabled": "De aktiverade ljudfiltren är:\n- {filters}",
+        "toggleTitle": "Ljudfilter växlades 🎵",
+        "toggleDescription": "Ljudfiltret **{filter}** har {state}!",
+        "stateEnabled": "aktiverats",
+        "stateDisabled": "inaktiverats",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Uppspelning startad ▶️",
+        "addedTitle": "Tillagd i kö ⏱️",
+        "addedTopTitle": "Tillagd högst upp i kön ⏱️",
+        "startedSong": "Började spela låten **{title}** {link}!",
+        "queuedSong": "La till låten **{title}** {link} i kön!",
+        "queuedSongTop": "La till låten **{title}** {link} högst upp i kön (spelas härnäst)!",
+        "importedPlaylistStart": "Importerade spellistan **{title} {link}** med **{count}** låtar och började spela kön!",
+        "importedPlaylistQueued": "Importerade spellistan **{title} {link}** med **{count}** låtar!",
+        "importedPlaylistTop": "Importerade spellistan **{title} {link}** med **{count}** låtar till toppen av kön (spelas härnäst)!",
+        "importedAlbumStart": "Importerade albumet **{title}** med **{count}** låtar och började spela kön!",
+        "importedAlbumQueued": "Importerade albumet **{title}** med **{count}** låtar!",
+        "importedAlbumTop": "Importerade albumet **{title}** med **{count}** låtar till toppen av kön (spelas härnäst)!"
+    },
+    "commands": {
+        "audiofilter": "Kontrollera eller växla ljudfilter!",
+        "back": "Spela föregående låt!",
+        "botinfo": "Visa information om Elite Bot!",
+        "clearqueue": "Rensa den nuvarande musikkön!",
+        "help": "Få information om mina kommandon!",
+        "jumpqueue": "Hoppa till en specifik låt i kön!",
+        "loop": "Ställ in looptypen!",
+        "lyrics": "Få texten till en låt!",
+        "nowplaying": "Kontrollera låten som spelas nu!",
+        "pause": "Pausa den nuvarande låten vid den aktuella tiden!",
+        "play": "Lägg en låt i kön!",
+        "playnext": "Lägg en låt högst upp i kön!",
+        "plex": {
+            "description": "Spela musik från ditt Plex-bibliotek in i kön!",
+            "play": "Spela ett spår, en spellista eller ett album från din Plex-server.",
+            "search": "Sök efter spår, spellistor och album.",
+            "playnext": "Lägg ett spår, en spellista eller ett album från din Plex-server att spelas härnäst."
+        },
+        "queue": "Kontrollera musiken som ligger i kön!",
+        "queuehistory": "Kontrollera köhistoriken i servern!",
+        "remove": "Ta bort en specifik låt från kön!",
+        "seek": "Hoppa till en annan tidpunkt i den nuvarande låten!",
+        "shuffle": "Blanda den nuvarande kön!",
+        "skip": "Hoppa över den nuvarande låten!",
+        "stop": "Stoppa all musik som spelas!",
+        "subsonic": {
+            "description": "Spela musik från ditt Subsonic-bibliotek in i kön!",
+            "play": "Spela ett spår, en spellista eller ett album från din Subsonic-server.",
+            "search": "Sök efter spår, spellistor och album.",
+            "playnext": "Lägg ett spår, en spellista eller ett album från din Subsonic-server att spelas härnäst."
+        },
+        "volume": "Kontrollera eller ställ in nuvarande musikvolym!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Namnet, URL:en eller spelliste-URL:en du vill spela.",
+                "playnext": "Namnet eller URL:en till låten du vill spela (inga spellistor).",
+                "library": "Sökfråga för ett spår, en spellista eller ett album."
+            },
+            "filter": "Vilket filter vill du växla?",
+            "query": "Ange låtens namn.",
+            "song": {
+                "remove": "Vilket låtnummer ska tas bort från kön?",
+                "jumpqueue": "Vilket låtnummer ska flyttas till början av kön (använd /queue för att kolla)?"
+            },
+            "time": "Tiden du vill hoppa till i den nuvarande låten (Exempel: 1s, 1m, 1h)!",
+            "amount": "Vad vill du ställa in volymen till (0-100)?",
+            "loopmode": "Vilket loopläge vill du aktivera?",
+            "scope": "Välj vilken typ av innehåll du vill söka efter.",
+            "order": "Ordning som används när flera spår läggs till från en spellista eller ett album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (alla typer)",
+                "track": "Endast spår",
+                "playlist": "Endast spellistor",
+                "album": "Endast album"
+            },
+            "order": {
+                "sequential": "Sekventiell",
+                "shuffle": "Blanda",
+                "reverse": "Omvänd"
+            },
+            "loopmode": {
+                "0": "Av",
+                "1": "Spår",
+                "2": "Kö",
+                "3": "Autouppspelning"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Hjälpmeny",
+        "homeDescription": "Välj en kategori via menyn nedan för att se tillgängliga kommandon. 📢 \\n\\nUpplever du en bugg eller har du ett bra förslag på förbättring? Skapa ett ärende på **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** eller kontakta mig genom att gå med i **[Support Discord Server](https://discord.elite-bot.com)** så granskas det så snart som möjligt. 🆘\\n\\nFör detaljerad installationsinformation, läs **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** som alltid hålls uppdaterad och ger dig allt du behöver veta. 📄",
+        "footer": "/help | Begärt av: {user}",
+        "homeOptionLabel": "Hem",
+        "homeOptionDescription": "Startsida",
+        "menuPlaceholder": "Klicka för att se alla kategorier",
+        "categoryPageDescription": "{category}-kommandosida",
+        "categoryFallback": "{category}-kommandon",
+        "categoryTitle": "Hjälpmeny - {category}-kategori! {emoji}",
+        "categories": {
+            "music": "Musik",
+            "utilities": "Verktyg"
+        },
+        "musicDescription": "Musikkommandon.",
+        "utilitiesDescription": "Allmänt användbara kommandon.",
+        "noDescription": "Ingen beskrivning",
+        "buttons": {
+            "repo": "🛡️ Öppen källkodsrepo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot-dokumentation",
+            "support": "🆘 Supportserver"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Botinfo",
+        "title": "Elite Music-information",
+        "process": "Process",
+        "dependencies": "Beroenden",
+        "ping": "Ping",
+        "uptime": "Uppe sedan",
+        "version": "Elite Music-version",
+        "developer": "Utvecklare och underhållare",
+        "openSource": "Projekt med öppen källkod",
+        "openSourceDescription": "Är du intresserad av att förbättra den här öppna boten? Eller vill du hosta den själv? Då är det här rätt plats! Du kan besöka den offentliga [repo här](https://github.com/ThatGuyJacobee/Elite-Bot-Music) och följa README-instruktionerna för mer information! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Öppen källkodsrepo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot-dokumentation",
+            "support": "🆘 Supportserver"
+        }
+    },
+    "search": {
+        "placeholder": "Lägg till ett objekt i kön 👈",
+        "resultsTitle": "Musiksökresultat 🎵",
+        "resultsDescription": "Hittade flera låtar som matchar sökningen, välj en från menyn nedan.",
+        "cancel": "Avbryt sökning 🗑️",
+        "duration": "Längd - {duration}",
+        "plexTitle": "Plex-sökresultat 🎵",
+        "subsonicTitle": "Subsonic-sökresultat 🎵",
+        "multipleResults": "Hittade flera resultat som matchar sökningen, välj ett från menyn nedan.",
+        "singleResult": "Välj ett objekt nedan för att lägga till det i kön.",
+        "songResult": "[{index}] Låtresultat ({duration})",
+        "playlistResult": "[{index}] Spelliste-resultat ({duration})",
+        "mediaResult": "[{index}] {type}-resultat ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type}-resultat",
+        "track": "Spår",
+        "playlist": "Spellista",
+        "album": "Album",
+        "songCount": "{count} låtar"
+    },
+    "np": {
+        "titleStarting": "Startar nästa låt... Spelar nu 🎵",
+        "titleCurrent": "Spelar nu 🎵",
+        "buttons": {
+            "previous": "⏮️ Föregående",
+            "pauseResume": "⏯️ Spela/Pausa",
+            "skip": "⏭️ Hoppa över",
+            "clear": "🧹 Rensa kön",
+            "volume": "🔊 Justera volym",
+            "loop": "🔂 Loopa en gång",
+            "shuffle": "🔀 Blanda kön",
+            "stop": "🛑 Stoppa kön"
+        },
+        "backTitle": "Spelar föregående låt ⏮️",
+        "backDescription": "Återgår till föregående låt: {title} {link}!",
+        "backMissing": "❌ | Det finns ingen musikhistorik före den nuvarande låten. Försök igen.",
+        "pauseTitle": "Låten pausad ⏸️",
+        "pauseDescription": "Uppspelningen har blivit **{state}**. Spelar nu {title} {link}!",
+        "pauseStateResumed": "återupptagen",
+        "pauseStatePaused": "pausad",
+        "skipTitle": "Låt överhoppad ⏭️",
+        "skipDescription": "Spelar nu: {title} {link}",
+        "stopTitle": "Musiken stoppad 🛑",
+        "stopDescription": "Musiken har stoppats... lämnar kanalen!",
+        "loopOffTitle": "Loop-läge av 📴",
+        "loopOffDescription": "Loop-läget har satts till **av**!",
+        "loopTrackTitle": "Loop-läge på 🔂",
+        "loopTrackDescription": "Loop-läget har satts till **det nuvarande spåret**!",
+        "volumeTitle": "Volym justerad 🎧",
+        "volumeDescription": "Volymen har satts till **{volume}%**!",
+        "volumeModalTitle": "Justera volym - Nu på {volume}%",
+        "volumeModalLabel": "Vad ska den nya volymen vara (0-100)?",
+        "volumeModalPlaceholder": "Ditt svar...",
+        "volumeModalInvalid": "❌ | Volymen måste vara mellan 0-100, ditt inmatade värde låg utanför detta.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Kopplar från 🛑",
+        "disconnectDescription": "Jag har varit inaktiv ett tag!",
+        "emptyChannelTitle": "Avslutar uppspelning 🛑",
+        "emptyChannelDescription": "Ingen är i röstkanalen!",
+        "queueFinishedTitle": "Kön klar 🛑",
+        "queueFinishedDescription": "Musikkön har avslutats!"
+    }
+}

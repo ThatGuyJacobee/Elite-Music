@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Tuntematon käyttäjä",
+        "songCoverImage": "Kappaleen kansikuva: {title}",
+        "playlistCoverImage": "Soittolistan kansikuva: {title}",
+        "albumCoverImage": "Albumin kansikuva: {title}",
+        "coverImageNotFound": "Kansikuvaa ei löytynyt"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Odota-aika: Odota vielä **{seconds}** sekuntia ennen kuin käytät komentoa **/{command}** uudelleen!",
+        "commandExecution": "❌ | Anteeksi, komennon suorittamisessa tapahtui virhe. Tarkista lokit virheen osalta.",
+        "genericAction": "❌ | Hups... jotain meni pieleen, virhe tapahtui {action}. Yritä uudelleen.",
+        "failedToFindSongQuery": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt haulla.",
+        "failedToFindSong": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt.",
+        "playRequest": "❌ | Hups... jotain meni pieleen yritettäessä toistaa pyydettyä kappaletta. Yritä uudelleen.",
+        "addTracks": "❌ | Hups... jotain meni pieleen, kappale(tta) ei voitu lisätä jonoon.",
+        "joinVoice": "❌ | Hups... jotain meni pieleen, kanavaan liittyminen epäonnistui.",
+        "joinVoiceChannel": "❌ | Hups... jotain meni pieleen, äänikanavaan liittyminen epäonnistui.",
+        "playback": "❌ | Hups... jotain meni pieleen, toistoon liittyvä virhe tapahtui. Yritä uudelleen.",
+        "noViewChannel": "Virhe: Minulla ei ole oikeutta nähdä tätä kanavaa enkä voi muokata ohjeviestiä!",
+        "extractFailed": "❌ | Seuraavan kappaleen purkaminen epäonnistui... siirrytään seuraavaan!",
+        "subsonicSongMetadata": "❌ | Kappaleen metatietoja ei voitu ladata Subsonicista.",
+        "emptyPlaylist": "❌ | Tällä soittolistalla ei ole toistettavia kappaleita.",
+        "emptyAlbum": "❌ | Tällä albumilla ei ole toistettavia kappaleita.",
+        "failedToFindMediaQuery": "❌ | Hups... jotain meni pieleen, kappaletta, soittolistaa tai albumia ei löytynyt haulla.",
+        "playNextPlaylistOnly": "❌ | Hups... voit lisätä tällä komennolla vain yksittäisiä kappaleita. Käytä tavallista **/play**-komentoa soittolistojen lisäämiseen jonoon.",
+        "actions": {
+            "skippingSong": "kappaleen ohittaminen",
+            "clearingQueue": "jonon tyhjentäminen",
+            "shufflingQueue": "jonon sekoittaminen",
+            "stoppingQueue": "jonon pysäyttäminen",
+            "adjustingVolume": "äänenvoimakkuuden säätäminen",
+            "returningToPreviousSong": "edelliseen kappaleeseen palaaminen",
+            "pausing": "tauottaminen",
+            "resuming": "jatkaminen",
+            "seekingSong": "kappaleessa hyppääminen",
+            "jumpingQueue": "jonossa hyppääminen",
+            "switchingLoopMode": "toistotilan vaihtaminen",
+            "removingSong": "kappaleen poistaminen jonosta",
+            "adjustingAudioFilter": "äänisuodattimen säätäminen"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
+        "subsonicDisabled": "❌ | Subsonic on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa."
+    },
+    "guards": {
+        "djMode": "❌ | DJ-tila on aktiivinen! Sinulla on oltava DJ-rooli {role} käyttääksesi musiikkikomentoja!",
+        "notInVoice": "❌ | Et ole äänikanavalla!",
+        "notInBotVoice": "❌ | Et ole minun äänikanavallani!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Musiikkia ei toisteta tällä hetkellä!",
+        "empty": "❌ | Jonossa ei ole tällä hetkellä musiikkia!",
+        "emptyQueued": "❌ | Jonossa ei ole tällä hetkellä musiikkia!",
+        "alreadyFirstPage": "❌ | Jono on jo ensimmäisellä sivulla!",
+        "alreadyLastPage": "❌ | Jono on jo viimeisellä sivulla!",
+        "title": "Nykyinen musiikkijono 🎵",
+        "moreTracks": "...ja {count} kappale(tta) lisää",
+        "nowPlayingField": "Nyt soi ▶️",
+        "clearTitle": "Jono tyhjennetty 🧹",
+        "clearDescription": "Koko musiikkijono on tyhjennetty!",
+        "shuffleTitle": "Jono sekoitettu 🔀",
+        "shuffleDescription": "Koko musiikkijono on sekoitettu!",
+        "expired": "Käytä **/queue** uudelleen näyttääksesi upotuksen uudelleen.",
+        "historyTitle": "Aiemman musiikkijonon historia 🔙",
+        "historyExpired": "Käytä **/queuehistory** uudelleen näyttääksesi upotuksen uudelleen.",
+        "previousPage": "⬅️ Edellinen sivu",
+        "nextPage": "➡️ Seuraava sivu"
+    },
+    "footer": {
+        "requestedBy": "Pyytäjä: {user}",
+        "requestedByPage": "Pyytäjä: {user} - Sivu {page}"
+    },
+    "volume": {
+        "current": "🔊 | Nykyinen äänenvoimakkuus on **{volume}%**!",
+        "invalidRange": "❌ | Äänenvoimakkuuden on oltava välillä 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Toistotila päällä 🔁",
+        "autoplayTitle": "Toistotila päällä 🤖",
+        "trackMode": "**nykyinen kappale**",
+        "queueMode": "**koko jono**",
+        "autoplayMode": "**autoplay-musiikki**",
+        "offMode": "**pois päältä**",
+        "description": "Toistotila on asetettu tilaan {mode}!"
+    },
+    "seek": {
+        "title": "Hyppää kappaleessa ↪️",
+        "description": "Hyppäsi nykyisessä kappaleessa kohtaan {time}! Nyt soi {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Siirryttiin kappaleeseen ⏭️"
+    },
+    "remove": {
+        "title": "Kappale poistettu ❌",
+        "description": "Poistettiin kappale {title} {link} jonosta!",
+        "invalidPosition": "❌ | Jonossa ei ole kappaletta haetussa kohdassa. Yritä uudelleen."
+    },
+    "lyrics": {
+        "notFound": "❌ | Sanoituksia ei löytynyt haulla!",
+        "title": "Sanoitukset: {title}, esittäjä {artist} 🎶",
+        "truncatedSuffix": "\nJa lisää...",
+        "fullLyricsButton": "🎶 Koko sanoitus"
+    },
+    "audiofilter": {
+        "noneEnabled": "Äänisuodattimia ei ole tällä hetkellä käytössä!",
+        "listEnabled": "Käytössä olevat äänisuodattimet:\n- {filters}",
+        "toggleTitle": "Äänisuodatin vaihdettu 🎵",
+        "toggleDescription": "**{filter}**-äänisuodatin on {state}!",
+        "stateEnabled": "Käytössä",
+        "stateDisabled": "Pois käytöstä",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Toisto aloitettu ▶️",
+        "addedTitle": "Lisätty jonoon ⏱️",
+        "addedTopTitle": "Lisätty jonon kärkeen ⏱️",
+        "startedSong": "Aloitettiin kappaleen **{title}** {link} toisto!",
+        "queuedSong": "Lisättiin kappale **{title}** {link} jonoon!",
+        "queuedSongTop": "Lisättiin kappale **{title}** {link} jonon kärkeen (soi seuraavaksi)!",
+        "importedPlaylistStart": "Tuotiin **{title} {link} -soittolista** (**{count}** kappaletta) ja aloitettiin jonon toisto!",
+        "importedPlaylistQueued": "Tuotiin **{title} {link} -soittolista** (**{count}** kappaletta)!",
+        "importedPlaylistTop": "Tuotiin **{title} {link} -soittolista** (**{count}** kappaletta) jonon kärkeen (soi seuraavaksi)!",
+        "importedAlbumStart": "Tuotiin **{title} -albumi** (**{count}** kappaletta) ja aloitettiin jonon toisto!",
+        "importedAlbumQueued": "Tuotiin **{title} -albumi** (**{count}** kappaletta)!",
+        "importedAlbumTop": "Tuotiin **{title} -albumi** (**{count}** kappaletta) jonon kärkeen (soi seuraavaksi)!"
+    },
+    "commands": {
+        "audiofilter": "Tarkista tai vaihda äänisuodattimia!",
+        "back": "Toista edellinen kappale!",
+        "botinfo": "Palauta tietoja Elite Botista!",
+        "clearqueue": "Tyhjennä nykyinen musiikkijono!",
+        "help": "Hae tietoja komennoistani!",
+        "jumpqueue": "Siirry tiettyyn kappaleeseen jonossa!",
+        "loop": "Aseta toistotyyppi!",
+        "lyrics": "Hae kappaleen sanoitukset!",
+        "nowplaying": "Tarkista parhaillaan soiva kappale!",
+        "pause": "Tauota nykyinen kappale!",
+        "play": "Lisää kappale jonoon!",
+        "playnext": "Lisää kappale jonon kärkeen!",
+        "plex": {
+            "description": "Toista musiikkia Plex-kirjastostasi jonoon!",
+            "play": "Toista kappale, soittolista tai albumi Plex-palvelimeltasi.",
+            "search": "Hae kappaleita, soittolistoja ja albumeita.",
+            "playnext": "Lisää kappale, soittolista tai albumi Plex-palvelimeltasi seuraavaksi soitettavaksi."
+        },
+        "queue": "Tarkista jonossa oleva musiikki!",
+        "queuehistory": "Tarkista palvelimen aiempi jonohistoria!",
+        "remove": "Poista tietty kappale jonosta!",
+        "seek": "Hyppää toiseen kohtaan nykyisessä kappaleessa!",
+        "shuffle": "Sekoita nykyinen jono!",
+        "skip": "Ohita nykyinen kappale!",
+        "stop": "Pysäyttää kaiken musiikin toiston!",
+        "subsonic": {
+            "description": "Toista musiikkia Subsonic-kirjastostasi jonoon!",
+            "play": "Toista kappale, soittolista tai albumi Subsonic-palvelimeltasi.",
+            "search": "Hae kappaleita, soittolistoja ja albumeita.",
+            "playnext": "Lisää kappale, soittolista tai albumi Subsonic-palvelimeltasi seuraavaksi soitettavaksi."
+        },
+        "volume": "Tarkista tai aseta nykyinen musiikin äänenvoimakkuus!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Nimi, URL tai soittolistan URL, jonka haluat toistaa.",
+                "playnext": "Kappaleen nimi tai URL, jonka haluat toistaa (ei soittolistoja).",
+                "library": "Hakukysely kappaleelle, soittolistalle tai albumille."
+            },
+            "filter": "Minkä suodattimen haluat vaihtaa?",
+            "query": "Syötä kappaleen nimi.",
+            "song": {
+                "remove": "Mikä kappaleen numero poistetaan jonosta?",
+                "jumpqueue": "Mikä kappaleen numero siirretään jonon kärkeen (käytä /queue tarkistaaksesi)?"
+            },
+            "time": "Aika, johon hyppätään nykyisessä kappaleessa (Esimerkit: 1s, 1m, 1h)!",
+            "amount": "Mihin äänenvoimakkuuteen haluat asettaa (0-100)?",
+            "loopmode": "Minkä toistotilan haluat aktivoida?",
+            "scope": "Valitse, millaista sisältöä haluat hakea.",
+            "order": "Järjestys useiden kappaleiden lisäämisessä soittolistasta tai albumista."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (kaikki tyypit)",
+                "track": "Vain kappaleet",
+                "playlist": "Vain soittolistat",
+                "album": "Vain albumit"
+            },
+            "order": {
+                "sequential": "Peräkkäin",
+                "shuffle": "Sekoita",
+                "reverse": "Käänteinen"
+            },
+            "loopmode": {
+                "0": "Pois",
+                "1": "Kappale",
+                "2": "Jono",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Ohjevalikko",
+        "homeDescription": "Valitse kategoria alla olevasta valikosta nähdäksesi saatavilla olevat komennot. 📢 \\n\\nKohtaatko virheen tai onko sinulla hyvä parannusehdotus? Luo issue **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** -sivustolla tai ota yhteyttä liittymällä **[Support Discord Server](https://discord.elite-bot.com)** -palvelimelle, niin se tarkistetaan mahdollisimman pian. 🆘\\n\\nYksityiskohtaisia asennustietoja varten selaa **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** -sivua, joka pidetään aina ajan tasalla ja tarjoaa kaiken tarvitsemasi. 📄",
+        "footer": "/help | Pyytäjä: {user}",
+        "homeOptionLabel": "Koti",
+        "homeOptionDescription": "Etusivu",
+        "menuPlaceholder": "Napsauta nähdäksesi kaikki kategoriat",
+        "categoryPageDescription": "{category}-komentosivu",
+        "categoryFallback": "{category}-komennot",
+        "categoryTitle": "Ohjevalikko - {category}-kategoria! {emoji}",
+        "categories": {
+            "music": "Musiikki",
+            "utilities": "Apuohjelmat"
+        },
+        "musicDescription": "Musiikkikomennot.",
+        "utilitiesDescription": "Yleisesti hyödyllisiä komentoja.",
+        "noDescription": "Ei kuvausta",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot Info",
+        "title": "Elite Music Information",
+        "process": "Prosessi",
+        "dependencies": "Riippuvuudet",
+        "ping": "Ping",
+        "uptime": "Käyntiaika alkaen",
+        "version": "Elite Music Version",
+        "developer": "Kehittäjä & Ylläpitäjä",
+        "openSource": "Avoimen lähdekoodin projekti",
+        "openSourceDescription": "Kiinnostaako tämän avoimen lähdekoodin botin parantaminen? Tai haluatko hostata sen itse? Etsiminen päättyy tähän! Pääset julkiseen [repositorioon täältä](https://github.com/ThatGuyJacobee/Elite-Bot-Music) ja voit seurata readme-ohjeita lisätietoja varten! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Lisää kohde jonoon 👈",
+        "resultsTitle": "Musiikin hakutulokset 🎵",
+        "resultsDescription": "Löytyi useita kappaleita haulla, valitse yksi alla olevasta valikosta.",
+        "cancel": "Peruuta haku 🗑️",
+        "duration": "Kesto - {duration}",
+        "plexTitle": "Plex-hakutulokset 🎵",
+        "subsonicTitle": "Subsonic-hakutulokset 🎵",
+        "multipleResults": "Löytyi useita tuloksia haulla, valitse yksi alla olevasta valikosta.",
+        "singleResult": "Valitse alla oleva kohde lisätäksesi sen jonoon.",
+        "songResult": "[{index}] Kappaleen tulos ({duration})",
+        "playlistResult": "[{index}] Soittolistan tulos ({duration})",
+        "mediaResult": "[{index}] {type}-tulos ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type}-tulos",
+        "track": "Kappale",
+        "playlist": "Soittolista",
+        "album": "Albumi",
+        "songCount": "{count} kappaletta"
+    },
+    "np": {
+        "titleStarting": "Seuraava kappale alkaa... Nyt soi 🎵",
+        "titleCurrent": "Nyt soi 🎵",
+        "buttons": {
+            "previous": "⏮️ Edellinen",
+            "pauseResume": "⏯️ Toista/Tauota",
+            "skip": "⏭️ Ohita",
+            "clear": "🧹 Tyhjennä jono",
+            "volume": "🔊 Säädä äänenvoimakkuus",
+            "loop": "🔂 Toista kerran",
+            "shuffle": "🔀 Sekoita jono",
+            "stop": "🛑 Pysäytä jono"
+        },
+        "backTitle": "Toistetaan edellinen kappale ⏮️",
+        "backDescription": "Palataan seuraavaksi edelliseen kappaleeseen: {title} {link}!",
+        "backMissing": "❌ | Nykyistä kappaletta edeltävää musiikkihistoriaa ei ole. Yritä uudelleen.",
+        "pauseTitle": "Kappale tauotettu ⏸️",
+        "pauseDescription": "Toisto on **{state}**. Nyt soi {title} {link}!",
+        "pauseStateResumed": "jatkaa",
+        "pauseStatePaused": "tauotettu",
+        "skipTitle": "Kappale ohitettu ⏭️",
+        "skipDescription": "Nyt soi: {title} {link}",
+        "stopTitle": "Musiikki pysäytetty 🛑",
+        "stopDescription": "Musiikki on pysäytetty... poistutaan kanavalta!",
+        "loopOffTitle": "Toistotila pois päältä 📴",
+        "loopOffDescription": "Toistotila on asetettu **pois päältä**!",
+        "loopTrackTitle": "Toistotila päällä 🔂",
+        "loopTrackDescription": "Toistotila on asetettu **nykyiseen kappaleeseen**!",
+        "volumeTitle": "Äänenvoimakkuus säädetty 🎧",
+        "volumeDescription": "Äänenvoimakkuus on asetettu **{volume}%**!",
+        "volumeModalTitle": "Säädä äänenvoimakkuus - Nykyinen {volume}%",
+        "volumeModalLabel": "Mikä uusi äänenvoimakkuus pitäisi olla (0-100)?",
+        "volumeModalPlaceholder": "Vastauksesi...",
+        "volumeModalInvalid": "❌ | Äänenvoimakkuuden on oltava välillä 0-100, syötteesi oli tämän ulkopuolella.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Yhteys katkaistaan 🛑",
+        "disconnectDescription": "Olen ollut passiivinen jonkin aikaa!",
+        "emptyChannelTitle": "Toisto päättyy 🛑",
+        "emptyChannelDescription": "Äänikanavalla ei ole ketään!",
+        "queueFinishedTitle": "Jono valmis 🛑",
+        "queueFinishedDescription": "Musiikkijono on valmis!"
+    }
+}

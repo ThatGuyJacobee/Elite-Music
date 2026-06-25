@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "連結",
+        "unknownUser": "未知使用者",
+        "songCoverImage": "{title} 的歌曲封面圖片",
+        "playlistCoverImage": "{title} 的播放清單封面圖片",
+        "albumCoverImage": "{title} 的專輯封面圖片",
+        "coverImageNotFound": "找不到封面圖片"
+    },
+    "errors": {
+        "cooldown": "⏱️ | 冷卻提醒：請再等待 **{seconds}** 秒後才能再次使用 **/{command}** 指令！",
+        "commandExecution": "❌ | 抱歉，執行您的指令時發生錯誤。請查看日誌以了解詳情。",
+        "genericAction": "❌ | 糟糕... 發生錯誤，{action} 時出現問題。請再試一次。",
+        "failedToFindSongQuery": "❌ | 糟糕... 發生錯誤，找不到符合所查詢條件的歌曲。",
+        "failedToFindSong": "❌ | 糟糕... 發生錯誤，找不到該歌曲。",
+        "playRequest": "❌ | 糟糕... 嘗試播放所請求的歌曲時發生錯誤。請再試一次。",
+        "addTracks": "❌ | 糟糕... 發生錯誤，無法將曲目加入佇列。",
+        "joinVoice": "❌ | 糟糕... 發生錯誤，無法加入您的頻道。",
+        "joinVoiceChannel": "❌ | 糟糕... 發生錯誤，無法加入您的語音頻道。",
+        "playback": "❌ | 糟糕... 發生錯誤，播放相關錯誤。請再試一次。",
+        "noViewChannel": "錯誤：我沒有查看此頻道的權限，無法編輯說明訊息！",
+        "extractFailed": "❌ | 無法擷取以下歌曲... 跳至下一首！",
+        "subsonicSongMetadata": "❌ | 無法從 Subsonic 載入歌曲中繼資料。",
+        "emptyPlaylist": "❌ | 此播放清單沒有可播放的曲目。",
+        "emptyAlbum": "❌ | 此專輯沒有可播放的曲目。",
+        "failedToFindMediaQuery": "❌ | 糟糕... 發生錯誤，找不到符合所查詢條件的歌曲、播放清單或專輯。",
+        "playNextPlaylistOnly": "❌ | 糟糕... 此指令只能加入單首歌曲。請使用一般的 **/play** 指令將播放清單加入佇列。",
+        "actions": {
+            "skippingSong": "跳過歌曲",
+            "clearingQueue": "清除佇列",
+            "shufflingQueue": "隨機播放佇列",
+            "stoppingQueue": "停止佇列",
+            "adjustingVolume": "調整音量",
+            "returningToPreviousSong": "返回上一首歌曲",
+            "pausing": "暫停",
+            "resuming": "繼續播放",
+            "seekingSong": "跳轉歌曲",
+            "jumpingQueue": "跳轉佇列",
+            "switchingLoopMode": "切換循環模式",
+            "removingSong": "從佇列移除歌曲",
+            "adjustingAudioFilter": "調整音訊濾鏡"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex 目前已停用！請伺服器管理員在環境設定檔中啟用並設定。",
+        "subsonicDisabled": "❌ | Subsonic 目前已停用！請伺服器管理員在環境設定檔中啟用並設定。"
+    },
+    "guards": {
+        "djMode": "❌ | DJ 模式已啟用！您必須擁有 DJ 角色 {role} 才能使用任何音樂指令！",
+        "notInVoice": "❌ | 您不在語音頻道中！",
+        "notInBotVoice": "❌ | 您不在我的語音頻道中！"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | 目前沒有正在播放的音樂！",
+        "empty": "❌ | 佇列中目前沒有音樂！",
+        "emptyQueued": "❌ | 目前沒有排隊中的音樂！",
+        "alreadyFirstPage": "❌ | 佇列已在第一頁！",
+        "alreadyLastPage": "❌ | 佇列已在最後一頁！",
+        "title": "目前音樂佇列 🎵",
+        "moreTracks": "...還有 {count} 首曲目",
+        "nowPlayingField": "正在播放 ▶️",
+        "clearTitle": "佇列已清除 🧹",
+        "clearDescription": "整個音樂佇列已清除！",
+        "shuffleTitle": "佇列已隨機播放 🔀",
+        "shuffleDescription": "整個音樂佇列已隨機播放！",
+        "expired": "請再次使用 **/queue** 以重新顯示嵌入訊息。",
+        "historyTitle": "過往音樂佇列紀錄 🔙",
+        "historyExpired": "請再次使用 **/queuehistory** 以重新顯示嵌入訊息。",
+        "previousPage": "⬅️ 上一頁",
+        "nextPage": "➡️ 下一頁"
+    },
+    "footer": {
+        "requestedBy": "請求者：{user}",
+        "requestedByPage": "請求者：{user} - 第 {page} 頁"
+    },
+    "volume": {
+        "current": "🔊 | 目前音量設定為 **{volume}%**！",
+        "invalidRange": "❌ | 音量必須設定在 0-100% 之間！"
+    },
+    "loop": {
+        "queueTitle": "循環模式已開啟 🔁",
+        "autoplayTitle": "循環模式已開啟 🤖",
+        "trackMode": "**目前曲目**",
+        "queueMode": "**整個佇列**",
+        "autoplayMode": "**自動播放音樂**",
+        "offMode": "**關閉**",
+        "description": "循環模式已設定為 {mode}！"
+    },
+    "seek": {
+        "title": "跳轉歌曲 ↪️",
+        "description": "已將目前歌曲跳轉至 {time}！正在播放 {title} {link}。"
+    },
+    "jumpqueue": {
+        "title": "已跳轉至歌曲 ⏭️"
+    },
+    "remove": {
+        "title": "歌曲已移除 ❌",
+        "description": "已從佇列移除曲目 {title} {link}！",
+        "invalidPosition": "❌ | 佇列中查詢的位置沒有歌曲。請再試一次。"
+    },
+    "lyrics": {
+        "notFound": "❌ | 找不到符合所查詢條件的歌詞！",
+        "title": "{artist} 的 {title} 歌詞 🎶",
+        "truncatedSuffix": "\n還有更多...",
+        "fullLyricsButton": "🎶 完整歌詞"
+    },
+    "audiofilter": {
+        "noneEnabled": "目前沒有啟用任何音訊濾鏡！",
+        "listEnabled": "目前啟用的音訊濾鏡：\n- {filters}",
+        "toggleTitle": "音訊濾鏡已切換 🎵",
+        "toggleDescription": "**{filter}** 音訊濾鏡已{state}！",
+        "stateEnabled": "啟用",
+        "stateDisabled": "停用",
+        "filters": {
+            "bassboost": "低音增強",
+            "8D": "8D",
+            "subboost": "重低音增強",
+            "nightcore": "Nightcore",
+            "surrounding": "環繞",
+            "vaporwave": "Vaporwave",
+            "normalizer": "標準化",
+            "lofi": "Lofi",
+            "fadein": "淡入"
+        }
+    },
+    "playback": {
+        "startedTitle": "開始播放 ▶️",
+        "addedTitle": "已加入佇列 ⏱️",
+        "addedTopTitle": "已加入佇列頂端 ⏱️",
+        "startedSong": "開始播放歌曲 **{title}** {link}！",
+        "queuedSong": "已將歌曲 **{title}** {link} 加入佇列！",
+        "queuedSongTop": "已將歌曲 **{title}** {link} 加入佇列頂端（下一首播放）！",
+        "importedPlaylistStart": "已匯入 **{title} {link} 播放清單**，共 **{count}** 首歌曲並開始播放佇列！",
+        "importedPlaylistQueued": "已匯入 **{title} {link} 播放清單**，共 **{count}** 首歌曲！",
+        "importedPlaylistTop": "已將 **{title} {link} 播放清單** 共 **{count}** 首歌曲加入佇列頂端（下一首播放）！",
+        "importedAlbumStart": "已匯入 **{title} 專輯**，共 **{count}** 首歌曲並開始播放佇列！",
+        "importedAlbumQueued": "已匯入 **{title} 專輯**，共 **{count}** 首歌曲！",
+        "importedAlbumTop": "已將 **{title} 專輯** 共 **{count}** 首歌曲加入佇列頂端（下一首播放）！"
+    },
+    "commands": {
+        "audiofilter": "查看或切換音訊濾鏡！",
+        "back": "播放上一首歌曲！",
+        "botinfo": "回傳 Elite Bot 的相關資訊！",
+        "clearqueue": "清除目前的音樂佇列！",
+        "help": "取得指令相關資訊！",
+        "jumpqueue": "跳轉至佇列中的特定歌曲！",
+        "loop": "設定循環類型！",
+        "lyrics": "取得歌曲歌詞！",
+        "nowplaying": "查看目前播放的歌曲！",
+        "pause": "在目前時間暫停目前歌曲！",
+        "play": "將歌曲加入佇列！",
+        "playnext": "將歌曲加入佇列頂端！",
+        "plex": {
+            "description": "從您的 Plex 媒體庫播放音樂至佇列！",
+            "play": "從您的 Plex 伺服器播放曲目、播放清單或專輯。",
+            "search": "搜尋曲目、播放清單和專輯。",
+            "playnext": "從 Plex 伺服器加入曲目、播放清單或專輯至下一首播放。"
+        },
+        "queue": "查看目前佇列中的音樂！",
+        "queuehistory": "查看伺服器內過往的佇列紀錄！",
+        "remove": "從佇列移除特定歌曲！",
+        "seek": "跳轉至目前歌曲的其他時間！",
+        "shuffle": "隨機播放目前佇列！",
+        "skip": "跳過目前歌曲！",
+        "stop": "停止所有正在播放的音樂！",
+        "subsonic": {
+            "description": "從您的 Subsonic 媒體庫播放音樂至佇列！",
+            "play": "從您的 Subsonic 伺服器播放曲目、播放清單或專輯。",
+            "search": "搜尋曲目、播放清單和專輯。",
+            "playnext": "從 Subsonic 伺服器加入曲目、播放清單或專輯至下一首播放。"
+        },
+        "volume": "查看或設定目前音樂音量！"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "您想播放的名稱、URL 或播放清單 URL。",
+                "playnext": "您想播放的歌曲名稱或 URL（不含播放清單）。",
+                "library": "搜尋曲目、播放清單或專輯的查詢條件。"
+            },
+            "filter": "您想切換哪個濾鏡？",
+            "query": "輸入歌曲名稱。",
+            "song": {
+                "remove": "要從佇列移除第幾首歌曲？",
+                "jumpqueue": "要將第幾首歌曲移至佇列最前（使用 /queue 查看）？"
+            },
+            "time": "跳轉目前歌曲的時間（範例：1s、1m、1h）！",
+            "amount": "您想將音量設定為多少（0-100）？",
+            "loopmode": "您想啟用哪種循環模式？",
+            "scope": "選擇要搜尋的內容類型。",
+            "order": "從播放清單或專輯加入多首曲目時使用的順序。"
+        },
+        "choices": {
+            "scope": {
+                "auto": "自動（所有類型）",
+                "track": "僅曲目",
+                "playlist": "僅播放清單",
+                "album": "僅專輯"
+            },
+            "order": {
+                "sequential": "依序",
+                "shuffle": "隨機",
+                "reverse": "反向"
+            },
+            "loopmode": {
+                "0": "關閉",
+                "1": "曲目",
+                "2": "佇列",
+                "3": "自動播放"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - 說明選單",
+        "homeDescription": "請從下方選單選擇分類以查看可用指令。 📢 \\n\\n遇到錯誤或有改進建議？請在 **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** 建立 issue，或加入 **[Support Discord Server](https://discord.elite-bot.com)** 與我聯繫，我們會盡快審核。 🆘\\n\\n如需詳細設定資訊，請瀏覽 **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**，內容會持續更新，提供您所需的一切資訊。 📄",
+        "footer": "/help | 請求者：{user}",
+        "homeOptionLabel": "首頁",
+        "homeOptionDescription": "首頁",
+        "menuPlaceholder": "點擊查看所有分類",
+        "categoryPageDescription": "{category} 指令頁面",
+        "categoryFallback": "{category} 指令",
+        "categoryTitle": "說明選單 - {category} 分類！ {emoji}",
+        "categories": {
+            "music": "音樂",
+            "utilities": "工具"
+        },
+        "musicDescription": "音樂指令。",
+        "utilitiesDescription": "一般實用指令。",
+        "noDescription": "無說明",
+        "buttons": {
+            "repo": "🛡️ 開源儲存庫",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 文件",
+            "support": "🆘 支援伺服器"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - 機器人資訊",
+        "title": "Elite Music 資訊",
+        "process": "程序",
+        "dependencies": "相依套件",
+        "ping": "延遲",
+        "uptime": "上線時間",
+        "version": "Elite Music 版本",
+        "developer": "開發者與維護者",
+        "openSource": "開源專案",
+        "openSourceDescription": "有興趣改進這個開源機器人嗎？或想自行託管？別猶豫！您可以在[這裡](https://github.com/ThatGuyJacobee/Elite-Bot-Music)存取公開的機器人儲存庫，並依照 readme 說明取得更多資訊！ :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ 開源儲存庫",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 文件",
+            "support": "🆘 支援伺服器"
+        }
+    },
+    "search": {
+        "placeholder": "將項目加入佇列 👈",
+        "resultsTitle": "音樂搜尋結果 🎵",
+        "resultsDescription": "找到多首符合搜尋條件的歌曲，請從下方選單選擇。",
+        "cancel": "取消搜尋 🗑️",
+        "duration": "時長 - {duration}",
+        "plexTitle": "Plex 搜尋結果 🎵",
+        "subsonicTitle": "Subsonic 搜尋結果 🎵",
+        "multipleResults": "找到多個符合搜尋條件的結果，請從下方選單選擇。",
+        "singleResult": "請從下方選擇項目以加入佇列。",
+        "songResult": "[{index}] 歌曲結果 ({duration})",
+        "playlistResult": "[{index}] 播放清單結果 ({duration})",
+        "mediaResult": "[{index}] {type} 結果 ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} 結果",
+        "track": "曲目",
+        "playlist": "播放清單",
+        "album": "專輯",
+        "songCount": "{count} 首歌曲"
+    },
+    "np": {
+        "titleStarting": "即將播放下一首... 正在播放 🎵",
+        "titleCurrent": "正在播放 🎵",
+        "buttons": {
+            "previous": "⏮️ 上一首",
+            "pauseResume": "⏯️ 播放/暫停",
+            "skip": "⏭️ 跳過",
+            "clear": "🧹 清除佇列",
+            "volume": "🔊 調整音量",
+            "loop": "🔂 單曲循環",
+            "shuffle": "🔀 隨機播放",
+            "stop": "🛑 停止佇列"
+        },
+        "backTitle": "播放上一首歌曲 ⏮️",
+        "backDescription": "即將返回上一首歌曲：{title} {link}！",
+        "backMissing": "❌ | 目前歌曲之前沒有音樂紀錄。請再試一次。",
+        "pauseTitle": "歌曲已暫停 ⏸️",
+        "pauseDescription": "播放已**{state}**。正在播放 {title} {link}！",
+        "pauseStateResumed": "繼續",
+        "pauseStatePaused": "暫停",
+        "skipTitle": "歌曲已跳過 ⏭️",
+        "skipDescription": "正在播放：{title} {link}",
+        "stopTitle": "音樂已停止 🛑",
+        "stopDescription": "音樂已停止... 正在離開頻道！",
+        "loopOffTitle": "循環模式已關閉 📴",
+        "loopOffDescription": "循環模式已設定為**關閉**！",
+        "loopTrackTitle": "循環模式已開啟 🔂",
+        "loopTrackDescription": "循環模式已設定為**目前曲目**！",
+        "volumeTitle": "音量已調整 🎧",
+        "volumeDescription": "音量已設定為 **{volume}%**！",
+        "volumeModalTitle": "調整音量 - 目前為 {volume}%",
+        "volumeModalLabel": "新音量應設定為多少（0-100）？",
+        "volumeModalPlaceholder": "您的回答...",
+        "volumeModalInvalid": "❌ | 音量必須在 0-100 之間，您的輸入超出此範圍。",
+        "liveIndicator": " ◉ 直播"
+    },
+    "lifecycle": {
+        "disconnectTitle": "正在中斷連線 🛑",
+        "disconnectDescription": "我已閒置一段時間！",
+        "emptyChannelTitle": "結束播放 🛑",
+        "emptyChannelDescription": "語音頻道中沒有人！",
+        "queueFinishedTitle": "佇列播放完畢 🛑",
+        "queueFinishedDescription": "音樂佇列已播放完畢！"
+    }
+}

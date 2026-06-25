@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Utilizator necunoscut",
+        "songCoverImage": "Imagine de copertă pentru piesa {title}",
+        "playlistCoverImage": "Imagine de copertă pentru playlistul {title}",
+        "albumCoverImage": "Imagine de copertă pentru albumul {title}",
+        "coverImageNotFound": "Imaginea de copertă nu a fost găsită"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Atenție la cooldown: așteaptă încă **{seconds}** secunde înainte de a folosi din nou comanda **/{command}**!",
+        "commandExecution": "❌ | Ne pare rău, a apărut o eroare la executarea comenzii tale. Verifică logurile pentru detalii.",
+        "genericAction": "❌ | Oops... ceva a mers prost, a apărut o eroare la {action}. Încearcă din nou.",
+        "failedToFindSongQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa pentru interogarea cerută.",
+        "failedToFindSong": "❌ | Oops... ceva a mers prost, nu am găsit piesa.",
+        "playRequest": "❌ | Oops... ceva a mers prost în timp ce încercam să redau piesa cerută. Încearcă din nou.",
+        "addTracks": "❌ | Oops... ceva a mers prost, nu am reușit să adaug piesa/ piesele în coadă.",
+        "joinVoice": "❌ | Oops... ceva a mers prost, nu am reușit să mă alătur canalului tău.",
+        "joinVoiceChannel": "❌ | Oops... ceva a mers prost, nu am reușit să mă alătur canalului tău vocal.",
+        "playback": "❌ | Oops... ceva a mers prost, a apărut o eroare de redare. Încearcă din nou.",
+        "noViewChannel": "Eroare: nu am permisiunea să văd acest canal și nu pot edita mesajul de ajutor!",
+        "extractFailed": "❌ | Nu am reușit să extrag următoarea piesă... trec la următoarea!",
+        "subsonicSongMetadata": "❌ | Nu am putut încărca metadatele piesei din Subsonic.",
+        "emptyPlaylist": "❌ | Acest playlist nu are piese care pot fi redate.",
+        "emptyAlbum": "❌ | Acest album nu are piese care pot fi redate.",
+        "failedToFindMediaQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa, playlistul sau albumul cerut.",
+        "playNextPlaylistOnly": "❌ | Oops... poți adăuga doar melodii individuale cu această comandă. Folosește comanda normală **/play** pentru a adăuga playlisturi în coadă.",
+        "actions": {
+            "skippingSong": "sărind peste piesă",
+            "clearingQueue": "golind coada",
+            "shufflingQueue": "amestecând coada",
+            "stoppingQueue": "oprind coada",
+            "adjustingVolume": "ajustând volumul",
+            "returningToPreviousSong": "revenind la piesa anterioară",
+            "pausing": "pauzând",
+            "resuming": "reluând",
+            "seekingSong": "căutând în piesă",
+            "jumpingQueue": "sărind în coadă",
+            "switchingLoopMode": "schimbând modul de repetare",
+            "removingSong": "eliminând piesa din coadă",
+            "adjustingAudioFilter": "ajustând filtrul audio"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
+        "subsonicDisabled": "❌ | Subsonic este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu."
+    },
+    "guards": {
+        "djMode": "❌ | Modul DJ este activ! Trebuie să ai rolul DJ {role} pentru a folosi orice comandă muzicală!",
+        "notInVoice": "❌ | Nu ești într-un canal vocal!",
+        "notInBotVoice": "❌ | Nu ești în canalul meu vocal!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | În acest moment nu se redă nicio muzică!",
+        "empty": "❌ | Nu există muzică în coadă în acest moment!",
+        "emptyQueued": "❌ | Nu este nicio muzică pusă în coadă în acest moment!",
+        "alreadyFirstPage": "❌ | Coada este deja pe prima pagină!",
+        "alreadyLastPage": "❌ | Coada este deja pe ultima pagină!",
+        "title": "Coada muzicală curentă 🎵",
+        "moreTracks": "...și încă {count} piese",
+        "nowPlayingField": "Se redă acum ▶️",
+        "clearTitle": "Coada a fost ștearsă 🧹",
+        "clearDescription": "Întreaga coadă muzicală a fost ștearsă!",
+        "shuffleTitle": "Coada a fost amestecată 🔀",
+        "shuffleDescription": "Întreaga coadă muzicală a fost amestecată!",
+        "expired": "Folosește din nou **/queue** pentru a afișa embedul încă o dată.",
+        "historyTitle": "Istoricul cozii muzicale anterioare 🔙",
+        "historyExpired": "Folosește din nou **/queuehistory** pentru a afișa embedul încă o dată.",
+        "previousPage": "⬅️ Pagina anterioară",
+        "nextPage": "➡️ Pagina următoare"
+    },
+    "footer": {
+        "requestedBy": "Solicitat de: {user}",
+        "requestedByPage": "Solicitat de: {user} - Pagina {page}"
+    },
+    "volume": {
+        "current": "🔊 | Volumul curent este setat la **{volume}%**!",
+        "invalidRange": "❌ | Volumul trebuie să fie între 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Modul repetare activat 🔁",
+        "autoplayTitle": "Modul repetare activat 🤖",
+        "trackMode": "**piesa curentă**",
+        "queueMode": "**întreaga coadă**",
+        "autoplayMode": "**muzică autoplay**",
+        "offMode": "**oprit**",
+        "description": "Modul de repetare a fost setat la {mode}!"
+    },
+    "seek": {
+        "title": "Salt la piesă ↪️",
+        "description": "Piesa curentă a fost căutată la {time}! Se redă acum {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Sărit la piesă ⏭️"
+    },
+    "remove": {
+        "title": "Piesă eliminată ❌",
+        "description": "Am eliminat piesa {title} {link} din coadă!",
+        "invalidPosition": "❌ | Nu există nicio piesă la poziția cerută în coadă. Încearcă din nou."
+    },
+    "lyrics": {
+        "notFound": "❌ | Nu s-au găsit versuri pentru interogarea cerută!",
+        "title": "Versuri pentru {title} de {artist} 🎶",
+        "truncatedSuffix": "\nȘi altele...",
+        "fullLyricsButton": "🎶 Versuri complete"
+    },
+    "audiofilter": {
+        "noneEnabled": "În prezent nu sunt activate filtre audio!",
+        "listEnabled": "Filtrele audio activate în prezent sunt:\n- {filters}",
+        "toggleTitle": "Filtru audio comutat 🎵",
+        "toggleDescription": "Filtrul audio **{filter}** a fost {state}!",
+        "stateEnabled": "activat",
+        "stateDisabled": "dezactivat",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Redarea a început ▶️",
+        "addedTitle": "Adăugat în coadă ⏱️",
+        "addedTopTitle": "Adăugat în partea de sus a cozii ⏱️",
+        "startedSong": "A început redarea piesei **{title}** {link}!",
+        "queuedSong": "Piesa **{title}** {link} a fost adăugată în coadă!",
+        "queuedSongTop": "Piesa **{title}** {link} a fost adăugată în partea de sus a cozii (se redă următoarea)!",
+        "importedPlaylistStart": "Am importat playlistul **{title} {link}** cu **{count}** piese și am început redarea cozii!",
+        "importedPlaylistQueued": "Am importat playlistul **{title} {link}** cu **{count}** piese!",
+        "importedPlaylistTop": "Am importat playlistul **{title} {link}** cu **{count}** piese în partea de sus a cozii (se redă următorul)!",
+        "importedAlbumStart": "Am importat albumul **{title}** cu **{count}** piese și am început redarea cozii!",
+        "importedAlbumQueued": "Am importat albumul **{title}** cu **{count}** piese!",
+        "importedAlbumTop": "Am importat albumul **{title}** cu **{count}** piese în partea de sus a cozii (se redă următorul)!"
+    },
+    "commands": {
+        "audiofilter": "Verifică sau comută filtrele audio!",
+        "back": "Redă piesa anterioară!",
+        "botinfo": "Afișează informații despre Elite Bot!",
+        "clearqueue": "Șterge coada muzicală curentă!",
+        "help": "Obține informații despre comenzile mele!",
+        "jumpqueue": "Sari la o piesă anume din coadă!",
+        "loop": "Setează tipul de repetare!",
+        "lyrics": "Obține versurile unei piese!",
+        "nowplaying": "Verifică piesa redată în prezent!",
+        "pause": "Pauzează piesa curentă la momentul actual!",
+        "play": "Pune o piesă în coadă!",
+        "playnext": "Adaugă o piesă în partea de sus a cozii!",
+        "plex": {
+            "description": "Redă muzică din biblioteca ta Plex în coadă!",
+            "play": "Redă o piesă, un playlist sau un album de pe serverul tău Plex.",
+            "search": "Caută piese, playlisturi și albume.",
+            "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Plex pentru a fi redat următorul."
+        },
+        "queue": "Verifică muzica aflată în coadă!",
+        "queuehistory": "Verifică istoricul anterior al cozii din server!",
+        "remove": "Elimină o piesă specifică din coadă!",
+        "seek": "Sari la un alt moment din piesa curentă!",
+        "shuffle": "Amestecă coada curentă!",
+        "skip": "Sari peste piesa curentă!",
+        "stop": "Oprește toată muzica în redare!",
+        "subsonic": {
+            "description": "Redă muzică din biblioteca ta Subsonic în coadă!",
+            "play": "Redă o piesă, un playlist sau un album de pe serverul tău Subsonic.",
+            "search": "Caută piese, playlisturi și albume.",
+            "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Subsonic pentru a fi redat următorul."
+        },
+        "volume": "Verifică sau setează volumul curent al muzicii!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Numele, URL-ul sau URL-ul playlistului pe care vrei să-l redai.",
+                "playnext": "Numele sau URL-ul piesei pe care vrei să o redai (fără playlisturi).",
+                "library": "Interogare de căutare pentru o piesă, un playlist sau un album."
+            },
+            "filter": "Ce filtru vrei să comuți?",
+            "query": "Introdu numele piesei.",
+            "song": {
+                "remove": "Ce număr al piesei ar trebui eliminat din coadă?",
+                "jumpqueue": "Ce număr al piesei ar trebui mutat în fața cozii (folosește /queue pentru verificare)?"
+            },
+            "time": "Momentul la care vrei să sari în piesa curentă (Exemple: 1s, 1m, 1h)!",
+            "amount": "La ce valoare vrei să setezi volumul (0-100)?",
+            "loopmode": "Ce mod de repetare vrei să activezi?",
+            "scope": "Alege ce tip de conținut vrei să cauți.",
+            "order": "Ordinea folosită când adaugi mai multe piese dintr-un playlist sau album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (toate tipurile)",
+                "track": "Doar piese",
+                "playlist": "Doar playlisturi",
+                "album": "Doar albume"
+            },
+            "order": {
+                "sequential": "Secvențial",
+                "shuffle": "Amestecat",
+                "reverse": "Invers"
+            },
+            "loopmode": {
+                "0": "Oprit",
+                "1": "Piesă",
+                "2": "Coadă",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Meniu de ajutor",
+        "homeDescription": "Selectează o categorie din meniul de mai jos pentru a vedea comenzile disponibile. 📢 \\n\\nAi găsit o eroare sau ai o sugestie bună pentru îmbunătățire? Creează un issue pe **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** sau contactează-mă alăturându-te **[Serverului Discord de suport](https://discord.elite-bot.com)** și va fi analizat cât mai curând posibil. 🆘\\n\\nPentru informații detaliate de configurare, consultă **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, care este menținut mereu la zi și îți oferă tot ce trebuie să știi. 📄",
+        "footer": "/help | Solicitat de: {user}",
+        "homeOptionLabel": "Acasă",
+        "homeOptionDescription": "Pagina principală",
+        "menuPlaceholder": "Apasă pentru a vedea toate categoriile",
+        "categoryPageDescription": "Pagina comenzilor {category}",
+        "categoryFallback": "Comenzile {category}",
+        "categoryTitle": "Meniu de ajutor - Categoria {category}! {emoji}",
+        "categories": {
+            "music": "Muzică",
+            "utilities": "Utilitare"
+        },
+        "musicDescription": "Comenzi muzicale.",
+        "utilitiesDescription": "Comenzi utile în general.",
+        "noDescription": "Fără descriere",
+        "buttons": {
+            "repo": "🛡️ Repozitoriu open source",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentația Elite Bot",
+            "support": "🆘 Server de suport"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Informații bot",
+        "title": "Informații Elite Music",
+        "process": "Proces",
+        "dependencies": "Dependențe",
+        "ping": "Ping",
+        "uptime": "Online de la",
+        "version": "Versiunea Elite Music",
+        "developer": "Dezvoltator și întreținător",
+        "openSource": "Proiect open source",
+        "openSourceDescription": "Ești interesat să îmbunătățești acest bot open source? Sau vrei să-l găzduiești singur? Ai ajuns unde trebuie! Poți accesa [repozitoriul public aici](https://github.com/ThatGuyJacobee/Elite-Bot-Music) și poți urma instrucțiunile din readme pentru mai multe informații! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Repozitoriu open source",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Documentația Elite Bot",
+            "support": "🆘 Server de suport"
+        }
+    },
+    "search": {
+        "placeholder": "Adaugă un element în coadă 👈",
+        "resultsTitle": "Rezultate căutare muzică 🎵",
+        "resultsDescription": "Am găsit mai multe piese care se potrivesc cu căutarea, selectează una din meniul de mai jos.",
+        "cancel": "Anulează căutarea 🗑️",
+        "duration": "Durată - {duration}",
+        "plexTitle": "Rezultate căutare Plex 🎵",
+        "subsonicTitle": "Rezultate căutare Subsonic 🎵",
+        "multipleResults": "Am găsit mai multe rezultate care se potrivesc cu căutarea, selectează unul din meniul de mai jos.",
+        "singleResult": "Selectează un element de mai jos pentru a-l adăuga în coadă.",
+        "songResult": "[{index}] Rezultat piesă ({duration})",
+        "playlistResult": "[{index}] Rezultat playlist ({duration})",
+        "mediaResult": "[{index}] Rezultat {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Rezultat {type}",
+        "track": "Piesă",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} piese"
+    },
+    "np": {
+        "titleStarting": "Se pornește următoarea piesă... Se redă acum 🎵",
+        "titleCurrent": "Se redă acum 🎵",
+        "buttons": {
+            "previous": "⏮️ Anterioara",
+            "pauseResume": "⏯️ Redă/Pauză",
+            "skip": "⏭️ Sare",
+            "clear": "🧹 Golește coada",
+            "volume": "🔊 Ajustează volumul",
+            "loop": "🔂 Repetă o dată",
+            "shuffle": "🔀 Amestecă coada",
+            "stop": "🛑 Oprește coada"
+        },
+        "backTitle": "Se redă piesa anterioară ⏮️",
+        "backDescription": "Revenim la piesa anterioară: {title} {link}!",
+        "backMissing": "❌ | Nu există istoric muzical înaintea piesei curente. Încearcă din nou.",
+        "pauseTitle": "Piesa a fost pusă pe pauză ⏸️",
+        "pauseDescription": "Redarea a fost **{state}**. Se redă acum {title} {link}!",
+        "pauseStateResumed": "reluată",
+        "pauseStatePaused": "pusă pe pauză",
+        "skipTitle": "Piesa a fost sărită ⏭️",
+        "skipDescription": "Se redă acum: {title} {link}",
+        "stopTitle": "Muzica a fost oprită 🛑",
+        "stopDescription": "Muzica a fost oprită... părăsesc canalul!",
+        "loopOffTitle": "Modul repetare oprit 📴",
+        "loopOffDescription": "Modul de repetare a fost setat la **oprit**!",
+        "loopTrackTitle": "Modul repetare activat 🔂",
+        "loopTrackDescription": "Modul de repetare a fost setat la **piesa curentă**!",
+        "volumeTitle": "Volum ajustat 🎧",
+        "volumeDescription": "Volumul a fost setat la **{volume}%**!",
+        "volumeModalTitle": "Ajustează volumul - Acum la {volume}%",
+        "volumeModalLabel": "Care ar trebui să fie noul volum (0-100)?",
+        "volumeModalPlaceholder": "Răspunsul tău...",
+        "volumeModalInvalid": "❌ | Volumul trebuie să fie între 0-100, introducerea ta a fost în afara intervalului.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Se deconectează 🛑",
+        "disconnectDescription": "Am fost inactiv pentru o perioadă de timp!",
+        "emptyChannelTitle": "Se încheie redarea 🛑",
+        "emptyChannelDescription": "Nu este nimeni în canalul vocal!",
+        "queueFinishedTitle": "Coadă terminată 🛑",
+        "queueFinishedDescription": "Coadă muzicală s-a terminat!"
+    }
+}

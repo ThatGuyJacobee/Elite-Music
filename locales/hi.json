@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "लिंक",
+        "unknownUser": "अज्ञात उपयोगकर्ता",
+        "songCoverImage": "{title} के लिए गाने का कवर चित्र",
+        "playlistCoverImage": "{title} के लिए प्लेलिस्ट कवर चित्र",
+        "albumCoverImage": "{title} के लिए एल्बम कवर चित्र",
+        "coverImageNotFound": "कवर चित्र नहीं मिला"
+    },
+    "errors": {
+        "cooldown": "⏱️ | कूलडाउन अलर्ट: **/{command}** कमांड दोबारा उपयोग करने से पहले कृपया **{seconds}** और सेकंड प्रतीक्षा करें!",
+        "commandExecution": "❌ | क्षमा करें, आपका कमांड निष्पादित करते समय एक त्रुटि हुई। त्रुटि के लिए लॉग देखें।",
+        "genericAction": "❌ | उफ़... कुछ गलत हो गया, {action} करते समय एक त्रुटि हुई। कृपया पुनः प्रयास करें।",
+        "failedToFindSongQuery": "❌ | उफ़... कुछ गलत हो गया, अनुरोधित क्वेरी के साथ गाना नहीं मिला।",
+        "failedToFindSong": "❌ | उफ़... कुछ गलत हो गया, गाना नहीं मिला।",
+        "playRequest": "❌ | उफ़... अनुरोधित गाना चलाने का प्रयास करते समय कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+        "addTracks": "❌ | उफ़... कुछ गलत हो गया, ट्रैक(क) कतार में जोड़ने में विफल।",
+        "joinVoice": "❌ | उफ़... कुछ गलत हो गया, आपके चैनल में शामिल नहीं हो सका।",
+        "joinVoiceChannel": "❌ | उफ़... कुछ गलत हो गया, आपके वॉइस चैनल में शामिल नहीं हो सका।",
+        "playback": "❌ | उफ़... कुछ गलत हो गया, प्लेबैक से संबंधित त्रुटि हुई। कृपया पुनः प्रयास करें।",
+        "noViewChannel": "त्रुटि: मुझे इस चैनल को देखने की अनुमति नहीं है और मैं सहायता संदेश संपादित नहीं कर सकता!",
+        "extractFailed": "❌ | निम्नलिखित गाना निकालने में विफल... अगले पर जा रहे हैं!",
+        "subsonicSongMetadata": "❌ | Subsonic से गाने का मेटाडेटा लोड नहीं हो सका।",
+        "emptyPlaylist": "❌ | इस प्लेलिस्ट में कोई चलने योग्य ट्रैक नहीं है।",
+        "emptyAlbum": "❌ | इस एल्बम में कोई चलने योग्य ट्रैक नहीं है।",
+        "failedToFindMediaQuery": "❌ | उफ़... कुछ गलत हो गया, अनुरोधित क्वेरी के साथ गाना, प्लेलिस्ट या एल्बम नहीं मिला।",
+        "playNextPlaylistOnly": "❌ | उफ़... आप इस कमांड से केवल एकल गाने जोड़ सकते हैं। कतार में प्लेलिस्ट जोड़ने के लिए सामान्य **/play** कमांड का उपयोग करें।",
+        "actions": {
+            "skippingSong": "गाना छोड़ना",
+            "clearingQueue": "कतार साफ़ करना",
+            "shufflingQueue": "कतार शफ़ल करना",
+            "stoppingQueue": "कतार रोकना",
+            "adjustingVolume": "वॉल्यूम समायोजित करना",
+            "returningToPreviousSong": "पिछले गाने पर लौटना",
+            "pausing": "रोकना",
+            "resuming": "फिर से चलाना",
+            "seekingSong": "गाने में आगे-पीछे जाना",
+            "jumpingQueue": "कतार में कूदना",
+            "switchingLoopMode": "लूप मोड बदलना",
+            "removingSong": "कतार से गाना हटाना",
+            "adjustingAudioFilter": "ऑडियो फ़िल्टर समायोजित करना"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex वर्तमान में अक्षम है! सर्वर व्यवस्थापक से पर्यावरण फ़ाइल में इसे सक्षम और कॉन्फ़िगर करने के लिए कहें।",
+        "subsonicDisabled": "❌ | Subsonic वर्तमान में अक्षम है! सर्वर व्यवस्थापक से पर्यावरण फ़ाइल में इसे सक्षम और कॉन्फ़िगर करने के लिए कहें।"
+    },
+    "guards": {
+        "djMode": "❌ | DJ मोड सक्रिय है! किसी भी संगीत कमांड का उपयोग करने के लिए आपके पास DJ भूमिका {role} होनी चाहिए!",
+        "notInVoice": "❌ | आप वॉइस चैनल में नहीं हैं!",
+        "notInBotVoice": "❌ | आप मेरे वॉइस चैनल में नहीं हैं!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | वर्तमान में कोई संगीत नहीं चल रहा है!",
+        "empty": "❌ | कतार में वर्तमान में कोई संगीत नहीं है!",
+        "emptyQueued": "❌ | वर्तमान में कोई संगीत कतार में नहीं है!",
+        "alreadyFirstPage": "❌ | कतार पहले से पहले पृष्ठ पर है!",
+        "alreadyLastPage": "❌ | कतार पहले से अंतिम पृष्ठ पर है!",
+        "title": "वर्तमान संगीत कतार 🎵",
+        "moreTracks": "...और {count} और ट्रैक",
+        "nowPlayingField": "अभी चल रहा है ▶️",
+        "clearTitle": "कतार साफ़ 🧹",
+        "clearDescription": "पूरी संगीत कतार साफ़ कर दी गई है!",
+        "shuffleTitle": "कतार शफ़ल 🔀",
+        "shuffleDescription": "पूरी संगीत कतार शफ़ल कर दी गई है!",
+        "expired": "एम्बेड फिर से दिखाने के लिए कृपया **/queue** का पुनः उपयोग करें।",
+        "historyTitle": "पिछली संगीत कतार इतिहास 🔙",
+        "historyExpired": "एम्बेड फिर से दिखाने के लिए कृपया **/queuehistory** का पुनः उपयोग करें।",
+        "previousPage": "⬅️ पिछला पृष्ठ",
+        "nextPage": "➡️ अगला पृष्ठ"
+    },
+    "footer": {
+        "requestedBy": "अनुरोधकर्ता: {user}",
+        "requestedByPage": "अनुरोधकर्ता: {user} - पृष्ठ {page}"
+    },
+    "volume": {
+        "current": "🔊 | वर्तमान वॉल्यूम **{volume}%** पर सेट है!",
+        "invalidRange": "❌ | वॉल्यूम 0-100% के बीच सेट होना चाहिए!"
+    },
+    "loop": {
+        "queueTitle": "लूप मोड चालू 🔁",
+        "autoplayTitle": "लूप मोड चालू 🤖",
+        "trackMode": "**वर्तमान ट्रैक**",
+        "queueMode": "**पूरी कतार**",
+        "autoplayMode": "**ऑटोप्ले संगीत**",
+        "offMode": "**बंद**",
+        "description": "लूप मोड {mode} पर सेट कर दिया गया है!"
+    },
+    "seek": {
+        "title": "गाने में जाएँ ↪️",
+        "description": "वर्तमान गाना {time} पर ले जाया गया! वर्तमान में {title} {link} चल रहा है।"
+    },
+    "jumpqueue": {
+        "title": "गाने पर कूदा ⏭️"
+    },
+    "remove": {
+        "title": "गाना हटाया गया ❌",
+        "description": "कतार से ट्रैक {title} {link} हटा दिया गया!",
+        "invalidPosition": "❌ | कतार में पूछी गई स्थिति पर कोई गाना नहीं है। कृपया पुनः प्रयास करें।"
+    },
+    "lyrics": {
+        "notFound": "❌ | अनुरोधित क्वेरी के लिए कोई गीत नहीं मिला!",
+        "title": "{artist} द्वारा {title} के गीत 🎶",
+        "truncatedSuffix": "\nऔर भी...",
+        "fullLyricsButton": "🎶 पूरे गीत"
+    },
+    "audiofilter": {
+        "noneEnabled": "वर्तमान में कोई ऑडियो फ़िल्टर सक्षम नहीं है!",
+        "listEnabled": "वर्तमान में सक्षम ऑडियो फ़िल्टर:\n- {filters}",
+        "toggleTitle": "ऑडियो फ़िल्टर टॉगल 🎵",
+        "toggleDescription": "**{filter}** ऑडियो फ़िल्टर {state} कर दिया गया है!",
+        "stateEnabled": "सक्षम",
+        "stateDisabled": "अक्षम",
+        "filters": {
+            "bassboost": "बासबूस्ट",
+            "8D": "8D",
+            "subboost": "सबबूस्ट",
+            "nightcore": "Nightcore",
+            "surrounding": "सराउंडिंग",
+            "vaporwave": "Vaporwave",
+            "normalizer": "नॉर्मलाइज़र",
+            "lofi": "Lofi",
+            "fadein": "फेडइन"
+        }
+    },
+    "playback": {
+        "startedTitle": "प्लेबैक शुरू ▶️",
+        "addedTitle": "कतार में जोड़ा गया ⏱️",
+        "addedTopTitle": "कतार के शीर्ष पर जोड़ा गया ⏱️",
+        "startedSong": "गाना **{title}** {link} चलाना शुरू किया!",
+        "queuedSong": "गाना **{title}** {link} कतार में जोड़ा गया!",
+        "queuedSongTop": "गाना **{title}** {link} कतार के शीर्ष पर जोड़ा गया (अगला चलेगा)!",
+        "importedPlaylistStart": "**{title} {link} प्लेलिस्ट** **{count}** गानों के साथ आयात की और कतार चलाना शुरू किया!",
+        "importedPlaylistQueued": "**{title} {link} प्लेलिस्ट** **{count}** गानों के साथ आयात की!",
+        "importedPlaylistTop": "**{title} {link} प्लेलिस्ट** **{count}** गानों को कतार के शीर्ष पर जोड़ा (अगला चलेगा)!",
+        "importedAlbumStart": "**{title} एल्बम** **{count}** गानों के साथ आयात किया और कतार चलाना शुरू किया!",
+        "importedAlbumQueued": "**{title} एल्बम** **{count}** गानों के साथ आयात किया!",
+        "importedAlbumTop": "**{title} एल्बम** **{count}** गानों को कतार के शीर्ष पर जोड़ा (अगला चलेगा)!"
+    },
+    "commands": {
+        "audiofilter": "ऑडियो फ़िल्टर जाँचें या टॉगल करें!",
+        "back": "पिछला गाना चलाएँ!",
+        "botinfo": "Elite Bot के बारे में जानकारी दें!",
+        "clearqueue": "वर्तमान संगीत कतार साफ़ करें!",
+        "help": "मेरे कमांड के बारे में जानकारी प्राप्त करें!",
+        "jumpqueue": "कतार में किसी विशेष गाने पर जाएँ!",
+        "loop": "लूप प्रकार सेट करें!",
+        "lyrics": "गाने के गीत प्राप्त करें!",
+        "nowplaying": "वर्तमान में चल रहे गाने की जाँच करें!",
+        "pause": "वर्तमान समय पर वर्तमान गाना रोकें!",
+        "play": "कतार में गाना जोड़ें!",
+        "playnext": "कतार के शीर्ष पर गाना जोड़ें!",
+        "plex": {
+            "description": "अपनी Plex लाइब्रेरी से कतार में संगीत चलाएँ!",
+            "play": "अपने Plex सर्वर से ट्रैक, प्लेलिस्ट या एल्बम चलाएँ।",
+            "search": "ट्रैक, प्लेलिस्ट और एल्बम खोजें।",
+            "playnext": "Plex सर्वर से ट्रैक, प्लेलिस्ट या एल्बम अगले चलने के लिए जोड़ें।"
+        },
+        "queue": "कतार में वर्तमान संगीत देखें!",
+        "queuehistory": "गिल्ड में कतार का पिछला इतिहास देखें!",
+        "remove": "कतार से विशेष गाना हटाएँ!",
+        "seek": "वर्तमान गाने में दूसरे समय पर जाएँ!",
+        "shuffle": "वर्तमान कतार शफ़ल करें!",
+        "skip": "वर्तमान गाना छोड़ें!",
+        "stop": "चल रहा कोई भी संगीत रोकें!",
+        "subsonic": {
+            "description": "अपनी Subsonic लाइब्रेरी से कतार में संगीत चलाएँ!",
+            "play": "अपने Subsonic सर्वर से ट्रैक, प्लेलिस्ट या एल्बम चलाएँ।",
+            "search": "ट्रैक, प्लेलिस्ट और एल्बम खोजें।",
+            "playnext": "Subsonic सर्वर से ट्रैक, प्लेलिस्ट या एल्बम अगले चलने के लिए जोड़ें।"
+        },
+        "volume": "वर्तमान संगीत वॉल्यूम जाँचें या सेट करें!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "आप जो चलाना चाहते हैं उसका नाम, URL या प्लेलिस्ट URL।",
+                "playnext": "आप जो गाना चलाना चाहते हैं उसका नाम या URL (कोई प्लेलिस्ट नहीं)।",
+                "library": "ट्रैक, प्लेलिस्ट या एल्बम के लिए खोज क्वेरी।"
+            },
+            "filter": "आप कौन सा फ़िल्टर टॉगल करना चाहते हैं?",
+            "query": "गाने का नाम दर्ज करें।",
+            "song": {
+                "remove": "कतार से कौन सा #नं. गाना हटाया जाए?",
+                "jumpqueue": "कौन सा #नं. गाना कतार के सामने लाया जाए (/queue से देखें)?"
+            },
+            "time": "वर्तमान गाने में जाने का समय (उदाहरण: 1s, 1m, 1h)!",
+            "amount": "वॉल्यूम क्या सेट करना चाहते हैं (0-100)?",
+            "loopmode": "आप कौन सा लूप मोड सक्रिय करना चाहते हैं?",
+            "scope": "खोज के लिए सामग्री का प्रकार चुनें।",
+            "order": "प्लेलिस्ट या एल्बम से कई ट्रैक जोड़ते समय उपयोग किया जाने वाला क्रम।"
+        },
+        "choices": {
+            "scope": {
+                "auto": "ऑटो (सभी प्रकार)",
+                "track": "केवल ट्रैक",
+                "playlist": "केवल प्लेलिस्ट",
+                "album": "केवल एल्बम"
+            },
+            "order": {
+                "sequential": "क्रमिक",
+                "shuffle": "शफ़ल",
+                "reverse": "उलटा"
+            },
+            "loopmode": {
+                "0": "बंद",
+                "1": "ट्रैक",
+                "2": "कतार",
+                "3": "ऑटोप्ले"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - सहायता मेनू",
+        "homeDescription": "उपलब्ध कमांड देखने के लिए नीचे के मेनू से श्रेणी चुनें। 📢 \\n\\nबग का सामना कर रहे हैं या सुधार का सुझाव है? कृपया **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** पर issue बनाएँ या **[Support Discord Server](https://discord.elite-bot.com)** से जुड़कर संपर्क करें, जल्द से जल्द समीक्षा की जाएगी। 🆘\\n\\nविस्तृत सेटअप जानकारी के लिए **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** देखें, जो हमेशा अद्यतन रहता है और आपको जो कुछ भी जानना है वह प्रदान करता है। 📄",
+        "footer": "/help | अनुरोधकर्ता: {user}",
+        "homeOptionLabel": "होम",
+        "homeOptionDescription": "होम पेज",
+        "menuPlaceholder": "सभी श्रेणियाँ देखने के लिए क्लिक करें",
+        "categoryPageDescription": "{category} कमांड पृष्ठ",
+        "categoryFallback": "{category} कमांड",
+        "categoryTitle": "सहायता मेनू - {category} श्रेणी! {emoji}",
+        "categories": {
+            "music": "संगीत",
+            "utilities": "उपयोगिताएँ"
+        },
+        "musicDescription": "संगीत कमांड।",
+        "utilitiesDescription": "सामान्य रूप से उपयोगी कमांड।",
+        "noDescription": "कोई विवरण नहीं",
+        "buttons": {
+            "repo": "🛡️ ओपन सोर्स रिपो",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 सहायता सर्वर"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - बॉट जानकारी",
+        "title": "Elite Music जानकारी",
+        "process": "प्रक्रिया",
+        "dependencies": "निर्भरताएँ",
+        "ping": "पिंग",
+        "uptime": "अपटाइम",
+        "version": "Elite Music संस्करण",
+        "developer": "डेवलपर और मेंटेनर",
+        "openSource": "ओपन सोर्स प्रोजेक्ट",
+        "openSourceDescription": "क्या आप इस ओपन सोर्स बॉट को बेहतर बनाने में रुचि रखते हैं? या इसे स्वयं होस्ट करना चाहते हैं? और आगे देखने की ज़रूरत नहीं! आप [यहाँ](https://github.com/ThatGuyJacobee/Elite-Bot-Music) सार्वजनिक बॉट रिपॉजिटरी तक पहुँच सकते हैं और अधिक जानकारी के लिए readme निर्देशों का पालन करें! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ ओपन सोर्स रिपो",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 सहायता सर्वर"
+        }
+    },
+    "search": {
+        "placeholder": "कतार में आइटम जोड़ें 👈",
+        "resultsTitle": "संगीत खोज परिणाम 🎵",
+        "resultsDescription": "दिए गए खोज क्वेरी से मेल खाते कई गाने मिले, नीचे के मेनू से एक चुनें।",
+        "cancel": "खोज रद्द करें 🗑️",
+        "duration": "अवधि - {duration}",
+        "plexTitle": "Plex खोज परिणाम 🎵",
+        "subsonicTitle": "Subsonic खोज परिणाम 🎵",
+        "multipleResults": "दिए गए खोज क्वेरी से मेल खाते कई परिणाम मिले, नीचे के मेनू से एक चुनें।",
+        "singleResult": "कतार में जोड़ने के लिए नीचे से आइटम चुनें।",
+        "songResult": "[{index}] गाना परिणाम ({duration})",
+        "playlistResult": "[{index}] प्लेलिस्ट परिणाम ({duration})",
+        "mediaResult": "[{index}] {type} परिणाम ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} परिणाम",
+        "track": "ट्रैक",
+        "playlist": "प्लेलिस्ट",
+        "album": "एल्बम",
+        "songCount": "{count} गाने"
+    },
+    "np": {
+        "titleStarting": "अगला गाना शुरू हो रहा है... अभी चल रहा है 🎵",
+        "titleCurrent": "अभी चल रहा है 🎵",
+        "buttons": {
+            "previous": "⏮️ पिछला",
+            "pauseResume": "⏯️ चलाएँ/रोकें",
+            "skip": "⏭️ छोड़ें",
+            "clear": "🧹 कतार साफ़ करें",
+            "volume": "🔊 वॉल्यूम समायोजित करें",
+            "loop": "🔂 एक बार लूप",
+            "shuffle": "🔀 कतार शफ़ल करें",
+            "stop": "🛑 कतार रोकें"
+        },
+        "backTitle": "पिछला गाना चल रहा है ⏮️",
+        "backDescription": "अगले में पिछले गाने पर लौट रहे हैं: {title} {link}!",
+        "backMissing": "❌ | वर्तमान गाने से पहले कोई संगीत इतिहास नहीं है। कृपया पुनः प्रयास करें।",
+        "pauseTitle": "गाना रोका गया ⏸️",
+        "pauseDescription": "प्लेबैक **{state}** कर दिया गया है। वर्तमान में {title} {link} चल रहा है!",
+        "pauseStateResumed": "फिर से चलाया",
+        "pauseStatePaused": "रोका",
+        "skipTitle": "गाना छोड़ा गया ⏭️",
+        "skipDescription": "अभी चल रहा है: {title} {link}",
+        "stopTitle": "संगीत रोका गया 🛑",
+        "stopDescription": "संगीत रोक दिया गया है... चैनल छोड़ रहे हैं!",
+        "loopOffTitle": "लूप मोड बंद 📴",
+        "loopOffDescription": "लूप मोड **बंद** पर सेट कर दिया गया है!",
+        "loopTrackTitle": "लूप मोड चालू 🔂",
+        "loopTrackDescription": "लूप मोड **वर्तमान ट्रैक** पर सेट कर दिया गया है!",
+        "volumeTitle": "वॉल्यूम समायोजित 🎧",
+        "volumeDescription": "वॉल्यूम **{volume}%** पर सेट कर दिया गया है!",
+        "volumeModalTitle": "वॉल्यूम समायोजित करें - वर्तमान में {volume}%",
+        "volumeModalLabel": "नया वॉल्यूम क्या होना चाहिए (0-100)?",
+        "volumeModalPlaceholder": "आपका उत्तर...",
+        "volumeModalInvalid": "❌ | वॉल्यूम 0-100 के बीच होना चाहिए, आपका इनपुट इस सीमा से बाहर था।",
+        "liveIndicator": " ◉ लाइव"
+    },
+    "lifecycle": {
+        "disconnectTitle": "डिस्कनेक्ट हो रहा है 🛑",
+        "disconnectDescription": "मैं कुछ समय से निष्क्रिय रहा हूँ!",
+        "emptyChannelTitle": "प्लेबैक समाप्त 🛑",
+        "emptyChannelDescription": "वॉइस चैनल में कोई नहीं है!",
+        "queueFinishedTitle": "कतार समाप्त 🛑",
+        "queueFinishedDescription": "संगीत कतार समाप्त हो गई है!"
+    }
+}

@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Nuoroda",
+        "unknownUser": "Nežinomas vartotojas",
+        "songCoverImage": "Dainos viršelio paveikslėlis: {title}",
+        "playlistCoverImage": "Grojaraščio viršelio paveikslėlis: {title}",
+        "albumCoverImage": "Albumo viršelio paveikslėlis: {title}",
+        "coverImageNotFound": "Viršelio paveikslėlis nerastas"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Palauk dar **{seconds}** sekundžių prieš vėl naudodamas komandą **/{command}**!",
+        "commandExecution": "❌ | Atsiprašome, vykdant komandą įvyko klaida. Patikrinkite žurnalus.",
+        "genericAction": "❌ | Oi... kažkas nepavyko vykdant {action}. Bandykite dar kartą.",
+        "failedToFindSongQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos pagal pateiktą užklausą.",
+        "failedToFindSong": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos.",
+        "playRequest": "❌ | Oi... kažkas nepavyko bandant paleisti prašomą dainą. Bandykite dar kartą.",
+        "addTracks": "❌ | Oi... kažkas nepavyko, nepavyko pridėti kūrinio(-ių) į eilę.",
+        "joinVoice": "❌ | Oi... kažkas nepavyko, nepavyko prisijungti prie jūsų kanalo.",
+        "joinVoiceChannel": "❌ | Oi... kažkas nepavyko, nepavyko prisijungti prie jūsų balso kanalo.",
+        "playback": "❌ | Oi... kažkas nepavyko, įvyko atkūrimo klaida. Bandykite dar kartą.",
+        "noViewChannel": "Klaida: neturiu leidimo matyti šio kanalo ir negaliu redaguoti pagalbos žinutės!",
+        "extractFailed": "❌ | Nepavyko išgauti šios dainos... pereinama prie kitos!",
+        "subsonicSongMetadata": "❌ | Nepavyko įkelti dainos metaduomenų iš Subsonic.",
+        "emptyPlaylist": "❌ | Šiame grojaraštyje nėra leidžiamų kūrinių.",
+        "emptyAlbum": "❌ | Šiame albume nėra leidžiamų kūrinių.",
+        "failedToFindMediaQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos, grojaraščio arba albumo pagal užklausą.",
+        "playNextPlaylistOnly": "❌ | Oi... su šia komanda galite pridėti tik vieną dainą. Naudokite įprastą komandą **/play**, kad pridėtumėte grojaraščius į eilę.",
+        "actions": {
+            "skippingSong": "praleidžiant dainą",
+            "clearingQueue": "valant eilę",
+            "shufflingQueue": "maišant eilę",
+            "stoppingQueue": "stabdant eilę",
+            "adjustingVolume": "reguliuojant garsumą",
+            "returningToPreviousSong": "grįžtant prie ankstesnės dainos",
+            "pausing": "pristabdant",
+            "resuming": "tęsiant",
+            "seekingSong": "ieškant dainoje",
+            "jumpingQueue": "šokant per eilę",
+            "switchingLoopMode": "keičiant kartojimo režimą",
+            "removingSong": "šalinant dainą iš eilės",
+            "adjustingAudioFilter": "reguliuojant garso filtrą"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
+        "subsonicDisabled": "❌ | Subsonic šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile."
+    },
+    "guards": {
+        "djMode": "❌ | DJ režimas aktyvus! Norėdami naudoti muzikos komandas, turite turėti DJ rolę {role}!",
+        "notInVoice": "❌ | Jūs nesate jokame balso kanale!",
+        "notInBotVoice": "❌ | Jūs nesate mano balso kanale!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Dabar niekas negroja!",
+        "empty": "❌ | Eilėje šiuo metu nėra muzikos!",
+        "emptyQueued": "❌ | Šiuo metu nieko nėra eilėje!",
+        "alreadyFirstPage": "❌ | Eilė jau yra pirmame puslapyje!",
+        "alreadyLastPage": "❌ | Eilė jau yra paskutiniame puslapyje!",
+        "title": "Dabartinė muzikos eilė 🎵",
+        "moreTracks": "...ir dar {count} kūriniai(-ų)",
+        "nowPlayingField": "Dabar groja ▶️",
+        "clearTitle": "Eilė išvalyta 🧹",
+        "clearDescription": "Visa muzikos eilė buvo išvalyta!",
+        "shuffleTitle": "Eilė sumaišyta 🔀",
+        "shuffleDescription": "Visa muzikos eilė buvo sumaišyta!",
+        "expired": "Dar kartą naudokite **/queue**, kad vėl parodytumėte įterpimą.",
+        "historyTitle": "Ankstesnė muzikos eilės istorija 🔙",
+        "historyExpired": "Dar kartą naudokite **/queuehistory**, kad vėl parodytumėte įterpimą.",
+        "previousPage": "⬅️ Ankstesnis puslapis",
+        "nextPage": "➡️ Kitas puslapis"
+    },
+    "footer": {
+        "requestedBy": "Prašė: {user}",
+        "requestedByPage": "Prašė: {user} - Puslapis {page}"
+    },
+    "volume": {
+        "current": "🔊 | Dabartinis garsumas nustatytas į **{volume}%**!",
+        "invalidRange": "❌ | Garsumas turi būti tarp 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Kartojimo režimas įjungtas 🔁",
+        "autoplayTitle": "Kartojimo režimas įjungtas 🤖",
+        "trackMode": "dabartinį **kūrinį**",
+        "queueMode": "**visą eilę**",
+        "autoplayMode": "**automatinį grojimą**",
+        "offMode": "**išjungta**",
+        "description": "Kartojimo režimas nustatytas į {mode}!"
+    },
+    "seek": {
+        "title": "Prasukti dainą ↪️",
+        "description": "Dabartinė daina prasukta iki {time}! Dabar groja {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Peršokta prie dainos ⏭️"
+    },
+    "remove": {
+        "title": "Daina pašalinta ❌",
+        "description": "Kūrinys {title} {link} pašalintas iš eilės!",
+        "invalidPosition": "❌ | Eilėje tokioje pozicijoje dainos nėra. Bandykite dar kartą."
+    },
+    "lyrics": {
+        "notFound": "❌ | Pagal pateiktą užklausą žodžiai nerasti!",
+        "title": "{artist} dainos {title} žodžiai 🎶",
+        "truncatedSuffix": "\nIr daugiau...",
+        "fullLyricsButton": "🎶 Pilni žodžiai"
+    },
+    "audiofilter": {
+        "noneEnabled": "Šiuo metu neįjungtas nė vienas garso filtras!",
+        "listEnabled": "Šiuo metu įjungti garso filtrai:\n- {filters}",
+        "toggleTitle": "Garso filtras perjungtas 🎵",
+        "toggleDescription": "**{filter}** garso filtras buvo {state}!",
+        "stateEnabled": "įjungtas",
+        "stateDisabled": "išjungtas",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Atkūrimas pradėtas ▶️",
+        "addedTitle": "Pridėta į eilę ⏱️",
+        "addedTopTitle": "Pridėta į eilės viršų ⏱️",
+        "startedSong": "Pradėta groti daina **{title}** {link}!",
+        "queuedSong": "Daina **{title}** {link} pridėta į eilę!",
+        "queuedSongTop": "Daina **{title}** {link} pridėta į eilės viršų (grojama kitą)!",
+        "importedPlaylistStart": "Importuotas **{title} {link} grojaraštis** su **{count}** dainomis ir pradėta groti eilė!",
+        "importedPlaylistQueued": "Importuotas **{title} {link} grojaraštis** su **{count}** dainomis!",
+        "importedPlaylistTop": "Importuotas **{title} {link} grojaraštis** su **{count}** dainomis į eilės viršų (grojama kitą)!",
+        "importedAlbumStart": "Importuotas **{title} albumas** su **{count}** dainomis ir pradėta groti eilė!",
+        "importedAlbumQueued": "Importuotas **{title} albumas** su **{count}** dainomis!",
+        "importedAlbumTop": "Importuotas **{title} albumas** su **{count}** dainomis į eilės viršų (grojama kitą)!"
+    },
+    "commands": {
+        "audiofilter": "Patikrinkite arba perjunkite garso filtrus!",
+        "back": "Groti ankstesnę dainą!",
+        "botinfo": "Rodyti informaciją apie Elite Bot!",
+        "clearqueue": "Išvalyti dabartinę muzikos eilę!",
+        "help": "Gaukite informaciją apie mano komandas!",
+        "jumpqueue": "Peršokti prie konkrečios dainos eilėje!",
+        "loop": "Nustatyti kartojimo tipą!",
+        "lyrics": "Gauti dainos žodžius!",
+        "nowplaying": "Patikrinti dabar grojančią dainą!",
+        "pause": "Pristabdyti dabartinę dainą dabartiniu metu!",
+        "play": "Įdėti dainą į eilę!",
+        "playnext": "Pridėti dainą į eilės viršų!",
+        "plex": {
+            "description": "Leisti muziką iš Plex bibliotekos į eilę!",
+            "play": "Leisti kūrinį, grojaraštį arba albumą iš Plex serverio.",
+            "search": "Ieškoti kūrinių, grojaraščių ir albumų.",
+            "playnext": "Pridėti kūrinį, grojaraštį arba albumą iš Plex serverio groti kitą."
+        },
+        "queue": "Patikrinti dabartinę eilėje esančią muziką!",
+        "queuehistory": "Patikrinti ankstesnę eilės istoriją serveryje!",
+        "remove": "Pašalinti konkretų kūrinį iš eilės!",
+        "seek": "Persukti į kitą dabartinės dainos laiką!",
+        "shuffle": "Sumaišyti dabartinę eilę!",
+        "skip": "Praleisti dabartinę dainą!",
+        "stop": "Sustabdyti visą grojančią muziką!",
+        "subsonic": {
+            "description": "Leisti muziką iš Subsonic bibliotekos į eilę!",
+            "play": "Leisti kūrinį, grojaraštį arba albumą iš Subsonic serverio.",
+            "search": "Ieškoti kūrinių, grojaraščių ir albumų.",
+            "playnext": "Pridėti kūrinį, grojaraštį arba albumą iš Subsonic serverio groti kitą."
+        },
+        "volume": "Patikrinti arba nustatyti dabartinį muzikos garsumą!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Pavadinimas, URL arba grojaraščio URL, kurį norite paleisti.",
+                "playnext": "Pavadinimas arba URL dainos, kurią norite paleisti (be grojaraščių).",
+                "library": "Paieškos užklausa kūriniui, grojaraščiui arba albumui."
+            },
+            "filter": "Kurį filtrą norite perjungti?",
+            "query": "Įveskite dainos pavadinimą.",
+            "song": {
+                "remove": "Kokia dainos numeracija turėtų būti pašalinta iš eilės?",
+                "jumpqueue": "Kokia dainos numeracija turėtų būti perkelta į eilės pradžią (naudokite /queue)?"
+            },
+            "time": "Laikas, į kurį norite persukti dabartinę dainą (Pvz.: 1s, 1m, 1h)!",
+            "amount": "Kokį garsumą norite nustatyti (0-100)?",
+            "loopmode": "Kurį kartojimo režimą norite aktyvuoti?",
+            "scope": "Pasirinkite, kokio tipo turinio ieškoti.",
+            "order": "Tvarka, naudojama pridedant kelis kūrinius iš grojaraščio ar albumo."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (visi tipai)",
+                "track": "Tik kūriniai",
+                "playlist": "Tik grojaraščiai",
+                "album": "Tik albumai"
+            },
+            "order": {
+                "sequential": "Nuosekliai",
+                "shuffle": "Sumaišyti",
+                "reverse": "Atvirkštine tvarka"
+            },
+            "loopmode": {
+                "0": "Išjungta",
+                "1": "Kūrinys",
+                "2": "Eilė",
+                "3": "Automatinis grojimas"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Pagalbos meniu",
+        "homeDescription": "Pasirinkite kategoriją meniu apačioje, kad peržiūrėtumėte galimas komandas. 📢 \\n\\nRadote klaidą arba turite puikią idėją patobulinimui? Sukurkite problemą **[GitHub repozitorijoje](https://github.com/ThatGuyJacobee/Elite-Music)** arba susisiekite prisijungę prie **[Pagalbos Discord serverio](https://discord.elite-bot.com)** ir ji bus peržiūrėta kaip įmanoma greičiau. 🆘\\n\\nIšsamesnei sąrankos informacijai peržiūrėkite **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**, kuri visada palaikoma atnaujinta ir suteikia viską, ką reikia žinoti. 📄",
+        "footer": "/help | Prašė: {user}",
+        "homeOptionLabel": "Pradžia",
+        "homeOptionDescription": "Pradžios puslapis",
+        "menuPlaceholder": "Spustelėkite, kad matytumėte visas kategorijas",
+        "categoryPageDescription": "{category} komandų puslapis",
+        "categoryFallback": "{category} komandos",
+        "categoryTitle": "Pagalbos meniu - {category} kategorija! {emoji}",
+        "categories": {
+            "music": "Muzika",
+            "utilities": "Pagalbinės priemonės"
+        },
+        "musicDescription": "Muzikos komandos.",
+        "utilitiesDescription": "Bendros naudingos komandos.",
+        "noDescription": "Nėra aprašymo",
+        "buttons": {
+            "repo": "🛡️ Atviro kodo repozitorija",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot dokumentacija",
+            "support": "🆘 Pagalbos serveris"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Informacija apie botą",
+        "title": "Elite Music informacija",
+        "process": "Procesas",
+        "dependencies": "Priklausomybės",
+        "ping": "Pingas",
+        "uptime": "Veikia nuo",
+        "version": "Elite Music versija",
+        "developer": "Kūrėjas ir prižiūrėtojas",
+        "openSource": "Atviro kodo projektas",
+        "openSourceDescription": "Ar norite prisidėti prie šio atviro kodo boto tobulinimo? O gal planuojate jį talpinti patys? Viskas, ko reikia, yra čia! Galite pasiekti viešą botų [repozitoriją čia](https://github.com/ThatGuyJacobee/Elite-Bot-Music) ir vadovautis README instrukcijomis.",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Atviro kodo repozitorija",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot dokumentacija",
+            "support": "🆘 Pagalbos serveris"
+        }
+    },
+    "search": {
+        "placeholder": "Pridėti elementą į eilę 👈",
+        "resultsTitle": "Muzikos paieškos rezultatai 🎵",
+        "resultsDescription": "Rasta keletas dainų, atitinkančių pateiktą užklausą, pasirinkite vieną iš meniu apačioje.",
+        "cancel": "Atšaukti paiešką 🗑️",
+        "duration": "Trukmė - {duration}",
+        "plexTitle": "Plex paieškos rezultatai 🎵",
+        "subsonicTitle": "Subsonic paieškos rezultatai 🎵",
+        "multipleResults": "Rasta keletas rezultatų, atitinkančių pateiktą užklausą, pasirinkite vieną iš meniu apačioje.",
+        "singleResult": "Pasirinkite elementą apačioje, kad pridėtumėte jį į eilę.",
+        "songResult": "[{index}] Dainos rezultatas ({duration})",
+        "playlistResult": "[{index}] Grojaraščio rezultatas ({duration})",
+        "mediaResult": "[{index}] {type} rezultatas ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} rezultatas",
+        "track": "Kūrinys",
+        "playlist": "Grojaraštis",
+        "album": "Albumas",
+        "songCount": "{count} dainų"
+    },
+    "np": {
+        "titleStarting": "Pradedama kita daina... Dabar groja 🎵",
+        "titleCurrent": "Dabar groja 🎵",
+        "buttons": {
+            "previous": "⏮️ Ankstesnė",
+            "pauseResume": "⏯️ Groti/Pauzė",
+            "skip": "⏭️ Praleisti",
+            "clear": "🧹 Išvalyti eilę",
+            "volume": "🔊 Keisti garsumą",
+            "loop": "🔂 Kartoti kartą",
+            "shuffle": "🔀 Sumaišyti eilę",
+            "stop": "🛑 Sustabdyti eilę"
+        },
+        "backTitle": "Groja ankstesnė daina ⏮️",
+        "backDescription": "Grįžtama prie ankstesnės dainos: {title} {link}!",
+        "backMissing": "❌ | Prieš dabartinę dainą nėra ankstesnės istorijos. Bandykite dar kartą.",
+        "pauseTitle": "Daina pristabdyta ⏸️",
+        "pauseDescription": "Atkūrimas buvo **{state}**. Dabar groja {title} {link}!",
+        "pauseStateResumed": "tęsiamas",
+        "pauseStatePaused": "pristabdytas",
+        "skipTitle": "Daina praleista ⏭️",
+        "skipDescription": "Dabar groja: {title} {link}",
+        "stopTitle": "Muzika sustabdyta 🛑",
+        "stopDescription": "Muzika sustabdyta... paliekamas kanalas!",
+        "loopOffTitle": "Kartojimo režimas išjungtas 📴",
+        "loopOffDescription": "Kartojimo režimas nustatytas į **išjungta**!",
+        "loopTrackTitle": "Kartojimo režimas įjungtas 🔂",
+        "loopTrackDescription": "Kartojimo režimas nustatytas į **dabartinį kūrinį**!",
+        "volumeTitle": "Garsumas pakoreguotas 🎧",
+        "volumeDescription": "Garsumas nustatytas į **{volume}%**!",
+        "volumeModalTitle": "Keisti garsumą - dabar {volume}%",
+        "volumeModalLabel": "Koks turėtų būti naujas garsumas (0-100)?",
+        "volumeModalPlaceholder": "Jūsų atsakymas...",
+        "volumeModalInvalid": "❌ | Garsumas turi būti tarp 0-100, jūsų įvestis buvo už ribų.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Atsijungiama 🛑",
+        "disconnectDescription": "Buvau neaktyvus kurį laiką!",
+        "emptyChannelTitle": "Atkūrimas baigiamas 🛑",
+        "emptyChannelDescription": "Balso kanale nieko nėra!",
+        "queueFinishedTitle": "Eilė baigta 🛑",
+        "queueFinishedDescription": "Muzikos eilė baigta!"
+    }
+}

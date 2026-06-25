@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Người dùng không xác định",
+        "songCoverImage": "Ảnh bìa bài hát cho {title}",
+        "playlistCoverImage": "Ảnh bìa playlist cho {title}",
+        "albumCoverImage": "Ảnh bìa album cho {title}",
+        "coverImageNotFound": "Không tìm thấy ảnh bìa"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Cảnh báo thời gian chờ: Vui lòng đợi thêm **{seconds}** giây trước khi sử dụng lệnh **/{command}** lần nữa!",
+        "commandExecution": "❌ | Xin lỗi, đã xảy ra lỗi khi thực thi lệnh của bạn. Kiểm tra nhật ký để xem lỗi.",
+        "genericAction": "❌ | Rất tiếc... đã xảy ra lỗi khi {action}. Vui lòng thử lại.",
+        "failedToFindSongQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát với truy vấn đã yêu cầu.",
+        "failedToFindSong": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát.",
+        "playRequest": "❌ | Rất tiếc... đã xảy ra lỗi khi cố phát bài hát được yêu cầu. Vui lòng thử lại.",
+        "addTracks": "❌ | Rất tiếc... đã xảy ra lỗi, không thể thêm bài hát vào hàng đợi.",
+        "joinVoice": "❌ | Rất tiếc... đã xảy ra lỗi, không thể tham gia kênh của bạn.",
+        "joinVoiceChannel": "❌ | Rất tiếc... đã xảy ra lỗi, không thể tham gia kênh thoại của bạn.",
+        "playback": "❌ | Rất tiếc... đã xảy ra lỗi liên quan đến phát nhạc. Vui lòng thử lại.",
+        "noViewChannel": "Lỗi: Tôi không có quyền xem kênh này và không thể chỉnh sửa tin nhắn trợ giúp!",
+        "extractFailed": "❌ | Không thể trích xuất bài hát sau... chuyển sang bài tiếp theo!",
+        "subsonicSongMetadata": "❌ | Không thể tải siêu dữ liệu bài hát từ Subsonic.",
+        "emptyPlaylist": "❌ | Playlist này không có bài hát nào có thể phát.",
+        "emptyAlbum": "❌ | Album này không có bài hát nào có thể phát.",
+        "failedToFindMediaQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát, playlist hoặc album với truy vấn đã yêu cầu.",
+        "playNextPlaylistOnly": "❌ | Rất tiếc... bạn chỉ có thể thêm bài hát đơn lẻ bằng lệnh này. Dùng lệnh **/play** thông thường để thêm playlist vào hàng đợi.",
+        "actions": {
+            "skippingSong": "bỏ qua bài hát",
+            "clearingQueue": "xóa hàng đợi",
+            "shufflingQueue": "xáo trộn hàng đợi",
+            "stoppingQueue": "dừng hàng đợi",
+            "adjustingVolume": "điều chỉnh âm lượng",
+            "returningToPreviousSong": "quay lại bài hát trước",
+            "pausing": "tạm dừng",
+            "resuming": "tiếp tục phát",
+            "seekingSong": "tua bài hát",
+            "jumpingQueue": "nhảy hàng đợi",
+            "switchingLoopMode": "chuyển chế độ lặp",
+            "removingSong": "xóa bài hát khỏi hàng đợi",
+            "adjustingAudioFilter": "điều chỉnh bộ lọc âm thanh"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
+        "subsonicDisabled": "❌ | Subsonic hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường."
+    },
+    "guards": {
+        "djMode": "❌ | Chế độ DJ đang hoạt động! Bạn phải có vai trò DJ {role} để sử dụng bất kỳ lệnh nhạc nào!",
+        "notInVoice": "❌ | Bạn không ở trong kênh thoại!",
+        "notInBotVoice": "❌ | Bạn không ở trong kênh thoại của tôi!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Hiện không có nhạc nào đang phát!",
+        "empty": "❌ | Hiện không có nhạc nào trong hàng đợi!",
+        "emptyQueued": "❌ | Hiện không có nhạc nào đang chờ!",
+        "alreadyFirstPage": "❌ | Hàng đợi đã ở trang đầu tiên!",
+        "alreadyLastPage": "❌ | Hàng đợi đã ở trang cuối cùng!",
+        "title": "Hàng đợi nhạc hiện tại 🎵",
+        "moreTracks": "...và {count} bài hát nữa",
+        "nowPlayingField": "Đang phát ▶️",
+        "clearTitle": "Xóa hàng đợi 🧹",
+        "clearDescription": "Toàn bộ hàng đợi nhạc đã được xóa!",
+        "shuffleTitle": "Xáo trộn hàng đợi 🔀",
+        "shuffleDescription": "Toàn bộ hàng đợi nhạc đã được xáo trộn!",
+        "expired": "Vui lòng dùng **/queue** lại để hiển thị embed một lần nữa.",
+        "historyTitle": "Lịch sử hàng đợi nhạc trước đây 🔙",
+        "historyExpired": "Vui lòng dùng **/queuehistory** lại để hiển thị embed một lần nữa.",
+        "previousPage": "⬅️ Trang trước",
+        "nextPage": "➡️ Trang sau"
+    },
+    "footer": {
+        "requestedBy": "Yêu cầu bởi: {user}",
+        "requestedByPage": "Yêu cầu bởi: {user} - Trang {page}"
+    },
+    "volume": {
+        "current": "🔊 | Âm lượng hiện tại được đặt ở **{volume}%**!",
+        "invalidRange": "❌ | Âm lượng phải được đặt trong khoảng 0-100%!"
+    },
+    "loop": {
+        "queueTitle": "Chế độ lặp bật 🔁",
+        "autoplayTitle": "Chế độ lặp bật 🤖",
+        "trackMode": "**bài hát hiện tại**",
+        "queueMode": "**toàn bộ hàng đợi**",
+        "autoplayMode": "**tự động phát nhạc**",
+        "offMode": "**tắt**",
+        "description": "Chế độ lặp đã được đặt thành {mode}!"
+    },
+    "seek": {
+        "title": "Tua bài hát ↪️",
+        "description": "Đã tua bài hát hiện tại đến {time}! Đang phát {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Đã nhảy đến bài hát ⏭️"
+    },
+    "remove": {
+        "title": "Đã xóa bài hát ❌",
+        "description": "Đã xóa bài hát {title} {link} khỏi hàng đợi!",
+        "invalidPosition": "❌ | Không có bài hát nào ở vị trí đã truy vấn trong hàng đợi. Vui lòng thử lại."
+    },
+    "lyrics": {
+        "notFound": "❌ | Không tìm thấy lời bài hát cho truy vấn đã yêu cầu!",
+        "title": "Lời bài hát {title} của {artist} 🎶",
+        "truncatedSuffix": "\nVà còn nữa...",
+        "fullLyricsButton": "🎶 Lời bài hát đầy đủ"
+    },
+    "audiofilter": {
+        "noneEnabled": "Hiện không có bộ lọc âm thanh nào được bật!",
+        "listEnabled": "Các bộ lọc âm thanh hiện đang bật:\n- {filters}",
+        "toggleTitle": "Đã chuyển bộ lọc âm thanh 🎵",
+        "toggleDescription": "Bộ lọc âm thanh **{filter}** đã được {state}!",
+        "stateEnabled": "Bật",
+        "stateDisabled": "Tắt",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Bắt đầu phát ▶️",
+        "addedTitle": "Đã thêm vào hàng đợi ⏱️",
+        "addedTopTitle": "Đã thêm vào đầu hàng đợi ⏱️",
+        "startedSong": "Bắt đầu phát bài hát **{title}** {link}!",
+        "queuedSong": "Đã thêm bài hát **{title}** {link} vào hàng đợi!",
+        "queuedSongTop": "Đã thêm bài hát **{title}** {link} vào đầu hàng đợi (phát tiếp theo)!",
+        "importedPlaylistStart": "Đã nhập **playlist {title} {link}** với **{count}** bài hát và bắt đầu phát hàng đợi!",
+        "importedPlaylistQueued": "Đã nhập **playlist {title} {link}** với **{count}** bài hát!",
+        "importedPlaylistTop": "Đã nhập **playlist {title} {link}** với **{count}** bài hát vào đầu hàng đợi (phát tiếp theo)!",
+        "importedAlbumStart": "Đã nhập **album {title}** với **{count}** bài hát và bắt đầu phát hàng đợi!",
+        "importedAlbumQueued": "Đã nhập **album {title}** với **{count}** bài hát!",
+        "importedAlbumTop": "Đã nhập **album {title}** với **{count}** bài hát vào đầu hàng đợi (phát tiếp theo)!"
+    },
+    "commands": {
+        "audiofilter": "Kiểm tra hoặc bật/tắt bộ lọc âm thanh!",
+        "back": "Phát bài hát trước!",
+        "botinfo": "Trả về thông tin về Elite Bot!",
+        "clearqueue": "Xóa hàng đợi nhạc hiện tại!",
+        "help": "Nhận thông tin về các lệnh của tôi!",
+        "jumpqueue": "Nhảy đến bài hát cụ thể trong hàng đợi!",
+        "loop": "Đặt loại lặp!",
+        "lyrics": "Lấy lời bài hát!",
+        "nowplaying": "Kiểm tra bài hát đang phát!",
+        "pause": "Tạm dừng bài hát hiện tại tại thời điểm hiện tại!",
+        "play": "Thêm bài hát vào hàng đợi!",
+        "playnext": "Thêm bài hát vào đầu hàng đợi!",
+        "plex": {
+            "description": "Phát nhạc từ thư viện Plex của bạn vào hàng đợi!",
+            "play": "Phát bài hát, playlist hoặc album từ máy chủ Plex của bạn.",
+            "search": "Tìm kiếm bài hát, playlist và album.",
+            "playnext": "Thêm bài hát, playlist hoặc album từ Plex để phát tiếp theo."
+        },
+        "queue": "Kiểm tra nhạc hiện có trong hàng đợi!",
+        "queuehistory": "Kiểm tra lịch sử hàng đợi trước đây trong máy chủ!",
+        "remove": "Xóa bài hát cụ thể khỏi hàng đợi!",
+        "seek": "Tua đến thời điểm khác trong bài hát hiện tại!",
+        "shuffle": "Xáo trộn hàng đợi hiện tại!",
+        "skip": "Bỏ qua bài hát hiện tại!",
+        "stop": "Dừng mọi nhạc đang phát!",
+        "subsonic": {
+            "description": "Phát nhạc từ thư viện Subsonic của bạn vào hàng đợi!",
+            "play": "Phát bài hát, playlist hoặc album từ máy chủ Subsonic của bạn.",
+            "search": "Tìm kiếm bài hát, playlist và album.",
+            "playnext": "Thêm bài hát, playlist hoặc album từ Subsonic để phát tiếp theo."
+        },
+        "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Tên, URL hoặc URL playlist bạn muốn phát.",
+                "playnext": "Tên hoặc URL bài hát bạn muốn phát (không có playlist).",
+                "library": "Truy vấn tìm kiếm bài hát, playlist hoặc album."
+            },
+            "filter": "Bạn muốn bật/tắt bộ lọc nào?",
+            "query": "Nhập tên bài hát.",
+            "song": {
+                "remove": "Bài hát số mấy nên bị xóa khỏi hàng đợi?",
+                "jumpqueue": "Bài hát số mấy nên chuyển lên đầu hàng đợi (dùng /queue để kiểm tra)?"
+            },
+            "time": "Thời gian để tua bài hát hiện tại (Ví dụ: 1s, 1m, 1h)!",
+            "amount": "Bạn muốn đặt âm lượng là bao nhiêu (0-100)?",
+            "loopmode": "Bạn muốn kích hoạt chế độ lặp nào?",
+            "scope": "Chọn loại nội dung bạn muốn tìm kiếm.",
+            "order": "Thứ tự khi thêm nhiều bài hát từ playlist hoặc album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Tự động (tất cả loại)",
+                "track": "Chỉ bài hát",
+                "playlist": "Chỉ playlist",
+                "album": "Chỉ album"
+            },
+            "order": {
+                "sequential": "Tuần tự",
+                "shuffle": "Xáo trộn",
+                "reverse": "Ngược lại"
+            },
+            "loopmode": {
+                "0": "Off",
+                "1": "Track",
+                "2": "Queue",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Menu trợ giúp",
+        "homeDescription": "Chọn danh mục qua menu bên dưới để xem các lệnh có sẵn. 📢 \\n\\nGặp lỗi hoặc có gợi ý cải thiện tuyệt vời? Vui lòng tạo issue trên **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** hoặc liên hệ với tôi bằng cách tham gia **[Support Discord Server](https://discord.elite-bot.com)** và sẽ được xem xét sớm nhất có thể. 🆘\\n\\nĐể biết thông tin thiết lập chi tiết, vui lòng xem **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** luôn được cập nhật và cung cấp mọi thứ bạn cần biết. 📄",
+        "footer": "/help | Yêu cầu bởi: {user}",
+        "homeOptionLabel": "Trang chủ",
+        "homeOptionDescription": "Trang chủ",
+        "menuPlaceholder": "Nhấn để xem tất cả danh mục",
+        "categoryPageDescription": "Trang lệnh {category}",
+        "categoryFallback": "Lệnh {category}",
+        "categoryTitle": "Menu trợ giúp - Danh mục {category}! {emoji}",
+        "categories": {
+            "music": "Nhạc",
+            "utilities": "Tiện ích"
+        },
+        "musicDescription": "Các lệnh nhạc.",
+        "utilitiesDescription": "Các lệnh tiện ích chung.",
+        "noDescription": "Không có mô tả",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Thông tin bot",
+        "title": "Thông tin Elite Music",
+        "process": "Tiến trình",
+        "dependencies": "Phụ thuộc",
+        "ping": "Ping",
+        "uptime": "Thời gian hoạt động từ",
+        "version": "Phiên bản Elite Music",
+        "developer": "Nhà phát triển & Người bảo trì",
+        "openSource": "Dự án mã nguồn mở",
+        "openSourceDescription": "Bạn muốn cải thiện bot mã nguồn mở này? Hay bạn muốn tự host? Đừng tìm xa hơn! Bạn có thể truy cập [kho lưu trữ bot công khai tại đây](https://github.com/ThatGuyJacobee/Elite-Bot-Music) và làm theo hướng dẫn readme để biết thêm thông tin! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Thêm mục vào hàng đợi 👈",
+        "resultsTitle": "Kết quả tìm kiếm nhạc 🎵",
+        "resultsDescription": "Tìm thấy nhiều bài hát khớp với truy vấn tìm kiếm, chọn một từ menu bên dưới.",
+        "cancel": "Hủy tìm kiếm 🗑️",
+        "duration": "Thời lượng - {duration}",
+        "plexTitle": "Kết quả tìm kiếm Plex 🎵",
+        "subsonicTitle": "Kết quả tìm kiếm Subsonic 🎵",
+        "multipleResults": "Tìm thấy nhiều kết quả khớp với truy vấn tìm kiếm, chọn một từ menu bên dưới.",
+        "singleResult": "Chọn mục bên dưới để thêm vào hàng đợi.",
+        "songResult": "[{index}] Kết quả bài hát ({duration})",
+        "playlistResult": "[{index}] Kết quả playlist ({duration})",
+        "mediaResult": "[{index}] Kết quả {type} ({suffix})",
+        "mediaResultNoSuffix": "[{index}] Kết quả {type}",
+        "track": "Bài hát",
+        "playlist": "Playlist",
+        "album": "Album",
+        "songCount": "{count} bài hát"
+    },
+    "np": {
+        "titleStarting": "Đang bắt đầu bài tiếp theo... Đang phát 🎵",
+        "titleCurrent": "Đang phát 🎵",
+        "buttons": {
+            "previous": "⏮️ Trước",
+            "pauseResume": "⏯️ Phát/Tạm dừng",
+            "skip": "⏭️ Bỏ qua",
+            "clear": "🧹 Xóa hàng đợi",
+            "volume": "🔊 Điều chỉnh âm lượng",
+            "loop": "🔂 Lặp một lần",
+            "shuffle": "🔀 Xáo trộn hàng đợi",
+            "stop": "🛑 Dừng hàng đợi"
+        },
+        "backTitle": "Đang phát bài hát trước ⏮️",
+        "backDescription": "Tiếp theo sẽ quay lại bài hát trước: {title} {link}!",
+        "backMissing": "❌ | Không có lịch sử nhạc trước bài hát hiện tại. Vui lòng thử lại.",
+        "pauseTitle": "Đã tạm dừng bài hát ⏸️",
+        "pauseDescription": "Phát nhạc đã được **{state}**. Đang phát {title} {link}!",
+        "pauseStateResumed": "tiếp tục",
+        "pauseStatePaused": "tạm dừng",
+        "skipTitle": "Đã bỏ qua bài hát ⏭️",
+        "skipDescription": "Đang phát: {title} {link}",
+        "stopTitle": "Đã dừng nhạc 🛑",
+        "stopDescription": "Nhạc đã dừng... rời khỏi kênh!",
+        "loopOffTitle": "Chế độ lặp tắt 📴",
+        "loopOffDescription": "Chế độ lặp đã được đặt thành **tắt**!",
+        "loopTrackTitle": "Chế độ lặp bật 🔂",
+        "loopTrackDescription": "Chế độ lặp đã được đặt thành **bài hát hiện tại**!",
+        "volumeTitle": "Đã điều chỉnh âm lượng 🎧",
+        "volumeDescription": "Âm lượng đã được đặt thành **{volume}%**!",
+        "volumeModalTitle": "Điều chỉnh âm lượng - Hiện tại {volume}%",
+        "volumeModalLabel": "Âm lượng mới nên là bao nhiêu (0-100)?",
+        "volumeModalPlaceholder": "Câu trả lời của bạn...",
+        "volumeModalInvalid": "❌ | Âm lượng phải từ 0-100, đầu vào của bạn nằm ngoài phạm vi này.",
+        "liveIndicator": " ◉ TRỰC TIẾP"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Đang ngắt kết nối 🛑",
+        "disconnectDescription": "Tôi đã không hoạt động trong một khoảng thời gian!",
+        "emptyChannelTitle": "Kết thúc phát nhạc 🛑",
+        "emptyChannelDescription": "Không có ai trong kênh thoại!",
+        "queueFinishedTitle": "Hàng đợi đã kết thúc 🛑",
+        "queueFinishedDescription": "Hàng đợi nhạc đã phát xong!"
+    }
+}

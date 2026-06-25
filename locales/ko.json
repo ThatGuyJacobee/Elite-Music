@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "링크",
+        "unknownUser": "알 수 없는 사용자",
+        "songCoverImage": "{title} 곡 커버 이미지",
+        "playlistCoverImage": "{title} 재생목록 커버 이미지",
+        "albumCoverImage": "{title} 앨범 커버 이미지",
+        "coverImageNotFound": "커버 이미지를 찾을 수 없음"
+    },
+    "errors": {
+        "cooldown": "⏱️ | 쿨다운 알림: **/{command}** 명령을 다시 사용하려면 **{seconds}**초 더 기다려 주세요!",
+        "commandExecution": "❌ | 죄송합니다. 명령 실행 중 오류가 발생했습니다. 로그에서 오류를 확인하세요.",
+        "genericAction": "❌ | 이런... 문제가 발생했습니다. {action} 중 오류가 발생했습니다. 다시 시도해 주세요.",
+        "failedToFindSongQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡을 찾을 수 없습니다.",
+        "failedToFindSong": "❌ | 이런... 문제가 발생했습니다. 곡을 찾을 수 없습니다.",
+        "playRequest": "❌ | 이런... 요청한 곡 재생 중 문제가 발생했습니다. 다시 시도해 주세요.",
+        "addTracks": "❌ | 이런... 문제가 발생했습니다. 곡을 대기열에 추가하지 못했습니다.",
+        "joinVoice": "❌ | 이런... 문제가 발생했습니다. 채널에 참가할 수 없습니다.",
+        "joinVoiceChannel": "❌ | 이런... 문제가 발생했습니다. 음성 채널에 참가할 수 없습니다.",
+        "playback": "❌ | 이런... 문제가 발생했습니다. 재생 관련 오류가 발생했습니다. 다시 시도해 주세요.",
+        "noViewChannel": "오류: 이 채널을 볼 권한이 없어 도움말 메시지를 수정할 수 없습니다!",
+        "extractFailed": "❌ | 다음 곡 추출에 실패했습니다... 다음 곡으로 건너뜁니다!",
+        "subsonicSongMetadata": "❌ | Subsonic에서 곡 메타데이터를 불러올 수 없습니다.",
+        "emptyPlaylist": "❌ | 이 재생목록에 재생 가능한 곡이 없습니다.",
+        "emptyAlbum": "❌ | 이 앨범에 재생 가능한 곡이 없습니다.",
+        "failedToFindMediaQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡, 재생목록 또는 앨범을 찾을 수 없습니다.",
+        "playNextPlaylistOnly": "❌ | 이런... 이 명령으로는 단일 곡만 추가할 수 있습니다. 재생목록을 대기열에 추가하려면 일반 **/play** 명령을 사용하세요.",
+        "actions": {
+            "skippingSong": "곡 건너뛰기",
+            "clearingQueue": "대기열 비우기",
+            "shufflingQueue": "대기열 섞기",
+            "stoppingQueue": "대기열 중지",
+            "adjustingVolume": "볼륨 조절",
+            "returningToPreviousSong": "이전 곡으로 돌아가기",
+            "pausing": "일시정지",
+            "resuming": "재개",
+            "seekingSong": "곡 탐색",
+            "jumpingQueue": "대기열 이동",
+            "switchingLoopMode": "반복 모드 전환",
+            "removingSong": "대기열에서 곡 제거",
+            "adjustingAudioFilter": "오디오 필터 조절"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | Plex가 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
+        "subsonicDisabled": "❌ | Subsonic이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요."
+    },
+    "guards": {
+        "djMode": "❌ | DJ 모드가 활성화되어 있습니다! 음악 명령을 사용하려면 DJ 역할 {role}이 필요합니다!",
+        "notInVoice": "❌ | 음성 채널에 있지 않습니다!",
+        "notInBotVoice": "❌ | 봇과 같은 음성 채널에 있지 않습니다!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | 현재 재생 중인 음악이 없습니다!",
+        "empty": "❌ | 대기열에 음악이 없습니다!",
+        "emptyQueued": "❌ | 현재 대기열에 등록된 음악이 없습니다!",
+        "alreadyFirstPage": "❌ | 대기열이 이미 첫 페이지입니다!",
+        "alreadyLastPage": "❌ | 대기열이 이미 마지막 페이지입니다!",
+        "title": "현재 음악 대기열 🎵",
+        "moreTracks": "...외 {count}곡",
+        "nowPlayingField": "재생 중 ▶️",
+        "clearTitle": "대기열 비우기 🧹",
+        "clearDescription": "전체 음악 대기열이 비워졌습니다!",
+        "shuffleTitle": "대기열 섞기 🔀",
+        "shuffleDescription": "전체 음악 대기열이 섞였습니다!",
+        "expired": "임베드를 다시 표시하려면 **/queue**를 다시 사용하세요.",
+        "historyTitle": "과거 음악 대기열 기록 🔙",
+        "historyExpired": "임베드를 다시 표시하려면 **/queuehistory**를 다시 사용하세요.",
+        "previousPage": "⬅️ 이전 페이지",
+        "nextPage": "➡️ 다음 페이지"
+    },
+    "footer": {
+        "requestedBy": "요청: {user}",
+        "requestedByPage": "요청: {user} - 페이지 {page}"
+    },
+    "volume": {
+        "current": "🔊 | 현재 볼륨이 **{volume}%**로 설정되어 있습니다!",
+        "invalidRange": "❌ | 볼륨은 0-100% 사이로 설정해야 합니다!"
+    },
+    "loop": {
+        "queueTitle": "반복 모드 켜짐 🔁",
+        "autoplayTitle": "반복 모드 켜짐 🤖",
+        "trackMode": "**현재 곡**",
+        "queueMode": "**전체 대기열**",
+        "autoplayMode": "**자동 재생**",
+        "offMode": "**끔**",
+        "description": "반복 모드가 {mode}(으)로 설정되었습니다!"
+    },
+    "seek": {
+        "title": "곡 탐색 ↪️",
+        "description": "현재 곡을 {time}(으)로 탐색했습니다! 현재 재생 중: {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "곡으로 이동 ⏭️"
+    },
+    "remove": {
+        "title": "곡 제거 ❌",
+        "description": "대기열에서 {title} {link}을(를) 제거했습니다!",
+        "invalidPosition": "❌ | 대기열의 해당 위치에 곡이 없습니다. 다시 시도해 주세요."
+    },
+    "lyrics": {
+        "notFound": "❌ | 요청한 검색어에 대한 가사를 찾을 수 없습니다!",
+        "title": "{artist}의 {title} 가사 🎶",
+        "truncatedSuffix": "\n더 보기...",
+        "fullLyricsButton": "🎶 전체 가사"
+    },
+    "audiofilter": {
+        "noneEnabled": "현재 활성화된 오디오 필터가 없습니다!",
+        "listEnabled": "현재 활성화된 오디오 필터:\n- {filters}",
+        "toggleTitle": "오디오 필터 전환 🎵",
+        "toggleDescription": "**{filter}** 오디오 필터가 {state}되었습니다!",
+        "stateEnabled": "활성화",
+        "stateDisabled": "비활성화",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "재생 시작 ▶️",
+        "addedTitle": "대기열에 추가 ⏱️",
+        "addedTopTitle": "대기열 맨 앞에 추가 ⏱️",
+        "startedSong": "곡 **{title}** {link} 재생을 시작했습니다!",
+        "queuedSong": "곡 **{title}** {link}을(를) 대기열에 추가했습니다!",
+        "queuedSongTop": "곡 **{title}** {link}을(를) 대기열 맨 앞에 추가했습니다(다음 재생)!",
+        "importedPlaylistStart": "**{title} {link} 재생목록**(**{count}**곡)을 가져와 대기열 재생을 시작했습니다!",
+        "importedPlaylistQueued": "**{title} {link} 재생목록**(**{count}**곡)을 가져왔습니다!",
+        "importedPlaylistTop": "**{title} {link} 재생목록**(**{count}**곡)을 대기열 맨 앞에 가져왔습니다(다음 재생)!",
+        "importedAlbumStart": "**{title} 앨범**(**{count}**곡)을 가져와 대기열 재생을 시작했습니다!",
+        "importedAlbumQueued": "**{title} 앨범**(**{count}**곡)을 가져왔습니다!",
+        "importedAlbumTop": "**{title} 앨범**(**{count}**곡)을 대기열 맨 앞에 가져왔습니다(다음 재생)!"
+    },
+    "commands": {
+        "audiofilter": "오디오 필터를 확인하거나 전환합니다!",
+        "back": "이전 곡을 재생합니다!",
+        "botinfo": "Elite Bot에 대한 정보를 반환합니다!",
+        "clearqueue": "현재 음악 대기열을 비웁니다!",
+        "help": "명령에 대한 정보를 가져옵니다!",
+        "jumpqueue": "대기열의 특정 곡으로 이동합니다!",
+        "loop": "반복 유형을 설정합니다!",
+        "lyrics": "곡의 가사를 가져옵니다!",
+        "nowplaying": "현재 재생 중인 곡을 확인합니다!",
+        "pause": "현재 곡을 현재 시간에 일시정지합니다!",
+        "play": "곡을 대기열에 추가합니다!",
+        "playnext": "곡을 대기열 맨 앞에 추가합니다!",
+        "plex": {
+            "description": "Plex 라이브러리에서 음악을 대기열에 재생합니다!",
+            "play": "Plex 서버에서 곡, 재생목록 또는 앨범을 재생합니다.",
+            "search": "곡, 재생목록 및 앨범을 검색합니다.",
+            "playnext": "Plex 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
+        },
+        "queue": "현재 대기열에 있는 음악을 확인합니다!",
+        "queuehistory": "길드 내 대기열 기록을 확인합니다!",
+        "remove": "대기열에서 특정 곡을 제거합니다!",
+        "seek": "현재 곡의 다른 시간으로 탐색합니다!",
+        "shuffle": "현재 대기열을 섞습니다!",
+        "skip": "현재 곡을 건너뜁니다!",
+        "stop": "재생 중인 음악을 중지합니다!",
+        "subsonic": {
+            "description": "Subsonic 라이브러리에서 음악을 대기열에 재생합니다!",
+            "play": "Subsonic 서버에서 곡, 재생목록 또는 앨범을 재생합니다.",
+            "search": "곡, 재생목록 및 앨범을 검색합니다.",
+            "playnext": "Subsonic 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
+        },
+        "volume": "현재 음악 볼륨을 확인하거나 설정합니다!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "재생할 곡 이름, URL 또는 재생목록 URL.",
+                "playnext": "재생할 곡 이름 또는 URL(재생목록 불가).",
+                "library": "곡, 재생목록 또는 앨범 검색어."
+            },
+            "filter": "전환할 필터를 선택하세요.",
+            "query": "곡 이름을 입력하세요.",
+            "song": {
+                "remove": "대기열에서 제거할 곡 #번호는?",
+                "jumpqueue": "대기열 맨 앞으로 이동할 곡 #번호(/queue로 확인)"
+            },
+            "time": "현재 곡을 탐색할 시간(예: 1s, 1m, 1h)!",
+            "amount": "설정할 볼륨(0-100)은?",
+            "loopmode": "활성화할 반복 모드는?",
+            "scope": "검색할 콘텐츠 유형을 선택하세요.",
+            "order": "재생목록 또는 앨범에서 여러 곡을 추가할 때의 순서."
+        },
+        "choices": {
+            "scope": {
+                "auto": "자동(모든 유형)",
+                "track": "곡만",
+                "playlist": "재생목록만",
+                "album": "앨범만"
+            },
+            "order": {
+                "sequential": "순차",
+                "shuffle": "섞기",
+                "reverse": "역순"
+            },
+            "loopmode": {
+                "0": "끔",
+                "1": "곡",
+                "2": "대기열",
+                "3": "자동 재생"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - 도움말 메뉴",
+        "homeDescription": "아래 메뉴에서 카테고리를 선택하여 사용 가능한 명령을 확인하세요. 📢 \\n\\n버그를 발견했거나 개선 제안이 있으신가요? **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)**에서 이슈를 생성하거나 **[Support Discord Server](https://discord.elite-bot.com)**에 참가하여 연락해 주세요. 최대한 빨리 검토하겠습니다. 🆘\\n\\n자세한 설정 정보는 항상 최신 상태로 유지되는 **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)**를 참조하세요. 필요한 모든 정보가 제공됩니다. 📄",
+        "footer": "/help | 요청: {user}",
+        "homeOptionLabel": "홈",
+        "homeOptionDescription": "홈 페이지",
+        "menuPlaceholder": "클릭하여 모든 카테고리 보기",
+        "categoryPageDescription": "{category} 명령 페이지",
+        "categoryFallback": "{category} 명령",
+        "categoryTitle": "도움말 메뉴 - {category} 카테고리! {emoji}",
+        "categories": {
+            "music": "음악",
+            "utilities": "유틸리티"
+        },
+        "musicDescription": "음악 명령.",
+        "utilitiesDescription": "일반적으로 유용한 명령.",
+        "noDescription": "설명 없음",
+        "buttons": {
+            "repo": "🛡️ 오픈 소스 저장소",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 문서",
+            "support": "🆘 지원 서버"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - 봇 정보",
+        "title": "Elite Music 정보",
+        "process": "프로세스",
+        "dependencies": "의존성",
+        "ping": "Ping",
+        "uptime": "가동 시간",
+        "version": "Elite Music 버전",
+        "developer": "개발자 & 유지관리자",
+        "openSource": "오픈 소스 프로젝트",
+        "openSourceDescription": "이 오픈 소스 봇을 개선하는 데 관심이 있으신가요? 직접 호스팅하고 싶으신가요? 더 이상 찾지 마세요! 공개 봇 [저장소는 여기](https://github.com/ThatGuyJacobee/Elite-Bot-Music)에서 접근할 수 있으며, readme 지침을 따라 자세한 정보를 확인하세요! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ 오픈 소스 저장소",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot 문서",
+            "support": "🆘 지원 서버"
+        }
+    },
+    "search": {
+        "placeholder": "대기열에 추가 👈",
+        "resultsTitle": "음악 검색 결과 🎵",
+        "resultsDescription": "제공된 검색어와 일치하는 여러 곡을 찾았습니다. 아래 메뉴에서 선택하세요.",
+        "cancel": "검색 취소 🗑️",
+        "duration": "재생 시간 - {duration}",
+        "plexTitle": "Plex 검색 결과 🎵",
+        "subsonicTitle": "Subsonic 검색 결과 🎵",
+        "multipleResults": "제공된 검색어와 일치하는 여러 결과를 찾았습니다. 아래 메뉴에서 선택하세요.",
+        "singleResult": "아래에서 항목을 선택하여 대기열에 추가하세요.",
+        "songResult": "[{index}] 곡 결과 ({duration})",
+        "playlistResult": "[{index}] 재생목록 결과 ({duration})",
+        "mediaResult": "[{index}] {type} 결과 ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} 결과",
+        "track": "곡",
+        "playlist": "재생목록",
+        "album": "앨범",
+        "songCount": "{count}곡"
+    },
+    "np": {
+        "titleStarting": "다음 곡 시작 중... 재생 중 🎵",
+        "titleCurrent": "재생 중 🎵",
+        "buttons": {
+            "previous": "⏮️ 이전",
+            "pauseResume": "⏯️ 재생/일시정지",
+            "skip": "⏭️ 건너뛰기",
+            "clear": "🧹 대기열 비우기",
+            "volume": "🔊 볼륨 조절",
+            "loop": "🔂 한 곡 반복",
+            "shuffle": "🔀 대기열 섞기",
+            "stop": "🛑 대기열 중지"
+        },
+        "backTitle": "이전 곡 재생 ⏮️",
+        "backDescription": "다음으로 이전 곡으로 돌아갑니다: {title} {link}!",
+        "backMissing": "❌ | 현재 곡 이전의 음악 기록이 없습니다. 다시 시도해 주세요.",
+        "pauseTitle": "곡 일시정지 ⏸️",
+        "pauseDescription": "재생이 **{state}**되었습니다. 현재 재생 중: {title} {link}!",
+        "pauseStateResumed": "재개",
+        "pauseStatePaused": "일시정지",
+        "skipTitle": "곡 건너뛰기 ⏭️",
+        "skipDescription": "재생 중: {title} {link}",
+        "stopTitle": "음악 중지 🛑",
+        "stopDescription": "음악이 중지되었습니다... 채널에서 나갑니다!",
+        "loopOffTitle": "반복 모드 끔 📴",
+        "loopOffDescription": "반복 모드가 **끔**으로 설정되었습니다!",
+        "loopTrackTitle": "반복 모드 켜짐 🔂",
+        "loopTrackDescription": "반복 모드가 **현재 곡**으로 설정되었습니다!",
+        "volumeTitle": "볼륨 조절 🎧",
+        "volumeDescription": "볼륨이 **{volume}%**로 설정되었습니다!",
+        "volumeModalTitle": "볼륨 조절 - 현재 {volume}%",
+        "volumeModalLabel": "새 볼륨은?(0-100)",
+        "volumeModalPlaceholder": "답변 입력...",
+        "volumeModalInvalid": "❌ | 볼륨은 0-100 사이여야 합니다. 입력값이 범위를 벗어났습니다.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "연결 해제 🛑",
+        "disconnectDescription": "한동안 비활성 상태였습니다!",
+        "emptyChannelTitle": "재생 종료 🛑",
+        "emptyChannelDescription": "음성 채널에 아무도 없습니다!",
+        "queueFinishedTitle": "대기열 완료 🛑",
+        "queueFinishedDescription": "음악 대기열이 완료되었습니다!"
+    }
+}

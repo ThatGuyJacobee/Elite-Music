@@ -1,0 +1,319 @@
+{
+    "common": {
+        "link": "Link",
+        "unknownUser": "Ismeretlen felhasználó",
+        "songCoverImage": "Dal borítóképe: {title}",
+        "playlistCoverImage": "Lejátszási lista borítóképe: {title}",
+        "albumCoverImage": "Album borítóképe: {title}",
+        "coverImageNotFound": "A borítókép nem található"
+    },
+    "errors": {
+        "cooldown": "⏱️ | Várakozási figyelmeztetés: Kérjük, várj még **{seconds}** másodpercet, mielőtt újra használod a **/{command}** parancsot!",
+        "commandExecution": "❌ | Elnézést, hiba történt a parancs végrehajtása közben. Nézd meg a naplókat a hiba miatt.",
+        "genericAction": "❌ | Hoppá... valami hiba történt {action} közben. Kérjük, próbáld újra.",
+        "failedToFindSongQuery": "❌ | Hoppá... valami hiba történt, a dal nem található a megadott lekérdezéssel.",
+        "failedToFindSong": "❌ | Hoppá... valami hiba történt, a dal nem található.",
+        "playRequest": "❌ | Hoppá... valami hiba történt a kért dal lejátszása közben. Kérjük, próbáld újra.",
+        "addTracks": "❌ | Hoppá... valami hiba történt, a szám(ok) hozzáadása a sorhoz sikertelen.",
+        "joinVoice": "❌ | Hoppá... valami hiba történt, nem sikerült csatlakozni a csatornádhoz.",
+        "joinVoiceChannel": "❌ | Hoppá... valami hiba történt, nem sikerült csatlakozni a hangcsatornádhoz.",
+        "playback": "❌ | Hoppá... valami hiba történt, lejátszással kapcsolatos hiba történt. Kérjük, próbáld újra.",
+        "noViewChannel": "Hiba: Nincs jogosultságom megtekinteni ezt a csatornát, és nem tudom szerkeszteni a súgó üzenetet!",
+        "extractFailed": "❌ | A következő dal kinyerése sikertelen... ugrás a következőre!",
+        "subsonicSongMetadata": "❌ | A dal metaadatainak betöltése a Subsonicból sikertelen.",
+        "emptyPlaylist": "❌ | Ez a lejátszási lista nem tartalmaz lejátszható számokat.",
+        "emptyAlbum": "❌ | Ez az album nem tartalmaz lejátszható számokat.",
+        "failedToFindMediaQuery": "❌ | Hoppá... valami hiba történt, a dal, lejátszási lista vagy album nem található a megadott lekérdezéssel.",
+        "playNextPlaylistOnly": "❌ | Hoppá... ezzel a paranccsal csak egyes dalokat adhatsz hozzá. Használd a normál **/play** parancsot lejátszási listák sorhoz adásához.",
+        "actions": {
+            "skippingSong": "a dal átugrása",
+            "clearingQueue": "a sor törlése",
+            "shufflingQueue": "a sor keverése",
+            "stoppingQueue": "a sor leállítása",
+            "adjustingVolume": "a hangerő beállítása",
+            "returningToPreviousSong": "visszatérés az előző dalhoz",
+            "pausing": "szüneteltetés",
+            "resuming": "folytatás",
+            "seekingSong": "ugrás a dalban",
+            "jumpingQueue": "ugrás a sorban",
+            "switchingLoopMode": "ismétlési mód váltása",
+            "removingSong": "a dal eltávolítása a sorból",
+            "adjustingAudioFilter": "a hangszűrő beállítása"
+        }
+    },
+    "feature": {
+        "plexDisabled": "❌ | A Plex jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
+        "subsonicDisabled": "❌ | A Subsonic jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban."
+    },
+    "guards": {
+        "djMode": "❌ | A DJ mód aktív! A(z) {role} DJ szerepkörrel kell rendelkezned a zenei parancsok használatához!",
+        "notInVoice": "❌ | Nem vagy hangcsatornán!",
+        "notInBotVoice": "❌ | Nem vagy az én hangcsatornámon!"
+    },
+    "queue": {
+        "nothingPlaying": "❌ | Jelenleg nem szól zene!",
+        "empty": "❌ | Jelenleg nincs zene a sorban!",
+        "emptyQueued": "❌ | Jelenleg nincs zene a sorban!",
+        "alreadyFirstPage": "❌ | A sor már az első oldalon van!",
+        "alreadyLastPage": "❌ | A sor már az utolsó oldalon van!",
+        "title": "Jelenlegi zenei sor 🎵",
+        "moreTracks": "...és még {count} szám",
+        "nowPlayingField": "Most szól ▶️",
+        "clearTitle": "Sor törölve 🧹",
+        "clearDescription": "A teljes zenei sor törölve lett!",
+        "shuffleTitle": "Sor keverve 🔀",
+        "shuffleDescription": "A teljes zenei sor keverve lett!",
+        "expired": "Kérjük, használd újra a **/queue** parancsot az embed újbóli megjelenítéséhez.",
+        "historyTitle": "Korábbi zenei sor előzmények 🔙",
+        "historyExpired": "Kérjük, használd újra a **/queuehistory** parancsot az embed újbóli megjelenítéséhez.",
+        "previousPage": "⬅️ Előző oldal",
+        "nextPage": "➡️ Következő oldal"
+    },
+    "footer": {
+        "requestedBy": "Kérte: {user}",
+        "requestedByPage": "Kérte: {user} - {page}. oldal"
+    },
+    "volume": {
+        "current": "🔊 | A jelenlegi hangerő **{volume}%**!",
+        "invalidRange": "❌ | A hangerőnek 0-100% között kell lennie!"
+    },
+    "loop": {
+        "queueTitle": "Ismétlési mód bekapcsolva 🔁",
+        "autoplayTitle": "Ismétlési mód bekapcsolva 🤖",
+        "trackMode": "a **jelenlegi szám**",
+        "queueMode": "a **teljes sor**",
+        "autoplayMode": "**automatikus lejátszás**",
+        "offMode": "**ki**",
+        "description": "Az ismétlési mód beállítva: {mode}!"
+    },
+    "seek": {
+        "title": "Ugrás a dalban ↪️",
+        "description": "Ugrás a jelenlegi dalban ide: {time}! Most szól: {title} {link}."
+    },
+    "jumpqueue": {
+        "title": "Ugrás dalra ⏭️"
+    },
+    "remove": {
+        "title": "Dal eltávolítva ❌",
+        "description": "Eltávolítva a sorból: {title} {link}!",
+        "invalidPosition": "❌ | Nincs dal a megadott pozícióban a sorban. Kérjük, próbáld újra."
+    },
+    "lyrics": {
+        "notFound": "❌ | Nem található dalszöveg a megadott lekérdezéshez!",
+        "title": "Dalszöveg: {title}, előadó: {artist} 🎶",
+        "truncatedSuffix": "\nÉs még több...",
+        "fullLyricsButton": "🎶 Teljes dalszöveg"
+    },
+    "audiofilter": {
+        "noneEnabled": "Jelenleg nincs engedélyezett hangszűrő!",
+        "listEnabled": "A jelenleg engedélyezett hangszűrők:\n- {filters}",
+        "toggleTitle": "Hangszűrő váltva 🎵",
+        "toggleDescription": "A **{filter}** hangszűrő {state}!",
+        "stateEnabled": "Engedélyezve",
+        "stateDisabled": "Letiltva",
+        "filters": {
+            "bassboost": "Bassboost",
+            "8D": "8D",
+            "subboost": "Subboost",
+            "nightcore": "Nightcore",
+            "surrounding": "Surrounding",
+            "vaporwave": "Vaporwave",
+            "normalizer": "Normalizer",
+            "lofi": "Lofi",
+            "fadein": "Fadein"
+        }
+    },
+    "playback": {
+        "startedTitle": "Lejátszás elindítva ▶️",
+        "addedTitle": "Hozzáadva a sorhoz ⏱️",
+        "addedTopTitle": "Hozzáadva a sor elejére ⏱️",
+        "startedSong": "Elkezdődött a dal lejátszása: **{title}** {link}!",
+        "queuedSong": "Hozzáadva a sorhoz: **{title}** {link}!",
+        "queuedSongTop": "Hozzáadva a sor elejére: **{title}** {link} (következőként)!",
+        "importedPlaylistStart": "Importálva: **{title} {link} lejátszási lista** (**{count}** dal), és elindult a sor lejátszása!",
+        "importedPlaylistQueued": "Importálva: **{title} {link} lejátszási lista** (**{count}** dal)!",
+        "importedPlaylistTop": "Importálva a sor elejére: **{title} {link} lejátszási lista** (**{count}** dal, következőként)!",
+        "importedAlbumStart": "Importálva: **{title} album** (**{count}** dal), és elindult a sor lejátszása!",
+        "importedAlbumQueued": "Importálva: **{title} album** (**{count}** dal)!",
+        "importedAlbumTop": "Importálva a sor elejére: **{title} album** (**{count}** dal, következőként)!"
+    },
+    "commands": {
+        "audiofilter": "Hangszűrők ellenőrzése vagy váltása!",
+        "back": "Az előző dal lejátszása!",
+        "botinfo": "Információk az Elite Botról!",
+        "clearqueue": "A jelenlegi zenei sor törlése!",
+        "help": "Információk a parancsaimról!",
+        "jumpqueue": "Ugrás egy adott dalra a sorban!",
+        "loop": "Ismétlési típus beállítása!",
+        "lyrics": "Dalszöveg lekérése!",
+        "nowplaying": "A jelenleg lejátszott dal ellenőrzése!",
+        "pause": "A jelenlegi dal szüneteltetése!",
+        "play": "Dal hozzáadása a sorhoz!",
+        "playnext": "Dal hozzáadása a sor elejére!",
+        "plex": {
+            "description": "Zene lejátszása a Plex könyvtáradból a sorba!",
+            "play": "Szám, lejátszási lista vagy album lejátszása a Plex szerveredről.",
+            "search": "Számok, lejátszási listák és albumok keresése.",
+            "playnext": "Szám, lejátszási lista vagy album hozzáadása a Plex szerveredről következőként."
+        },
+        "queue": "A sorban lévő zene ellenőrzése!",
+        "queuehistory": "A szerver korábbi sor előzményeinek ellenőrzése!",
+        "remove": "Adott dal eltávolítása a sorból!",
+        "seek": "Ugrás más időpontra a jelenlegi dalban!",
+        "shuffle": "A jelenlegi sor keverése!",
+        "skip": "A jelenlegi dal átugrása!",
+        "stop": "Minden zene leállítása!",
+        "subsonic": {
+            "description": "Zene lejátszása a Subsonic könyvtáradból a sorba!",
+            "play": "Szám, lejátszási lista vagy album lejátszása a Subsonic szerveredről.",
+            "search": "Számok, lejátszási listák és albumok keresése.",
+            "playnext": "Szám, lejátszási lista vagy album hozzáadása a Subsonic szerveredről következőként."
+        },
+        "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "A lejátszani kívánt dal neve, URL-je vagy lejátszási lista URL-je.",
+                "playnext": "A lejátszani kívánt dal neve vagy URL-je (nincs lejátszási lista).",
+                "library": "Keresési lekérdezés számhoz, lejátszási listához vagy albumhoz."
+            },
+            "filter": "Melyik szűrőt szeretnéd váltani?",
+            "query": "Add meg a dal nevét.",
+            "song": {
+                "remove": "Melyik sorszámú dalt távolítsuk el a sorból?",
+                "jumpqueue": "Melyik sorszámú dalt helyezzük a sor elejére (használd a /queue parancsot)?"
+            },
+            "time": "Időpont, ahová ugrani kell a jelenlegi dalban (Példák: 1s, 1m, 1h)!",
+            "amount": "Milyen hangerőre állítsuk (0-100)?",
+            "loopmode": "Melyik ismétlési módot szeretnéd aktiválni?",
+            "scope": "Válaszd ki, milyen típusú tartalmat keresel.",
+            "order": "Sorrend több szám hozzáadásakor lejátszási listából vagy albumból."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (minden típus)",
+                "track": "Csak számok",
+                "playlist": "Csak lejátszási listák",
+                "album": "Csak albumok"
+            },
+            "order": {
+                "sequential": "Sorrendben",
+                "shuffle": "Keverés",
+                "reverse": "Fordított"
+            },
+            "loopmode": {
+                "0": "Ki",
+                "1": "Szám",
+                "2": "Sor",
+                "3": "Autoplay"
+            }
+        }
+    },
+    "help": {
+        "title": "Elite Music - Súgó menü",
+        "homeDescription": "Válassz kategóriát az alábbi menüből az elérhető parancsok megtekintéséhez. 📢 \\n\\nHibát tapasztalsz vagy van egy jó fejlesztési javaslatod? Kérjük, hozz létre egy issue-t a **[GitHub Repository](https://github.com/ThatGuyJacobee/Elite-Music)** oldalon, vagy lépj kapcsolatba velem a **[Support Discord Server](https://discord.elite-bot.com)** csatlakozásával, és a lehető leghamarabb átnézzük. 🆘\\n\\nRészletes telepítési információkért böngészd a **[GitHub Repository ReadMe](https://github.com/ThatGuyJacobee/Elite-Music)** oldalt, amely mindig naprakész és mindent tartalmaz, amit tudnod kell. 📄",
+        "footer": "/help | Kérte: {user}",
+        "homeOptionLabel": "Kezdőlap",
+        "homeOptionDescription": "Kezdőoldal",
+        "menuPlaceholder": "Kattints az összes kategória megtekintéséhez",
+        "categoryPageDescription": "{category} parancsok oldala",
+        "categoryFallback": "{category} parancsok",
+        "categoryTitle": "Súgó menü - {category} kategória! {emoji}",
+        "categories": {
+            "music": "Zene",
+            "utilities": "Segédprogramok"
+        },
+        "musicDescription": "Zenei parancsok.",
+        "utilitiesDescription": "Általánosan hasznos parancsok.",
+        "noDescription": "Nincs leírás",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "botinfo": {
+        "author": "{tag} - Bot Info",
+        "title": "Elite Music Information",
+        "process": "Folyamat",
+        "dependencies": "Függőségek",
+        "ping": "Ping",
+        "uptime": "Üzemidő kezdete",
+        "version": "Elite Music Version",
+        "developer": "Fejlesztő & Karbantartó",
+        "openSource": "Nyílt forráskódú projekt",
+        "openSourceDescription": "Érdekel ez a nyílt forráskódú bot fejlesztése? Vagy magad szeretnéd hostolni? Ne keress tovább! Hozzáférhetsz a nyilvános bot [repository-hoz itt](https://github.com/ThatGuyJacobee/Elite-Bot-Music), és kövesd a readme utasításokat további információkért! :)",
+        "footer": "/botinfo - {tag}",
+        "buttons": {
+            "repo": "🛡️ Open Source Repo",
+            "docker": "🐳 Docker Hub",
+            "docs": "📄 Elite Bot Docs",
+            "support": "🆘 Support Server"
+        }
+    },
+    "search": {
+        "placeholder": "Elem hozzáadása a sorhoz 👈",
+        "resultsTitle": "Zenei keresési eredmények 🎵",
+        "resultsDescription": "Több dal található a keresési lekérdezéshez, válassz egyet az alábbi menüből.",
+        "cancel": "Keresés megszakítása 🗑️",
+        "duration": "Időtartam - {duration}",
+        "plexTitle": "Plex keresési eredmények 🎵",
+        "subsonicTitle": "Subsonic keresési eredmények 🎵",
+        "multipleResults": "Több találat illeszkedik a keresési lekérdezéshez, válassz egyet az alábbi menüből.",
+        "singleResult": "Válassz egy elemet alul a sorhoz adáshoz.",
+        "songResult": "[{index}] Dal eredmény ({duration})",
+        "playlistResult": "[{index}] Lejátszási lista eredmény ({duration})",
+        "mediaResult": "[{index}] {type} eredmény ({suffix})",
+        "mediaResultNoSuffix": "[{index}] {type} eredmény",
+        "track": "Szám",
+        "playlist": "Lejátszási lista",
+        "album": "Album",
+        "songCount": "{count} dal"
+    },
+    "np": {
+        "titleStarting": "Következő dal indul... Most szól 🎵",
+        "titleCurrent": "Most szól 🎵",
+        "buttons": {
+            "previous": "⏮️ Előző",
+            "pauseResume": "⏯️ Lejátszás/Szünet",
+            "skip": "⏭️ Átugrás",
+            "clear": "🧹 Sor törlése",
+            "volume": "🔊 Hangerő beállítása",
+            "loop": "🔂 Egyszeri ismétlés",
+            "shuffle": "🔀 Sor keverése",
+            "stop": "🛑 Sor leállítása"
+        },
+        "backTitle": "Előző dal lejátszása ⏮️",
+        "backDescription": "Visszatérés az előző dalhoz: {title} {link}!",
+        "backMissing": "❌ | Nincs zenei előzmény a jelenlegi dal előtt. Kérjük, próbáld újra.",
+        "pauseTitle": "Dal szüneteltetve ⏸️",
+        "pauseDescription": "A lejátszás **{state}**. Most szól: {title} {link}!",
+        "pauseStateResumed": "folytatva",
+        "pauseStatePaused": "szüneteltetve",
+        "skipTitle": "Dal átugorva ⏭️",
+        "skipDescription": "Most szól: {title} {link}",
+        "stopTitle": "Zene leállítva 🛑",
+        "stopDescription": "A zene leállt... kilépés a csatornából!",
+        "loopOffTitle": "Ismétlési mód ki 📴",
+        "loopOffDescription": "Az ismétlési mód **ki** állítva!",
+        "loopTrackTitle": "Ismétlési mód be 🔂",
+        "loopTrackDescription": "Az ismétlési mód a **jelenlegi számra** állítva!",
+        "volumeTitle": "Hangerő beállítva 🎧",
+        "volumeDescription": "A hangerő **{volume}%**-ra állítva!",
+        "volumeModalTitle": "Hangerő beállítása - Jelenlegi: {volume}%",
+        "volumeModalLabel": "Mi legyen az új hangerő (0-100)?",
+        "volumeModalPlaceholder": "A válaszod...",
+        "volumeModalInvalid": "❌ | A hangerőnek 0-100 között kell lennie, a megadott érték ezen kívül esik.",
+        "liveIndicator": " ◉ LIVE"
+    },
+    "lifecycle": {
+        "disconnectTitle": "Kapcsolat bontása 🛑",
+        "disconnectDescription": "Egy ideje inaktív voltam!",
+        "emptyChannelTitle": "Lejátszás befejezése 🛑",
+        "emptyChannelDescription": "Senki sincs a hangcsatornán!",
+        "queueFinishedTitle": "Sor befejezve 🛑",
+        "queueFinishedDescription": "A zenei sor befejeződött!"
+    }
+}
