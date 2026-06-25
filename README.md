@@ -12,6 +12,7 @@ Loving this open-source project? Leaving a ⭐ on the repository would be much a
 - Support for various streaming platforms.
 - Wide range of audio filters.
 - Docker Support.
+- Full translation support for 30+ languages.
 - Awesome playback UI.
 - Additional features including plex media server support.
 - And much more!
@@ -151,6 +152,12 @@ Elite Music comes with a DJ Mode optional feature, which locks down the use of c
 
 1. Firstly, set `ENABLE_DJMODE` to `true`.
 2. Now create a role on your server which you wish to be used as the DJ Role. Copy the ID of the role and place it into the `DJ_ROLE` field.
+
+### Translations & Localisation
+
+Elite Music includes built-in localisation. Translation strings are stored as JSON files in the `locales/` folder, with `en-GB.json` acting as the default and main source for all keys. Locale files are included for all Discord client languages.
+
+You can configure this in your `.env` file using `PRIMARY_LOCALE` (defaults to `en-GB`) and `LOCALE_MODE` (defaults to `user`). Set `LOCALE_MODE` to `user` if you want the bot to localise based on each user's Discord client language where possible, falling back to your primary locale when needed. Set it to `global` if you want the bot to always use your primary locale instead.
 
 ## Support 🆘
 
