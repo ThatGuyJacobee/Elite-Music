@@ -2,7 +2,13 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    buildCoverImageDescription,
+    buildRequestedByFooter,
+    buildTrackLinkText,
+    translate,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -27,7 +33,7 @@ module.exports = {
 
         var coverImage = new AttachmentBuilder(queuedTracks[0].thumbnail, {
             name: "coverimage.jpg",
-            description: `Song Cover Image for ${queuedTracks[0].title}`,
+            description: buildCoverImageDescription(interaction, "song", queuedTracks[0].title),
         });
         const skipembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
@@ -37,7 +43,7 @@ module.exports = {
             .setDescription(
                 translate(interaction, "np.skipDescription", {
                     title: queuedTracks[0].title,
-                    link: buildTrackLinkText(queuedTracks[0]),
+                    link: buildTrackLinkText(queuedTracks[0], interaction),
                 }),
             )
             .setTimestamp()
@@ -48,7 +54,7 @@ module.exports = {
             interaction.reply({ embeds: [skipembed], files: [coverImage] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "skipping the song" }),
+                content: translateGenericAction(interaction, "skippingSong"),
                 ephemeral: true,
             });
         }

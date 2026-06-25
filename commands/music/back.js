@@ -2,7 +2,12 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    buildRequestedByFooter,
+    buildTrackLinkText,
+    translate,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -36,7 +41,7 @@ module.exports = {
             .setDescription(
                 translate(interaction, "np.backDescription", {
                     title: previousTracks[0].title,
-                    link: buildTrackLinkText(previousTracks[0]),
+                    link: buildTrackLinkText(previousTracks[0], interaction),
                 }),
             )
             .setTimestamp()
@@ -47,9 +52,7 @@ module.exports = {
             interaction.reply({ embeds: [backembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", {
-                    action: "returning to the previous song",
-                }),
+                content: translateGenericAction(interaction, "returningToPreviousSong"),
                 ephemeral: true,
             });
         }

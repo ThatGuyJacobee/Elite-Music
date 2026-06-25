@@ -3,7 +3,13 @@ const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("./botText");
+const {
+    buildRequestedByFooter,
+    buildCoverImageDescription,
+    buildTrackLinkText,
+    buildUrlLinkText,
+    translate,
+} = require("./botText");
 
 //Core music functions
 async function getQueue(interaction) {
@@ -68,9 +74,12 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     // Handle the song/playlist cover image
     let imageAttachment = await buildImageAttachment(search.tracks[0].thumbnail, {
         name: "coverimage.jpg",
-        description: search.playlist
-            ? `Playlist Cover Image for ${search.tracks[0].playlist.title}`
-            : `Song Cover Image for ${search.tracks[0].title}`,
+        description: buildCoverImageDescription(
+            interaction,
+            search.playlist ? "playlist" : "song",
+            search.playlist ? search.tracks[0].playlist.title : search.tracks[0].title,
+        ),
+        source: interaction,
     });
 
     const embed = new EmbedBuilder()
@@ -95,7 +104,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
             embed.setDescription(
                 translate(interaction, "playback.importedPlaylistStart", {
                     title: search.tracks[0].playlist.title,
-                    link: `([Link](${search.tracks[0].playlist.url}))`,
+                    link: buildUrlLinkText(interaction, search.tracks[0].playlist.url),
                     count: search.tracks.length,
                 }),
             );
@@ -103,7 +112,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
             embed.setDescription(
                 translate(interaction, "playback.startedSong", {
                     title: search.tracks[0].title,
-                    link: buildTrackLinkText(search.tracks[0]),
+                    link: buildTrackLinkText(search.tracks[0], interaction),
                 }),
             );
         }
@@ -114,7 +123,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
             embed.setDescription(
                 translate(interaction, "playback.importedPlaylistQueued", {
                     title: search.tracks[0].playlist.title,
-                    link: `([Link](${search.tracks[0].playlist.url}))`,
+                    link: buildUrlLinkText(interaction, search.tracks[0].playlist.url),
                     count: search.tracks.length,
                 }),
             );
@@ -123,7 +132,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
                 embed.setDescription(
                     translate(interaction, "playback.queuedSongTop", {
                         title: search.tracks[0].title,
-                        link: buildTrackLinkText(search.tracks[0]),
+                        link: buildTrackLinkText(search.tracks[0], interaction),
                     }),
                 );
                 embed.setTitle(translate(interaction, "playback.addedTopTitle"));
@@ -131,7 +140,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
                 embed.setDescription(
                     translate(interaction, "playback.queuedSong", {
                         title: search.tracks[0].title,
-                        link: buildTrackLinkText(search.tracks[0]),
+                        link: buildTrackLinkText(search.tracks[0], interaction),
                     }),
                 );
                 embed.setTitle(translate(interaction, "playback.addedTitle"));

@@ -4,7 +4,7 @@ const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
-const { buildRequestedByFooter, translate } = require("./botText");
+const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
 
 const player = useMainPlayer();
 
@@ -246,7 +246,12 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         `${client.config.plexServer}${defaultThumbnail}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
         {
             name: "coverimage.jpg",
-            description: `${itemMetadata.type == "playlist" ? "Playlist" : "Song"} Cover Image for ${itemMetadata.title}`,
+            description: buildCoverImageDescription(
+                interaction,
+                itemMetadata.type == "playlist" ? "playlist" : "song",
+                itemMetadata.title,
+            ),
+            source: interaction,
         },
     );
 

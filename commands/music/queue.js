@@ -44,14 +44,14 @@ module.exports = {
 
         curTracks.push({
             name: translate(interaction, "queue.nowPlayingField"),
-            value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack)}`,
+            value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`,
         });
 
         for (i; i < curPage * 10; i++) {
             if (queuedTracks[i]) {
                 curTracks.push({
                     name: `${i + 1}. ${queuedTracks[i].title}`,
-                    value: `**${queuedTracks[i].author}** ${buildTrackLinkText(queuedTracks[i])}`,
+                    value: `**${queuedTracks[i].author}** ${buildTrackLinkText(queuedTracks[i], interaction)}`,
                 });
             }
         }
@@ -61,8 +61,14 @@ module.exports = {
         var timestamp = Date.now();
         var finalComponents = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId(`queue-${timestamp}-delete`).setStyle(4).setLabel("🗑️"),
-            new ButtonBuilder().setCustomId(`queue-${timestamp}-previous`).setStyle(1).setLabel("⬅️"),
-            new ButtonBuilder().setCustomId(`queue-${timestamp}-next`).setStyle(1).setLabel("➡️"),
+            new ButtonBuilder()
+                .setCustomId(`queue-${timestamp}-previous`)
+                .setStyle(1)
+                .setLabel(translate(interaction, "queue.previousPage")),
+            new ButtonBuilder()
+                .setCustomId(`queue-${timestamp}-next`)
+                .setStyle(1)
+                .setLabel(translate(interaction, "queue.nextPage")),
         );
 
         interaction.reply({ embeds: [queueembed], components: [finalComponents] });
@@ -107,14 +113,14 @@ module.exports = {
 
             curTracks.push({
                 name: translate(interaction, "queue.nowPlayingField"),
-                value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack)}`,
+                value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`,
             });
 
             for (i; i < curPage * 10; i++) {
                 if (queuedTracks[i]) {
                     curTracks.push({
                         name: `${i + 1}. ${queuedTracks[i].title}`,
-                        value: `**${queuedTracks[i].author}** ${buildTrackLinkText(queuedTracks[i])}`,
+                        value: `**${queuedTracks[i].author}** ${buildTrackLinkText(queuedTracks[i], interaction)}`,
                     });
                 }
             }

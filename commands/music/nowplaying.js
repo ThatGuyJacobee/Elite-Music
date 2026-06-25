@@ -3,6 +3,7 @@ const { AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { registerNpControlMessage } = require("../../utils/npControlMessages");
 const { buildNpComponents, buildNpEmbed, NP_SLASH_TITLE_KEY } = require("../../utils/nowPlayingUi");
+const { buildCoverImageDescription } = require("../../utils/botText");
 const {
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
@@ -31,7 +32,7 @@ module.exports = {
 
         var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
             name: "coverimage.jpg",
-            description: `Song Cover Image for ${queue.currentTrack.title}`,
+            description: buildCoverImageDescription(interaction, "song", queue.currentTrack.title),
         });
 
         const finalComponents = buildNpComponents(interaction);

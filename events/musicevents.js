@@ -7,7 +7,7 @@ const {
     buildPlayerStartNpEmbed,
     buildPlayerStartNpRefreshEditOptions,
 } = require("../utils/nowPlayingUi");
-const { translate } = require("../utils/botText");
+const { buildCoverImageDescription, translate } = require("../utils/botText");
 
 const player = useMainPlayer();
 
@@ -25,7 +25,8 @@ player.events.on("playerStart", async (queue) => {
 
     let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, {
         name: "coverimage.jpg",
-        description: `Song Cover Image for ${queue.currentTrack.title}`,
+        description: buildCoverImageDescription(queue, "song", queue.currentTrack.title),
+        source: queue,
     });
 
     const npembed = buildPlayerStartNpEmbed(queue);

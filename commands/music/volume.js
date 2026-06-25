@@ -2,7 +2,7 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -55,7 +55,7 @@ module.exports = {
             interaction.reply({ embeds: [volumeembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "adjusting the volume" }),
+                content: translateGenericAction(interaction, "adjustingVolume"),
                 ephemeral: true,
             });
         }

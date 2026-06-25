@@ -2,7 +2,12 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    buildRequestedByFooter,
+    buildTrackLinkText,
+    translate,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -42,7 +47,7 @@ module.exports = {
             .setDescription(
                 translate(interaction, "remove.description", {
                     title: queuedTracks[removeamount - 1].title,
-                    link: buildTrackLinkText(queuedTracks[removeamount - 1]),
+                    link: buildTrackLinkText(queuedTracks[removeamount - 1], interaction),
                 }),
             )
             .setTimestamp()
@@ -53,7 +58,7 @@ module.exports = {
             interaction.reply({ embeds: [removeembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "removing the song from the queue" }),
+                content: translateGenericAction(interaction, "removingSong"),
                 ephemeral: true,
             });
         }

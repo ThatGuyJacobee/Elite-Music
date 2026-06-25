@@ -2,7 +2,7 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueueRepeatMode } = require("discord-player");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -79,7 +79,7 @@ module.exports = {
             interaction.reply({ embeds: [loopembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "switching loop mode" }),
+                content: translateGenericAction(interaction, "switchingLoopMode"),
                 ephemeral: true,
             });
         }

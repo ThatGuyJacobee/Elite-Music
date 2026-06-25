@@ -10,7 +10,7 @@ const {
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -164,7 +164,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                     embedFields.push({
                         name: translate(interaction, "search.mediaResult", {
                             index: count,
-                            type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                            type: translateSearchMediaType(interaction, item.type),
                             suffix: durationLabel,
                         }),
                         value: songTitle,
@@ -202,12 +202,12 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         name: playlistResultSuffix
                             ? translate(interaction, "search.mediaResult", {
                                   index: count,
-                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  type: translateSearchMediaType(interaction, item.type),
                                   suffix: playlistResultSuffix,
                               })
                             : translate(interaction, "search.mediaResultNoSuffix", {
                                   index: count,
-                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  type: translateSearchMediaType(interaction, item.type),
                               }),
                         value: `${item.title}`,
                     });
@@ -245,12 +245,12 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
                         name: albumResultSuffix
                             ? translate(interaction, "search.mediaResult", {
                                   index: count,
-                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  type: translateSearchMediaType(interaction, item.type),
                                   suffix: albumResultSuffix,
                               })
                             : translate(interaction, "search.mediaResultNoSuffix", {
                                   index: count,
-                                  type: item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                                  type: translateSearchMediaType(interaction, item.type),
                               }),
                         value: albumTitle,
                     });

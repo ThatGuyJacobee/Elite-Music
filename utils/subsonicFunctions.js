@@ -13,7 +13,7 @@ const {
     streamUrl: subsonicStreamUrl,
     coverArtUrl: subsonicCoverArtUrl,
 } = require("./subsonicAPI");
-const { buildRequestedByFooter, translate } = require("./botText");
+const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
 
 const player = useMainPlayer();
 
@@ -359,10 +359,11 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
             ? subsonicCoverArtUrl(client.config, defaultCoverArtId, 500)
             : interaction.client.user.displayAvatarURL();
 
-    const coverKind = itemMetadata.type === "playlist" ? "Playlist" : itemMetadata.type === "album" ? "Album" : "Song";
+    const coverKind = itemMetadata.type === "playlist" ? "playlist" : itemMetadata.type === "album" ? "album" : "song";
     const imageAttachment = await buildImageAttachment(coverUrl, {
         name: "coverimage.jpg",
-        description: `${coverKind} Cover Image for ${itemMetadata.title}`,
+        description: buildCoverImageDescription(interaction, coverKind, itemMetadata.title),
+        source: interaction,
     });
 
     const embed = new EmbedBuilder()

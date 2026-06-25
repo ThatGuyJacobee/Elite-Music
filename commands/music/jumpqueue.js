@@ -2,7 +2,12 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    buildRequestedByFooter,
+    buildTrackLinkText,
+    translate,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -41,7 +46,7 @@ module.exports = {
             .setDescription(
                 translate(interaction, "np.skipDescription", {
                     title: queuedTracks[trackIndex].title,
-                    link: buildTrackLinkText(queuedTracks[trackIndex]),
+                    link: buildTrackLinkText(queuedTracks[trackIndex], interaction),
                 }),
             )
             .setTimestamp()
@@ -53,7 +58,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "jumping queue" }),
+                content: translateGenericAction(interaction, "jumpingQueue"),
                 ephemeral: true,
             });
         }

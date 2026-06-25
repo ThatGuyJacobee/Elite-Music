@@ -2,7 +2,12 @@ require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const {
+    buildRequestedByFooter,
+    translate,
+    translateAudioFilter,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -71,7 +76,11 @@ module.exports = {
                 interaction.reply({ content: translate(interaction, "audiofilter.noneEnabled") });
             } else {
                 interaction.reply({
-                    content: translate(interaction, "audiofilter.listEnabled", { filters: curFilters.join("\n- ") }),
+                    content: translate(interaction, "audiofilter.listEnabled", {
+                        filters: curFilters
+                            .map((enabledFilter) => translateAudioFilter(interaction, enabledFilter))
+                            .join("\n- "),
+                    }),
                 });
             }
         } else {
@@ -83,7 +92,7 @@ module.exports = {
                 .setTitle(translate(interaction, "audiofilter.toggleTitle"))
                 .setDescription(
                     translate(interaction, "audiofilter.toggleDescription", {
-                        filter,
+                        filter: translateAudioFilter(interaction, filter),
                         state: translate(
                             interaction,
                             isEnabled ? "audiofilter.stateDisabled" : "audiofilter.stateEnabled",
@@ -98,7 +107,7 @@ module.exports = {
                 interaction.reply({ embeds: [filterembed] });
             } catch (err) {
                 interaction.reply({
-                    content: translate(interaction, "errors.genericAction", { action: "adjusting the audio filter" }),
+                    content: translateGenericAction(interaction, "adjustingAudioFilter"),
                     ephemeral: true,
                 });
             }

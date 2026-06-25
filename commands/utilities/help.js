@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ButtonBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
 const fs = require("fs");
-const { getDisplayName, translate } = require("../../utils/botText");
+const { getDisplayName, translate, translateHelpCategory } = require("../../utils/botText");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("help").setDescription("Get information about my commands!"),
@@ -60,15 +60,17 @@ module.exports = {
             .setFooter({ text: translate(interaction, "help.footer", { user: getDisplayName(interaction.user) }) });
 
         dirs.forEach((dir, index) => {
+            const categoryLabel = translateHelpCategory(interaction, dir);
+
             embed.addFields({
-                name: `${emojis[dir] || ""} ${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
-                value: `${description[dir] ? description[dir] : translate(interaction, "help.categoryFallback", { category: dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase() })}`,
+                name: `${emojis[dir] || ""} ${categoryLabel}`,
+                value: `${description[dir] ? description[dir] : translate(interaction, "help.categoryFallback", { category: categoryLabel })}`,
             });
 
             menuoptions.push({
-                label: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                label: categoryLabel,
                 description: translate(interaction, "help.categoryPageDescription", {
-                    category: dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase(),
+                    category: categoryLabel,
                 }),
                 emoji: `${emojis[dir] || ""}`,
                 value: `${page++}`,

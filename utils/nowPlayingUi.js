@@ -35,14 +35,14 @@ function buildNpEmbed(queue, { title, footerMember = null }) {
 
     const bot = queue.guild.client;
     const progress = queue.node.createProgressBar();
-    const createBar = progress.replace(/ 0:00/g, " ◉ LIVE");
+    const createBar = progress.replace(/ 0:00/g, translate(queue, "np.liveIndicator"));
 
     const npembed = new EmbedBuilder()
         .setAuthor({ name: bot.user.tag, iconURL: bot.user.displayAvatarURL() })
         .setThumbnail("attachment://coverimage.jpg")
         .setColor(client.config.embedColour)
         .setTitle(translate(queue, title))
-        .setDescription(`${currentTrack.title} ${buildTrackLinkText(currentTrack)}\n${createBar}`)
+        .setDescription(`${currentTrack.title} ${buildTrackLinkText(currentTrack, queue)}\n${createBar}`)
         .setTimestamp();
 
     if (footerMember != null) {

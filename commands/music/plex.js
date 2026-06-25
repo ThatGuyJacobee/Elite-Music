@@ -9,7 +9,7 @@ const {
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
 } = require("discord.js");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -148,7 +148,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                     embedFields.push({
                         name: translate(interaction, "search.mediaResult", {
                             index: resultIndex,
-                            type: song.type.charAt(0).toUpperCase() + song.type.slice(1),
+                            type: translateSearchMediaType(interaction, song.type),
                             suffix: durationLabel,
                         }),
                         value: songTitle,
@@ -186,12 +186,12 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                         name: playlistResultSuffix
                             ? translate(interaction, "search.mediaResult", {
                                   index: resultIndex,
-                                  type: playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1),
+                                  type: translateSearchMediaType(interaction, playlist.type),
                                   suffix: playlistResultSuffix,
                               })
                             : translate(interaction, "search.mediaResultNoSuffix", {
                                   index: resultIndex,
-                                  type: playlist.type.charAt(0).toUpperCase() + playlist.type.slice(1),
+                                  type: translateSearchMediaType(interaction, playlist.type),
                               }),
                         value: `${playlist.title}`,
                     });
@@ -223,12 +223,12 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
                         name: albumSongCountLabel
                             ? translate(interaction, "search.mediaResult", {
                                   index: resultIndex,
-                                  type: album.type.charAt(0).toUpperCase() + album.type.slice(1),
+                                  type: translateSearchMediaType(interaction, album.type),
                                   suffix: albumSongCountLabel,
                               })
                             : translate(interaction, "search.mediaResultNoSuffix", {
                                   index: resultIndex,
-                                  type: album.type.charAt(0).toUpperCase() + album.type.slice(1),
+                                  type: translateSearchMediaType(interaction, album.type),
                               }),
                         value: albumTitle,
                     });

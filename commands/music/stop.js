@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { clearNpControlMessages } = require("../../utils/npControlMessages");
-const { buildRequestedByFooter, translate } = require("../../utils/botText");
+const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -37,7 +37,7 @@ module.exports = {
             interaction.reply({ embeds: [stopembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "stopping the queue" }),
+                content: translateGenericAction(interaction, "stoppingQueue"),
                 ephemeral: true,
             });
         }

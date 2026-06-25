@@ -3,7 +3,12 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const ms = require("ms");
-const { buildRequestedByFooter, buildTrackLinkText, translate } = require("../../utils/botText");
+const {
+    buildRequestedByFooter,
+    buildTrackLinkText,
+    translate,
+    translateGenericAction,
+} = require("../../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -41,7 +46,7 @@ module.exports = {
                 translate(interaction, "seek.description", {
                     time: ms(removeamount),
                     title: queue.currentTrack.title,
-                    link: buildTrackLinkText(queue.currentTrack),
+                    link: buildTrackLinkText(queue.currentTrack, interaction),
                 }),
             )
             .setTimestamp()
@@ -52,7 +57,7 @@ module.exports = {
             interaction.reply({ embeds: [seekembed] });
         } catch (err) {
             interaction.reply({
-                content: translate(interaction, "errors.genericAction", { action: "seeking the song" }),
+                content: translateGenericAction(interaction, "seekingSong"),
                 ephemeral: true,
             });
         }

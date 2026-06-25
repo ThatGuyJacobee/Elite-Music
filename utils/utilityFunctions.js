@@ -48,6 +48,8 @@ function redactConfigSecrets(config, options = {}) {
     return out;
 }
 
+const { translate } = require("./botText");
+
 async function getImageSize(url) {
     let request = await fetch(url);
     if (request.ok) {
@@ -55,7 +57,10 @@ async function getImageSize(url) {
     }
 }
 
-async function buildImageAttachment(url, metadata) {
+async function buildImageAttachment(url, metadata = {}) {
+    const { source, ...attachmentMeta } = metadata;
+    const placeholderDescription = source ? translate(source, "common.coverImageNotFound") : "Cover Image Not Found";
+
     try {
         // Get the file size of the thumbnail
         let imgSize = await getImageSize(url);
@@ -63,12 +68,12 @@ async function buildImageAttachment(url, metadata) {
         // If the item's thumbnail is >10mb, instead display a placeholder image
         let coverImage;
         if (imgSize < 10000000) {
-            coverImage = new AttachmentBuilder(url, metadata);
+            coverImage = new AttachmentBuilder(url, attachmentMeta);
         } else {
             let defaultImg = fs.readFileSync("./assets/default-thumbnail.png");
             coverImage = new AttachmentBuilder(defaultImg, {
-                name: "coverimage.jpg",
-                description: `Cover Image Not Found`,
+                name: attachmentMeta.name ?? "coverimage.jpg",
+                description: placeholderDescription,
             });
         }
 
@@ -76,7 +81,10 @@ async function buildImageAttachment(url, metadata) {
     } catch (error) {
         console.log("Error building image attachment from source. Defaulting to placeholder image...");
         let defaultImg = fs.readFileSync("./assets/default-thumbnail.png");
-        return new AttachmentBuilder(defaultImg, { name: "coverimage.jpg", description: `Cover Image Not Found` });
+        return new AttachmentBuilder(defaultImg, {
+            name: attachmentMeta.name ?? "coverimage.jpg",
+            description: placeholderDescription,
+        });
     }
 }
 

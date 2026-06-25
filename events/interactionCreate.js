@@ -12,7 +12,15 @@ const {
 const { useMainPlayer, QueueRepeatMode } = require("discord-player");
 const { clearNpControlMessages } = require("../utils/npControlMessages");
 const fs = require("fs");
-const { buildRequestedByFooter, buildTrackLinkText, getDisplayName, translate } = require("../utils/botText");
+const {
+    buildRequestedByFooter,
+    buildCoverImageDescription,
+    buildTrackLinkText,
+    getDisplayName,
+    translate,
+    translateGenericAction,
+    translateHelpCategory,
+} = require("../utils/botText");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -160,10 +168,12 @@ module.exports = {
                     });
 
                 dirs.forEach((dir, index) => {
+                    const categoryLabel = translateHelpCategory(interaction, dir);
+
                     menuoptions.push({
-                        label: `${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                        label: categoryLabel,
                         description: translate(interaction, "help.categoryPageDescription", {
-                            category: dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase(),
+                            category: categoryLabel,
                         }),
                         emoji: `${emojis[dir] || ""}`,
                         value: `${page++}`,
@@ -174,9 +184,7 @@ module.exports = {
                     embed.fields = [];
                     embed.setTitle(
                         translate(interaction, "help.categoryTitle", {
-                            category:
-                                categories[value][0].name.charAt(0).toUpperCase() +
-                                categories[value][0].name.slice(1).toLowerCase(),
+                            category: translateHelpCategory(interaction, categories[value][0].name),
                             emoji: emojis[categories[value][0].name] ? emojis[categories[value][0].name] : "",
                         }),
                     );
@@ -221,13 +229,15 @@ module.exports = {
                     embed.setTitle(translate(interaction, "help.title"));
 
                     dirs.forEach((dir) => {
+                        const categoryLabel = translateHelpCategory(interaction, dir);
+
                         embed.addFields({
-                            name: `${emojis[dir] || ""} ${dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase()}`,
+                            name: `${emojis[dir] || ""} ${categoryLabel}`,
                             value: `${
                                 description[dir]
                                     ? description[dir]
                                     : translate(interaction, "help.categoryFallback", {
-                                          category: dir.charAt(0).toUpperCase() + dir.slice(1).toLowerCase(),
+                                          category: categoryLabel,
                                       })
                             }`,
                             inline: false,
@@ -305,7 +315,7 @@ module.exports = {
                     )
                     .addField(
                         translate(interaction, "queue.nowPlayingField"),
-                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic)}`,
+                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic, interaction)}`,
                     )
                     .setTimestamp()
                     .setFooter(buildRequestedByFooter(interaction, interaction.user));
@@ -363,7 +373,7 @@ module.exports = {
                     )
                     .addField(
                         translate(interaction, "queue.nowPlayingField"),
-                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic)}`,
+                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic, interaction)}`,
                     )
                     .setTimestamp()
                     .setFooter(buildRequestedByFooter(interaction, interaction.user));
@@ -420,7 +430,7 @@ module.exports = {
                     .setDescription(
                         translate(interaction, "np.backDescription", {
                             title: previousTracks[0].title,
-                            link: buildTrackLinkText(previousTracks[0]),
+                            link: buildTrackLinkText(previousTracks[0], interaction),
                         }),
                     )
                     .setTimestamp()
@@ -431,9 +441,7 @@ module.exports = {
                     interaction.reply({ embeds: [backembed] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", {
-                            action: "returning to the previous song",
-                        }),
+                        content: translateGenericAction(interaction, "returningToPreviousSong"),
                         ephemeral: true,
                     });
                 }
@@ -451,7 +459,7 @@ module.exports = {
 
                 var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
                     name: "coverimage.jpg",
-                    description: `Song Cover Image for ${queue.currentTrack.title}`,
+                    description: buildCoverImageDescription(interaction, "song", queue.currentTrack.title),
                 });
                 const pauseembed = new EmbedBuilder()
                     .setAuthor({
@@ -465,7 +473,7 @@ module.exports = {
                         translate(interaction, "np.pauseDescription", {
                             state: translate(interaction, checkPause ? "np.pauseStateResumed" : "np.pauseStatePaused"),
                             title: queue.currentTrack.title,
-                            link: buildTrackLinkText(queue.currentTrack),
+                            link: buildTrackLinkText(queue.currentTrack, interaction),
                         }),
                     )
                     .setTimestamp()
@@ -476,9 +484,7 @@ module.exports = {
                     interaction.reply({ embeds: [pauseembed], files: [coverImage] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", {
-                            action: checkPause ? "resuming" : "pausing",
-                        }),
+                        content: translateGenericAction(interaction, checkPause ? "resuming" : "pausing"),
                         ephemeral: true,
                     });
                 }
@@ -498,7 +504,7 @@ module.exports = {
 
                 var coverImage = new AttachmentBuilder(queuedTracks[0].thumbnail, {
                     name: "coverimage.jpg",
-                    description: `Song Cover Image for ${queuedTracks[0].title}`,
+                    description: buildCoverImageDescription(interaction, "song", queuedTracks[0].title),
                 });
                 const skipembed = new EmbedBuilder()
                     .setAuthor({
@@ -511,7 +517,7 @@ module.exports = {
                     .setDescription(
                         translate(interaction, "np.skipDescription", {
                             title: queuedTracks[0].title,
-                            link: buildTrackLinkText(queuedTracks[0]),
+                            link: buildTrackLinkText(queuedTracks[0], interaction),
                         }),
                     )
                     .setTimestamp()
@@ -522,7 +528,7 @@ module.exports = {
                     interaction.reply({ embeds: [skipembed], files: [coverImage] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", { action: "skipping the song" }),
+                        content: translateGenericAction(interaction, "skippingSong"),
                         ephemeral: true,
                     });
                 }
@@ -559,7 +565,7 @@ module.exports = {
                     interaction.reply({ embeds: [clearembed] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", { action: "clearing the queue" }),
+                        content: translateGenericAction(interaction, "clearingQueue"),
                         ephemeral: true,
                     });
                 }
@@ -623,9 +629,7 @@ module.exports = {
                         } catch (err) {
                             console.log(err);
                             submit.reply({
-                                content: translate(interaction, "errors.genericAction", {
-                                    action: "adjusting the volume",
-                                }),
+                                content: translateGenericAction(interaction, "adjustingVolume"),
                                 ephemeral: true,
                             });
                         }
@@ -710,7 +714,7 @@ module.exports = {
                     interaction.reply({ embeds: [shuffleembed] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", { action: "shuffling the queue" }),
+                        content: translateGenericAction(interaction, "shufflingQueue"),
                         ephemeral: true,
                     });
                 }
@@ -743,7 +747,7 @@ module.exports = {
                     interaction.reply({ embeds: [stopembed] });
                 } catch (err) {
                     interaction.reply({
-                        content: translate(interaction, "errors.genericAction", { action: "stopping the queue" }),
+                        content: translateGenericAction(interaction, "stoppingQueue"),
                         ephemeral: true,
                     });
                 }
