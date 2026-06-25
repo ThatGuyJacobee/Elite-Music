@@ -159,6 +159,10 @@ Elite Music includes built-in localisation. Translation strings are stored as JS
 
 You can configure this in your `.env` file using `PRIMARY_LOCALE` (defaults to `en-GB`) and `LOCALE_MODE` (defaults to `user`). Set `LOCALE_MODE` to `user` if you want the bot to localise based on each user's Discord client language where possible, falling back to your primary locale when needed. Set it to `global` if you want the bot to always use your primary locale instead.
 
+## Contributions 🤝
+
+Contributions are always welcome, whether that's new features, translations, or everything in between. These will be reviewed when possible but may not always be merged if outside of the scope of the project or other reasons.
+
 ## Support 🆘
 
 Need help setting up the bot or experiencing some trouble? Feel free to head over to the [Support Discord server](https://discord.elite-bot.com) and let me know!
