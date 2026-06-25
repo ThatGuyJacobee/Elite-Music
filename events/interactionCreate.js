@@ -44,26 +44,28 @@ module.exports = {
 
             const curtime = Date.now();
             const timestamp = cooldowns.get(command.data.name);
-            const coolamount = command.cooldown * 1000;
+            const coolamount = Number(command.cooldown) > 0 ? command.cooldown * 1000 : 0;
 
-            if (timestamp.has(interaction.user.id)) {
-                const expiration = timestamp.get(interaction.user.id) + coolamount;
+            if (coolamount > 0) {
+                if (timestamp.has(interaction.user.id)) {
+                    const expiration = timestamp.get(interaction.user.id) + coolamount;
 
-                if (curtime < expiration) {
-                    const timeleft = (expiration - curtime) / 1000;
+                    if (curtime < expiration) {
+                        const timeleft = (expiration - curtime) / 1000;
 
-                    return interaction.reply({
-                        content: translate(interaction, "errors.cooldown", {
-                            seconds: Math.ceil(timeleft),
-                            command: command.data.name,
-                        }),
-                        ephemeral: true,
-                    });
+                        return interaction.reply({
+                            content: translate(interaction, "errors.cooldown", {
+                                seconds: Math.ceil(timeleft),
+                                command: command.data.name,
+                            }),
+                            ephemeral: true,
+                        });
+                    }
                 }
-            }
 
-            timestamp.set(interaction.user.id, curtime);
-            setTimeout(() => timestamp.delete(interaction.user.id), coolamount);
+                timestamp.set(interaction.user.id, curtime);
+                setTimeout(() => timestamp.delete(interaction.user.id), coolamount);
+            }
 
             try {
                 await command.execute(interaction);

@@ -32,7 +32,7 @@ module.exports = {
                 },
                 {
                     name: translate(interaction, "botinfo.dependencies"),
-                    value: `Discord.js: ${packageJSON.dependencies["discord.js"]}\nDiscord-Player: ${packageJSON.dependencies["discord-player"]}\nYtdl-Core: ${packageJSON.dependencies["@distube/ytdl-core"]}`,
+                    value: `Discord.js: ${packageJSON.dependencies["discord.js"]}\nDiscord-Player: ${packageJSON.dependencies["discord-player"]}\nYouTubei: ${packageJSON.dependencies["discord-player-youtubei"]}`,
                     inline: true,
                 },
                 {
