@@ -151,6 +151,7 @@
         "play": "Place a song into the queue!",
         "playnext": "Add a song to the top of the queue!",
         "plex": {
+            "description": "Play music from your Plex library into the queue!",
             "play": "Play a track, playlist, or album from your Plex server.",
             "search": "Search tracks, playlists, and albums.",
             "playnext": "Add a track, playlist, or album from your Plex server to play next."
@@ -163,11 +164,51 @@
         "skip": "Skip the current song!",
         "stop": "Stops any music playing!",
         "subsonic": {
+            "description": "Play music from your Subsonic library into the queue!",
             "play": "Play a track, playlist, or album from your Subsonic server.",
             "search": "Search tracks, playlists, and albums.",
             "playnext": "Add a track, playlist, or album from your Subsonic server to play next."
         },
         "volume": "Check or set the current music volume!"
+    },
+    "slash": {
+        "options": {
+            "music": {
+                "play": "Either the name, URL or playlist URL you want to play.",
+                "playnext": "Either the name or URL of the song you want to play (no playlists).",
+                "library": "Search query for a track, playlist, or album."
+            },
+            "filter": "What filter do you want to toggle?",
+            "query": "Enter the name of the song.",
+            "song": {
+                "remove": "What #no. song should be removed from the queue?",
+                "jumpqueue": "What #no. song should be moved to the front of the queue (use /queue to check)?"
+            },
+            "time": "The time to seek the current song (Examples: 1s, 1m, 1h)!",
+            "amount": "What do you want to set the volume as (0-100)?",
+            "loopmode": "What loop mode do you want to activate?",
+            "scope": "Pick what type of content to search for.",
+            "order": "Order used when adding multiple tracks from a playlist or album."
+        },
+        "choices": {
+            "scope": {
+                "auto": "Auto (all types)",
+                "track": "Tracks only",
+                "playlist": "Playlists only",
+                "album": "Albums only"
+            },
+            "order": {
+                "sequential": "Sequential",
+                "shuffle": "Shuffle",
+                "reverse": "Reverse"
+            },
+            "loopmode": {
+                "0": "Off",
+                "1": "Track",
+                "2": "Queue",
+                "3": "Autoplay"
+            }
+        }
     },
     "help": {
         "title": "Elite Music - Help Menu",
