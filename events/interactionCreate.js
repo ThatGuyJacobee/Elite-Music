@@ -28,6 +28,7 @@ const {
     getQueueEmptyResponse,
     getQueueNotPlayingResponse,
 } = require("../utils/interactionGuards");
+const { skipCurrentTrack } = require("../utils/sharedFunctions");
 const cooldowns = new Map();
 
 module.exports = {
@@ -450,39 +451,7 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
-                const queuedTracks = queue.tracks.toArray();
-                if (!queuedTracks[0]) return interaction.reply(getQueueEmptyResponse(interaction));
-
-                var coverImage = new AttachmentBuilder(queuedTracks[0].thumbnail, {
-                    name: "coverimage.jpg",
-                    description: buildCoverImageDescription(interaction, "song", queuedTracks[0].title),
-                });
-                const skipembed = new EmbedBuilder()
-                    .setAuthor({
-                        name: interaction.client.user.tag,
-                        iconURL: interaction.client.user.displayAvatarURL(),
-                    })
-                    .setThumbnail("attachment://coverimage.jpg")
-                    .setColor(client.config.embedColour)
-                    .setTitle(translate(interaction, "np.skipTitle"))
-                    .setDescription(
-                        translate(interaction, "np.skipDescription", {
-                            title: queuedTracks[0].title,
-                            link: buildTrackLinkText(queuedTracks[0], interaction),
-                        }),
-                    )
-                    .setTimestamp()
-                    .setFooter(buildRequestedByFooter(interaction, interaction.user));
-
-                try {
-                    queue.node.skip();
-                    interaction.reply({ embeds: [skipembed], files: [coverImage] });
-                } catch (err) {
-                    interaction.reply({
-                        content: translateGenericAction(interaction, "skippingSong"),
-                        ephemeral: true,
-                    });
-                }
+                return interaction.reply(skipCurrentTrack(interaction, queue, interaction.user));
             }
 
             if (interaction.customId == "np-clear") {

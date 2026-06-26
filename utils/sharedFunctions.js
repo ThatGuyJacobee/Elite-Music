@@ -1,14 +1,16 @@
 require("dotenv").config();
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
+const { getQueueEmptyResponse } = require("./interactionGuards");
 const {
     buildRequestedByFooter,
     buildCoverImageDescription,
     buildTrackLinkText,
     buildUrlLinkText,
     translate,
+    translateGenericAction,
 } = require("./botText");
 
 //Core music functions
@@ -164,8 +166,43 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     }
 }
 
+function skipCurrentTrack(interaction, queue, user) {
+    const nextTrack = queue.tracks.toArray()[0];
+    if (!nextTrack) return getQueueEmptyResponse(interaction);
+
+    const coverImage = new AttachmentBuilder(nextTrack.thumbnail, {
+        name: "coverimage.jpg",
+        description: buildCoverImageDescription(interaction, "song", nextTrack.title),
+    });
+
+    const skipembed = new EmbedBuilder()
+        .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
+        .setThumbnail("attachment://coverimage.jpg")
+        .setColor(client.config.embedColour)
+        .setTitle(translate(interaction, "np.skipTitle"))
+        .setDescription(
+            translate(interaction, "np.skipDescription", {
+                title: nextTrack.title,
+                link: buildTrackLinkText(nextTrack, interaction),
+            }),
+        )
+        .setTimestamp()
+        .setFooter(buildRequestedByFooter(interaction, user));
+
+    try {
+        queue.node.skip();
+        return { embeds: [skipembed], files: [coverImage] };
+    } catch (err) {
+        return {
+            content: translateGenericAction(interaction, "skippingSong"),
+            ephemeral: true,
+        };
+    }
+}
+
 module.exports = {
     getQueue,
     addTracks,
     queuePlay,
+    skipCurrentTrack,
 };
