@@ -37,8 +37,12 @@ module.exports = {
 
         const finalComponents = buildNpComponents(interaction);
 
-        await interaction.reply({ embeds: [npembed], components: finalComponents, files: [coverImage] });
-        const msg = await interaction.fetchReply();
-        registerNpControlMessage(queue, msg.id);
+        const response = await interaction.reply({
+            embeds: [npembed],
+            components: finalComponents,
+            files: [coverImage],
+            withResponse: true,
+        });
+        registerNpControlMessage(queue, response.resource.message.id);
     },
 };

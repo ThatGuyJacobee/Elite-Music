@@ -79,6 +79,6 @@ module.exports = {
             ),
         ];
 
-        interaction.reply({ embeds: [embed], components: finalComponents, fetchReply: true });
+        interaction.reply({ embeds: [embed], components: finalComponents });
     },
 };

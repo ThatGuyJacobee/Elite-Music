@@ -170,7 +170,7 @@ module.exports = {
                         } else {
                             getchannel.messages
                                 .fetch(interaction.message.id)
-                                .then(async (msg) => await msg.edit({ embeds: [embed], fetchReply: true }));
+                                .then(async (msg) => await msg.edit({ embeds: [embed] }));
                         }
                     } else {
                         console.log(`Cannot find the channel! (ID: ${guildid})`);
@@ -217,7 +217,7 @@ module.exports = {
                         } else {
                             getchannel.messages
                                 .fetch(interaction.message.id)
-                                .then(async (msg) => await msg.edit({ embeds: [embed], fetchReply: true }));
+                                .then(async (msg) => await msg.edit({ embeds: [embed] }));
                         }
                     } else {
                         console.log(`Cannot find the channel! (ID: ${guildid})`);
