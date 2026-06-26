@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Toistotila päällä 🔁",
-        "autoplayTitle": "Toistotila päällä 🤖",
         "trackMode": "**nykyinen kappale**",
         "queueMode": "**koko jono**",
-        "autoplayMode": "**autoplay-musiikki**",
         "offMode": "**pois päältä**",
         "description": "Toistotila on asetettu tilaan {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Pois",
                 "1": "Kappale",
-                "2": "Jono",
-                "3": "Autoplay"
+                "2": "Jono"
             }
         }
     },

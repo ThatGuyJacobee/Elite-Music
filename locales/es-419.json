@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Modo repetición activado 🔁",
-        "autoplayTitle": "Modo repetición activado 🤖",
         "trackMode": "la **pista actual**",
         "queueMode": "la **cola completa**",
-        "autoplayMode": "**música automática**",
         "offMode": "**desactivado**",
         "description": "¡El modo de repetición se ha establecido en {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Desactivado",
                 "1": "Pista",
-                "2": "Cola",
-                "3": "Autoplay"
+                "2": "Cola"
             }
         }
     },

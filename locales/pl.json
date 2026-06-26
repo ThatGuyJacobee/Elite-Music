@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Tryb zapętlenia włączony 🔁",
-        "autoplayTitle": "Tryb zapętlenia włączony 🤖",
         "trackMode": "**bieżący utwór**",
         "queueMode": "**cała kolejka**",
-        "autoplayMode": "**autoodtwarzanie muzyki**",
         "offMode": "**wyłączone**",
         "description": "Tryb zapętlenia został ustawiony na {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Wyłączone",
                 "1": "Utwór",
-                "2": "Kolejka",
-                "3": "Autoplay"
+                "2": "Kolejka"
             }
         }
     },

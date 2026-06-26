@@ -32,10 +32,6 @@ module.exports = {
                         name: "Queue",
                         value: QueueRepeatMode.QUEUE,
                     },
-                    {
-                        name: "Autoplay",
-                        value: QueueRepeatMode.AUTOPLAY,
-                    },
                 ),
         ),
     async execute(interaction) {
@@ -53,17 +49,13 @@ module.exports = {
                 ? "np.loopTrackTitle"
                 : loopmode === QueueRepeatMode.QUEUE
                   ? "loop.queueTitle"
-                  : loopmode === QueueRepeatMode.AUTOPLAY
-                    ? "loop.autoplayTitle"
-                    : "np.loopOffTitle";
+                  : "np.loopOffTitle";
         const modeKey =
             loopmode === QueueRepeatMode.TRACK
                 ? "loop.trackMode"
                 : loopmode === QueueRepeatMode.QUEUE
                   ? "loop.queueMode"
-                  : loopmode === QueueRepeatMode.AUTOPLAY
-                    ? "loop.autoplayMode"
-                    : "loop.offMode";
+                  : "loop.offMode";
 
         const loopembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })

@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "循环模式已开启 🔁",
-        "autoplayTitle": "循环模式已开启 🤖",
         "trackMode": "**当前歌曲**",
         "queueMode": "**整个队列**",
-        "autoplayMode": "**自动播放**",
         "offMode": "**关闭**",
         "description": "循环模式已设置为 {mode}！"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "关闭",
                 "1": "单曲",
-                "2": "队列",
-                "3": "自动播放"
+                "2": "队列"
             }
         }
     },

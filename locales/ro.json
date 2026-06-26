@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Modul repetare activat 🔁",
-        "autoplayTitle": "Modul repetare activat 🤖",
         "trackMode": "**piesa curentă**",
         "queueMode": "**întreaga coadă**",
-        "autoplayMode": "**muzică autoplay**",
         "offMode": "**oprit**",
         "description": "Modul de repetare a fost setat la {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Oprit",
                 "1": "Piesă",
-                "2": "Coadă",
-                "3": "Autoplay"
+                "2": "Coadă"
             }
         }
     },

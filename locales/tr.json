@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Döngü modu açık 🔁",
-        "autoplayTitle": "Döngü modu açık 🤖",
         "trackMode": "**mevcut parça**",
         "queueMode": "**tüm kuyruk**",
-        "autoplayMode": "**otomatik çalma**",
         "offMode": "**kapalı**",
         "description": "Döngü modu {mode} olarak ayarlandı!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Kapalı",
                 "1": "Parça",
-                "2": "Kuyruk",
-                "3": "Otomatik Çalma"
+                "2": "Kuyruk"
             }
         }
     },

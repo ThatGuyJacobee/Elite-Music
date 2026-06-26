@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Gjenta-modus på 🔁",
-        "autoplayTitle": "Gjenta-modus på 🤖",
         "trackMode": "det **nåværende sporet**",
         "queueMode": "**hele køen**",
-        "autoplayMode": "**autospill musikk**",
         "offMode": "**av**",
         "description": "Gjenta-modus er satt til {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Av",
                 "1": "Spor",
-                "2": "Kø",
-                "3": "Autospill"
+                "2": "Kø"
             }
         }
     },

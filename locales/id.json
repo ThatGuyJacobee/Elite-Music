@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Mode loop aktif 🔁",
-        "autoplayTitle": "Mode loop aktif 🤖",
         "trackMode": "**trek saat ini**",
         "queueMode": "**seluruh antrean**",
-        "autoplayMode": "**musik autoplay**",
         "offMode": "**mati**",
         "description": "Mode loop telah disetel ke {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Mati",
                 "1": "Trek",
-                "2": "Antrean",
-                "3": "Autoplay"
+                "2": "Antrean"
             }
         }
     },

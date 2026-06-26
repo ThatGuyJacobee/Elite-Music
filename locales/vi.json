@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Chế độ lặp bật 🔁",
-        "autoplayTitle": "Chế độ lặp bật 🤖",
         "trackMode": "**bài hát hiện tại**",
         "queueMode": "**toàn bộ hàng đợi**",
-        "autoplayMode": "**tự động phát nhạc**",
         "offMode": "**tắt**",
         "description": "Chế độ lặp đã được đặt thành {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Off",
                 "1": "Track",
-                "2": "Queue",
-                "3": "Autoplay"
+                "2": "Queue"
             }
         }
     },

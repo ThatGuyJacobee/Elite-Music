@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Gentagelsestilstand til 🔁",
-        "autoplayTitle": "Gentagelsestilstand til 🤖",
         "trackMode": "det **aktuelle nummer**",
         "queueMode": "hele **køen**",
-        "autoplayMode": "**autoplay-musik**",
         "offMode": "**fra**",
         "description": "Gentagelsestilstanden er sat til {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Fra",
                 "1": "Nummer",
-                "2": "Kø",
-                "3": "Autoplay"
+                "2": "Kø"
             }
         }
     },

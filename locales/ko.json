@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "반복 모드 켜짐 🔁",
-        "autoplayTitle": "반복 모드 켜짐 🤖",
         "trackMode": "**현재 곡**",
         "queueMode": "**전체 대기열**",
-        "autoplayMode": "**자동 재생**",
         "offMode": "**끔**",
         "description": "반복 모드가 {mode}(으)로 설정되었습니다!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "끔",
                 "1": "곡",
-                "2": "대기열",
-                "3": "자동 재생"
+                "2": "대기열"
             }
         }
     },

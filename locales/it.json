@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Modalità loop attiva 🔁",
-        "autoplayTitle": "Modalità loop attiva 🤖",
         "trackMode": "la **traccia attuale**",
         "queueMode": "l'**intera coda**",
-        "autoplayMode": "**musica in autoplay**",
         "offMode": "**disattivato**",
         "description": "La modalità loop è stata impostata su {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Off",
                 "1": "Traccia",
-                "2": "Coda",
-                "3": "Autoplay"
+                "2": "Coda"
             }
         }
     },

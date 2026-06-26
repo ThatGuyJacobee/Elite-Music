@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Mode répétition activé 🔁",
-        "autoplayTitle": "Mode répétition activé 🤖",
         "trackMode": "la **piste actuelle**",
         "queueMode": "la **file d'attente entière**",
-        "autoplayMode": "**lecture automatique**",
         "offMode": "**désactivé**",
         "description": "Le mode de répétition a été défini sur {mode} !"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Désactivé",
                 "1": "Piste",
-                "2": "File d'attente",
-                "3": "Lecture automatique"
+                "2": "File d'attente"
             }
         }
     },

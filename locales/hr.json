@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Način petlje uključen 🔁",
-        "autoplayTitle": "Način petlje uključen 🤖",
         "trackMode": "**trenutačnu pjesmu**",
         "queueMode": "**cijeli red čekanja**",
-        "autoplayMode": "**automatsku reprodukciju**",
         "offMode": "**isključeno**",
         "description": "Način petlje postavljen je na {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Off",
                 "1": "Track",
-                "2": "Queue",
-                "3": "Autoplay"
+                "2": "Queue"
             }
         }
     },

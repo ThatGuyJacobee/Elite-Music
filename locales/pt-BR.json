@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Modo de repetição ativado 🔁",
-        "autoplayTitle": "Modo de repetição ativado 🤖",
         "trackMode": "a **faixa atual**",
         "queueMode": "a **fila inteira**",
-        "autoplayMode": "**música em autoplay**",
         "offMode": "**desligado**",
         "description": "O modo de repetição foi definido para {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Desligado",
                 "1": "Faixa",
-                "2": "Fila",
-                "3": "Autoplay"
+                "2": "Fila"
             }
         }
     },

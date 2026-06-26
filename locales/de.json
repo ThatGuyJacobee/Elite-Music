@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Wiederholungsmodus an 🔁",
-        "autoplayTitle": "Wiederholungsmodus an 🤖",
         "trackMode": "der **aktuelle Titel**",
         "queueMode": "die **gesamte Warteschlange**",
-        "autoplayMode": "**Autoplay-Musik**",
         "offMode": "**aus**",
         "description": "Der Wiederholungsmodus wurde auf {mode} gesetzt!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Aus",
                 "1": "Titel",
-                "2": "Warteschlange",
-                "3": "Autoplay"
+                "2": "Warteschlange"
             }
         }
     },

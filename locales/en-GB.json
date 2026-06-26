@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Loop mode on 🔁",
-        "autoplayTitle": "Loop mode on 🤖",
         "trackMode": "the **current track**",
         "queueMode": "the **entire queue**",
-        "autoplayMode": "**autoplay music**",
         "offMode": "**off**",
         "description": "The loop mode has been set to {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Off",
                 "1": "Track",
-                "2": "Queue",
-                "3": "Autoplay"
+                "2": "Queue"
             }
         }
     },

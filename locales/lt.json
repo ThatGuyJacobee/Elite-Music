@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Kartojimo režimas įjungtas 🔁",
-        "autoplayTitle": "Kartojimo režimas įjungtas 🤖",
         "trackMode": "dabartinį **kūrinį**",
         "queueMode": "**visą eilę**",
-        "autoplayMode": "**automatinį grojimą**",
         "offMode": "**išjungta**",
         "description": "Kartojimo režimas nustatytas į {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Išjungta",
                 "1": "Kūrinys",
-                "2": "Eilė",
-                "3": "Automatinis grojimas"
+                "2": "Eilė"
             }
         }
     },

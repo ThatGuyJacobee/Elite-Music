@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Ismétlési mód bekapcsolva 🔁",
-        "autoplayTitle": "Ismétlési mód bekapcsolva 🤖",
         "trackMode": "a **jelenlegi szám**",
         "queueMode": "a **teljes sor**",
-        "autoplayMode": "**automatikus lejátszás**",
         "offMode": "**ki**",
         "description": "Az ismétlési mód beállítva: {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Ki",
                 "1": "Szám",
-                "2": "Sor",
-                "3": "Autoplay"
+                "2": "Sor"
             }
         }
     },

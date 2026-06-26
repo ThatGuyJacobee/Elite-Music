@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Režim opakování zapnut 🔁",
-        "autoplayTitle": "Režim opakování zapnut 🤖",
         "trackMode": "**aktuální skladbu**",
         "queueMode": "**celou frontu**",
-        "autoplayMode": "**automatické přehrávání**",
         "offMode": "**vypnuto**",
         "description": "Režim opakování byl nastaven na {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Off",
                 "1": "Track",
-                "2": "Queue",
-                "3": "Autoplay"
+                "2": "Queue"
             }
         }
     },

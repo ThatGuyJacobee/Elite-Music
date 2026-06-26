@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Loop-läge på 🔁",
-        "autoplayTitle": "Loop-läge på 🤖",
         "trackMode": "det **nuvarande spåret**",
         "queueMode": "**hela kön**",
-        "autoplayMode": "**autouppspelning av musik**",
         "offMode": "**av**",
         "description": "Loop-läget har satts till {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Av",
                 "1": "Spår",
-                "2": "Kö",
-                "3": "Autouppspelning"
+                "2": "Kö"
             }
         }
     },

@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "Herhalingsmodus aan 🔁",
-        "autoplayTitle": "Herhalingsmodus aan 🤖",
         "trackMode": "het **huidige nummer**",
         "queueMode": "de **hele wachtrij**",
-        "autoplayMode": "**autoplay muziek**",
         "offMode": "**uit**",
         "description": "De herhalingsmodus is ingesteld op {mode}!"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "Uit",
                 "1": "Track",
-                "2": "Wachtrij",
-                "3": "Autoplay"
+                "2": "Wachtrij"
             }
         }
     },

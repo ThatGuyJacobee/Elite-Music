@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "循環模式已開啟 🔁",
-        "autoplayTitle": "循環模式已開啟 🤖",
         "trackMode": "**目前曲目**",
         "queueMode": "**整個佇列**",
-        "autoplayMode": "**自動播放音樂**",
         "offMode": "**關閉**",
         "description": "循環模式已設定為 {mode}！"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "關閉",
                 "1": "曲目",
-                "2": "佇列",
-                "3": "自動播放"
+                "2": "佇列"
             }
         }
     },

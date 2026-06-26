@@ -79,10 +79,8 @@
     },
     "loop": {
         "queueTitle": "ループモード ON 🔁",
-        "autoplayTitle": "ループモード ON 🤖",
         "trackMode": "**現在の曲**",
         "queueMode": "**キュー全体**",
-        "autoplayMode": "**自動再生**",
         "offMode": "**オフ**",
         "description": "ループモードが {mode} に設定されました！"
     },
@@ -205,8 +203,7 @@
             "loopmode": {
                 "0": "オフ",
                 "1": "曲",
-                "2": "キュー",
-                "3": "自動再生"
+                "2": "キュー"
             }
         }
     },
