@@ -8,6 +8,7 @@ const {
     TextInputBuilder,
     ModalBuilder,
     AttachmentBuilder,
+    MessageFlags,
 } = require("discord.js");
 const { useMainPlayer, QueueRepeatMode } = require("discord-player");
 const { clearNpControlMessages } = require("../utils/npControlMessages");
@@ -59,7 +60,7 @@ module.exports = {
                                 seconds: Math.ceil(timeleft),
                                 command: command.data.name,
                             }),
-                            ephemeral: true,
+                            flags: MessageFlags.Ephemeral,
                         });
                     }
                 }
@@ -75,7 +76,7 @@ module.exports = {
 
                 await interaction.reply({
                     content: translate(interaction, "errors.commandExecution"),
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
         } else if (interaction.isStringSelectMenu()) {
@@ -163,7 +164,7 @@ module.exports = {
                             console.log(`No Perms! (ID: ${guildid})`);
                             interaction.reply({
                                 content: translate(interaction, "errors.noViewChannel"),
-                                ephemeral: true,
+                                flags: MessageFlags.Ephemeral,
                             });
                             return;
                         } else {
@@ -210,7 +211,7 @@ module.exports = {
                             console.log(`No Perms! (ID: ${guildid})`);
                             interaction.reply({
                                 content: translate(interaction, "errors.noViewChannel"),
-                                ephemeral: true,
+                                flags: MessageFlags.Ephemeral,
                             });
                             return;
                         } else {
@@ -245,7 +246,7 @@ module.exports = {
                 if (global.page == 1)
                     return interaction.reply({
                         content: translate(interaction, "queue.alreadyFirstPage"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 global.page = page - 1;
                 interaction.message.delete();
@@ -303,7 +304,7 @@ module.exports = {
                 if (queue.tracks.length <= pageEnd)
                     return interaction.reply({
                         content: translate(interaction, "queue.alreadyLastPage"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 global.page = page + 1;
                 pageStart = 10 * (page - 1);
@@ -368,7 +369,7 @@ module.exports = {
                 if (!previousTracks[0])
                     return interaction.reply({
                         content: translate(interaction, "np.backMissing"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
 
                 const backembed = new EmbedBuilder()
@@ -394,7 +395,7 @@ module.exports = {
                 } catch (err) {
                     interaction.reply({
                         content: translateGenericAction(interaction, "returningToPreviousSong"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 }
             }
@@ -437,7 +438,7 @@ module.exports = {
                 } catch (err) {
                     interaction.reply({
                         content: translateGenericAction(interaction, checkPause ? "resuming" : "pausing"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 }
             }
@@ -465,7 +466,7 @@ module.exports = {
                 if (queue.tracks.size == 0)
                     return interaction.reply({
                         content: translate(interaction, "queue.emptyQueued"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
 
                 const clearembed = new EmbedBuilder()
@@ -486,7 +487,7 @@ module.exports = {
                 } catch (err) {
                     interaction.reply({
                         content: translateGenericAction(interaction, "clearingQueue"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 }
             }
@@ -528,7 +529,7 @@ module.exports = {
                         if (userResponse < 0 || userResponse > 100 || isNaN(userResponse))
                             return submit.reply({
                                 content: translate(submit, "np.volumeModalInvalid"),
-                                ephemeral: true,
+                                flags: MessageFlags.Ephemeral,
                             });
 
                         const volumeembed = new EmbedBuilder()
@@ -550,7 +551,7 @@ module.exports = {
                             console.log(err);
                             submit.reply({
                                 content: translateGenericAction(interaction, "adjustingVolume"),
-                                ephemeral: true,
+                                flags: MessageFlags.Ephemeral,
                             });
                         }
                     })
@@ -614,7 +615,7 @@ module.exports = {
                 if (queue.tracks.size == 0)
                     return interaction.reply({
                         content: translate(interaction, "queue.emptyQueued"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
 
                 const shuffleembed = new EmbedBuilder()
@@ -635,7 +636,7 @@ module.exports = {
                 } catch (err) {
                     interaction.reply({
                         content: translateGenericAction(interaction, "shufflingQueue"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 }
             }
@@ -668,7 +669,7 @@ module.exports = {
                 } catch (err) {
                     interaction.reply({
                         content: translateGenericAction(interaction, "stoppingQueue"),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 }
             }

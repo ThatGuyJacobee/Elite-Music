@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const {
     buildRequestedByFooter,
@@ -59,7 +59,7 @@ module.exports = {
             console.log(err);
             interaction.reply({
                 content: translateGenericAction(interaction, "jumpingQueue"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

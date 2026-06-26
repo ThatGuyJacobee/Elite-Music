@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
@@ -33,12 +33,12 @@ module.exports = {
         if (vol == null)
             return interaction.reply({
                 content: translate(interaction, "volume.current", { volume: queue.node.volume }),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         if (vol > 100 || vol < 0)
             return interaction.reply({
                 content: translate(interaction, "volume.invalidRange"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
 
         const volumeembed = new EmbedBuilder()
@@ -56,7 +56,7 @@ module.exports = {
         } catch (err) {
             interaction.reply({
                 content: translateGenericAction(interaction, "adjustingVolume"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const {
     buildRequestedByFooter,
@@ -30,7 +30,7 @@ module.exports = {
         if (!previousTracks[0])
             return interaction.reply({
                 content: translate(interaction, "np.backMissing"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
 
         const backembed = new EmbedBuilder()
@@ -53,7 +53,7 @@ module.exports = {
         } catch (err) {
             interaction.reply({
                 content: translateGenericAction(interaction, "returningToPreviousSong"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

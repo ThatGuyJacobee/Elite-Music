@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const {
     buildRequestedByFooter,
@@ -32,7 +32,7 @@ module.exports = {
         if (!previousTracks[0])
             return interaction.reply({
                 content: translate(interaction, "np.backMissing"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
 
         const historyembed = new EmbedBuilder()

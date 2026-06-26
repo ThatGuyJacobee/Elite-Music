@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
@@ -36,7 +36,7 @@ module.exports = {
         } catch (err) {
             interaction.reply({
                 content: translateGenericAction(interaction, "clearingQueue"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

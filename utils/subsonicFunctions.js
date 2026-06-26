@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
@@ -159,7 +159,7 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
         if (!songFromApi) {
             return interaction.followUp({
                 content: translate(interaction, "errors.subsonicSongMetadata"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -208,7 +208,7 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 }
@@ -225,7 +225,7 @@ async function subsonicAddPlaylist(
     if (!playlistEntries.length) {
         return interaction.followUp({
             content: translate(interaction, "errors.emptyPlaylist"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -263,7 +263,7 @@ async function subsonicAddPlaylist(
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -285,7 +285,7 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
     if (!sortedEntries.length) {
         return interaction.followUp({
             content: translate(interaction, "errors.emptyAlbum"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -326,7 +326,7 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -350,7 +350,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         queue.delete();
         return interaction.followUp({
             content: translate(interaction, "errors.joinVoiceChannel"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -383,7 +383,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         } catch (err) {
             return interaction.followUp({
                 content: translate(interaction, "errors.playback"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 

@@ -3,7 +3,7 @@ const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
-const { getQueueEmptyResponse } = require("./interactionGuards");
+const { getQueueEmptyResponse, ephemeralReply } = require("./interactionGuards");
 const {
     buildRequestedByFooter,
     buildCoverImageDescription,
@@ -61,10 +61,11 @@ async function addTracks(interaction, nextSong, search, responseType) {
         await queuePlay(interaction, responseType, search, nextSong);
     } catch (err) {
         console.log(err);
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            ephemeral: true,
-        });
+        return interaction.followUp(
+            ephemeralReply({
+                content: translate(interaction, "errors.addTracks"),
+            }),
+        );
     }
 }
 
@@ -76,10 +77,11 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     } catch (err) {
         await clearNpControlMessages(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoice"),
-            ephemeral: true,
-        });
+        return interaction.followUp(
+            ephemeralReply({
+                content: translate(interaction, "errors.joinVoice"),
+            }),
+        );
     }
 
     // Handle the song/playlist cover image
@@ -105,10 +107,11 @@ async function queuePlay(interaction, responseType, search, nextSong) {
             await queue.node.play(queue.tracks[0]);
             queue.node.setVolume(client.config.defaultVolume);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                ephemeral: true,
-            });
+            return interaction.followUp(
+                ephemeralReply({
+                    content: translate(interaction, "errors.playback"),
+                }),
+            );
         }
 
         if (search.playlist) {
@@ -193,10 +196,9 @@ function skipCurrentTrack(interaction, queue, user) {
         queue.node.skip();
         return { embeds: [skipembed], files: [coverImage] };
     } catch (err) {
-        return {
+        return ephemeralReply({
             content: translateGenericAction(interaction, "skippingSong"),
-            ephemeral: true,
-        };
+        });
     }
 }
 

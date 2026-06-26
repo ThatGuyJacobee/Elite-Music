@@ -7,6 +7,7 @@ const {
     EmbedBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
+    MessageFlags,
 } = require("discord.js");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { buildRequestedByFooter, translate } = require("../../utils/botText");
@@ -40,14 +41,14 @@ module.exports = {
             if (!search || search.tracks.length == 0 || !search.tracks) {
                 return interaction.reply({
                     content: translate(interaction, "errors.failedToFindSongQuery"),
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
 
             if (search.playlist) {
                 return interaction.reply({
                     content: translate(interaction, "errors.playNextPlaylistOnly"),
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
 
@@ -112,7 +113,7 @@ module.exports = {
             console.log(err);
             return interaction.followUp({
                 content: translate(interaction, "errors.playRequest"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

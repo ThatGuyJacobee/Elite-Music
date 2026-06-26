@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const {
     buildRequestedByFooter,
@@ -36,7 +36,7 @@ module.exports = {
         if (!queuedTracks[removeamount - 1])
             return interaction.reply({
                 content: translate(interaction, "remove.invalidPosition"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
 
         const removeembed = new EmbedBuilder()
@@ -59,7 +59,7 @@ module.exports = {
         } catch (err) {
             interaction.reply({
                 content: translateGenericAction(interaction, "removingSong"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

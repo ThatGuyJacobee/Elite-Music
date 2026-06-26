@@ -9,6 +9,7 @@ const {
     EmbedBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
+    MessageFlags,
 } = require("discord.js");
 const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
@@ -133,7 +134,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         if (!results || (!results.songs?.length && !results.playlists?.length && !results.albums?.length)) {
             return interaction.reply({
                 content: translate(interaction, "errors.failedToFindMediaQuery"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -313,10 +314,10 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         const errorMessage = translate(interaction, "errors.playRequest");
         if (interaction.deferred) {
             return interaction
-                .followUp({ content: errorMessage, ephemeral: true })
+                .followUp({ content: errorMessage, flags: MessageFlags.Ephemeral })
                 .catch(() => interaction.editReply({ content: errorMessage }));
         }
-        return interaction.reply({ content: errorMessage, ephemeral: true });
+        return interaction.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
     }
 }
 

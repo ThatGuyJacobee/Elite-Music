@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
@@ -115,7 +115,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 }
@@ -164,7 +164,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
         } catch (err) {
             return interaction.followUp({
                 content: translate(interaction, "errors.addTracks"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     }
@@ -238,7 +238,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         queue.delete();
         return interaction.followUp({
             content: translate(interaction, "errors.joinVoice"),
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
         });
     }
 
@@ -269,7 +269,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         } catch (err) {
             return interaction.followUp({
                 content: translate(interaction, "errors.playback"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 

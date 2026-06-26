@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { lyricsExtractor } = require("@discord-player/extractor");
 const { buildRequestedByFooter, translate } = require("../../utils/botText");
@@ -24,7 +24,7 @@ module.exports = {
         if (!findLyrics)
             return interaction.reply({
                 content: translate(interaction, "lyrics.notFound"),
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         let splicedLyrics = findLyrics.lyrics.slice(0, 4000);
 

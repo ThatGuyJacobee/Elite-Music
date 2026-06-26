@@ -1,23 +1,34 @@
+const { MessageFlags } = require("discord.js");
 const { translate } = require("./botText");
+
+function ephemeralReply(options) {
+    if (typeof options === "string") {
+        return { content: options, flags: MessageFlags.Ephemeral };
+    }
+
+    return { ...options, flags: MessageFlags.Ephemeral };
+}
 
 async function ensureDjAccess(interaction) {
     if (!client.config.enableDjMode) return true;
     if (interaction.member.roles.cache.has(client.config.djRole)) return true;
 
-    await interaction.reply({
-        content: translate(interaction, "guards.djMode", { role: `<@&${client.config.djRole}>` }),
-        ephemeral: true,
-    });
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "guards.djMode", { role: `<@&${client.config.djRole}>` }),
+        }),
+    );
     return false;
 }
 
 async function ensureInVoiceChannel(interaction) {
     if (interaction.member.voice.channelId) return true;
 
-    await interaction.reply({
-        content: translate(interaction, "guards.notInVoice"),
-        ephemeral: true,
-    });
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "guards.notInVoice"),
+        }),
+    );
     return false;
 }
 
@@ -29,44 +40,45 @@ async function ensureSameVoiceChannel(interaction) {
         return true;
     }
 
-    await interaction.reply({
-        content: translate(interaction, "guards.notInBotVoice"),
-        ephemeral: true,
-    });
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "guards.notInBotVoice"),
+        }),
+    );
     return false;
 }
 
 function getQueueNotPlayingResponse(interaction) {
-    return {
+    return ephemeralReply({
         content: translate(interaction, "queue.nothingPlaying"),
-        ephemeral: true,
-    };
+    });
 }
 
 function getQueueEmptyResponse(interaction) {
-    return {
+    return ephemeralReply({
         content: translate(interaction, "queue.empty"),
-        ephemeral: true,
-    };
+    });
 }
 
 async function ensurePlexEnabled(interaction) {
     if (client.config.enablePlex) return true;
 
-    await interaction.reply({
-        content: translate(interaction, "feature.plexDisabled"),
-        ephemeral: true,
-    });
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "feature.plexDisabled"),
+        }),
+    );
     return false;
 }
 
 async function ensureSubsonicEnabled(interaction) {
     if (client.config.enableSubsonic) return true;
 
-    await interaction.reply({
-        content: translate(interaction, "feature.subsonicDisabled"),
-        ephemeral: true,
-    });
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "feature.subsonicDisabled"),
+        }),
+    );
     return false;
 }
 
@@ -76,6 +88,7 @@ module.exports = {
     ensureSameVoiceChannel,
     ensurePlexEnabled,
     ensureSubsonicEnabled,
+    ephemeralReply,
     getQueueEmptyResponse,
     getQueueNotPlayingResponse,
 };
