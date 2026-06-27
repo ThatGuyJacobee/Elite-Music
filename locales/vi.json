@@ -21,6 +21,8 @@
         "noViewChannel": "Lỗi: Tôi không có quyền xem kênh này và không thể chỉnh sửa tin nhắn trợ giúp!",
         "extractFailed": "❌ | Không thể trích xuất bài hát sau... chuyển sang bài tiếp theo!",
         "subsonicSongMetadata": "❌ | Không thể tải siêu dữ liệu bài hát từ Subsonic.",
+        "jellyfinSongMetadata": "❌ | Không thể tải siêu dữ liệu bài hát từ Jellyfin.",
+        "multipleTrackMatches": "❌ | Nhiều bài hát khớp với tìm kiếm của bạn. Hãy dùng truy vấn cụ thể hơn.",
         "emptyPlaylist": "❌ | Playlist này không có bài hát nào có thể phát.",
         "emptyAlbum": "❌ | Album này không có bài hát nào có thể phát.",
         "failedToFindMediaQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát, playlist hoặc album với truy vấn đã yêu cầu.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
-        "subsonicDisabled": "❌ | Subsonic hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường."
+        "subsonicDisabled": "❌ | Subsonic hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
+        "jellyfinDisabled": "❌ | Jellyfin hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường."
     },
     "guards": {
         "djMode": "❌ | Chế độ DJ đang hoạt động! Bạn phải có vai trò DJ {role} để sử dụng bất kỳ lệnh nhạc nào!",
@@ -167,6 +170,12 @@
             "search": "Tìm kiếm bài hát, playlist và album.",
             "playnext": "Thêm bài hát, playlist hoặc album từ Subsonic để phát tiếp theo."
         },
+        "jellyfin": {
+            "description": "Phát nhạc từ thư viện Jellyfin của bạn vào hàng đợi!",
+            "play": "Phát bài hát, playlist hoặc album từ máy chủ Jellyfin của bạn.",
+            "search": "Tìm kiếm bài hát, playlist và album.",
+            "playnext": "Thêm bài hát, playlist hoặc album từ Jellyfin để phát tiếp theo."
+        },
         "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Thời lượng - {duration}",
         "plexTitle": "Kết quả tìm kiếm Plex 🎵",
         "subsonicTitle": "Kết quả tìm kiếm Subsonic 🎵",
+        "jellyfinTitle": "Kết quả tìm kiếm Jellyfin 🎵",
         "multipleResults": "Tìm thấy nhiều kết quả khớp với truy vấn tìm kiếm, chọn một từ menu bên dưới.",
         "singleResult": "Chọn mục bên dưới để thêm vào hàng đợi.",
         "songResult": "[{index}] Kết quả bài hát ({duration})",

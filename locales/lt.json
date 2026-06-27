@@ -21,6 +21,8 @@
         "noViewChannel": "Klaida: neturiu leidimo matyti šio kanalo ir negaliu redaguoti pagalbos žinutės!",
         "extractFailed": "❌ | Nepavyko išgauti šios dainos... pereinama prie kitos!",
         "subsonicSongMetadata": "❌ | Nepavyko įkelti dainos metaduomenų iš Subsonic.",
+        "jellyfinSongMetadata": "❌ | Nepavyko įkelti dainos metaduomenų iš Jellyfin.",
+        "multipleTrackMatches": "❌ | Kelios dainos atitinka jūsų paiešką. Naudokite tikslesnę užklausą.",
         "emptyPlaylist": "❌ | Šiame grojaraštyje nėra leidžiamų kūrinių.",
         "emptyAlbum": "❌ | Šiame albume nėra leidžiamų kūrinių.",
         "failedToFindMediaQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos, grojaraščio arba albumo pagal užklausą.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
-        "subsonicDisabled": "❌ | Subsonic šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile."
+        "subsonicDisabled": "❌ | Subsonic šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
+        "jellyfinDisabled": "❌ | Jellyfin šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile."
     },
     "guards": {
         "djMode": "❌ | DJ režimas aktyvus! Norėdami naudoti muzikos komandas, turite turėti DJ rolę {role}!",
@@ -167,6 +170,12 @@
             "search": "Ieškoti kūrinių, grojaraščių ir albumų.",
             "playnext": "Pridėti kūrinį, grojaraštį arba albumą iš Subsonic serverio groti kitą."
         },
+        "jellyfin": {
+            "description": "Leisti muziką iš Jellyfin bibliotekos į eilę!",
+            "play": "Leisti kūrinį, grojaraštį arba albumą iš Jellyfin serverio.",
+            "search": "Ieškoti kūrinių, grojaraščių ir albumų.",
+            "playnext": "Pridėti kūrinį, grojaraštį arba albumą iš Jellyfin serverio groti kitą."
+        },
         "volume": "Patikrinti arba nustatyti dabartinį muzikos garsumą!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Trukmė - {duration}",
         "plexTitle": "Plex paieškos rezultatai 🎵",
         "subsonicTitle": "Subsonic paieškos rezultatai 🎵",
+        "jellyfinTitle": "Jellyfin paieškos rezultatai 🎵",
         "multipleResults": "Rasta keletas rezultatų, atitinkančių pateiktą užklausą, pasirinkite vieną iš meniu apačioje.",
         "singleResult": "Pasirinkite elementą apačioje, kad pridėtumėte jį į eilę.",
         "songResult": "[{index}] Dainos rezultatas ({duration})",

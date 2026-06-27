@@ -21,6 +21,8 @@
         "noViewChannel": "Hata: Bu kanalı görüntüleme iznim yok ve yardım mesajını düzenleyemiyorum!",
         "extractFailed": "❌ | Aşağıdaki şarkı çıkarılamadı... bir sonrakine geçiliyor!",
         "subsonicSongMetadata": "❌ | Subsonic'ten şarkı meta verileri yüklenemedi.",
+        "jellyfinSongMetadata": "❌ | Jellyfin'ten şarkı meta verileri yüklenemedi.",
+        "multipleTrackMatches": "❌ | Aramanızla eşleşen birden fazla parça var. Daha spesifik bir sorgu kullanın.",
         "emptyPlaylist": "❌ | Bu çalma listesinde çalınabilir parça yok.",
         "emptyAlbum": "❌ | Bu albümde çalınabilir parça yok.",
         "failedToFindMediaQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı, çalma listesi veya albüm bulunamadı.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
-        "subsonicDisabled": "❌ | Subsonic şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin."
+        "subsonicDisabled": "❌ | Subsonic şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
+        "jellyfinDisabled": "❌ | Jellyfin şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin."
     },
     "guards": {
         "djMode": "❌ | DJ Modu aktif! Müzik komutlarını kullanmak için DJ rolüne {role} sahip olmalısınız!",
@@ -167,6 +170,12 @@
             "search": "Parça, çalma listesi ve albüm ara.",
             "playnext": "Subsonic sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
         },
+        "jellyfin": {
+            "description": "Jellyfin kütüphanenizden müziği kuyruğa ekle!",
+            "play": "Jellyfin sunucunuzdan bir parça, çalma listesi veya albüm çal.",
+            "search": "Parça, çalma listesi ve albüm ara.",
+            "playnext": "Jellyfin sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
+        },
         "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Süre - {duration}",
         "plexTitle": "Plex Arama Sonuçları 🎵",
         "subsonicTitle": "Subsonic Arama Sonuçları 🎵",
+        "jellyfinTitle": "Jellyfin Arama Sonuçları 🎵",
         "multipleResults": "Verilen arama sorgusuyla eşleşen birden fazla sonuç bulundu, aşağıdaki menüden birini seçin.",
         "singleResult": "Kuyruğa eklemek için aşağıdan bir öğe seçin.",
         "songResult": "[{index}] Şarkı Sonucu ({duration})",

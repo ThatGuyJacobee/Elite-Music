@@ -21,6 +21,8 @@
         "noViewChannel": "Hiba: Nincs jogosultságom megtekinteni ezt a csatornát, és nem tudom szerkeszteni a súgó üzenetet!",
         "extractFailed": "❌ | A következő dal kinyerése sikertelen... ugrás a következőre!",
         "subsonicSongMetadata": "❌ | A dal metaadatainak betöltése a Subsonicból sikertelen.",
+        "jellyfinSongMetadata": "❌ | A dal metaadatainak betöltése a Jellyfinból sikertelen.",
+        "multipleTrackMatches": "❌ | Több szám egyezett a kereséseddel. Használj pontosabb lekérdezést.",
         "emptyPlaylist": "❌ | Ez a lejátszási lista nem tartalmaz lejátszható számokat.",
         "emptyAlbum": "❌ | Ez az album nem tartalmaz lejátszható számokat.",
         "failedToFindMediaQuery": "❌ | Hoppá... valami hiba történt, a dal, lejátszási lista vagy album nem található a megadott lekérdezéssel.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | A Plex jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
-        "subsonicDisabled": "❌ | A Subsonic jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban."
+        "subsonicDisabled": "❌ | A Subsonic jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
+        "jellyfinDisabled": "❌ | A Jellyfin jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban."
     },
     "guards": {
         "djMode": "❌ | A DJ mód aktív! A(z) {role} DJ szerepkörrel kell rendelkezned a zenei parancsok használatához!",
@@ -167,6 +170,12 @@
             "search": "Számok, lejátszási listák és albumok keresése.",
             "playnext": "Szám, lejátszási lista vagy album hozzáadása a Subsonic szerveredről következőként."
         },
+        "jellyfin": {
+            "description": "Zene lejátszása a Jellyfin könyvtáradból a sorba!",
+            "play": "Szám, lejátszási lista vagy album lejátszása a Jellyfin szerveredről.",
+            "search": "Számok, lejátszási listák és albumok keresése.",
+            "playnext": "Szám, lejátszási lista vagy album hozzáadása a Jellyfin szerveredről következőként."
+        },
         "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Időtartam - {duration}",
         "plexTitle": "Plex keresési eredmények 🎵",
         "subsonicTitle": "Subsonic keresési eredmények 🎵",
+        "jellyfinTitle": "Jellyfin keresési eredmények 🎵",
         "multipleResults": "Több találat illeszkedik a keresési lekérdezéshez, válassz egyet az alábbi menüből.",
         "singleResult": "Válassz egy elemet alul a sorhoz adáshoz.",
         "songResult": "[{index}] Dal eredmény ({duration})",

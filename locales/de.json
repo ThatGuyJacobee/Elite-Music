@@ -21,6 +21,8 @@
         "noViewChannel": "Fehler: Ich habe keine Berechtigung, diesen Kanal zu sehen, und kann die Hilfenachricht nicht bearbeiten!",
         "extractFailed": "❌ | Der folgende Song konnte nicht extrahiert werden... weiter zum nächsten!",
         "subsonicSongMetadata": "❌ | Song-Metadaten von Subsonic konnten nicht geladen werden.",
+        "jellyfinSongMetadata": "❌ | Song-Metadaten von Jellyfin konnten nicht geladen werden.",
+        "multipleTrackMatches": "❌ | Mehrere Titel entsprechen deiner Suche. Bitte verwende eine spezifischere Anfrage.",
         "emptyPlaylist": "❌ | Diese Playlist enthält keine abspielbaren Titel.",
         "emptyAlbum": "❌ | Dieses Album enthält keine abspielbaren Titel.",
         "failedToFindMediaQuery": "❌ | Ups... etwas ist schiefgelaufen, der Song, die Playlist oder das Album mit der gesuchten Anfrage konnte nicht gefunden werden.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
-        "subsonicDisabled": "❌ | Subsonic ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren."
+        "subsonicDisabled": "❌ | Subsonic ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
+        "jellyfinDisabled": "❌ | Jellyfin ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren."
     },
     "guards": {
         "djMode": "❌ | DJ-Modus ist aktiv! Du musst die DJ-Rolle {role} haben, um Musikbefehle zu verwenden!",
@@ -167,6 +170,12 @@
             "search": "Titel, Playlists und Alben suchen.",
             "playnext": "Titel, Playlist oder Album vom Subsonic-Server als Nächstes abspielen."
         },
+        "jellyfin": {
+            "description": "Musik aus deiner Jellyfin-Bibliothek in die Warteschlange abspielen!",
+            "play": "Einen Titel, eine Playlist oder ein Album von deinem Jellyfin-Server abspielen.",
+            "search": "Titel, Playlists und Alben suchen.",
+            "playnext": "Titel, Playlist oder Album vom Jellyfin-Server als Nächstes abspielen."
+        },
         "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Dauer - {duration}",
         "plexTitle": "Plex-Suchergebnisse 🎵",
         "subsonicTitle": "Subsonic-Suchergebnisse 🎵",
+        "jellyfinTitle": "Jellyfin-Suchergebnisse 🎵",
         "multipleResults": "Mehrere Treffer, die zur angegebenen Suche passen, wurden gefunden. Wähle einen aus dem Menü unten aus.",
         "singleResult": "Wähle unten ein Element aus, um es zur Warteschlange hinzuzufügen.",
         "songResult": "[{index}] Song-Ergebnis ({duration})",

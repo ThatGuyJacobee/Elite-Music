@@ -21,6 +21,8 @@
         "noViewChannel": "오류: 이 채널을 볼 권한이 없어 도움말 메시지를 수정할 수 없습니다!",
         "extractFailed": "❌ | 다음 곡 추출에 실패했습니다... 다음 곡으로 건너뜁니다!",
         "subsonicSongMetadata": "❌ | Subsonic에서 곡 메타데이터를 불러올 수 없습니다.",
+        "jellyfinSongMetadata": "❌ | Jellyfin에서 곡 메타데이터를 불러올 수 없습니다.",
+        "multipleTrackMatches": "❌ | 검색과 일치하는 곡이 여러 개입니다. 더 구체적인 검색어를 사용하세요.",
         "emptyPlaylist": "❌ | 이 재생목록에 재생 가능한 곡이 없습니다.",
         "emptyAlbum": "❌ | 이 앨범에 재생 가능한 곡이 없습니다.",
         "failedToFindMediaQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡, 재생목록 또는 앨범을 찾을 수 없습니다.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex가 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
-        "subsonicDisabled": "❌ | Subsonic이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요."
+        "subsonicDisabled": "❌ | Subsonic이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
+        "jellyfinDisabled": "❌ | Jellyfin이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요."
     },
     "guards": {
         "djMode": "❌ | DJ 모드가 활성화되어 있습니다! 음악 명령을 사용하려면 DJ 역할 {role}이 필요합니다!",
@@ -167,6 +170,12 @@
             "search": "곡, 재생목록 및 앨범을 검색합니다.",
             "playnext": "Subsonic 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
         },
+        "jellyfin": {
+            "description": "Jellyfin 라이브러리에서 음악을 대기열에 재생합니다!",
+            "play": "Jellyfin 서버에서 곡, 재생목록 또는 앨범을 재생합니다.",
+            "search": "곡, 재생목록 및 앨범을 검색합니다.",
+            "playnext": "Jellyfin 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
+        },
         "volume": "현재 음악 볼륨을 확인하거나 설정합니다!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "재생 시간 - {duration}",
         "plexTitle": "Plex 검색 결과 🎵",
         "subsonicTitle": "Subsonic 검색 결과 🎵",
+        "jellyfinTitle": "Jellyfin 검색 결과 🎵",
         "multipleResults": "제공된 검색어와 일치하는 여러 결과를 찾았습니다. 아래 메뉴에서 선택하세요.",
         "singleResult": "아래에서 항목을 선택하여 대기열에 추가하세요.",
         "songResult": "[{index}] 곡 결과 ({duration})",

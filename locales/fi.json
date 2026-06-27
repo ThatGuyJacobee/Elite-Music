@@ -21,6 +21,8 @@
         "noViewChannel": "Virhe: Minulla ei ole oikeutta nähdä tätä kanavaa enkä voi muokata ohjeviestiä!",
         "extractFailed": "❌ | Seuraavan kappaleen purkaminen epäonnistui... siirrytään seuraavaan!",
         "subsonicSongMetadata": "❌ | Kappaleen metatietoja ei voitu ladata Subsonicista.",
+        "jellyfinSongMetadata": "❌ | Kappaleen metatietoja ei voitu ladata Jellyfinista.",
+        "multipleTrackMatches": "❌ | Useita kappaleita vastasi hakua. Käytä tarkempaa hakua.",
         "emptyPlaylist": "❌ | Tällä soittolistalla ei ole toistettavia kappaleita.",
         "emptyAlbum": "❌ | Tällä albumilla ei ole toistettavia kappaleita.",
         "failedToFindMediaQuery": "❌ | Hups... jotain meni pieleen, kappaletta, soittolistaa tai albumia ei löytynyt haulla.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
-        "subsonicDisabled": "❌ | Subsonic on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa."
+        "subsonicDisabled": "❌ | Subsonic on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
+        "jellyfinDisabled": "❌ | Jellyfin on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa."
     },
     "guards": {
         "djMode": "❌ | DJ-tila on aktiivinen! Sinulla on oltava DJ-rooli {role} käyttääksesi musiikkikomentoja!",
@@ -167,6 +170,12 @@
             "search": "Hae kappaleita, soittolistoja ja albumeita.",
             "playnext": "Lisää kappale, soittolista tai albumi Subsonic-palvelimeltasi seuraavaksi soitettavaksi."
         },
+        "jellyfin": {
+            "description": "Toista musiikkia Jellyfin-kirjastostasi jonoon!",
+            "play": "Toista kappale, soittolista tai albumi Jellyfin-palvelimeltasi.",
+            "search": "Hae kappaleita, soittolistoja ja albumeita.",
+            "playnext": "Lisää kappale, soittolista tai albumi Jellyfin-palvelimeltasi seuraavaksi soitettavaksi."
+        },
         "volume": "Tarkista tai aseta nykyinen musiikin äänenvoimakkuus!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Kesto - {duration}",
         "plexTitle": "Plex-hakutulokset 🎵",
         "subsonicTitle": "Subsonic-hakutulokset 🎵",
+        "jellyfinTitle": "Jellyfin-hakutulokset 🎵",
         "multipleResults": "Löytyi useita tuloksia haulla, valitse yksi alla olevasta valikosta.",
         "singleResult": "Valitse alla oleva kohde lisätäksesi sen jonoon.",
         "songResult": "[{index}] Kappaleen tulos ({duration})",

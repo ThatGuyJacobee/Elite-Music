@@ -21,6 +21,8 @@
         "noViewChannel": "错误：我没有查看此频道的权限，无法编辑帮助消息！",
         "extractFailed": "❌ | 无法提取以下歌曲... 正在跳到下一首！",
         "subsonicSongMetadata": "❌ | 无法从 Subsonic 加载歌曲元数据。",
+        "jellyfinSongMetadata": "❌ | 无法从 Jellyfin 加载歌曲元数据。",
+        "multipleTrackMatches": "❌ | 多首歌曲匹配您的搜索。请使用更具体的查询。",
         "emptyPlaylist": "❌ | 此播放列表没有可播放的歌曲。",
         "emptyAlbum": "❌ | 此专辑没有可播放的歌曲。",
         "failedToFindMediaQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲、播放列表或专辑。",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
-        "subsonicDisabled": "❌ | Subsonic 当前已禁用！请让服务器管理员在环境文件中启用并配置。"
+        "subsonicDisabled": "❌ | Subsonic 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
+        "jellyfinDisabled": "❌ | Jellyfin 当前已禁用！请让服务器管理员在环境文件中启用并配置。"
     },
     "guards": {
         "djMode": "❌ | DJ 模式已激活！您必须拥有 DJ 角色 {role} 才能使用任何音乐命令！",
@@ -167,6 +170,12 @@
             "search": "搜索歌曲、播放列表和专辑。",
             "playnext": "从 Subsonic 服务器添加歌曲、播放列表或专辑到下一首播放。"
         },
+        "jellyfin": {
+            "description": "从 Jellyfin 音乐库播放音乐到队列！",
+            "play": "从 Jellyfin 服务器播放歌曲、播放列表或专辑。",
+            "search": "搜索歌曲、播放列表和专辑。",
+            "playnext": "从 Jellyfin 服务器添加歌曲、播放列表或专辑到下一首播放。"
+        },
         "volume": "查看或设置当前音乐音量！"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "时长 - {duration}",
         "plexTitle": "Plex 搜索结果 🎵",
         "subsonicTitle": "Subsonic 搜索结果 🎵",
+        "jellyfinTitle": "Jellyfin 搜索结果 🎵",
         "multipleResults": "找到多个与搜索条件匹配的结果，请从下方菜单中选择。",
         "singleResult": "从下方选择一项添加到队列。",
         "songResult": "[{index}] 歌曲结果 ({duration})",

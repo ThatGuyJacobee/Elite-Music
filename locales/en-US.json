@@ -21,6 +21,8 @@
         "noViewChannel": "Error: I do not have permission to view this channel and cannot edit the help message!",
         "extractFailed": "❌ | Failed to extract the following song... skipping to the next!",
         "subsonicSongMetadata": "❌ | Could not load song metadata from Subsonic.",
+        "jellyfinSongMetadata": "❌ | Could not load song metadata from Jellyfin.",
+        "multipleTrackMatches": "❌ | Multiple tracks matched your search. Please use a more specific query.",
         "emptyPlaylist": "❌ | This playlist has no playable tracks.",
         "emptyAlbum": "❌ | This album has no playable tracks.",
         "failedToFindMediaQuery": "❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.",
-        "subsonicDisabled": "❌ | Subsonic is currently disabled! Ask the server admin to enable and configure this in the environment file."
+        "subsonicDisabled": "❌ | Subsonic is currently disabled! Ask the server admin to enable and configure this in the environment file.",
+        "jellyfinDisabled": "❌ | Jellyfin is currently disabled! Ask the server admin to enable and configure this in the environment file."
     },
     "guards": {
         "djMode": "❌ | DJ Mode is active! You must have the DJ role {role} to use any music commands!",
@@ -167,6 +170,12 @@
             "search": "Search tracks, playlists, and albums.",
             "playnext": "Add a track, playlist, or album from your Subsonic server to play next."
         },
+        "jellyfin": {
+            "description": "Play music from your Jellyfin library into the queue!",
+            "play": "Play a track, playlist, or album from your Jellyfin server.",
+            "search": "Search tracks, playlists, and albums.",
+            "playnext": "Add a track, playlist, or album from your Jellyfin server to play next."
+        },
         "volume": "Check or set the current music volume!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Duration - {duration}",
         "plexTitle": "Plex Search Results 🎵",
         "subsonicTitle": "Subsonic Search Results 🎵",
+        "jellyfinTitle": "Jellyfin Search Results 🎵",
         "multipleResults": "Found multiple results matching the provided search query, select one from the menu below.",
         "singleResult": "Select an item below to add it to the queue.",
         "songResult": "[{index}] Song Result ({duration})",
