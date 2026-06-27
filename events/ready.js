@@ -1,7 +1,11 @@
 require("dotenv").config();
 const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
-const { ping: jellyfinPing, resolveUserId: jellyfinResolveUserId, searchItems: jellyfinSearchItems } = require("../utils/jellyfinAPI");
+const {
+    ping: jellyfinPing,
+    resolveUserId: jellyfinResolveUserId,
+    searchItems: jellyfinSearchItems,
+} = require("../utils/jellyfinAPI");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
@@ -318,9 +322,14 @@ module.exports = {
                     client.config.jellyfinUserId = await jellyfinResolveUserId(client.config, {
                         signal: controller.signal,
                     });
-                    await jellyfinSearchItems(client.config, "test", { scope: "track", limit: 1 }, {
-                        signal: controller.signal,
-                    });
+                    await jellyfinSearchItems(
+                        client.config,
+                        "test",
+                        { scope: "track", limit: 1 },
+                        {
+                            signal: controller.signal,
+                        },
+                    );
                 } catch (err) {
                     if (controller.signal.aborted) {
                         console.log(

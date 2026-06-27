@@ -205,7 +205,9 @@ async function enrichTrackItemFromParent(config, item, cache) {
 async function mapJellyfinTracksFromItems(items) {
     const parentCache = new Map();
     const enrichedItems = await Promise.all(
-        items.filter((item) => item.Type === "Audio").map((item) => enrichTrackItemFromParent(client.config, item, parentCache)),
+        items
+            .filter((item) => item.Type === "Audio")
+            .map((item) => enrichTrackItemFromParent(client.config, item, parentCache)),
     );
 
     return enrichedItems.map(mapJellyfinTrack);
@@ -524,7 +526,9 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
             );
             embed.setTitle(translate(interaction, "playback.addedTopTitle"));
         } else {
-            embed.setDescription(translate(interaction, "playback.queuedSong", { title: itemMetadata.title, link: "" }));
+            embed.setDescription(
+                translate(interaction, "playback.queuedSong", { title: itemMetadata.title, link: "" }),
+            );
             embed.setTitle(translate(interaction, "playback.addedTitle"));
         }
     }
