@@ -21,6 +21,8 @@
         "noViewChannel": "Erreur : je n'ai pas la permission de voir ce salon et je ne peux pas modifier le message d'aide !",
         "extractFailed": "❌ | Impossible d'extraire la chanson suivante... passage à la suivante !",
         "subsonicSongMetadata": "❌ | Impossible de charger les métadonnées de la chanson depuis Subsonic.",
+        "jellyfinSongMetadata": "❌ | Impossible de charger les métadonnées de la chanson depuis Jellyfin.",
+        "multipleTrackMatches": "❌ | Plusieurs titres correspondent à votre recherche. Veuillez utiliser une requête plus précise.",
         "emptyPlaylist": "❌ | Cette playlist ne contient aucune piste jouable.",
         "emptyAlbum": "❌ | Cet album ne contient aucune piste jouable.",
         "failedToFindMediaQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson, la playlist ou l'album correspondant à la requête.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
-        "subsonicDisabled": "❌ | Subsonic est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement."
+        "subsonicDisabled": "❌ | Subsonic est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
+        "jellyfinDisabled": "❌ | Jellyfin est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement."
     },
     "guards": {
         "djMode": "❌ | Le mode DJ est actif ! Vous devez avoir le rôle DJ {role} pour utiliser les commandes de musique !",
@@ -167,6 +170,12 @@
             "search": "Rechercher des pistes, des playlists et des albums.",
             "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Subsonic pour lecture suivante."
         },
+        "jellyfin": {
+            "description": "Lire de la musique depuis votre bibliothèque Jellyfin dans la file d'attente !",
+            "play": "Lire une piste, une playlist ou un album depuis votre serveur Jellyfin.",
+            "search": "Rechercher des pistes, des playlists et des albums.",
+            "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Jellyfin pour lecture suivante."
+        },
         "volume": "Consulter ou régler le volume actuel de la musique !"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Durée - {duration}",
         "plexTitle": "Résultats de recherche Plex 🎵",
         "subsonicTitle": "Résultats de recherche Subsonic 🎵",
+        "jellyfinTitle": "Résultats de recherche Jellyfin 🎵",
         "multipleResults": "Plusieurs résultats correspondant à la recherche fournie ont été trouvés, sélectionnez-en un dans le menu ci-dessous.",
         "singleResult": "Sélectionnez un élément ci-dessous pour l'ajouter à la file d'attente.",
         "songResult": "[{index}] Résultat de chanson ({duration})",

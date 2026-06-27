@@ -25,6 +25,11 @@ const defaultConsts = {
         subsonicPass: "",
         subsonicAppName: "Elite-Music-Bot",
         subsonicApiVersion: "1.16.0",
+        enableJellyfin: false,
+        jellyfinServer: "",
+        jellyfinApiKey: "",
+        jellyfinUser: "",
+        jellyfinUserId: "",
     },
     ytdlOptions: {
         filter: "audioonly",

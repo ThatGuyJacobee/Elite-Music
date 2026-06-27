@@ -21,6 +21,8 @@
         "noViewChannel": "Fejl: Jeg har ikke tilladelse til at se denne kanal og kan ikke redigere hjælpebeskeden!",
         "extractFailed": "❌ | Kunne ikke udtrække følgende sang... springer til næste!",
         "subsonicSongMetadata": "❌ | Kunne ikke indlæse sangmetadata fra Subsonic.",
+        "jellyfinSongMetadata": "❌ | Kunne ikke indlæse sangmetadata fra Jellyfin.",
+        "multipleTrackMatches": "❌ | Flere numre matchede din søgning. Brug en mere specifik forespørgsel.",
         "emptyPlaylist": "❌ | Denne playliste har ingen afspilbare numre.",
         "emptyAlbum": "❌ | Dette album har ingen afspilbare numre.",
         "failedToFindMediaQuery": "❌ | Ups... noget gik galt, kunne ikke finde sangen, playlisten eller albummet med den angivne forespørgsel.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex er i øjeblikket deaktiveret! Bed serveradministratoren om at aktivere og konfigurere dette i miljøfilen.",
-        "subsonicDisabled": "❌ | Subsonic er i øjeblikket deaktiveret! Bed serveradministratoren om at aktivere og konfigurere dette i miljøfilen."
+        "subsonicDisabled": "❌ | Subsonic er i øjeblikket deaktiveret! Bed serveradministratoren om at aktivere og konfigurere dette i miljøfilen.",
+        "jellyfinDisabled": "❌ | Jellyfin er i øjeblikket deaktiveret! Bed serveradministratoren om at aktivere og konfigurere dette i miljøfilen."
     },
     "guards": {
         "djMode": "❌ | DJ-tilstand er aktiv! Du skal have DJ-rollen {role} for at bruge musikkommandoer!",
@@ -167,6 +170,12 @@
             "search": "Søg efter numre, playlister og album.",
             "playnext": "Tilføj et nummer, en playliste eller et album fra din Subsonic-server til næste afspilning."
         },
+        "jellyfin": {
+            "description": "Afspil musik fra dit Jellyfin-bibliotek i køen!",
+            "play": "Afspil et nummer, en playliste eller et album fra din Jellyfin-server.",
+            "search": "Søg efter numre, playlister og album.",
+            "playnext": "Tilføj et nummer, en playliste eller et album fra din Jellyfin-server til næste afspilning."
+        },
         "volume": "Tjek eller indstil den aktuelle musiklydstyrke!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Varighed - {duration}",
         "plexTitle": "Plex-søgeresultater 🎵",
         "subsonicTitle": "Subsonic-søgeresultater 🎵",
+        "jellyfinTitle": "Jellyfin-søgeresultater 🎵",
         "multipleResults": "Fandt flere resultater, der matcher den angivne søgeforespørgsel, vælg et fra menuen nedenfor.",
         "singleResult": "Vælg et element nedenfor for at tilføje det til køen.",
         "songResult": "[{index}] Sangresultat ({duration})",

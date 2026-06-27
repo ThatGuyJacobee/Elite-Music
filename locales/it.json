@@ -21,6 +21,8 @@
         "noViewChannel": "Errore: non ho il permesso di vedere questo canale e non posso modificare il messaggio di aiuto!",
         "extractFailed": "❌ | Impossibile estrarre la canzone seguente... passo alla prossima!",
         "subsonicSongMetadata": "❌ | Impossibile caricare i metadati del brano da Subsonic.",
+        "jellyfinSongMetadata": "❌ | Impossibile caricare i metadati del brano da Jellyfin.",
+        "multipleTrackMatches": "❌ | Più brani corrispondono alla tua ricerca. Usa una query più specifica.",
         "emptyPlaylist": "❌ | Questa playlist non ha tracce riproducibili.",
         "emptyAlbum": "❌ | Questo album non ha tracce riproducibili.",
         "failedToFindMediaQuery": "❌ | Ops... qualcosa è andato storto, non è stato possibile trovare la canzone, la playlist o l'album richiesto.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex è attualmente disabilitato! Chiedi all'amministratore del server di abilitarlo e configurarlo nel file di ambiente.",
-        "subsonicDisabled": "❌ | Subsonic è attualmente disabilitato! Chiedi all'amministratore del server di abilitarlo e configurarlo nel file di ambiente."
+        "subsonicDisabled": "❌ | Subsonic è attualmente disabilitato! Chiedi all'amministratore del server di abilitarlo e configurarlo nel file di ambiente.",
+        "jellyfinDisabled": "❌ | Jellyfin è attualmente disabilitato! Chiedi all'amministratore del server di abilitarlo e configurarlo nel file di ambiente."
     },
     "guards": {
         "djMode": "❌ | La modalità DJ è attiva! Devi avere il ruolo DJ {role} per usare qualsiasi comando musicale!",
@@ -167,6 +170,12 @@
             "search": "Cerca tracce, playlist e album.",
             "playnext": "Aggiungi una traccia, playlist o album dal tuo server Subsonic per la riproduzione successiva."
         },
+        "jellyfin": {
+            "description": "Riproduci musica dalla tua libreria Jellyfin nella coda!",
+            "play": "Riproduci una traccia, playlist o album dal tuo server Jellyfin.",
+            "search": "Cerca tracce, playlist e album.",
+            "playnext": "Aggiungi una traccia, playlist o album dal tuo server Jellyfin per la riproduzione successiva."
+        },
         "volume": "Controlla o imposta il volume musicale attuale!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Durata - {duration}",
         "plexTitle": "Risultati ricerca Plex 🎵",
         "subsonicTitle": "Risultati ricerca Subsonic 🎵",
+        "jellyfinTitle": "Risultati ricerca Jellyfin 🎵",
         "multipleResults": "Sono stati trovati più risultati corrispondenti alla ricerca fornita, selezionane uno dal menu qui sotto.",
         "singleResult": "Seleziona un elemento qui sotto per aggiungerlo alla coda.",
         "songResult": "[{index}] Risultato canzone ({duration})",

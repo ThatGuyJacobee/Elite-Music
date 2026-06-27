@@ -21,6 +21,8 @@
         "noViewChannel": "エラー: このチャンネルを表示する権限がなく、ヘルプメッセージを編集できません！",
         "extractFailed": "❌ | 次の曲の抽出に失敗しました... 次の曲にスキップします！",
         "subsonicSongMetadata": "❌ | Subsonic から曲のメタデータを読み込めませんでした。",
+        "jellyfinSongMetadata": "❌ | Jellyfin から曲のメタデータを読み込めませんでした。",
+        "multipleTrackMatches": "❌ | 複数の曲が検索に一致しました。より具体的な検索語を使用してください。",
         "emptyPlaylist": "❌ | このプレイリストには再生可能な曲がありません。",
         "emptyAlbum": "❌ | このアルバムには再生可能な曲がありません。",
         "failedToFindMediaQuery": "❌ | おっと... 問題が発生しました。指定されたクエリで曲、プレイリスト、またはアルバムが見つかりませんでした。",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
-        "subsonicDisabled": "❌ | Subsonic は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。"
+        "subsonicDisabled": "❌ | Subsonic は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
+        "jellyfinDisabled": "❌ | Jellyfin は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。"
     },
     "guards": {
         "djMode": "❌ | DJ モードが有効です！音楽コマンドを使用するには DJ ロール {role} が必要です！",
@@ -167,6 +170,12 @@
             "search": "曲、プレイリスト、アルバムを検索します。",
             "playnext": "Subsonic サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
         },
+        "jellyfin": {
+            "description": "Jellyfin ライブラリから音楽をキューに再生します！",
+            "play": "Jellyfin サーバーから曲、プレイリスト、またはアルバムを再生します。",
+            "search": "曲、プレイリスト、アルバムを検索します。",
+            "playnext": "Jellyfin サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
+        },
         "volume": "現在の音量を確認または設定します！"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "再生時間 - {duration}",
         "plexTitle": "Plex 検索結果 🎵",
         "subsonicTitle": "Subsonic 検索結果 🎵",
+        "jellyfinTitle": "Jellyfin 検索結果 🎵",
         "multipleResults": "検索クエリに一致する複数の結果が見つかりました。下のメニューから選択してください。",
         "singleResult": "下から項目を選択してキューに追加してください。",
         "songResult": "[{index}] 曲の結果 ({duration})",

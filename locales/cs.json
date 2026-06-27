@@ -21,6 +21,8 @@
         "noViewChannel": "Chyba: Nemám oprávnění zobrazit tento kanál a nemohu upravit zprávu nápovědy!",
         "extractFailed": "❌ | Nepodařilo se extrahovat následující skladbu... přecházím na další!",
         "subsonicSongMetadata": "❌ | Nepodařilo se načíst metadata skladby ze Subsonic.",
+        "jellyfinSongMetadata": "❌ | Nepodařilo se načíst metadata skladby ze Jellyfin.",
+        "multipleTrackMatches": "❌ | Vašemu hledání odpovídá více skladeb. Použijte konkrétnější dotaz.",
         "emptyPlaylist": "❌ | Tento playlist neobsahuje žádné přehratelné skladby.",
         "emptyAlbum": "❌ | Toto album neobsahuje žádné přehratelné skladby.",
         "failedToFindMediaQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu, playlist nebo album pro zadaný dotaz.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
-        "subsonicDisabled": "❌ | Subsonic je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí."
+        "subsonicDisabled": "❌ | Subsonic je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
+        "jellyfinDisabled": "❌ | Jellyfin je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí."
     },
     "guards": {
         "djMode": "❌ | Režim DJ je aktivní! Pro použití hudebních příkazů musíte mít roli DJ {role}!",
@@ -167,6 +170,12 @@
             "search": "Vyhledejte skladby, playlisty a alba.",
             "playnext": "Přidejte skladbu, playlist nebo album ze Subsonic serveru pro další přehrání."
         },
+        "jellyfin": {
+            "description": "Přehrajte hudbu z vaší Jellyfin knihovny do fronty!",
+            "play": "Přehrajte skladbu, playlist nebo album z vašeho Jellyfin serveru.",
+            "search": "Vyhledejte skladby, playlisty a alba.",
+            "playnext": "Přidejte skladbu, playlist nebo album ze Jellyfin serveru pro další přehrání."
+        },
         "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Délka - {duration}",
         "plexTitle": "Výsledky hledání Plex 🎵",
         "subsonicTitle": "Výsledky hledání Subsonic 🎵",
+        "jellyfinTitle": "Výsledky hledání Jellyfin 🎵",
         "multipleResults": "Nalezeno více výsledků odpovídajících dotazu, vyberte jeden z nabídky níže.",
         "singleResult": "Vyberte položku níže pro přidání do fronty.",
         "songResult": "[{index}] Výsledek skladby ({duration})",

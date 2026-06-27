@@ -21,6 +21,8 @@
         "noViewChannel": "Pogreška: Nemam dopuštenje za pregled ovog kanala i ne mogu urediti poruku pomoći!",
         "extractFailed": "❌ | Nismo uspjeli izdvojiti sljedeću pjesmu... prelazimo na sljedeću!",
         "subsonicSongMetadata": "❌ | Nismo mogli učitati metapodatke pjesme iz Subsonic-a.",
+        "jellyfinSongMetadata": "❌ | Nismo mogli učitati metapodatke pjesme iz Jellyfin-a.",
+        "multipleTrackMatches": "❌ | Više pjesama odgovara vašoj pretrazi. Koristite precizniji upit.",
         "emptyPlaylist": "❌ | Ova playlista nema pjesama koje se mogu reproducirati.",
         "emptyAlbum": "❌ | Ovaj album nema pjesama koje se mogu reproducirati.",
         "failedToFindMediaQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu, playlistu ili album za traženi upit.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
-        "subsonicDisabled": "❌ | Subsonic je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja."
+        "subsonicDisabled": "❌ | Subsonic je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
+        "jellyfinDisabled": "❌ | Jellyfin je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja."
     },
     "guards": {
         "djMode": "❌ | DJ način rada je aktivan! Morate imati DJ ulogu {role} za korištenje glazbenih naredbi!",
@@ -167,6 +170,12 @@
             "search": "Pretražite pjesme, playliste i albume.",
             "playnext": "Dodajte pjesmu, playlistu ili album s Subsonic poslužitelja za sljedeću reprodukciju."
         },
+        "jellyfin": {
+            "description": "Reproducirajte glazbu iz vaše Jellyfin biblioteke u red čekanja!",
+            "play": "Reproducirajte pjesmu, playlistu ili album s vašeg Jellyfin poslužitelja.",
+            "search": "Pretražite pjesme, playliste i albume.",
+            "playnext": "Dodajte pjesmu, playlistu ili album s Jellyfin poslužitelja za sljedeću reprodukciju."
+        },
         "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Trajanje - {duration}",
         "plexTitle": "Rezultati pretraživanja Plex 🎵",
         "subsonicTitle": "Rezultati pretraživanja Subsonic 🎵",
+        "jellyfinTitle": "Rezultati pretraživanja Jellyfin 🎵",
         "multipleResults": "Pronađeno je više rezultata koji odgovaraju upitu, odaberite jedan iz izbornika u nastavku.",
         "singleResult": "Odaberite stavku u nastavku za dodavanje u red čekanja.",
         "songResult": "[{index}] Rezultat pjesme ({duration})",

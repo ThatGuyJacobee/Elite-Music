@@ -59,7 +59,7 @@ function resolveCommandDescription(i18n, locale, commandName, subcommandName = n
 function resolveOptionDescriptionKey(commandName, subcommandName, optionName) {
     if (optionName === "music") {
         if (subcommandName) {
-            if (commandName === "plex" || commandName === "subsonic") {
+            if (commandName === "plex" || commandName === "subsonic" || commandName === "jellyfin") {
                 return "slash.options.music.library";
             }
 

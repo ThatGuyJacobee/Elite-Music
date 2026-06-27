@@ -10,11 +10,11 @@ Loving this open-source project? Leaving a ⭐ on the repository would be much a
 - Easy to setup, customise and edit.
 - Slash commands (djs v14).
 - Support for various streaming platforms.
-- Wide range of audio filters.
+- Integrated Plex, Jellyfin & Subsonic API support.
 - Docker Support.
 - Full translation support for 30+ languages.
+- Wide range of audio filters.
 - Awesome playback UI.
-- Additional features including plex media server support.
 - And much more!
 
 Elite Music was originally a part of my verified Discord bot... [Elite Bot](https://elite-bot.com/), but the music section had to be removed due to verification issues. Therefore, in a win situation, I decided to open-source the bot's music code in this repository. And even better, I decided to rewrite the entire bot to improve the code's feature set and overall quality.
@@ -145,6 +145,17 @@ The Subsonic API optional feature allows you to stream music directly from your 
 4. Optionally, set `SUBSONIC_APP_NAME` to identify this bot to your server (defaults to `Elite-Music-Bot` if left unchanged).
 
 Once configured and restarted, the bot will validate the connection on startup and return a configuration loaded message. As long as everything is valid and the feature remains active, you will be able to utilise all of the `/subsonic` commands.
+
+### Jellyfin Media Server playback
+
+The Jellyfin Media Server optional feature allows you to stream music directly from your Jellyfin library through the `/jellyfin` command when enabled. In order to enable the Jellyfin feature, you must go into your `.env` file and set up the configuration for your server.
+
+1. Firstly, set `ENABLE_JELLYFIN` to `true`.
+2. Next, provide the base URL of your Jellyfin Media Server in `JELLYFIN_SERVER`. The default port that Jellyfin runs on is `8096` (e.g. `http://[your_ipaddress]:8096`). You can verify that the URL is correct by opening it in a web browser; you should see your server's login page load successfully. The bot must be able to reach this address from the machine or container it runs on.
+3. Set `JELLYFIN_API_KEY` to a valid API key for your server. You can create one from the Jellyfin admin dashboard under **Dashboard -> API Keys**. Once you have your key, place it into your `.env` file.
+4. Set `JELLYFIN_USER` to a valid username on your server. Elite Music uses this account when searching your library and building stream URLs.
+
+Once configured and restarted, the bot will validate the connection on startup and return a configuration loaded message. As long as everything is valid and the feature remains active, you will be able to utilise all of the `/jellyfin` commands.
 
 ### DJ Mode
 

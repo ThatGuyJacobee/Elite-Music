@@ -21,6 +21,8 @@
         "noViewChannel": "Eroare: nu am permisiunea să văd acest canal și nu pot edita mesajul de ajutor!",
         "extractFailed": "❌ | Nu am reușit să extrag următoarea piesă... trec la următoarea!",
         "subsonicSongMetadata": "❌ | Nu am putut încărca metadatele piesei din Subsonic.",
+        "jellyfinSongMetadata": "❌ | Nu am putut încărca metadatele piesei din Jellyfin.",
+        "multipleTrackMatches": "❌ | Mai multe piese au corespuns căutării tale. Folosește o interogare mai specifică.",
         "emptyPlaylist": "❌ | Acest playlist nu are piese care pot fi redate.",
         "emptyAlbum": "❌ | Acest album nu are piese care pot fi redate.",
         "failedToFindMediaQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa, playlistul sau albumul cerut.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
-        "subsonicDisabled": "❌ | Subsonic este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu."
+        "subsonicDisabled": "❌ | Subsonic este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
+        "jellyfinDisabled": "❌ | Jellyfin este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu."
     },
     "guards": {
         "djMode": "❌ | Modul DJ este activ! Trebuie să ai rolul DJ {role} pentru a folosi orice comandă muzicală!",
@@ -167,6 +170,12 @@
             "search": "Caută piese, playlisturi și albume.",
             "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Subsonic pentru a fi redat următorul."
         },
+        "jellyfin": {
+            "description": "Redă muzică din biblioteca ta Jellyfin în coadă!",
+            "play": "Redă o piesă, un playlist sau un album de pe serverul tău Jellyfin.",
+            "search": "Caută piese, playlisturi și albume.",
+            "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Jellyfin pentru a fi redat următorul."
+        },
         "volume": "Verifică sau setează volumul curent al muzicii!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Durată - {duration}",
         "plexTitle": "Rezultate căutare Plex 🎵",
         "subsonicTitle": "Rezultate căutare Subsonic 🎵",
+        "jellyfinTitle": "Rezultate căutare Jellyfin 🎵",
         "multipleResults": "Am găsit mai multe rezultate care se potrivesc cu căutarea, selectează unul din meniul de mai jos.",
         "singleResult": "Selectează un element de mai jos pentru a-l adăuga în coadă.",
         "songResult": "[{index}] Rezultat piesă ({duration})",

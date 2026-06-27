@@ -21,6 +21,8 @@
         "noViewChannel": "Fout: ik heb geen toestemming om dit kanaal te bekijken en kan het helpbericht niet bewerken!",
         "extractFailed": "❌ | Kan het volgende nummer niet extraheren... doorgaan naar de volgende!",
         "subsonicSongMetadata": "❌ | Kan de songmetadata van Subsonic niet laden.",
+        "jellyfinSongMetadata": "❌ | Kan de songmetadata van Jellyfin niet laden.",
+        "multipleTrackMatches": "❌ | Meerdere nummers komen overeen met je zoekopdracht. Gebruik een specifiekere zoekopdracht.",
         "emptyPlaylist": "❌ | Deze afspeellijst bevat geen afspeelbare tracks.",
         "emptyAlbum": "❌ | Dit album bevat geen afspeelbare tracks.",
         "failedToFindMediaQuery": "❌ | Oeps... er ging iets mis, het nummer, de afspeellijst of het album kon niet worden gevonden met de opgegeven zoekopdracht.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
-        "subsonicDisabled": "❌ | Subsonic is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren."
+        "subsonicDisabled": "❌ | Subsonic is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
+        "jellyfinDisabled": "❌ | Jellyfin is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren."
     },
     "guards": {
         "djMode": "❌ | DJ-modus is actief! Je moet de DJ-rol {role} hebben om muziekcommando's te gebruiken!",
@@ -167,6 +170,12 @@
             "search": "Zoek naar tracks, playlists en albums.",
             "playnext": "Voeg een track, playlist of album van je Subsonic-server toe om daarna af te spelen."
         },
+        "jellyfin": {
+            "description": "Muziek afspelen uit je Jellyfin-bibliotheek in de wachtrij!",
+            "play": "Speel een track, playlist of album van je Jellyfin-server af.",
+            "search": "Zoek naar tracks, playlists en albums.",
+            "playnext": "Voeg een track, playlist of album van je Jellyfin-server toe om daarna af te spelen."
+        },
         "volume": "Het huidige muziekv volume bekijken of instellen!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Duur - {duration}",
         "plexTitle": "Plex-zoekresultaten 🎵",
         "subsonicTitle": "Subsonic-zoekresultaten 🎵",
+        "jellyfinTitle": "Jellyfin-zoekresultaten 🎵",
         "multipleResults": "Er zijn meerdere resultaten gevonden die overeenkomen met de opgegeven zoekopdracht, selecteer er een uit het menu hieronder.",
         "singleResult": "Selecteer hieronder een item om het aan de wachtrij toe te voegen.",
         "songResult": "[{index}] Nummerresultaat ({duration})",

@@ -21,6 +21,8 @@
         "noViewChannel": "Kesalahan: Saya tidak memiliki izin untuk melihat saluran ini dan tidak dapat mengedit pesan bantuan!",
         "extractFailed": "❌ | Gagal mengekstrak lagu berikut... melanjutkan ke berikutnya!",
         "subsonicSongMetadata": "❌ | Tidak dapat memuat metadata lagu dari Subsonic.",
+        "jellyfinSongMetadata": "❌ | Tidak dapat memuat metadata lagu dari Jellyfin.",
+        "multipleTrackMatches": "❌ | Beberapa lagu cocok dengan pencarian Anda. Gunakan kueri yang lebih spesifik.",
         "emptyPlaylist": "❌ | Playlist ini tidak memiliki trek yang dapat diputar.",
         "emptyAlbum": "❌ | Album ini tidak memiliki trek yang dapat diputar.",
         "failedToFindMediaQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu, playlist, atau album dengan kueri yang diminta.",
@@ -43,7 +45,8 @@
     },
     "feature": {
         "plexDisabled": "❌ | Plex saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
-        "subsonicDisabled": "❌ | Subsonic saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment."
+        "subsonicDisabled": "❌ | Subsonic saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
+        "jellyfinDisabled": "❌ | Jellyfin saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment."
     },
     "guards": {
         "djMode": "❌ | Mode DJ aktif! Anda harus memiliki peran DJ {role} untuk menggunakan perintah musik!",
@@ -167,6 +170,12 @@
             "search": "Cari trek, playlist, dan album.",
             "playnext": "Tambahkan trek, playlist, atau album dari Subsonic untuk diputar berikutnya."
         },
+        "jellyfin": {
+            "description": "Putar musik dari perpustakaan Jellyfin Anda ke antrean!",
+            "play": "Putar trek, playlist, atau album dari server Jellyfin Anda.",
+            "search": "Cari trek, playlist, dan album.",
+            "playnext": "Tambahkan trek, playlist, atau album dari Jellyfin untuk diputar berikutnya."
+        },
         "volume": "Periksa atau atur volume musik saat ini!"
     },
     "slash": {
@@ -258,6 +267,7 @@
         "duration": "Durasi - {duration}",
         "plexTitle": "Hasil Pencarian Plex 🎵",
         "subsonicTitle": "Hasil Pencarian Subsonic 🎵",
+        "jellyfinTitle": "Hasil Pencarian Jellyfin 🎵",
         "multipleResults": "Ditemukan beberapa hasil yang cocok dengan kueri pencarian, pilih satu dari menu di bawah.",
         "singleResult": "Pilih item di bawah untuk menambahkannya ke antrean.",
         "songResult": "[{index}] Hasil Lagu ({duration})",
