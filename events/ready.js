@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
+const { ping: jellyfinPing, resolveUserId: jellyfinResolveUserId, searchItems: jellyfinSearchItems } = require("../utils/jellyfinAPI");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
@@ -180,6 +181,34 @@ module.exports = {
                       ? process.env.SUBSONIC_API_VERSION
                       : client.config.subsonicApiVersion;
 
+            client.config.enableJellyfin =
+                typeof process.env.ENABLE_JELLYFIN === "undefined"
+                    ? client.config.enableJellyfin
+                    : String(process.env.ENABLE_JELLYFIN) === "true"
+                      ? true
+                      : false;
+
+            client.config.jellyfinServer =
+                typeof process.env.JELLYFIN_SERVER === "undefined"
+                    ? client.config.jellyfinServer
+                    : String(process.env.JELLYFIN_SERVER)
+                      ? process.env.JELLYFIN_SERVER
+                      : client.config.jellyfinServer;
+
+            client.config.jellyfinApiKey =
+                typeof process.env.JELLYFIN_API_KEY === "undefined"
+                    ? client.config.jellyfinApiKey
+                    : String(process.env.JELLYFIN_API_KEY)
+                      ? process.env.JELLYFIN_API_KEY
+                      : client.config.jellyfinApiKey;
+
+            client.config.jellyfinUser =
+                typeof process.env.JELLYFIN_USER === "undefined"
+                    ? client.config.jellyfinUser
+                    : String(process.env.JELLYFIN_USER)
+                      ? process.env.JELLYFIN_USER
+                      : client.config.jellyfinUser;
+
             const i18n = createI18n();
             if (!i18n.hasLocale(client.config.primaryLocale)) {
                 console.log(
@@ -274,8 +303,53 @@ module.exports = {
                 }
             }
 
+            if (client.config.enableJellyfin) {
+                const controller = new AbortController();
+                setTimeout(
+                    () =>
+                        controller.abort(
+                            "Fetch aborted: Jellyfin Server URL must be invalid as request received no response.",
+                        ),
+                    3000,
+                );
+
+                try {
+                    await jellyfinPing(client.config, { signal: controller.signal });
+                    client.config.jellyfinUserId = await jellyfinResolveUserId(client.config, {
+                        signal: controller.signal,
+                    });
+                    await jellyfinSearchItems(client.config, "test", { scope: "track", limit: 1 }, {
+                        signal: controller.signal,
+                    });
+                } catch (err) {
+                    if (controller.signal.aborted) {
+                        console.log(
+                            `[ELITE_CONFIG] Jellyfin configuration is invalid. Disabling Jellyfin feature... Read more in the trace below:\n${controller.signal.reason}`,
+                        );
+                    } else if (err && err.code === "MISSING_USER") {
+                        console.log(
+                            `[ELITE_CONFIG] Jellyfin configuration is invalid. Disabling Jellyfin feature... JELLYFIN_USER is not configured.`,
+                        );
+                    } else if (err && err.code === "USER_NOT_FOUND") {
+                        console.log(
+                            `[ELITE_CONFIG] Jellyfin configuration is invalid. Disabling Jellyfin feature... ${err.message}`,
+                        );
+                    } else if (err && err.status === 401) {
+                        console.log(
+                            `[ELITE_CONFIG] Jellyfin configuration is invalid. Disabling Jellyfin feature... Your Jellyfin API key is not valid.`,
+                        );
+                    } else {
+                        console.log(
+                            `[ELITE_CONFIG] Jellyfin configuration is invalid. Disabling Jellyfin feature... Read more in the trace below:\n${err && err.message ? err.message : err}`,
+                        );
+                    }
+                    client.config.enableJellyfin = false;
+                    client.config.jellyfinUserId = "";
+                }
+            }
+
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 1.9) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.0) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );
@@ -312,7 +386,8 @@ module.exports = {
             const hadRedactedSecret =
                 !revealSecrets &&
                 ((client.config.plexAuthtoken && String(client.config.plexAuthtoken).length > 0) ||
-                    (client.config.subsonicPass && String(client.config.subsonicPass).length > 0));
+                    (client.config.subsonicPass && String(client.config.subsonicPass).length > 0) ||
+                    (client.config.jellyfinApiKey && String(client.config.jellyfinApiKey).length > 0));
 
             if (hadRedactedSecret) {
                 console.log(
