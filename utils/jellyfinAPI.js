@@ -109,6 +109,8 @@ function requireUserId(config) {
     return userId;
 }
 
+const JELLYFIN_ITEM_FIELDS = "ItemCounts,PrimaryImageAspectRatio,ParentId";
+
 async function searchItems(config, query, options = {}, init = {}) {
     const scope = options.scope ?? "auto";
     const limit = options.limit ?? 10;
@@ -123,7 +125,7 @@ async function searchItems(config, query, options = {}, init = {}) {
             Recursive: "true",
             Limit: limit,
             IncludeItemTypes: includeItemTypesForScope(scope),
-            Fields: "Basic,ItemCounts,PrimaryImageAspectRatio",
+            Fields: JELLYFIN_ITEM_FIELDS,
         },
         init,
     );
@@ -138,7 +140,7 @@ async function getItem(config, itemId, init = {}) {
         config,
         `/Users/${userId}/Items/${itemId}`,
         {
-            Fields: "Basic,ItemCounts,PrimaryImageAspectRatio",
+            Fields: JELLYFIN_ITEM_FIELDS,
         },
         init,
     );
@@ -156,7 +158,7 @@ async function getAlbumTracks(config, albumId, init = {}) {
             IncludeItemTypes: "Audio",
             Recursive: "true",
             SortBy: "ParentIndexNumber,IndexNumber",
-            Fields: "Basic,PrimaryImageAspectRatio",
+            Fields: JELLYFIN_ITEM_FIELDS,
         },
         init,
     );
@@ -172,7 +174,7 @@ async function getPlaylistItems(config, playlistId, init = {}) {
         `/Playlists/${playlistId}/Items`,
         {
             UserId: userId,
-            Fields: "Basic,PrimaryImageAspectRatio",
+            Fields: JELLYFIN_ITEM_FIELDS,
         },
         init,
     );
