@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 // Configuration secrets that should not be logged into console during startup
-const CONFIG_SECRET_KEYS = ["plexAuthtoken", "subsonicPass"];
+const CONFIG_SECRET_KEYS = ["plexAuthtoken", "subsonicPass", "jellyfinApiKey"];
 
 function normalizeBaseUrl(server) {
     if (!server || typeof server !== "string") return "";
