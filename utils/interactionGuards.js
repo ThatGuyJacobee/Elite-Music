@@ -82,12 +82,24 @@ async function ensureSubsonicEnabled(interaction) {
     return false;
 }
 
+async function ensureJellyfinEnabled(interaction) {
+    if (client.config.enableJellyfin) return true;
+
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "feature.jellyfinDisabled"),
+        }),
+    );
+    return false;
+}
+
 module.exports = {
     ensureDjAccess,
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
     ensurePlexEnabled,
     ensureSubsonicEnabled,
+    ensureJellyfinEnabled,
     ephemeralReply,
     getQueueEmptyResponse,
     getQueueNotPlayingResponse,
