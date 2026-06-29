@@ -28,19 +28,19 @@
         "failedToFindMediaQuery": "❌ | Ups... etwas ist schiefgelaufen, der Song, die Playlist oder das Album mit der gesuchten Anfrage konnte nicht gefunden werden.",
         "playNextPlaylistOnly": "❌ | Ups... mit diesem Befehl kannst du nur einzelne Songs hinzufügen. Verwende den normalen Befehl **/play**, um Playlists zur Warteschlange hinzuzufügen.",
         "actions": {
-            "skippingSong": "das Überspringen des Songs",
-            "clearingQueue": "das Leeren der Warteschlange",
-            "shufflingQueue": "das Mischen der Warteschlange",
-            "stoppingQueue": "das Stoppen der Warteschlange",
-            "adjustingVolume": "die Lautstärke anzupassen",
-            "returningToPreviousSong": "zur vorherigen Song zurückzukehren",
-            "pausing": "das Pausieren",
-            "resuming": "das Fortsetzen",
-            "seekingSong": "im Song zu springen",
-            "jumpingQueue": "in der Warteschlange zu springen",
-            "switchingLoopMode": "den Wiederholungsmodus zu wechseln",
-            "removingSong": "den Song aus der Warteschlange zu entfernen",
-            "adjustingAudioFilter": "den Audiofilter anzupassen"
+            "skippingSong": "Überspringen des Songs",
+            "clearingQueue": "Leeren der Warteschlange",
+            "shufflingQueue": "Mischen der Warteschlange",
+            "stoppingQueue": "Stoppen der Warteschlange",
+            "adjustingVolume": "Anpassen der Lautstärke",
+            "returningToPreviousSong": "Zurückkehren zum vorherigen Song",
+            "pausing": "Pausieren",
+            "resuming": "Fortsetzen",
+            "seekingSong": "Springen im Song",
+            "jumpingQueue": "Springen in der Warteschlange",
+            "switchingLoopMode": "Wechseln des Wiederholungsmodus",
+            "removingSong": "Entfernen des Songs aus der Warteschlange",
+            "adjustingAudioFilter": "Anpassen des Audiofilters"
         }
     },
     "feature": {
