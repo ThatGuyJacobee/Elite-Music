@@ -4,3 +4,4 @@ logs/
 rejection.txt
 exception.txt
 Dockerfile
+dist/
