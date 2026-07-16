@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Acest album nu are piese care pot fi redate.",
         "failedToFindMediaQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa, playlistul sau albumul cerut.",
         "playNextPlaylistOnly": "❌ | Oops... poți adăuga doar melodii individuale cu această comandă. Folosește comanda normală **/play** pentru a adăuga playlisturi în coadă.",
+        "transitionInProgress": "⏳ | O tranziție între melodii este deja în desfășurare. Te rugăm să aștepți puțin.",
+        "fadeinSoftTransition": "❌ | Filtrul audio Fadein nu poate fi activat cât timp tranzițiile line sunt active.",
         "actions": {
             "skippingSong": "sărind peste piesă",
             "clearingQueue": "golind coada",

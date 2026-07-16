@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Album ini tidak memiliki trek yang dapat diputar.",
         "failedToFindMediaQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu, playlist, atau album dengan kueri yang diminta.",
         "playNextPlaylistOnly": "❌ | Ups... Anda hanya dapat menambahkan lagu tunggal dengan perintah ini. Gunakan perintah **/play** biasa untuk menambahkan playlist ke antrean.",
+        "transitionInProgress": "⏳ | Transisi lagu sedang berlangsung. Harap tunggu sebentar.",
+        "fadeinSoftTransition": "❌ | Filter audio Fadein tidak dapat diaktifkan saat transisi halus aktif.",
         "actions": {
             "skippingSong": "melewati lagu",
             "clearingQueue": "membersihkan antrean",

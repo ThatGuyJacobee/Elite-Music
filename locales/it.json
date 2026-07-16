@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Questo album non ha tracce riproducibili.",
         "failedToFindMediaQuery": "❌ | Ops... qualcosa è andato storto, non è stato possibile trovare la canzone, la playlist o l'album richiesto.",
         "playNextPlaylistOnly": "❌ | Ops... con questo comando puoi aggiungere solo singole canzoni. Usa il comando **/play** normale per aggiungere playlist alla coda.",
+        "transitionInProgress": "⏳ | È già in corso una transizione tra brani. Attendi un momento.",
+        "fadeinSoftTransition": "❌ | Il filtro audio Fadein non può essere attivato quando le transizioni morbide sono attive.",
         "actions": {
             "skippingSong": "lo skip della canzone",
             "clearingQueue": "lo svuotamento della coda",

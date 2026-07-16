@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Cet album ne contient aucune piste jouable.",
         "failedToFindMediaQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson, la playlist ou l'album correspondant à la requête.",
         "playNextPlaylistOnly": "❌ | Oups... vous ne pouvez ajouter que des chansons individuelles avec cette commande. Utilisez la commande **/play** classique pour ajouter des playlists à la file d'attente.",
+        "transitionInProgress": "⏳ | Une transition entre les morceaux est déjà en cours. Veuillez patienter un instant.",
+        "fadeinSoftTransition": "❌ | Le filtre audio Fadein ne peut pas être activé lorsque les transitions fluides sont actives.",
         "actions": {
             "skippingSong": "le saut de la chanson",
             "clearingQueue": "la suppression de la file d'attente",

@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Dette albumet har ingen spillbare spor.",
         "failedToFindMediaQuery": "❌ | Oisann... noe gikk galt, fant ikke sangen, spillelisten eller albumet med det gitte søket.",
         "playNextPlaylistOnly": "❌ | Oisann... du kan bare legge til enkeltlåter med denne kommandoen. Bruk den vanlige **/play**-kommandoen for å legge spillelister i køen.",
+        "transitionInProgress": "⏳ | En overgang mellom spor er allerede i gang. Vent et øyeblikk.",
+        "fadeinSoftTransition": "❌ | Fadein-lydfilteret kan ikke aktiveres mens myke overganger er aktive.",
         "actions": {
             "skippingSong": "hopper over sangen",
             "clearingQueue": "tømmer køen",

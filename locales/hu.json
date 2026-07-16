@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Ez az album nem tartalmaz lejátszható számokat.",
         "failedToFindMediaQuery": "❌ | Hoppá... valami hiba történt, a dal, lejátszási lista vagy album nem található a megadott lekérdezéssel.",
         "playNextPlaylistOnly": "❌ | Hoppá... ezzel a paranccsal csak egyes dalokat adhatsz hozzá. Használd a normál **/play** parancsot lejátszási listák sorhoz adásához.",
+        "transitionInProgress": "⏳ | A számok közötti átmenet már folyamatban van. Kérjük, várj egy pillanatot.",
+        "fadeinSoftTransition": "❌ | A Fadein hangszűrő nem engedélyezhető, amíg a lágy átmenetek aktívak.",
         "actions": {
             "skippingSong": "a dal átugrása",
             "clearingQueue": "a sor törlése",

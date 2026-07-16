@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Dette album har ingen afspilbare numre.",
         "failedToFindMediaQuery": "❌ | Ups... noget gik galt, kunne ikke finde sangen, playlisten eller albummet med den angivne forespørgsel.",
         "playNextPlaylistOnly": "❌ | Ups... du kan kun tilføje enkelte sange med denne kommando. Brug den almindelige **/play**-kommando til at tilføje playlister til køen.",
+        "transitionInProgress": "⏳ | Overgangen mellem numre er allerede i gang. Vent venligst et øjeblik.",
+        "fadeinSoftTransition": "❌ | Fadein-lydfilteret kan ikke aktiveres, mens bløde overgange er aktive.",
         "actions": {
             "skippingSong": "springe sangen over",
             "clearingQueue": "rydde køen",

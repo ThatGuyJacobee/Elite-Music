@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Šiame albume nėra leidžiamų kūrinių.",
         "failedToFindMediaQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos, grojaraščio arba albumo pagal užklausą.",
         "playNextPlaylistOnly": "❌ | Oi... su šia komanda galite pridėti tik vieną dainą. Naudokite įprastą komandą **/play**, kad pridėtumėte grojaraščius į eilę.",
+        "transitionInProgress": "⏳ | Takelių perėjimas jau vyksta. Prašome truputį palaukti.",
+        "fadeinSoftTransition": "❌ | Fadein garso filtro negalima įjungti, kol aktyvūs švelnūs perėjimai.",
         "actions": {
             "skippingSong": "praleidžiant dainą",
             "clearingQueue": "valant eilę",
