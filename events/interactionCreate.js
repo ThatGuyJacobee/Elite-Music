@@ -30,6 +30,14 @@ const {
     getQueueNotPlayingResponse,
 } = require("../utils/interactionGuards");
 const { skipCurrentTrack } = require("../utils/sharedFunctions");
+const {
+    cancel,
+    clear,
+    getIntendedVolume,
+    setIntendedVolume,
+    startNaturalMonitor,
+    transition,
+} = require("../utils/softTransitions");
 const cooldowns = new Map();
 
 module.exports = {
@@ -390,7 +398,12 @@ module.exports = {
                     .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
                 try {
-                    queue.history.back();
+                    const returned = await transition(queue, () => queue.history.back());
+                    if (returned === false)
+                        return interaction.reply({
+                            content: translate(interaction, "errors.transitionInProgress"),
+                            flags: MessageFlags.Ephemeral,
+                        });
                     interaction.reply({ embeds: [backembed] });
                 } catch (err) {
                     interaction.reply({
@@ -433,7 +446,9 @@ module.exports = {
                     .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
                 try {
+                    cancel(queue);
                     queue.node.setPaused(!queue.node.isPaused());
+                    if (checkPause) startNaturalMonitor(queue);
                     interaction.reply({ embeds: [pauseembed], files: [coverImage] });
                 } catch (err) {
                     interaction.reply({
@@ -452,7 +467,7 @@ module.exports = {
                 var queue = player.nodes.get(interaction.guild.id);
                 if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
-                return interaction.reply(skipCurrentTrack(interaction, queue, interaction.user));
+                return interaction.reply(await skipCurrentTrack(interaction, queue, interaction.user));
             }
 
             if (interaction.customId == "np-clear") {
@@ -504,7 +519,7 @@ module.exports = {
                 //
                 const modal = new ModalBuilder()
                     .setCustomId(`adjust_volume_${interaction.guild.id}`)
-                    .setTitle(translate(interaction, "np.volumeModalTitle", { volume: queue.node.volume }))
+                    .setTitle(translate(interaction, "np.volumeModalTitle", { volume: getIntendedVolume(queue) }))
                     .addComponents([
                         new ActionRowBuilder().addComponents(
                             new TextInputBuilder()
@@ -545,7 +560,7 @@ module.exports = {
                             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
                         try {
-                            queue.node.setVolume(Number(userResponse));
+                            setIntendedVolume(queue, Number(userResponse));
                             submit.reply({ embeds: [volumeembed] });
                         } catch (err) {
                             console.log(err);
@@ -664,6 +679,7 @@ module.exports = {
 
                 try {
                     await clearNpControlMessages(queue);
+                    clear(queue);
                     queue.delete();
                     interaction.reply({ embeds: [stopembed] });
                 } catch (err) {

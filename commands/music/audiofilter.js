@@ -85,6 +85,12 @@ module.exports = {
             }
         } else {
             const isEnabled = queue.filters.ffmpeg.getFiltersEnabled().includes(filter);
+            if (filter === "fadein" && client.config.enableSoftTransitions && !isEnabled)
+                return interaction.reply({
+                    content: translate(interaction, "errors.fadeinSoftTransition"),
+                    flags: MessageFlags.Ephemeral,
+                });
+
             const filterembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
                 .setThumbnail(interaction.guild.iconURL({ dynamic: true }))

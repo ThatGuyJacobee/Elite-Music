@@ -4,6 +4,7 @@ const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueueEmptyResponse, ephemeralReply } = require("./interactionGuards");
+const { clear, startInitialPlayback, transition } = require("./softTransitions");
 const {
     buildRequestedByFooter,
     buildCoverImageDescription,
@@ -76,6 +77,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (err) {
         await clearNpControlMessages(queue);
+        clear(queue);
         queue.delete();
         return interaction.followUp(
             ephemeralReply({
@@ -104,8 +106,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
 
     if (!queue.isPlaying()) {
         try {
-            await queue.node.play(queue.tracks[0]);
-            queue.node.setVolume(client.config.defaultVolume);
+            await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
             return interaction.followUp(
                 ephemeralReply({
@@ -169,7 +170,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
     }
 }
 
-function skipCurrentTrack(interaction, queue, user) {
+async function skipCurrentTrack(interaction, queue, user) {
     const nextTrack = queue.tracks.toArray()[0];
     if (!nextTrack) return getQueueEmptyResponse(interaction);
 
@@ -193,7 +194,11 @@ function skipCurrentTrack(interaction, queue, user) {
         .setFooter(buildRequestedByFooter(interaction, user));
 
     try {
-        queue.node.skip();
+        const skipped = await transition(queue, () => queue.node.skip());
+        if (skipped === false)
+            return ephemeralReply({
+                content: translate(interaction, "errors.transitionInProgress"),
+            });
         return { embeds: [skipembed], files: [coverImage] };
     } catch (err) {
         return ephemeralReply({

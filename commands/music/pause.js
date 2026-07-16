@@ -14,6 +14,7 @@ const {
     ensureSameVoiceChannel,
     getQueueNotPlayingResponse,
 } = require("../../utils/interactionGuards");
+const { cancel, startNaturalMonitor } = require("../../utils/softTransitions");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("pause").setDescription("Pause the current song at the current time!"),
@@ -43,7 +44,9 @@ module.exports = {
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
+            cancel(queue);
             queue.node.setPaused(!queue.node.isPaused());
+            if (checkPause) startNaturalMonitor(queue);
             interaction.reply({ embeds: [pauseembed] });
         } catch (err) {
             interaction.reply({

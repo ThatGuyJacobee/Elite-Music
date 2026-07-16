@@ -8,19 +8,23 @@ const {
     buildPlayerStartNpRefreshEditOptions,
 } = require("../utils/nowPlayingUi");
 const { buildCoverImageDescription, translate } = require("../utils/botText");
+const { cancel, clear, handlePlayerStart } = require("../utils/softTransitions");
 
 const player = useMainPlayer();
 
 player.events.on("error", (queue, error) => {
+    cancel(queue);
     console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the queue: ${error.message}`);
 });
 
 player.events.on("playerError", (queue, error) => {
+    cancel(queue);
     console.log(`[${queue.guild.name}] (ID:${queue.metadata.channel}) Error emitted from the player: ${error.message}`);
     queue.metadata.channel.send({ content: translate(queue, "errors.extractFailed") });
 });
 
 player.events.on("playerStart", async (queue) => {
+    handlePlayerStart(queue);
     await clearNpControlMessages(queue);
 
     let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, {
@@ -49,6 +53,7 @@ player.events.on("playerStart", async (queue) => {
 });
 
 player.events.on("disconnect", async (queue) => {
+    clear(queue);
     await clearNpControlMessages(queue);
 
     const disconnectedembed = new EmbedBuilder()
@@ -66,6 +71,7 @@ player.events.on("disconnect", async (queue) => {
 });
 
 player.events.on("emptyChannel", async (queue) => {
+    clear(queue);
     await clearNpControlMessages(queue);
 
     const emptyembed = new EmbedBuilder()
@@ -83,6 +89,7 @@ player.events.on("emptyChannel", async (queue) => {
 });
 
 player.events.on("emptyQueue", async (queue) => {
+    clear(queue);
     await clearNpControlMessages(queue);
 
     const endembed = new EmbedBuilder()

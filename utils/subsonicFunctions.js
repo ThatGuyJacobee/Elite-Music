@@ -4,6 +4,7 @@ const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
+const { clear, startInitialPlayback } = require("./softTransitions");
 const {
     search2: subsonicSearch2,
     getPlaylists: subsonicGetPlaylists,
@@ -347,6 +348,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (err) {
         await clearNpControlMessages(queue);
+        clear(queue);
         queue.delete();
         return interaction.followUp({
             content: translate(interaction, "errors.joinVoiceChannel"),
@@ -378,8 +380,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
 
     if (!queue.isPlaying()) {
         try {
-            await queue.node.play(queue.tracks[0]);
-            queue.node.setVolume(client.config.defaultVolume);
+            await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
             return interaction.followUp({
                 content: translate(interaction, "errors.playback"),

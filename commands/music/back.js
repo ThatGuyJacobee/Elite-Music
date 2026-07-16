@@ -14,6 +14,7 @@ const {
     ensureSameVoiceChannel,
     getQueueNotPlayingResponse,
 } = require("../../utils/interactionGuards");
+const { transition } = require("../../utils/softTransitions");
 
 module.exports = {
     data: new SlashCommandBuilder().setName("back").setDescription("Play the previous song!"),
@@ -48,7 +49,12 @@ module.exports = {
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
-            queue.history.back();
+            const returned = await transition(queue, () => queue.history.back());
+            if (returned === false)
+                return interaction.reply({
+                    content: translate(interaction, "errors.transitionInProgress"),
+                    flags: MessageFlags.Ephemeral,
+                });
             interaction.reply({ embeds: [backembed] });
         } catch (err) {
             interaction.reply({
