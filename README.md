@@ -164,6 +164,13 @@ Elite Music comes with a DJ Mode optional feature, which locks down the use of c
 1. Firstly, set `ENABLE_DJMODE` to `true`.
 2. Now create a role on your server which you wish to be used as the DJ Role. Copy the ID of the role and place it into the `DJ_ROLE` field.
 
+### Soft Transitions
+
+Soft Transitions fades tracks out and in during playback (skip, natural song changes, etc.) instead of hard cuts. Audio never overlaps - it's a sequential fade, not a true crossfade (due to limitations).
+
+1. Firstly, set `ENABLE_SOFT_TRANSITIONS` to `true`.
+2. Optionally, set `SOFT_TRANSITION_MS` to the duration of each fade-out or fade-in in milliseconds (`200`-`5000`, default `1000`). This is the length of a single fade direction, not the combined transition. Manual actions such as skips, back, and jump use a shorter fade derived from this value.
+
 ### Translations & Localisation
 
 Elite Music includes built-in localisation. Translation strings are stored as JSON files in the `locales/` folder, with `en-GB.json` acting as the default and main source for all keys. Locale files are included for all Discord client languages.
