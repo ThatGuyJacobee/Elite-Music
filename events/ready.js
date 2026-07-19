@@ -108,10 +108,10 @@ module.exports = {
 
             const softTransitionMs = Number(process.env.SOFT_TRANSITION_MS);
             if (typeof process.env.SOFT_TRANSITION_MS !== "undefined" && Number.isFinite(softTransitionMs)) {
-                const clampedSoftTransitionMs = Math.min(15000, Math.max(200, Math.round(softTransitionMs)));
+                const clampedSoftTransitionMs = Math.min(5000, Math.max(200, Math.round(softTransitionMs)));
                 if (clampedSoftTransitionMs !== softTransitionMs) {
                     console.log(
-                        `[ELITE_CONFIG] SOFT_TRANSITION_MS (${softTransitionMs}) is outside 200-15000. Clamped to ${clampedSoftTransitionMs}.`,
+                        `[ELITE_CONFIG] SOFT_TRANSITION_MS (${softTransitionMs}) is outside 200-5000. Clamped to ${clampedSoftTransitionMs}.`,
                     );
                 }
                 client.config.softTransitionMs = clampedSoftTransitionMs;
