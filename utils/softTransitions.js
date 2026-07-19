@@ -1,7 +1,12 @@
+const { StreamType } = require("discord-player");
+const { SoftTransitionStream } = require("./softTransitionStream");
+
 const states = new Map();
 
 const RAMP_INTERVAL_MS = 25;
 const MONITOR_INTERVAL_MS = 100;
+const PLAYBACK_SYNC_INTERVAL_MS = 20;
+const PLAYBACK_SYNC_TIMEOUT_BUFFER_MS = 5000;
 const MIN_MANUAL_FADE_MS = 250;
 const TRACK_FADE_FRACTION = 0.25;
 
@@ -20,6 +25,9 @@ function getState(queue) {
             fadeStartRemainingMs: null,
             fadeStartVolume: null,
             fadeTrackKey: null,
+            streamFader: null,
+            manualFadeWait: null,
+            manualFadeToken: 0,
         });
     }
 
@@ -100,9 +108,61 @@ function stopMonitor(state) {
     state.monitor = null;
 }
 
+function cancelManualFade(state) {
+    state.manualFadeToken += 1;
+    state.streamFader?.cancelFade();
+    if (state.manualFadeWait) {
+        clearInterval(state.manualFadeWait.interval);
+        state.manualFadeWait.resolve(false);
+        state.manualFadeWait = null;
+    }
+}
+
+async function createSoftTransitionStream(stream, queue) {
+    const state = getState(queue);
+    cancelManualFade(state);
+
+    const fader = new SoftTransitionStream();
+    state.streamFader = fader;
+    stream.pipe(fader);
+
+    return { stream: fader, type: StreamType.Raw };
+}
+
 function setOutputVolume(queue, volume) {
     const nextVolume = Math.round(Math.max(0, Math.min(100, volume)));
     queue.node.setVolume(nextVolume);
+}
+
+function waitForFadePlayback(queue, state, fader, fadeEndMs) {
+    const token = state.manualFadeToken;
+    const startedAt = Date.now();
+    const initialStreamTime = queue.node.streamTime;
+    const expectedWaitMs = Math.max(0, fadeEndMs - initialStreamTime);
+
+    return new Promise((resolve) => {
+        const finish = (completed) => {
+            if (state.manualFadeWait?.token === token) {
+                clearInterval(state.manualFadeWait.interval);
+                state.manualFadeWait = null;
+            }
+            resolve(completed);
+        };
+
+        const interval = setInterval(() => {
+            if (token !== state.manualFadeToken || state.streamFader !== fader || !queue.dispatcher) {
+                return finish(false);
+            }
+
+            if (queue.node.streamTime >= fadeEndMs) return finish(true);
+
+            if (Date.now() - startedAt > expectedWaitMs + PLAYBACK_SYNC_TIMEOUT_BUFFER_MS) {
+                return finish(false);
+            }
+        }, PLAYBACK_SYNC_INTERVAL_MS);
+
+        state.manualFadeWait = { interval, resolve: finish, token };
+    });
 }
 
 function rampVolume(queue, target, duration) {
@@ -258,9 +318,29 @@ async function transition(queue, changeTrack) {
     state.fadeTrackKey = getTrackKey(queue);
     stopNaturalMonitor(queue);
 
-    const manualFadeMs = getEffectiveFadeMs(queue, getManualTransitionMs(), { capToRemaining: true });
-    const completed = manualFadeMs === 0 ? true : await rampVolume(queue, 0, manualFadeMs);
+    let manualFadeMs = getEffectiveFadeMs(queue, getManualTransitionMs(), { capToRemaining: true });
+    const fader = state.streamFader;
+    if (fader) {
+        const timing = getPlaybackTiming(queue);
+        if (timing) {
+            const availableStreamMs = Math.max(0, timing.total - fader.processedMs);
+            manualFadeMs = Math.min(manualFadeMs, Math.round(availableStreamMs));
+            if (manualFadeMs < MIN_MANUAL_FADE_MS) manualFadeMs = 0;
+        }
+    }
+
+    cancelManualFade(state);
+    const scheduledFade = manualFadeMs > 0 ? fader?.scheduleFadeOut(manualFadeMs) : null;
+    const completed =
+        manualFadeMs === 0
+            ? true
+            : scheduledFade
+              ? await waitForFadePlayback(queue, state, fader, scheduledFade.endMs)
+              : await rampVolume(queue, 0, manualFadeMs);
+    if (completed) setOutputVolume(queue, 0);
+
     if (!completed) {
+        cancelManualFade(state);
         resetNaturalFade(state);
         try {
             setOutputVolume(queue, state.intendedVolume);
@@ -271,6 +351,7 @@ async function transition(queue, changeTrack) {
     try {
         const result = await changeTrack();
         if (result === false) {
+            cancelManualFade(state);
             state.transitioning = false;
             state.pendingFadeIn = false;
             state.pendingFadeInMs = null;
@@ -279,6 +360,7 @@ async function transition(queue, changeTrack) {
         }
         return result;
     } catch (error) {
+        cancelManualFade(state);
         state.transitioning = false;
         state.pendingFadeIn = false;
         state.pendingFadeInMs = null;
@@ -319,6 +401,7 @@ function handlePlayerStart(queue) {
 
 function cancel(queue, { restoreVolume = true } = {}) {
     const state = getState(queue);
+    cancelManualFade(state);
     stopRamp(state);
     stopNaturalMonitor(queue);
     state.transitioning = false;
@@ -355,6 +438,7 @@ function clear(queue) {
 module.exports = {
     cancel,
     clear,
+    createSoftTransitionStream,
     getIntendedVolume,
     handlePlayerStart,
     isTransitioning,
