@@ -28,6 +28,7 @@ async function getQueue(interaction) {
             leaveOnStop: client.config.leaveOnStop,
             leaveOnStopCooldown: client.config.leaveOnStopCooldown,
             selfDeaf: client.config.selfDeafen,
+            volume: client.config.enableSoftTransitions ? 0 : client.config.defaultVolume,
             skipOnNoStream: true,
             metadata: {
                 channel: interaction.channel,
