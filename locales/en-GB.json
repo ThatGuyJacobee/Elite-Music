@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | This album has no playable tracks.",
         "failedToFindMediaQuery": "❌ | Ooops... something went wrong, couldn't find the song, playlist, or album with the requested query.",
         "playNextPlaylistOnly": "❌ | Ooops... you can only add single songs with this command. Use the regular **/play** command to add playlists to the queue.",
+        "transitionInProgress": "⏳ | A track transition is already in progress. Please wait a moment.",
+        "fadeinSoftTransition": "❌ | The Fadein audio filter cannot be enabled while soft transitions are active.",
         "actions": {
             "skippingSong": "skipping the song",
             "clearingQueue": "clearing the queue",

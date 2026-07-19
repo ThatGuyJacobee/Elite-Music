@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | 이 앨범에 재생 가능한 곡이 없습니다.",
         "failedToFindMediaQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡, 재생목록 또는 앨범을 찾을 수 없습니다.",
         "playNextPlaylistOnly": "❌ | 이런... 이 명령으로는 단일 곡만 추가할 수 있습니다. 재생목록을 대기열에 추가하려면 일반 **/play** 명령을 사용하세요.",
+        "transitionInProgress": "⏳ | 트랙 전환이 이미 진행 중입니다. 잠시만 기다려 주세요.",
+        "fadeinSoftTransition": "❌ | 부드러운 전환이 활성화되어 있는 동안에는 Fadein 오디오 필터를 사용할 수 없습니다.",
         "actions": {
             "skippingSong": "곡 건너뛰기",
             "clearingQueue": "대기열 비우기",

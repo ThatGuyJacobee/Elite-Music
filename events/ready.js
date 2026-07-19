@@ -101,12 +101,21 @@ module.exports = {
                       ? Number(process.env.DEFAULT_VOLUME)
                       : client.config.defaultVolume;
 
-            client.config.smoothVolume =
-                typeof process.env.SMOOTH_VOLUME === "undefined"
-                    ? client.config.smoothVolume
-                    : String(process.env.SMOOTH_VOLUME) === "true"
-                      ? true
-                      : false;
+            client.config.enableSoftTransitions =
+                typeof process.env.ENABLE_SOFT_TRANSITIONS === "undefined"
+                    ? client.config.enableSoftTransitions
+                    : String(process.env.ENABLE_SOFT_TRANSITIONS) === "true";
+
+            const softTransitionMs = Number(process.env.SOFT_TRANSITION_MS);
+            if (typeof process.env.SOFT_TRANSITION_MS !== "undefined" && Number.isFinite(softTransitionMs)) {
+                const clampedSoftTransitionMs = Math.min(5000, Math.max(200, Math.round(softTransitionMs)));
+                if (clampedSoftTransitionMs !== softTransitionMs) {
+                    console.log(
+                        `[ELITE_CONFIG] SOFT_TRANSITION_MS (${softTransitionMs}) is outside 200-5000. Clamped to ${clampedSoftTransitionMs}.`,
+                    );
+                }
+                client.config.softTransitionMs = clampedSoftTransitionMs;
+            }
 
             client.config.enableDjMode =
                 typeof process.env.ENABLE_DJMODE === "undefined"
@@ -358,7 +367,7 @@ module.exports = {
             }
 
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.0) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.1) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );

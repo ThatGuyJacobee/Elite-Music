@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Dieses Album enthält keine abspielbaren Titel.",
         "failedToFindMediaQuery": "❌ | Ups... etwas ist schiefgelaufen, der Song, die Playlist oder das Album mit der gesuchten Anfrage konnte nicht gefunden werden.",
         "playNextPlaylistOnly": "❌ | Ups... mit diesem Befehl kannst du nur einzelne Songs hinzufügen. Verwende den normalen Befehl **/play**, um Playlists zur Warteschlange hinzuzufügen.",
+        "transitionInProgress": "⏳ | Ein Titelübergang läuft bereits. Bitte warte einen Moment.",
+        "fadeinSoftTransition": "❌ | Der Fadein-Audiofilter kann nicht aktiviert werden, während sanfte Übergänge aktiv sind.",
         "actions": {
             "skippingSong": "Überspringen des Songs",
             "clearingQueue": "Leeren der Warteschlange",

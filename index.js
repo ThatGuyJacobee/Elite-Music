@@ -37,7 +37,6 @@ process.on("unhandledRejection", async function (err) {
 //Discord-Player initialisation
 const defaultConsts = require(`./utils/defaultConsts`);
 const player = new Player(client, {
-    smoothVolume: process.env.SMOOTH_VOLUME,
     ytdlOptions: defaultConsts.ytdlOptions,
 });
 player.extractors.loadMulti(DefaultExtractors);

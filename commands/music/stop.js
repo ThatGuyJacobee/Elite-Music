@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { clearNpControlMessages } = require("../../utils/npControlMessages");
+const { clear } = require("../../utils/softTransitions");
 const { buildRequestedByFooter, translate, translateGenericAction } = require("../../utils/botText");
 const {
     ensureDjAccess,
@@ -33,6 +34,7 @@ module.exports = {
 
         try {
             await clearNpControlMessages(queue);
+            clear(queue);
             queue.delete();
             interaction.reply({ embeds: [stopembed] });
         } catch (err) {

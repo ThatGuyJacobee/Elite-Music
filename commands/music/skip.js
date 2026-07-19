@@ -20,6 +20,6 @@ module.exports = {
         var queue = player.nodes.get(interaction.guild.id);
         if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
-        return interaction.reply(skipCurrentTrack(interaction, queue, interaction.user));
+        return skipCurrentTrack(interaction, queue, interaction.user);
     },
 };

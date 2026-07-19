@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Dit album bevat geen afspeelbare tracks.",
         "failedToFindMediaQuery": "❌ | Oeps... er ging iets mis, het nummer, de afspeellijst of het album kon niet worden gevonden met de opgegeven zoekopdracht.",
         "playNextPlaylistOnly": "❌ | Oeps... je kunt met dit commando alleen losse nummers toevoegen. Gebruik het normale commando **/play** om afspeellijsten aan de wachtrij toe te voegen.",
+        "transitionInProgress": "⏳ | Er is al een nummerovergang bezig. Wacht even.",
+        "fadeinSoftTransition": "❌ | Het Fadein-audiofilter kan niet worden ingeschakeld wanneer vloeiende overgangen actief zijn.",
         "actions": {
             "skippingSong": "het nummer overslaan",
             "clearingQueue": "de wachtrij leegmaken",

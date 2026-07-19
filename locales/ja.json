@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | このアルバムには再生可能な曲がありません。",
         "failedToFindMediaQuery": "❌ | おっと... 問題が発生しました。指定されたクエリで曲、プレイリスト、またはアルバムが見つかりませんでした。",
         "playNextPlaylistOnly": "❌ | おっと... このコマンドでは単曲のみ追加できます。プレイリストをキューに追加するには通常の **/play** コマンドを使用してください。",
+        "transitionInProgress": "⏳ | 曲の切り替えはすでに進行中です。しばらくお待ちください。",
+        "fadeinSoftTransition": "❌ | ソフトトランジションが有効な間は、Fadein オーディオフィルターを有効にできません。",
         "actions": {
             "skippingSong": "曲をスキップ",
             "clearingQueue": "キューをクリア",

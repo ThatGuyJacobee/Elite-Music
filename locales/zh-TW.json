@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | 此專輯沒有可播放的曲目。",
         "failedToFindMediaQuery": "❌ | 糟糕... 發生錯誤，找不到符合所查詢條件的歌曲、播放清單或專輯。",
         "playNextPlaylistOnly": "❌ | 糟糕... 此指令只能加入單首歌曲。請使用一般的 **/play** 指令將播放清單加入佇列。",
+        "transitionInProgress": "⏳ | 曲目切換正在進行中。請稍候。",
+        "fadeinSoftTransition": "❌ | 啟用平滑轉場時，無法啟用 Fadein 音訊濾鏡。",
         "actions": {
             "skippingSong": "跳過歌曲",
             "clearingQueue": "清除佇列",

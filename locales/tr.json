@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Bu albümde çalınabilir parça yok.",
         "failedToFindMediaQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı, çalma listesi veya albüm bulunamadı.",
         "playNextPlaylistOnly": "❌ | Hay aksi... bu komutla yalnızca tek şarkılar ekleyebilirsiniz. Çalma listelerini kuyruğa eklemek için normal **/play** komutunu kullanın.",
+        "transitionInProgress": "⏳ | Parça geçişi zaten devam ediyor. Lütfen bir süre bekleyin.",
+        "fadeinSoftTransition": "❌ | Yumuşak geçişler etkin durumdayken Fadein ses filtresi etkinleştirilemez.",
         "actions": {
             "skippingSong": "şarkıyı atlama",
             "clearingQueue": "kuyruğu temizleme",

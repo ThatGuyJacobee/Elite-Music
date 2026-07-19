@@ -9,6 +9,7 @@ const {
     ensureSameVoiceChannel,
     getQueueNotPlayingResponse,
 } = require("../../utils/interactionGuards");
+const { getIntendedVolume, setIntendedVolume } = require("../../utils/softTransitions");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,7 +33,7 @@ module.exports = {
 
         if (vol == null)
             return interaction.reply({
-                content: translate(interaction, "volume.current", { volume: queue.node.volume }),
+                content: translate(interaction, "volume.current", { volume: getIntendedVolume(queue) }),
                 flags: MessageFlags.Ephemeral,
             });
         if (vol > 100 || vol < 0)
@@ -51,7 +52,7 @@ module.exports = {
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
-            queue.node.setVolume(vol);
+            setIntendedVolume(queue, vol);
             interaction.reply({ embeds: [volumeembed] });
         } catch (err) {
             interaction.reply({

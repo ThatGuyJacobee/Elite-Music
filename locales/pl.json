@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Ten album nie zawiera żadnych odtwarzalnych utworów.",
         "failedToFindMediaQuery": "❌ | Ups... coś poszło nie tak, nie udało się znaleźć utworu, playlisty ani albumu dla podanego zapytania.",
         "playNextPlaylistOnly": "❌ | Ups... tym poleceniem możesz dodawać tylko pojedyncze utwory. Użyj zwykłej komendy **/play**, aby dodawać playlisty do kolejki.",
+        "transitionInProgress": "⏳ | Przejście między utworami jest już w toku. Poczekaj chwilę.",
+        "fadeinSoftTransition": "❌ | Filtru audio Fadein nie można włączyć, gdy aktywne są płynne przejścia.",
         "actions": {
             "skippingSong": "pomijanie utworu",
             "clearingQueue": "czyszczenie kolejki",

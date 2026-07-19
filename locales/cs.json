@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Toto album neobsahuje žádné přehratelné skladby.",
         "failedToFindMediaQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu, playlist nebo album pro zadaný dotaz.",
         "playNextPlaylistOnly": "❌ | Ups... tímto příkazem můžete přidat pouze jednotlivé skladby. Pro přidání playlistů do fronty použijte běžný příkaz **/play**.",
+        "transitionInProgress": "⏳ | Přechod mezi skladbami již probíhá. Chvíli prosím počkejte.",
+        "fadeinSoftTransition": "❌ | Zvukový filtr Fadein nelze zapnout, když jsou aktivní plynulé přechody.",
         "actions": {
             "skippingSong": "přeskakování skladby",
             "clearingQueue": "vymazání fronty",

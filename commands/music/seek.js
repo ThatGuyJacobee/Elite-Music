@@ -15,6 +15,7 @@ const {
     ensureSameVoiceChannel,
     getQueueNotPlayingResponse,
 } = require("../../utils/interactionGuards");
+const { cancel, startNaturalMonitor } = require("../../utils/softTransitions");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -53,7 +54,9 @@ module.exports = {
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
         try {
+            cancel(queue);
             queue.node.seek(removeamount);
+            startNaturalMonitor(queue);
             interaction.reply({ embeds: [seekembed] });
         } catch (err) {
             interaction.reply({

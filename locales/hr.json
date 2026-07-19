@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Ovaj album nema pjesama koje se mogu reproducirati.",
         "failedToFindMediaQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu, playlistu ili album za traženi upit.",
         "playNextPlaylistOnly": "❌ | Ups... ovom naredbom možete dodati samo pojedinačne pjesme. Koristite običnu naredbu **/play** za dodavanje playlista u red čekanja.",
+        "transitionInProgress": "⏳ | Prijelaz pjesme već je u tijeku. Pričekajte trenutak.",
+        "fadeinSoftTransition": "❌ | Audio filtar Fadein ne može se uključiti dok su glatki prijelazi aktivni.",
         "actions": {
             "skippingSong": "preskakanje pjesme",
             "clearingQueue": "brisanje reda čekanja",

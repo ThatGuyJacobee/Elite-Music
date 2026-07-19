@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Album này không có bài hát nào có thể phát.",
         "failedToFindMediaQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát, playlist hoặc album với truy vấn đã yêu cầu.",
         "playNextPlaylistOnly": "❌ | Rất tiếc... bạn chỉ có thể thêm bài hát đơn lẻ bằng lệnh này. Dùng lệnh **/play** thông thường để thêm playlist vào hàng đợi.",
+        "transitionInProgress": "⏳ | Quá trình chuyển bài hát đang diễn ra. Vui lòng chờ một lát.",
+        "fadeinSoftTransition": "❌ | Không thể bật bộ lọc âm thanh Fadein khi chuyển tiếp mượt đang hoạt động.",
         "actions": {
             "skippingSong": "bỏ qua bài hát",
             "clearingQueue": "xóa hàng đợi",

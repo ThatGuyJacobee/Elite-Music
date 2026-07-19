@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | 此专辑没有可播放的歌曲。",
         "failedToFindMediaQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲、播放列表或专辑。",
         "playNextPlaylistOnly": "❌ | 哎呀... 此命令只能添加单曲。请使用普通的 **/play** 命令将播放列表添加到队列。",
+        "transitionInProgress": "⏳ | 曲目切换正在进行中。请稍候。",
+        "fadeinSoftTransition": "❌ | 启用平滑过渡时，无法启用 Fadein 音频滤镜。",
         "actions": {
             "skippingSong": "跳过歌曲",
             "clearingQueue": "清空队列",

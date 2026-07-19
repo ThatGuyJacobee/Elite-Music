@@ -14,6 +14,7 @@ const {
     ensureSameVoiceChannel,
     getQueueNotPlayingResponse,
 } = require("../../utils/interactionGuards");
+const { transition } = require("../../utils/softTransitions");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,6 +38,12 @@ module.exports = {
         const queuedTracks = queue.tracks.toArray();
         var skipAmount = interaction.options.getInteger("song");
         var trackIndex = skipAmount - 1;
+        const targetTrack = queuedTracks[trackIndex];
+        if (!targetTrack)
+            return interaction.reply({
+                content: translate(interaction, "remove.invalidPosition"),
+                flags: MessageFlags.Ephemeral,
+            });
 
         const jumpembed = new EmbedBuilder()
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })
@@ -45,21 +52,26 @@ module.exports = {
             .setTitle(translate(interaction, "jumpqueue.title"))
             .setDescription(
                 translate(interaction, "np.skipDescription", {
-                    title: queuedTracks[trackIndex].title,
-                    link: buildTrackLinkText(queuedTracks[trackIndex], interaction),
+                    title: targetTrack.title,
+                    link: buildTrackLinkText(targetTrack, interaction),
                 }),
             )
             .setTimestamp()
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
+        await interaction.reply({ embeds: [jumpembed] });
         try {
-            queue.node.jump(trackIndex);
-            interaction.reply({ embeds: [jumpembed] });
+            const jumped = await transition(queue, () => queue.node.jump(trackIndex));
+            if (jumped === false)
+                return interaction.editReply({
+                    content: translate(interaction, "errors.transitionInProgress"),
+                    embeds: [],
+                });
         } catch (err) {
             console.log(err);
-            interaction.reply({
+            interaction.editReply({
                 content: translateGenericAction(interaction, "jumpingQueue"),
-                flags: MessageFlags.Ephemeral,
+                embeds: [],
             });
         }
     },

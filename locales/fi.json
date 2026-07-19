@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Tällä albumilla ei ole toistettavia kappaleita.",
         "failedToFindMediaQuery": "❌ | Hups... jotain meni pieleen, kappaletta, soittolistaa tai albumia ei löytynyt haulla.",
         "playNextPlaylistOnly": "❌ | Hups... voit lisätä tällä komennolla vain yksittäisiä kappaleita. Käytä tavallista **/play**-komentoa soittolistojen lisäämiseen jonoon.",
+        "transitionInProgress": "⏳ | Kappaleen siirtymä on jo käynnissä. Odota hetki.",
+        "fadeinSoftTransition": "❌ | Fadein-äänisuodatinta ei voi ottaa käyttöön, kun pehmeät siirtymät ovat käytössä.",
         "actions": {
             "skippingSong": "kappaleen ohittaminen",
             "clearingQueue": "jonon tyhjentäminen",

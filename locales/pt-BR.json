@@ -27,6 +27,8 @@
         "emptyAlbum": "❌ | Este álbum não possui faixas reproduzíveis.",
         "failedToFindMediaQuery": "❌ | Oops... algo deu errado, não foi possível encontrar a música, playlist ou álbum solicitado.",
         "playNextPlaylistOnly": "❌ | Oops... você só pode adicionar músicas individuais com este comando. Use o comando **/play** normal para adicionar playlists à fila.",
+        "transitionInProgress": "⏳ | Uma transição de faixa já está em andamento. Aguarde um momento.",
+        "fadeinSoftTransition": "❌ | O filtro de áudio Fadein não pode ser ativado enquanto as transições suaves estiverem ativas.",
         "actions": {
             "skippingSong": "pulando a música",
             "clearingQueue": "limpando a fila",
