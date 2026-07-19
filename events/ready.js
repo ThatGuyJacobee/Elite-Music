@@ -107,13 +107,15 @@ module.exports = {
                     : String(process.env.ENABLE_SOFT_TRANSITIONS) === "true";
 
             const softTransitionMs = Number(process.env.SOFT_TRANSITION_MS);
-            client.config.softTransitionMs =
-                typeof process.env.SOFT_TRANSITION_MS === "undefined" ||
-                !Number.isFinite(softTransitionMs) ||
-                softTransitionMs < 200 ||
-                softTransitionMs > 5000
-                    ? client.config.softTransitionMs
-                    : softTransitionMs;
+            if (typeof process.env.SOFT_TRANSITION_MS !== "undefined" && Number.isFinite(softTransitionMs)) {
+                const clampedSoftTransitionMs = Math.min(15000, Math.max(200, Math.round(softTransitionMs)));
+                if (clampedSoftTransitionMs !== softTransitionMs) {
+                    console.log(
+                        `[ELITE_CONFIG] SOFT_TRANSITION_MS (${softTransitionMs}) is outside 200-15000. Clamped to ${clampedSoftTransitionMs}.`,
+                    );
+                }
+                client.config.softTransitionMs = clampedSoftTransitionMs;
+            }
 
             client.config.enableDjMode =
                 typeof process.env.ENABLE_DJMODE === "undefined"

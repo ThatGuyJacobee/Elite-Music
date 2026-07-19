@@ -1,8 +1,8 @@
 const states = new Map();
 
 const RAMP_INTERVAL_MS = 25;
-const MIN_MANUAL_FADE_MS = 100;
-const MAX_MANUAL_FADE_MS = 300;
+const MONITOR_INTERVAL_MS = 100;
+const MIN_MANUAL_FADE_MS = 250;
 
 function getState(queue) {
     const guildId = queue.guild.id;
@@ -14,13 +14,21 @@ function getState(queue) {
             rampToken: 0,
             transitioning: false,
             pendingFadeIn: false,
+            fadingOut: false,
+            fadeTrackKey: null,
         });
     }
 
     return states.get(guildId);
 }
 
-function isEnabled(queue) {
+function getTrackKey(queue) {
+    const track = queue.currentTrack;
+    if (!track) return null;
+    return track.id ?? track.url ?? track.title ?? null;
+}
+
+function isEnabled() {
     return Boolean(client.config.enableSoftTransitions);
 }
 
@@ -29,7 +37,8 @@ function getTransitionMs() {
 }
 
 function getManualTransitionMs() {
-    return Math.max(MIN_MANUAL_FADE_MS, Math.min(MAX_MANUAL_FADE_MS, Math.round(getTransitionMs() / 3)));
+    const transitionMs = getTransitionMs();
+    return Math.max(MIN_MANUAL_FADE_MS, Math.round(transitionMs / 3));
 }
 
 function stopRamp(state) {
@@ -44,7 +53,8 @@ function stopMonitor(state) {
 }
 
 function setOutputVolume(queue, volume) {
-    queue.node.setVolume(Math.round(Math.max(0, Math.min(100, volume))));
+    const nextVolume = Math.round(Math.max(0, Math.min(100, volume)));
+    queue.node.setVolume(nextVolume);
 }
 
 function rampVolume(queue, target, duration) {
@@ -56,25 +66,24 @@ function rampVolume(queue, target, duration) {
     const startedAt = Date.now();
 
     return new Promise((resolve) => {
-        const finish = () => {
+        const finish = (completed) => {
             if (token !== state.rampToken) return resolve(false);
             setOutputVolume(queue, target);
             state.ramp = null;
-            resolve(true);
+            resolve(completed);
         };
 
-        if (duration <= 0 || start === target) return finish();
+        if (duration <= 0 || start === target) return finish(true);
 
         state.ramp = setInterval(() => {
-            if (token !== state.rampToken) return resolve(false);
+            if (token !== state.rampToken) return finish(false);
 
             const progress = Math.min(1, (Date.now() - startedAt) / duration);
-            const easedProgress = progress * progress * (3 - 2 * progress);
-            setOutputVolume(queue, start + (target - start) * easedProgress);
+            setOutputVolume(queue, start + (target - start) * progress);
 
-            if (progress === 1) {
+            if (progress >= 1) {
                 clearInterval(state.ramp);
-                finish();
+                finish(true);
             }
         }, RAMP_INTERVAL_MS);
     });
@@ -86,6 +95,18 @@ function canNaturallyTransition(queue) {
     return hasNextTrack || repeatsCurrentTrack;
 }
 
+function getPlaybackRemainingMs(queue) {
+    const timestamp = queue.node.getTimestamp();
+    const total = timestamp?.total?.value;
+    const current = timestamp?.current?.value;
+
+    if (!Number.isFinite(total) || total <= 0 || !Number.isFinite(current) || current < 0) {
+        return null;
+    }
+
+    return Math.max(0, total - current);
+}
+
 function stopNaturalMonitor(queue) {
     stopMonitor(getState(queue));
 }
@@ -93,43 +114,59 @@ function stopNaturalMonitor(queue) {
 function startNaturalMonitor(queue) {
     const state = getState(queue);
     stopMonitor(state);
-    if (!isEnabled(queue) || !canNaturallyTransition(queue)) return;
+    if (!isEnabled() || !canNaturallyTransition(queue)) return;
 
-    state.monitor = setInterval(async () => {
-        if (state.transitioning || queue.node.isPaused() || !canNaturallyTransition(queue)) return;
+    // Drive fade-out from remaining playback time so volume hits 0 as the track ends,
+    // instead of a separate wall-clock timer that can finish early and leave silence.
+    state.monitor = setInterval(() => {
+        if (queue.node.isPaused() || !canNaturallyTransition(queue)) return;
+        if (state.ramp) return;
 
-        const timestamp = queue.node.getTimestamp();
-        if (!timestamp?.total?.value || !timestamp.current?.value) return;
-
-        const remaining = timestamp.total.value - timestamp.current.value;
-        if (remaining > getTransitionMs()) return;
-
-        state.transitioning = true;
-        state.pendingFadeIn = true;
-        stopNaturalMonitor(queue);
-        const completed = await rampVolume(queue, 0, Math.max(0, remaining));
-        if (!completed) {
-            state.transitioning = false;
-            state.pendingFadeIn = false;
+        const trackKey = getTrackKey(queue);
+        // A new track can become current before playerStart runs. Ignore the old fade-out
+        // against the new track's remaining time or we wipe pendingFadeIn and jump to full volume.
+        if (state.fadingOut && state.fadeTrackKey && trackKey !== state.fadeTrackKey) {
+            return;
         }
-    }, 250);
+
+        const remaining = getPlaybackRemainingMs(queue);
+        if (remaining == null) return;
+
+        const fadeMs = getTransitionMs();
+        if (remaining > fadeMs) return;
+
+        if (!state.fadingOut) {
+            state.fadingOut = true;
+            state.transitioning = true;
+            state.pendingFadeIn = true;
+            state.fadeTrackKey = trackKey;
+        }
+
+        const gain = Math.max(0, Math.min(1, remaining / fadeMs));
+        const nextVolume = state.intendedVolume * gain;
+        setOutputVolume(queue, nextVolume);
+    }, MONITOR_INTERVAL_MS);
 }
 
 async function startInitialPlayback(queue, track) {
     const state = getState(queue);
     state.intendedVolume = client.config.defaultVolume;
     state.pendingFadeIn = false;
+    state.fadingOut = false;
+    state.fadeTrackKey = null;
     await queue.node.play(track);
     setOutputVolume(queue, state.intendedVolume);
 }
 
 async function transition(queue, changeTrack) {
     const state = getState(queue);
-    if (!isEnabled(queue)) return changeTrack();
+    if (!isEnabled()) return changeTrack();
     if (state.transitioning) return false;
 
     state.transitioning = true;
     state.pendingFadeIn = true;
+    state.fadingOut = false;
+    state.fadeTrackKey = getTrackKey(queue);
     stopNaturalMonitor(queue);
 
     const completed = await rampVolume(queue, 0, getManualTransitionMs());
@@ -140,12 +177,14 @@ async function transition(queue, changeTrack) {
         if (result === false) {
             state.transitioning = false;
             state.pendingFadeIn = false;
+            state.fadeTrackKey = null;
             setOutputVolume(queue, state.intendedVolume);
         }
         return result;
     } catch (error) {
         state.transitioning = false;
         state.pendingFadeIn = false;
+        state.fadeTrackKey = null;
         setOutputVolume(queue, state.intendedVolume);
         throw error;
     }
@@ -154,16 +193,23 @@ async function transition(queue, changeTrack) {
 function handlePlayerStart(queue) {
     const state = getState(queue);
     stopNaturalMonitor(queue);
+    stopRamp(state);
+    state.fadingOut = false;
+    state.fadeTrackKey = null;
 
-    if (state.pendingFadeIn && isEnabled(queue)) {
+    if (state.pendingFadeIn && isEnabled()) {
         state.pendingFadeIn = false;
         state.transitioning = false;
         setOutputVolume(queue, 0);
-        rampVolume(queue, state.intendedVolume, getTransitionMs());
-    } else {
-        setOutputVolume(queue, state.intendedVolume);
+        // Wait until fade-in finishes before arming the natural end monitor,
+        // so a short/incorrect remaining time cannot cancel the fade-in early.
+        rampVolume(queue, state.intendedVolume, getTransitionMs()).then((completed) => {
+            if (completed) startNaturalMonitor(queue);
+        });
+        return;
     }
 
+    setOutputVolume(queue, state.intendedVolume);
     startNaturalMonitor(queue);
 }
 
@@ -173,6 +219,8 @@ function cancel(queue, { restoreVolume = true } = {}) {
     stopNaturalMonitor(queue);
     state.transitioning = false;
     state.pendingFadeIn = false;
+    state.fadingOut = false;
+    state.fadeTrackKey = null;
     if (restoreVolume) setOutputVolume(queue, state.intendedVolume);
 }
 
