@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
@@ -173,11 +173,12 @@ async function queuePlay(interaction, responseType, search, nextSong) {
 
 async function skipCurrentTrack(interaction, queue, user) {
     const nextTrack = queue.tracks.toArray()[0];
-    if (!nextTrack) return getQueueEmptyResponse(interaction);
+    if (!nextTrack) return interaction.reply(getQueueEmptyResponse(interaction));
 
-    const coverImage = new AttachmentBuilder(nextTrack.thumbnail, {
+    const coverImage = await buildImageAttachment(nextTrack.thumbnail, {
         name: "coverimage.jpg",
         description: buildCoverImageDescription(interaction, "song", nextTrack.title),
+        source: interaction,
     });
 
     const skipembed = new EmbedBuilder()
@@ -194,16 +195,21 @@ async function skipCurrentTrack(interaction, queue, user) {
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, user));
 
+    await interaction.reply({ embeds: [skipembed], files: [coverImage] });
+
     try {
         const skipped = await transition(queue, () => queue.node.skip());
         if (skipped === false)
-            return ephemeralReply({
+            return interaction.editReply({
                 content: translate(interaction, "errors.transitionInProgress"),
+                embeds: [],
+                attachments: [],
             });
-        return { embeds: [skipembed], files: [coverImage] };
     } catch (err) {
-        return ephemeralReply({
+        return interaction.editReply({
             content: translateGenericAction(interaction, "skippingSong"),
+            embeds: [],
+            attachments: [],
         });
     }
 }

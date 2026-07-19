@@ -59,19 +59,19 @@ module.exports = {
             .setTimestamp()
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
+        await interaction.reply({ embeds: [jumpembed] });
         try {
             const jumped = await transition(queue, () => queue.node.jump(trackIndex));
             if (jumped === false)
-                return interaction.reply({
+                return interaction.editReply({
                     content: translate(interaction, "errors.transitionInProgress"),
-                    flags: MessageFlags.Ephemeral,
+                    embeds: [],
                 });
-            interaction.reply({ embeds: [jumpembed] });
         } catch (err) {
             console.log(err);
-            interaction.reply({
+            interaction.editReply({
                 content: translateGenericAction(interaction, "jumpingQueue"),
-                flags: MessageFlags.Ephemeral,
+                embeds: [],
             });
         }
     },

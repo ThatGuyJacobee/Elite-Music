@@ -48,18 +48,18 @@ module.exports = {
             .setTimestamp()
             .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
+        await interaction.reply({ embeds: [backembed] });
         try {
             const returned = await transition(queue, () => queue.history.back());
             if (returned === false)
-                return interaction.reply({
+                return interaction.editReply({
                     content: translate(interaction, "errors.transitionInProgress"),
-                    flags: MessageFlags.Ephemeral,
+                    embeds: [],
                 });
-            interaction.reply({ embeds: [backembed] });
         } catch (err) {
-            interaction.reply({
+            interaction.editReply({
                 content: translateGenericAction(interaction, "returningToPreviousSong"),
-                flags: MessageFlags.Ephemeral,
+                embeds: [],
             });
         }
     },
