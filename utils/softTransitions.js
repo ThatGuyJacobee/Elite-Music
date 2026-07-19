@@ -14,7 +14,9 @@ function getState(queue) {
             rampToken: 0,
             transitioning: false,
             pendingFadeIn: false,
+            pendingFadeInMs: null,
             fadingOut: false,
+            fadeDurationMs: null,
             fadeTrackKey: null,
         });
     }
@@ -114,12 +116,12 @@ function stopNaturalMonitor(queue) {
 function startNaturalMonitor(queue) {
     const state = getState(queue);
     stopMonitor(state);
-    if (!isEnabled() || !canNaturallyTransition(queue)) return;
+    if (!isEnabled()) return;
 
     // Drive fade-out from remaining playback time so volume hits 0 as the track ends,
     // instead of a separate wall-clock timer that can finish early and leave silence.
     state.monitor = setInterval(() => {
-        if (queue.node.isPaused() || !canNaturallyTransition(queue)) return;
+        if (queue.node.isPaused()) return;
         if (state.ramp) return;
 
         const trackKey = getTrackKey(queue);
@@ -132,14 +134,23 @@ function startNaturalMonitor(queue) {
         const remaining = getPlaybackRemainingMs(queue);
         if (remaining == null) return;
 
-        const fadeMs = getTransitionMs();
+        const fadeMs =
+            state.fadeDurationMs ?? (canNaturallyTransition(queue) ? getTransitionMs() : getManualTransitionMs());
         if (remaining > fadeMs) return;
 
         if (!state.fadingOut) {
+            const transitionsToNextTrack = canNaturallyTransition(queue);
             state.fadingOut = true;
+            state.transitioning = transitionsToNextTrack;
+            state.pendingFadeIn = transitionsToNextTrack;
+            state.pendingFadeInMs = transitionsToNextTrack ? getTransitionMs() : null;
+            state.fadeDurationMs = fadeMs;
+            state.fadeTrackKey = trackKey;
+        } else if (!state.pendingFadeIn && canNaturallyTransition(queue)) {
+            // A track may be queued after the final-track fade has already begun.
             state.transitioning = true;
             state.pendingFadeIn = true;
-            state.fadeTrackKey = trackKey;
+            state.pendingFadeInMs = getTransitionMs();
         }
 
         const gain = Math.max(0, Math.min(1, remaining / fadeMs));
@@ -151,11 +162,13 @@ function startNaturalMonitor(queue) {
 async function startInitialPlayback(queue, track) {
     const state = getState(queue);
     state.intendedVolume = client.config.defaultVolume;
-    state.pendingFadeIn = false;
+    state.pendingFadeIn = isEnabled();
+    state.pendingFadeInMs = state.pendingFadeIn ? getManualTransitionMs() : null;
     state.fadingOut = false;
+    state.fadeDurationMs = null;
     state.fadeTrackKey = null;
+    setOutputVolume(queue, state.pendingFadeIn ? 0 : state.intendedVolume);
     await queue.node.play(track);
-    setOutputVolume(queue, state.intendedVolume);
 }
 
 async function transition(queue, changeTrack) {
@@ -165,7 +178,9 @@ async function transition(queue, changeTrack) {
 
     state.transitioning = true;
     state.pendingFadeIn = true;
+    state.pendingFadeInMs = getTransitionMs();
     state.fadingOut = false;
+    state.fadeDurationMs = null;
     state.fadeTrackKey = getTrackKey(queue);
     stopNaturalMonitor(queue);
 
@@ -177,6 +192,7 @@ async function transition(queue, changeTrack) {
         if (result === false) {
             state.transitioning = false;
             state.pendingFadeIn = false;
+            state.pendingFadeInMs = null;
             state.fadeTrackKey = null;
             setOutputVolume(queue, state.intendedVolume);
         }
@@ -184,6 +200,7 @@ async function transition(queue, changeTrack) {
     } catch (error) {
         state.transitioning = false;
         state.pendingFadeIn = false;
+        state.pendingFadeInMs = null;
         state.fadeTrackKey = null;
         setOutputVolume(queue, state.intendedVolume);
         throw error;
@@ -192,18 +209,21 @@ async function transition(queue, changeTrack) {
 
 function handlePlayerStart(queue) {
     const state = getState(queue);
+    const fadeInMs = state.pendingFadeInMs ?? getTransitionMs();
     stopNaturalMonitor(queue);
     stopRamp(state);
     state.fadingOut = false;
+    state.fadeDurationMs = null;
     state.fadeTrackKey = null;
 
     if (state.pendingFadeIn && isEnabled()) {
         state.pendingFadeIn = false;
+        state.pendingFadeInMs = null;
         state.transitioning = false;
         setOutputVolume(queue, 0);
         // Wait until fade-in finishes before arming the natural end monitor,
         // so a short/incorrect remaining time cannot cancel the fade-in early.
-        rampVolume(queue, state.intendedVolume, getTransitionMs()).then((completed) => {
+        rampVolume(queue, state.intendedVolume, fadeInMs).then((completed) => {
             if (completed) startNaturalMonitor(queue);
         });
         return;
@@ -219,7 +239,9 @@ function cancel(queue, { restoreVolume = true } = {}) {
     stopNaturalMonitor(queue);
     state.transitioning = false;
     state.pendingFadeIn = false;
+    state.pendingFadeInMs = null;
     state.fadingOut = false;
+    state.fadeDurationMs = null;
     state.fadeTrackKey = null;
     if (restoreVolume) setOutputVolume(queue, state.intendedVolume);
 }
