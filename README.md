@@ -169,7 +169,7 @@ Elite Music comes with a DJ Mode optional feature, which locks down the use of c
 Soft Transitions fades tracks out and in during playback (skip, natural song changes, etc.) instead of hard cuts. Audio never overlaps - it's a sequential fade, not a true crossfade (due to limitations).
 
 1. Firstly, set `ENABLE_SOFT_TRANSITIONS` to `true`.
-2. Optionally, set `SOFT_TRANSITION_MS` to the duration of each fade-out or fade-in in milliseconds (`200`-`5000`, default `1000`). This is the length of a single fade direction, not the combined transition. Manual actions such as skips, back, and jump use a shorter fade derived from this value.
+2. Optionally, set `SOFT_TRANSITION_MS` to the duration of each fade-out or fade-in in milliseconds (`200`-`5000`, default `1000`). This is the length of a single fade direction, not the combined transition.
 
 ### Translations & Localisation
 

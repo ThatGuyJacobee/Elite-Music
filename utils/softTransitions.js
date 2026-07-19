@@ -41,8 +41,7 @@ function getTransitionMs() {
 }
 
 function getManualTransitionMs() {
-    const transitionMs = getTransitionMs();
-    return Math.max(MIN_MANUAL_FADE_MS, Math.round(transitionMs / 3));
+    return getTransitionMs();
 }
 
 function getPlaybackTiming(queue) {
