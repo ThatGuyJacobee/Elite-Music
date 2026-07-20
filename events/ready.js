@@ -378,7 +378,7 @@ module.exports = {
             if (checkGitHub != false) {
                 let latestRelease = checkGitHub.tag_name;
 
-                if ("v1.8" != latestRelease) {
+                if ("v1.9" != latestRelease) {
                     console.log(
                         `[ELITE_STATUS] Your bot is outdated. Please update to the latest major release version of Elite Music (${latestRelease}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${checkGitHub.html_url}`,
                     );
