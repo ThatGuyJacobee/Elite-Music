@@ -1,4 +1,4 @@
-const { StreamType } = require("discord-player");
+const { QueueRepeatMode, StreamType } = require("discord-player");
 const { SoftTransitionStream } = require("./softTransitionStream");
 
 const states = new Map();
@@ -14,7 +14,7 @@ function getState(queue) {
     const guildId = queue.guild.id;
     if (!states.has(guildId)) {
         states.set(guildId, {
-            intendedVolume: queue.node.volume,
+            intendedVolume: client.config.defaultVolume,
             monitor: null,
             ramp: null,
             rampToken: 0,
@@ -143,11 +143,16 @@ async function createSoftTransitionStream(stream, queue) {
     const state = getState(queue);
     cancelStreamFade(state);
 
+    if (!isEnabled()) {
+        state.streamFader = null;
+        return { stream, type: StreamType.Raw };
+    }
+
     const fader = new SoftTransitionStream();
     state.streamFader = fader;
 
     // Schedule before any PCM is processed so the track cannot start at full gain.
-    if (state.pendingFadeIn && isEnabled()) {
+    if (state.pendingFadeIn) {
         const requestedFadeInMs = state.pendingFadeInMs ?? getTransitionMs();
         const fadeInMs = getEffectiveFadeMs(queue, requestedFadeInMs);
         const scheduledFade = fadeInMs > 0 ? fader.scheduleFadeIn(fadeInMs) : null;
@@ -234,8 +239,11 @@ function rampVolume(queue, target, duration) {
 
 function canNaturallyTransition(queue) {
     const hasNextTrack = queue.tracks.size > 0;
-    const repeatsCurrentTrack = queue.repeatMode === 1;
-    return hasNextTrack || repeatsCurrentTrack;
+    const repeatsPlayback =
+        queue.repeatMode === QueueRepeatMode.TRACK ||
+        queue.repeatMode === QueueRepeatMode.QUEUE ||
+        queue.repeatMode === QueueRepeatMode.AUTOPLAY;
+    return hasNextTrack || repeatsPlayback;
 }
 
 function resetNaturalFade(state) {
@@ -251,6 +259,12 @@ function restoreIntendedVolume(queue, state) {
     try {
         setOutputVolume(queue, state.intendedVolume);
     } catch {}
+}
+
+function restartNaturalMonitor(queue, state) {
+    if (states.get(queue.guild.id) === state && queue.dispatcher) {
+        startNaturalMonitor(queue);
+    }
 }
 
 function stopNaturalMonitor(queue) {
@@ -292,7 +306,6 @@ function startNaturalMonitor(queue) {
             if (state.fadingOut) {
                 // Track queued after a final-track fade already started.
                 if (!state.pendingFadeIn && canNaturallyTransition(queue)) {
-                    state.transitioning = true;
                     state.pendingFadeIn = true;
                     state.pendingFadeInMs = getTransitionMs();
                 }
@@ -308,7 +321,6 @@ function startNaturalMonitor(queue) {
 
             const transitionsToNextTrack = canNaturallyTransition(queue);
             state.fadingOut = true;
-            state.transitioning = transitionsToNextTrack;
             state.pendingFadeIn = transitionsToNextTrack;
             state.pendingFadeInMs = transitionsToNextTrack ? getTransitionMs() : null;
             state.fadeStartRemainingMs = timing.remaining;
@@ -329,7 +341,6 @@ function startNaturalMonitor(queue) {
 
 async function startInitialPlayback(queue, track) {
     const state = getState(queue);
-    state.intendedVolume = client.config.defaultVolume;
     const initialFadeMs = getEffectiveFadeMs(queue, getTransitionMs(), { track });
     state.pendingFadeIn = isEnabled() && initialFadeMs > 0;
     state.pendingFadeInMs = state.pendingFadeIn ? initialFadeMs : null;
@@ -373,6 +384,7 @@ async function transition(queue, changeTrack) {
         cancelStreamFade(state);
         resetNaturalFade(state);
         restoreIntendedVolume(queue, state);
+        restartNaturalMonitor(queue, state);
         return false;
     }
 
@@ -381,13 +393,15 @@ async function transition(queue, changeTrack) {
         if (result === false) {
             cancelStreamFade(state);
             resetNaturalFade(state);
-            setOutputVolume(queue, state.intendedVolume);
+            restoreIntendedVolume(queue, state);
+            restartNaturalMonitor(queue, state);
         }
         return result;
     } catch (error) {
         cancelStreamFade(state);
         resetNaturalFade(state);
-        setOutputVolume(queue, state.intendedVolume);
+        restoreIntendedVolume(queue, state);
+        restartNaturalMonitor(queue, state);
         throw error;
     }
 }
@@ -428,7 +442,8 @@ function handlePlayerStart(queue) {
         cancelStreamFade(state);
         setOutputVolume(queue, 0);
         rampVolume(queue, state.intendedVolume, fadeInMs).then((completed) => {
-            if (completed) startNaturalMonitor(queue);
+            if (!completed) restoreIntendedVolume(queue, state);
+            if (!state.transitioning) restartNaturalMonitor(queue, state);
         });
         return;
     }
@@ -459,10 +474,6 @@ function getIntendedVolume(queue) {
     return getState(queue).intendedVolume;
 }
 
-function isTransitioning(queue) {
-    return getState(queue).transitioning;
-}
-
 function clear(queue) {
     cancel(queue, { restoreVolume: false });
     states.delete(queue.guild.id);
@@ -474,7 +485,6 @@ module.exports = {
     createSoftTransitionStream,
     getIntendedVolume,
     handlePlayerStart,
-    isTransitioning,
     setIntendedVolume,
     startInitialPlayback,
     startNaturalMonitor,
