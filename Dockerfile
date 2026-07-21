@@ -11,10 +11,5 @@ RUN npm ci --omit=dev && npm cache clean --force
 
 COPY . .
 
-# Combine update, upgrade, and install to save image layers
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache ffmpeg
-
 # Start the bot CMD
 CMD ["node", "index.js"]
