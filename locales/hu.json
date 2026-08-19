@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | A Plex jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
         "subsonicDisabled": "❌ | A Subsonic jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
-        "jellyfinDisabled": "❌ | A Jellyfin jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban."
+        "jellyfinDisabled": "❌ | A Jellyfin jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
+        "radioDisabled": "❌ | A rádió jelenleg ki van kapcsolva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és állítsa be a környezeti fájlban."
     },
     "guards": {
         "djMode": "❌ | A DJ mód aktív! A(z) {role} DJ szerepkörrel kell rendelkezned a zenei parancsok használatához!",
         "notInVoice": "❌ | Nem vagy hangcsatornán!",
-        "notInBotVoice": "❌ | Nem vagy az én hangcsatornámon!"
+        "notInBotVoice": "❌ | Nem vagy az én hangcsatornámon!",
+        "radioRole": "❌ | A rádió indításához rendelkezned kell a Radio szerepkörrel: {role}!"
     },
     "queue": {
         "nothingPlaying": "❌ | Jelenleg nem szól zene!",
@@ -178,7 +180,8 @@
             "search": "Számok, lejátszási listák és albumok keresése.",
             "playnext": "Szám, lejátszási lista vagy album hozzáadása a Jellyfin szerveredről következőként."
         },
-        "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!"
+        "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!",
+        "radio": "Az adminisztrátor által beállított rádiólejátszási lista indítása!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Senki sincs a hangcsatornán!",
         "queueFinishedTitle": "Sor befejezve 🛑",
         "queueFinishedDescription": "A zenei sor befejeződött!"
+    },
+    "radio": {
+        "startedTitle": "Rádió elindítva 📻",
+        "startedDescription": "A(z) **{title}** rádiólejátszási lista elindult itt: {channel}, szolgáltató: **{provider}**, sorrend: **{order}**, dalok száma: **{count}**."
     }
 }

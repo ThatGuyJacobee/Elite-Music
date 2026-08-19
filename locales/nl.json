@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
         "subsonicDisabled": "❌ | Subsonic is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
-        "jellyfinDisabled": "❌ | Jellyfin is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren."
+        "jellyfinDisabled": "❌ | Jellyfin is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
+        "radioDisabled": "❌ | Radio is momenteel uitgeschakeld! Vraag de serverbeheerder om deze in het omgevingsbestand in te schakelen en te configureren."
     },
     "guards": {
         "djMode": "❌ | DJ-modus is actief! Je moet de DJ-rol {role} hebben om muziekcommando's te gebruiken!",
         "notInVoice": "❌ | Je zit niet in een spraakkanaal!",
-        "notInBotVoice": "❌ | Je zit niet in mijn spraakkanaal!"
+        "notInBotVoice": "❌ | Je zit niet in mijn spraakkanaal!",
+        "radioRole": "❌ | Je moet de Radio-rol {role} hebben om de radio te starten!"
     },
     "queue": {
         "nothingPlaying": "❌ | Er wordt momenteel geen muziek afgespeeld!",
@@ -178,7 +180,8 @@
             "search": "Zoek naar tracks, playlists en albums.",
             "playnext": "Voeg een track, playlist of album van je Jellyfin-server toe om daarna af te spelen."
         },
-        "volume": "Het huidige muziekv volume bekijken of instellen!"
+        "volume": "Het huidige muziekv volume bekijken of instellen!",
+        "radio": "Start de door de beheerder ingestelde radioafspeellijst!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Niemand zit in het spraakkanaal!",
         "queueFinishedTitle": "Wachtrij voltooid 🛑",
         "queueFinishedDescription": "De muziekwachtrij is voltooid!"
+    },
+    "radio": {
+        "startedTitle": "Radio gestart 📻",
+        "startedDescription": "De radioafspeellijst **{title}** is gestart in {channel} via **{provider}**, in de volgorde **{order}**, met **{count}** nummers."
     }
 }

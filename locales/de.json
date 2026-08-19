@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
         "subsonicDisabled": "❌ | Subsonic ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
-        "jellyfinDisabled": "❌ | Jellyfin ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren."
+        "jellyfinDisabled": "❌ | Jellyfin ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
+        "radioDisabled": "❌ | Radio ist derzeit deaktiviert! Bitte den Serveradministrator, es in der Umgebungsdatei zu aktivieren und zu konfigurieren."
     },
     "guards": {
         "djMode": "❌ | DJ-Modus ist aktiv! Du musst die DJ-Rolle {role} haben, um Musikbefehle zu verwenden!",
         "notInVoice": "❌ | Du bist in keinem Sprachkanal!",
-        "notInBotVoice": "❌ | Du bist nicht in meinem Sprachkanal!"
+        "notInBotVoice": "❌ | Du bist nicht in meinem Sprachkanal!",
+        "radioRole": "❌ | Du benötigst die Radio-Rolle {role}, um das Radio zu starten!"
     },
     "queue": {
         "nothingPlaying": "❌ | Es wird derzeit keine Musik abgespielt!",
@@ -178,7 +180,8 @@
             "search": "Titel, Playlists und Alben suchen.",
             "playnext": "Titel, Playlist oder Album vom Jellyfin-Server als Nächstes abspielen."
         },
-        "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!"
+        "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!",
+        "radio": "Die vom Administrator konfigurierte Radio-Playlist starten!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Niemand ist im Sprachkanal!",
         "queueFinishedTitle": "Warteschlange beendet 🛑",
         "queueFinishedDescription": "Die Musik-Warteschlange ist beendet!"
+    },
+    "radio": {
+        "startedTitle": "Radio gestartet 📻",
+        "startedDescription": "Die Radio-Playlist **{title}** wurde in {channel} über **{provider}** in der Reihenfolge **{order}** mit **{count}** Titeln gestartet."
     }
 }

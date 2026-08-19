@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
         "subsonicDisabled": "❌ | Subsonic on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
-        "jellyfinDisabled": "❌ | Jellyfin on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa."
+        "jellyfinDisabled": "❌ | Jellyfin on tällä hetkellä pois käytöstä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa.",
+        "radioDisabled": "❌ | Radio ei ole tällä hetkellä käytössä! Pyydä palvelimen ylläpitäjää ottamaan se käyttöön ja määrittämään se ympäristötiedostossa."
     },
     "guards": {
         "djMode": "❌ | DJ-tila on aktiivinen! Sinulla on oltava DJ-rooli {role} käyttääksesi musiikkikomentoja!",
         "notInVoice": "❌ | Et ole äänikanavalla!",
-        "notInBotVoice": "❌ | Et ole minun äänikanavallani!"
+        "notInBotVoice": "❌ | Et ole minun äänikanavallani!",
+        "radioRole": "❌ | Tarvitset Radio-roolin {role} käynnistääksesi radion!"
     },
     "queue": {
         "nothingPlaying": "❌ | Musiikkia ei toisteta tällä hetkellä!",
@@ -178,7 +180,8 @@
             "search": "Hae kappaleita, soittolistoja ja albumeita.",
             "playnext": "Lisää kappale, soittolista tai albumi Jellyfin-palvelimeltasi seuraavaksi soitettavaksi."
         },
-        "volume": "Tarkista tai aseta nykyinen musiikin äänenvoimakkuus!"
+        "volume": "Tarkista tai aseta nykyinen musiikin äänenvoimakkuus!",
+        "radio": "Käynnistä ylläpitäjän määrittämä radiosoittolista!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Äänikanavalla ei ole ketään!",
         "queueFinishedTitle": "Jono valmis 🛑",
         "queueFinishedDescription": "Musiikkijono on valmis!"
+    },
+    "radio": {
+        "startedTitle": "Radio käynnistetty 📻",
+        "startedDescription": "Radiosoittolista **{title}** käynnistettiin kanavalla {channel} käyttäen palvelua **{provider}**, järjestyksessä **{order}**, yhteensä **{count}** kappaletta."
     }
 }

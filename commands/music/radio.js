@@ -37,10 +37,10 @@ module.exports = {
 
             const errorKey =
                 err?.code === "RADIO_PLAYLIST_NOT_FOUND"
-                    ? "errors.radioPlaylistNotFound"
+                    ? "errors.failedToFindMediaQuery"
                     : err?.code === "RADIO_PLAYLIST_EMPTY"
                       ? "errors.emptyPlaylist"
-                      : "errors.radioStart";
+                      : "errors.playRequest";
 
             return sendRadioErrorMessage(interaction, translate(interaction, errorKey));
         }

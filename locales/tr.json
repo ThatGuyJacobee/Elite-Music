@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
         "subsonicDisabled": "❌ | Subsonic şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
-        "jellyfinDisabled": "❌ | Jellyfin şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin."
+        "jellyfinDisabled": "❌ | Jellyfin şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
+        "radioDisabled": "❌ | Radyo şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirip yapılandırmasını isteyin."
     },
     "guards": {
         "djMode": "❌ | DJ Modu aktif! Müzik komutlarını kullanmak için DJ rolüne {role} sahip olmalısınız!",
         "notInVoice": "❌ | Bir ses kanalında değilsiniz!",
-        "notInBotVoice": "❌ | Benim ses kanalımdayken değilsiniz!"
+        "notInBotVoice": "❌ | Benim ses kanalımdayken değilsiniz!",
+        "radioRole": "❌ | Radyoyu başlatmak için Radio rolüne {role} sahip olmalısınız!"
     },
     "queue": {
         "nothingPlaying": "❌ | Şu anda müzik çalmıyor!",
@@ -178,7 +180,8 @@
             "search": "Parça, çalma listesi ve albüm ara.",
             "playnext": "Jellyfin sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
         },
-        "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!"
+        "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!",
+        "radio": "Yönetici tarafından yapılandırılan radyo çalma listesini başlat!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Ses kanalında kimse yok!",
         "queueFinishedTitle": "Kuyruk Bitti 🛑",
         "queueFinishedDescription": "Müzik kuyruğu tamamlandı!"
+    },
+    "radio": {
+        "startedTitle": "Radyo başlatıldı 📻",
+        "startedDescription": "**{title}** radyo çalma listesi {channel} kanalında **{provider}** ile **{order}** sıralamasında **{count}** şarkıyla başlatıldı."
     }
 }

@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex jest obecnie wyłączony! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym.",
         "subsonicDisabled": "❌ | Subsonic jest obecnie wyłączony! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym.",
-        "jellyfinDisabled": "❌ | Jellyfin jest obecnie wyłączony! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym."
+        "jellyfinDisabled": "❌ | Jellyfin jest obecnie wyłączony! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym.",
+        "radioDisabled": "❌ | Radio jest obecnie wyłączone! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym."
     },
     "guards": {
         "djMode": "❌ | Tryb DJ jest aktywny! Musisz mieć rolę DJ {role}, aby używać jakichkolwiek komend muzycznych!",
         "notInVoice": "❌ | Nie jesteś na kanale głosowym!",
-        "notInBotVoice": "❌ | Nie jesteś na moim kanale głosowym!"
+        "notInBotVoice": "❌ | Nie jesteś na moim kanale głosowym!",
+        "radioRole": "❌ | Aby uruchomić radio, musisz mieć rolę Radio {role}!"
     },
     "queue": {
         "nothingPlaying": "❌ | Obecnie nic nie jest odtwarzane!",
@@ -178,7 +180,8 @@
             "search": "Przeszukaj utwory, playlisty i albumy.",
             "playnext": "Dodaj utwór, playlistę lub album z serwera Jellyfin do odtworzenia jako następny."
         },
-        "volume": "Sprawdź lub ustaw aktualną głośność muzyki!"
+        "volume": "Sprawdź lub ustaw aktualną głośność muzyki!",
+        "radio": "Uruchom playlistę radiową skonfigurowaną przez administratora!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "Nikt nie jest na kanale głosowym!",
         "queueFinishedTitle": "Kolejka zakończona 🛑",
         "queueFinishedDescription": "Kolejka muzyki została zakończona!"
+    },
+    "radio": {
+        "startedTitle": "Radio uruchomione 📻",
+        "startedDescription": "Playlista radiowa **{title}** została uruchomiona na {channel} przez **{provider}**, w kolejności **{order}**, z **{count}** utworami."
     }
 }

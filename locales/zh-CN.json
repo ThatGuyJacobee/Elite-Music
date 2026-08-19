@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
         "subsonicDisabled": "❌ | Subsonic 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
-        "jellyfinDisabled": "❌ | Jellyfin 当前已禁用！请让服务器管理员在环境文件中启用并配置。"
+        "jellyfinDisabled": "❌ | Jellyfin 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
+        "radioDisabled": "❌ | 电台当前已禁用！请联系服务器管理员在环境文件中启用并配置电台。"
     },
     "guards": {
         "djMode": "❌ | DJ 模式已激活！您必须拥有 DJ 角色 {role} 才能使用任何音乐命令！",
         "notInVoice": "❌ | 您不在语音频道中！",
-        "notInBotVoice": "❌ | 您不在我的语音频道中！"
+        "notInBotVoice": "❌ | 您不在我的语音频道中！",
+        "radioRole": "❌ | 你必须拥有 Radio 身份组 {role} 才能启动电台！"
     },
     "queue": {
         "nothingPlaying": "❌ | 当前没有正在播放的音乐！",
@@ -178,7 +180,8 @@
             "search": "搜索歌曲、播放列表和专辑。",
             "playnext": "从 Jellyfin 服务器添加歌曲、播放列表或专辑到下一首播放。"
         },
-        "volume": "查看或设置当前音乐音量！"
+        "volume": "查看或设置当前音乐音量！",
+        "radio": "启动管理员配置的电台播放列表！"
     },
     "slash": {
         "options": {
@@ -324,5 +327,9 @@
         "emptyChannelDescription": "语音频道中没有人！",
         "queueFinishedTitle": "队列已完成 🛑",
         "queueFinishedDescription": "音乐队列已播放完毕！"
+    },
+    "radio": {
+        "startedTitle": "电台已启动 📻",
+        "startedDescription": "已在 {channel} 中通过 **{provider}** 启动电台播放列表 **{title}**，顺序为 **{order}**，共 **{count}** 首歌曲。"
     }
 }

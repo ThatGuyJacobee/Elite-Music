@@ -2,7 +2,11 @@ const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { buildRequestedByFooter, translate } = require("./botText");
 
 async function sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment) {
-    const provider = translate(interaction, `radio.providers.${playbackContext.provider}`);
+    const provider = {
+        plex: "Plex",
+        subsonic: "Subsonic",
+        jellyfin: "Jellyfin",
+    }[playbackContext.provider];
     const order = translate(interaction, `slash.choices.order.${playbackContext.order}`);
 
     const embed = new EmbedBuilder()
