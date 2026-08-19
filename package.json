@@ -1,6 +1,6 @@
 {
     "name": "elite-music",
-    "version": "1.0.0",
+    "version": "1.9.1",
     "private": true,
     "description": "An open-source & feature-packed Discord music bot built on discord.js and discord-player - complete with slash commands, Plex Media Server, Subsonic API & Jellyfin streaming support, Docker, localisation and much more! 🚀💪",
     "main": "index.js",
