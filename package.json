@@ -1,7 +1,8 @@
 {
-    "name": "elite-bot-music",
+    "name": "elite-music",
     "version": "1.0.0",
     "description": "Elite Bot's original music feature moved to a separate discord bot.",
+    "private": true,
     "main": "index.js",
     "scripts": {
         "dev": "nodemon index.js",
@@ -11,8 +12,29 @@
         "docker:build": "node scripts/docker-build.js"
     },
     "type": "commonjs",
-    "author": "ThatGuyJacobee",
+    "author": {
+        "name": "ThatGuyJacobee",
+        "url": "https://github.com/ThatGuyJacobee"
+    },
     "license": "AGPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ThatGuyJacobee/Elite-Music.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ThatGuyJacobee/Elite-Music/issues"
+    },
+    "homepage": "https://github.com/ThatGuyJacobee/Elite-Music#readme",
+    "keywords": [
+        "discord-bot",
+        "discord-music-bot",
+        "discord.js",
+        "discord-player",
+        "music-bot",
+        "plex-media-server",
+        "subsonic-api",
+        "jellyfin"
+    ],
     "dependencies": {
         "@discordjs/opus": "^0.10.0",
         "@discordjs/rest": "2.6.3",
