@@ -25,6 +25,9 @@
         "url": "https://github.com/ThatGuyJacobee/Elite-Music/issues"
     },
     "homepage": "https://github.com/ThatGuyJacobee/Elite-Music#readme",
+    "engines": {
+        "node": ">=20"
+    },
     "keywords": [
         "discord-bot",
         "discord-music-bot",

@@ -25,7 +25,7 @@ Elite Music was originally a part of my verified Discord bot... [Elite Bot](http
 
 In order for the bot to function correctly, there are a few prerequisites that you must have on your system.
 
-- [NodeJS](https://nodejs.org/en) - For the bot to function, it must be running in a NodeJS environment running on v16.9.0 or higher. It is highly recommended that you download the LTS build which is available for your OS to remain on the latest stable version. Head over to the [NodeJS Download website](https://nodejs.org/en/download) to download and install an appropriate version.
+- [Node.js](https://nodejs.org/en) - The bot requires the Node.js environment running on **v20** or newer. It is highly recommended to use the **v22** LTS build for long-term stable support. Head over to the [NodeJS Download website](https://nodejs.org/en/download) to download and install an appropriate version.
 
 - [FFmpeg](https://ffmpeg.org/) or Avconv - You will require either of these for transcoding. It is recommended to use FFmpeg. By default, the bot comes with the `ffmpeg-static` binaries as a dependency which allows the bot to work out of the box. Alternatively, you may decide to set your own ffmpeg binaries. In this case, head over to the [FFmpeg Download website](https://ffmpeg.org/download.html), select your OS and download the appropriate package. You can then place `FFMPEG_PATH` as a new option into your `.ENV` file stating the custom path to your custom FFmpeg binaries.
 
