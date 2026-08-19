@@ -1,6 +1,12 @@
 const { SlashCommandBuilder, inlineCode } = require("@discordjs/builders");
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const { checkLatestRelease } = require("../../utils/utilityFunctions");
+const {
+    BOT_VERSION,
+    checkLatestRelease,
+    formatReleaseTag,
+    isReleaseOutdated,
+    isReleaseUpToDate,
+} = require("../../utils/utilityFunctions");
 const { translate } = require("../../utils/botText");
 
 module.exports = {
@@ -15,6 +21,17 @@ module.exports = {
 
         // Check for latest release
         let checkGitHub = await checkLatestRelease();
+        const currentVersion = formatReleaseTag(BOT_VERSION);
+        let versionValue = currentVersion;
+
+        if (checkGitHub != false) {
+            const latestRelease = checkGitHub.tag_name;
+            if (isReleaseOutdated(BOT_VERSION, latestRelease)) {
+                versionValue = `${currentVersion} (Latest: **[${latestRelease}](${checkGitHub.html_url})**)`;
+            } else if (isReleaseUpToDate(BOT_VERSION, latestRelease)) {
+                versionValue = `${currentVersion} (Up to date)`;
+            }
+        }
 
         const botembed = new EmbedBuilder()
             .setAuthor({
@@ -43,7 +60,7 @@ module.exports = {
                 { name: translate(interaction, "botinfo.uptime"), value: botuptime, inline: true },
                 {
                     name: translate(interaction, "botinfo.version"),
-                    value: `v1.9 (Latest: **[${checkGitHub.tag_name}](${checkGitHub.html_url})**)`,
+                    value: versionValue,
                     inline: true,
                 },
                 { name: "\u200b", value: "\u200b", inline: true },

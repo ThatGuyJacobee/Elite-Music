@@ -1,6 +1,57 @@
 const { AttachmentBuilder } = require("discord.js");
 const crypto = require("crypto");
 const fs = require("fs");
+const { version: BOT_VERSION } = require("../package.json");
+
+function normalizeReleaseTag(tag) {
+    if (!tag || typeof tag !== "string") return "";
+    return tag.replace(/^v/i, "");
+}
+
+function formatReleaseTag(version) {
+    const normalized = normalizeReleaseTag(version);
+    return normalized ? `v${normalized}` : "";
+}
+
+function parseSemver(version) {
+    const normalized = normalizeReleaseTag(version);
+    const match = normalized.match(/^(\d+)\.(\d+)(?:\.(\d+))?/);
+    if (!match) return null;
+
+    return {
+        major: Number(match[1]),
+        minor: Number(match[2]),
+        patch: Number(match[3] ?? 0),
+    };
+}
+
+function compareSemver(a, b) {
+    const versionA = parseSemver(a);
+    const versionB = parseSemver(b);
+    if (!versionA || !versionB) return null;
+
+    if (versionA.major !== versionB.major) return versionA.major - versionB.major;
+    if (versionA.minor !== versionB.minor) return versionA.minor - versionB.minor;
+    return versionA.patch - versionB.patch;
+}
+
+function isReleaseOutdated(currentVersion, latestTag) {
+    const comparison = compareSemver(currentVersion, latestTag);
+    if (comparison == null) {
+        return formatReleaseTag(currentVersion) !== String(latestTag);
+    }
+
+    return comparison < 0;
+}
+
+function isReleaseUpToDate(currentVersion, latestTag) {
+    const comparison = compareSemver(currentVersion, latestTag);
+    if (comparison == null) {
+        return formatReleaseTag(currentVersion) === String(latestTag);
+    }
+
+    return comparison === 0;
+}
 
 // Configuration secrets that should not be logged into console during startup
 const CONFIG_SECRET_KEYS = ["plexAuthtoken", "subsonicPass", "jellyfinApiKey"];
@@ -106,12 +157,16 @@ async function checkLatestRelease() {
 }
 
 module.exports = {
+    BOT_VERSION,
     CONFIG_SECRET_KEYS,
     normalizeBaseUrl,
     toArray,
     randomSalt,
     md5Utf8Hex,
     formatDurationMs,
+    formatReleaseTag,
+    isReleaseOutdated,
+    isReleaseUpToDate,
     redactConfigSecrets,
     getImageSize,
     buildImageAttachment,

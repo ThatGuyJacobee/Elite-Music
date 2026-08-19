@@ -1,5 +1,13 @@
 require("dotenv").config();
-const { CONFIG_SECRET_KEYS, checkLatestRelease, redactConfigSecrets } = require("../utils/utilityFunctions");
+const {
+    BOT_VERSION,
+    CONFIG_SECRET_KEYS,
+    checkLatestRelease,
+    formatReleaseTag,
+    isReleaseOutdated,
+    isReleaseUpToDate,
+    redactConfigSecrets,
+} = require("../utils/utilityFunctions");
 const { ping: subsonicPing } = require("../utils/subsonicAPI");
 const {
     ping: jellyfinPing,
@@ -378,12 +386,14 @@ module.exports = {
             if (checkGitHub != false) {
                 let latestRelease = checkGitHub.tag_name;
 
-                if ("v1.9" != latestRelease) {
+                if (isReleaseOutdated(BOT_VERSION, latestRelease)) {
                     console.log(
-                        `[ELITE_STATUS] Your bot is outdated. Please update to the latest major release version of Elite Music (${latestRelease}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${checkGitHub.html_url}`,
+                        `[ELITE_STATUS] Your bot is outdated. Please update to the latest release version of Elite Music (${latestRelease}, running ${formatReleaseTag(BOT_VERSION)}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${checkGitHub.html_url}`,
                     );
-                } else {
-                    console.log(`[ELITE_STATUS] Your bot is up-to-date and running on the latest release!`);
+                } else if (isReleaseUpToDate(BOT_VERSION, latestRelease)) {
+                    console.log(
+                        `[ELITE_STATUS] Your bot is up-to-date and running on the latest release (${formatReleaseTag(BOT_VERSION)})!`,
+                    );
                 }
             } else {
                 console.log(
