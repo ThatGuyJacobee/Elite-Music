@@ -7,6 +7,7 @@ const {
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
+const { resolveRadioPlaylist } = require("../utils/radioFunctions");
 
 module.exports = {
     name: "clientReady",
@@ -413,6 +414,29 @@ module.exports = {
                         `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_PLAYLIST_ID is not configured.`,
                     );
                     client.config.enableRadio = false;
+                }
+            }
+
+            if (client.config.enableRadio) {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort("Radio playlist validation timed out."), 3000);
+
+                try {
+                    await resolveRadioPlaylist(client.config.radioProvider, client.config.radioPlaylistId, {
+                        signal: controller.signal,
+                    });
+                } catch (err) {
+                    const reason = controller.signal.aborted
+                        ? controller.signal.reason
+                        : err && err.message
+                          ? err.message
+                          : err;
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_PLAYLIST_ID could not be resolved by the configured provider. Read more in the trace below:\n${reason}`,
+                    );
+                    client.config.enableRadio = false;
+                } finally {
+                    clearTimeout(timeout);
                 }
             }
 

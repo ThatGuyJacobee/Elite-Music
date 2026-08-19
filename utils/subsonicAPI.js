@@ -85,15 +85,15 @@ async function search2(config, query, options = {}) {
     };
 }
 
-async function getPlaylists(config) {
-    const root = await subsonicRequest(config, "getPlaylists");
+async function getPlaylists(config, init = {}) {
+    const root = await subsonicRequest(config, "getPlaylists", {}, init);
     const block = root.playlists || {};
 
     return toArray(block.playlist);
 }
 
-async function getPlaylist(config, id) {
-    const root = await subsonicRequest(config, "getPlaylist", { id });
+async function getPlaylist(config, id, init = {}) {
+    const root = await subsonicRequest(config, "getPlaylist", { id }, init);
     const pl = root.playlist || {};
     const entries = toArray(pl.entry);
 

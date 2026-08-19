@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { InteractionContextType } = require("discord.js");
 const radioFuncs = require("../../utils/radioFunctions");
 const { translate } = require("../../utils/botText");
 const {
@@ -14,6 +15,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("radio")
         .setDescription("Start the administrator-configured radio playlist!")
+        .setContexts(InteractionContextType.Guild)
         .addStringOption((option) =>
             option
                 .setName("order")
@@ -28,10 +30,11 @@ module.exports = {
         if (!(await ensureSameVoiceChannel(interaction))) return;
 
         const orderMode = interaction.options.getString("order") ?? "shuffle";
+        const voiceChannelId = interaction.member.voice.channelId;
         await interaction.deferReply();
 
         try {
-            return await radioFuncs.startRadio(interaction, orderMode);
+            return await radioFuncs.startRadio(interaction, orderMode, voiceChannelId);
         } catch (err) {
             console.log(err);
 
@@ -40,7 +43,17 @@ module.exports = {
                     ? "errors.failedToFindMediaQuery"
                     : err?.code === "RADIO_PLAYLIST_EMPTY"
                       ? "errors.emptyPlaylist"
-                      : "errors.playRequest";
+                      : err?.code === "RADIO_START_IN_PROGRESS"
+                        ? "radio.startInProgress"
+                        : err?.code === "RADIO_VOICE_STATE_CHANGED"
+                          ? "radio.voiceChannelChanged"
+                          : err?.code === "RADIO_ADD_TRACKS"
+                            ? "errors.addTracks"
+                            : err?.code === "RADIO_JOIN_VOICE"
+                              ? "errors.joinVoiceChannel"
+                              : err?.code === "RADIO_PLAYBACK"
+                                ? "errors.playback"
+                                : "errors.playRequest";
 
             return sendRadioErrorMessage(interaction, translate(interaction, errorKey));
         }

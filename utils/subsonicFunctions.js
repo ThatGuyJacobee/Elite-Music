@@ -15,7 +15,7 @@ const {
     coverArtUrl: subsonicCoverArtUrl,
 } = require("./subsonicAPI");
 const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
-const { sendRadioStartedMessage, sendRadioErrorMessage } = require("./radioUi");
+const { sendRadioStartedMessage } = require("./radioUi");
 
 const player = useMainPlayer();
 
@@ -47,6 +47,89 @@ async function addContainerTracksToQueue(interaction, tracks, nextSong) {
         return;
     }
     queue.addTrack(tracks);
+}
+
+async function subsonicPreparePlaylist(interaction, itemMetadata, orderMode = "sequential", init = {}) {
+    const { playlist, entries } = await subsonicGetPlaylist(client.config, itemMetadata.id, init);
+    const playlistEntries = entries.filter((entry) => !entry.isDir);
+    const title = itemMetadata.title && itemMetadata.title !== "" ? itemMetadata.title : playlist.name || "Playlist";
+    const builtTracks = playlistEntries.map((item) => {
+        const stream = subsonicStreamUrl(client.config, item.id);
+        const thumbUrl =
+            item.coverArt != null && item.coverArt !== ""
+                ? subsonicCoverArtUrl(client.config, item.coverArt, 500)
+                : interaction.client.user.displayAvatarURL();
+
+        return new Track(player, {
+            title: item.title,
+            author: item.artist || "Unknown Artist",
+            url: stream,
+            thumbnail: thumbUrl,
+            duration: formatDurationMs(Number(item.duration || 0) * 1000),
+            views: "69",
+            playlist: null,
+            description: null,
+            requestedBy: interaction.user,
+            source: "arbitrary",
+            engine: stream,
+            queryType: QueryType.ARBITRARY,
+        });
+    });
+
+    return {
+        tracks: applyTrackOrder(builtTracks, orderMode),
+        itemMetadata: {
+            ...itemMetadata,
+            type: "playlist",
+            title,
+            leafCount: playlistEntries.length,
+        },
+        defaultCoverArtId: playlistEntries[0]?.coverArt ?? null,
+    };
+}
+
+async function subsonicAddPreparedPlaylist(
+    interaction,
+    preparedPlaylist,
+    responseType,
+    nextSong = false,
+    playbackContext = null,
+) {
+    if (!preparedPlaylist.tracks.length) {
+        if (playbackContext?.type === "radio") {
+            const err = new Error("The configured Subsonic radio playlist is empty");
+            err.code = "RADIO_PLAYLIST_EMPTY";
+            throw err;
+        }
+
+        return interaction.followUp({
+            content: translate(interaction, "errors.emptyPlaylist"),
+            flags: MessageFlags.Ephemeral,
+        });
+    }
+
+    try {
+        await addContainerTracksToQueue(interaction, preparedPlaylist.tracks, nextSong);
+    } catch (err) {
+        if (playbackContext?.type === "radio") {
+            err.code = "RADIO_ADD_TRACKS";
+            throw err;
+        }
+
+        return interaction.followUp({
+            content: translate(interaction, "errors.addTracks"),
+            flags: MessageFlags.Ephemeral,
+        });
+    }
+
+    return subsonicQueuePlay(
+        interaction,
+        responseType,
+        preparedPlaylist.itemMetadata,
+        preparedPlaylist.defaultCoverArtId,
+        nextSong,
+        playbackContext,
+    );
 }
 
 function sortAlbumSongs(songs) {
@@ -223,61 +306,8 @@ async function subsonicAddPlaylist(
     nextSong = false,
     playbackContext = null,
 ) {
-    const { playlist, entries } = await subsonicGetPlaylist(client.config, itemMetadata.id);
-    const playlistEntries = entries.filter((entry) => !entry.isDir);
-    if (!playlistEntries.length) {
-        const content = translate(interaction, "errors.emptyPlaylist");
-        return responseType === "radio"
-            ? sendRadioErrorMessage(interaction, content)
-            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
-    }
-
-    const title = itemMetadata.title && itemMetadata.title !== "" ? itemMetadata.title : playlist.name || "Playlist";
-
-    const builtTracks = [];
-    for (const item of playlistEntries) {
-        const stream = subsonicStreamUrl(client.config, item.id);
-        const thumbUrl =
-            item.coverArt != null && item.coverArt !== ""
-                ? subsonicCoverArtUrl(client.config, item.coverArt, 500)
-                : interaction.client.user.displayAvatarURL();
-
-        const newTrack = new Track(player, {
-            title: item.title,
-            author: item.artist || "Unknown Artist",
-            url: stream,
-            thumbnail: thumbUrl,
-            duration: formatDurationMs(Number(item.duration || 0) * 1000),
-            views: "69",
-            playlist: null,
-            description: null,
-            requestedBy: interaction.user,
-            source: "arbitrary",
-            engine: stream,
-            queryType: QueryType.ARBITRARY,
-        });
-
-        builtTracks.push(newTrack);
-    }
-
-    try {
-        const orderedTracks = applyTrackOrder(builtTracks, orderMode);
-        await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
-    } catch (err) {
-        const content = translate(interaction, "errors.addTracks");
-        return responseType === "radio"
-            ? sendRadioErrorMessage(interaction, content)
-            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
-    }
-
-    const metaOut = {
-        ...itemMetadata,
-        type: "playlist",
-        title,
-        leafCount: playlistEntries.length,
-    };
-    const firstCover = playlistEntries[0] && playlistEntries[0].coverArt ? playlistEntries[0].coverArt : null;
-    await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong, playbackContext);
+    const preparedPlaylist = await subsonicPreparePlaylist(interaction, itemMetadata, orderMode);
+    return subsonicAddPreparedPlaylist(interaction, preparedPlaylist, responseType, nextSong, playbackContext);
 }
 
 async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -359,10 +389,15 @@ async function subsonicQueuePlay(
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        const content = translate(interaction, "errors.joinVoiceChannel");
-        return playbackContext?.type === "radio"
-            ? sendRadioErrorMessage(interaction, content)
-            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
+        if (playbackContext?.type === "radio") {
+            err.code = "RADIO_JOIN_VOICE";
+            throw err;
+        }
+
+        return interaction.followUp({
+            content: translate(interaction, "errors.joinVoiceChannel"),
+            flags: MessageFlags.Ephemeral,
+        });
     }
 
     const coverUrl =
@@ -393,14 +428,18 @@ async function subsonicQueuePlay(
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            const content = translate(interaction, "errors.playback");
-            return playbackContext?.type === "radio"
-                ? sendRadioErrorMessage(interaction, content)
-                : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
-        }
+            if (playbackContext?.type === "radio") {
+                await clearNpControlMessages(queue);
+                clear(queue);
+                queue.delete();
+                err.code = "RADIO_PLAYBACK";
+                throw err;
+            }
 
-        if (playbackContext?.type === "radio") {
-            return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
+            return interaction.followUp({
+                content: translate(interaction, "errors.playback"),
+                flags: MessageFlags.Ephemeral,
+            });
         }
 
         if (itemMetadata.type == "playlist") {
@@ -479,6 +518,10 @@ async function subsonicQueuePlay(
         }
     }
 
+    if (playbackContext?.type === "radio") {
+        return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
+    }
+
     if (responseType == "edit") {
         interaction.message.edit({ embeds: [embed], files: [imageAttachment], components: [] });
     } else {
@@ -487,6 +530,8 @@ async function subsonicQueuePlay(
 }
 
 module.exports = {
+    subsonicPreparePlaylist,
+    subsonicAddPreparedPlaylist,
     subsonicSearchQuery,
     subsonicAddTrack,
     subsonicAddPlaylist,
