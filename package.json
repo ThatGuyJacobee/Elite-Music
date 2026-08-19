@@ -12,7 +12,7 @@
     },
     "type": "commonjs",
     "author": "ThatGuyJacobee",
-    "license": "ISC",
+    "license": "AGPL-3.0-or-later",
     "dependencies": {
         "@discordjs/opus": "^0.10.0",
         "@discordjs/rest": "2.6.3",

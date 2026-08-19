@@ -198,4 +198,4 @@ Check the bot out via the dedicated documentation website or top.gg today! 🚀
 
 ## License 📄
 
-[Apache © ThatGuyJacobee](./LICENSE.md)
+[GNU Affero General Public License v3.0 © ThatGuyJacobee](./LICENSE.md)
