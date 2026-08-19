@@ -5,6 +5,7 @@
     "private": true,
     "main": "index.js",
     "scripts": {
+        "start": "node index.js",
         "dev": "nodemon index.js",
         "prettier": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --check",
         "prettier:write": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --write",
