@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Đã khởi động radio 📻",
-        "startedDescription": "Đã khởi động playlist radio **{title}** trong {channel} qua **{provider}**, theo thứ tự **{order}**, với **{count}** bài hát."
+        "startedDescription": "Đã khởi động playlist radio **{title}** trong {channel} qua **{provider}**, theo thứ tự **{order}**, với **{count}** bài hát.",
+        "startInProgress": "⏳ | Radio đang được khởi động trên máy chủ này. Vui lòng chờ một chút.",
+        "voiceChannelChanged": "❌ | Kênh thoại của bạn đã thay đổi trong khi radio đang tải. Vui lòng thử lại."
     }
 }

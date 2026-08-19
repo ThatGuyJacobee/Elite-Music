@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "ラジオを開始しました 📻",
-        "startedDescription": "**{title}** ラジオプレイリストを {channel} で **{provider}** を使用し、**{order}** 順、**{count}** 曲で開始しました。"
+        "startedDescription": "**{title}** ラジオプレイリストを {channel} で **{provider}** を使用し、**{order}** 順、**{count}** 曲で開始しました。",
+        "startInProgress": "⏳ | このサーバーではラジオをすでに開始しています。しばらくお待ちください。",
+        "voiceChannelChanged": "❌ | ラジオの読み込み中にボイスチャンネルが変わりました。もう一度お試しください。"
     }
 }

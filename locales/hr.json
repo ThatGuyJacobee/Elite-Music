@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio je pokrenut 📻",
-        "startedDescription": "Radijska playlista **{title}** pokrenuta je u {channel} putem **{provider}**, redoslijedom **{order}**, s **{count}** pjesama."
+        "startedDescription": "Radijska playlista **{title}** pokrenuta je u {channel} putem **{provider}**, redoslijedom **{order}**, s **{count}** pjesama.",
+        "startInProgress": "⏳ | Radio se već pokreće na ovom poslužitelju. Pričekajte trenutak.",
+        "voiceChannelChanged": "❌ | Vaš glasovni kanal promijenio se tijekom učitavanja radija. Pokušajte ponovno."
     }
 }

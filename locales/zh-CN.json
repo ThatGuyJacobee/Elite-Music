@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "电台已启动 📻",
-        "startedDescription": "已在 {channel} 中通过 **{provider}** 启动电台播放列表 **{title}**，顺序为 **{order}**，共 **{count}** 首歌曲。"
+        "startedDescription": "已在 {channel} 中通过 **{provider}** 启动电台播放列表 **{title}**，顺序为 **{order}**，共 **{count}** 首歌曲。",
+        "startInProgress": "⏳ | 此服务器上的电台已在启动中，请稍候。",
+        "voiceChannelChanged": "❌ | 电台加载期间你的语音频道发生了变化，请重试。"
     }
 }

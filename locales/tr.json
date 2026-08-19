@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radyo başlatıldı 📻",
-        "startedDescription": "**{title}** radyo çalma listesi {channel} kanalında **{provider}** ile **{order}** sıralamasında **{count}** şarkıyla başlatıldı."
+        "startedDescription": "**{title}** radyo çalma listesi {channel} kanalında **{provider}** ile **{order}** sıralamasında **{count}** şarkıyla başlatıldı.",
+        "startInProgress": "⏳ | Radyo bu sunucuda zaten başlatılıyor. Lütfen biraz bekleyin.",
+        "voiceChannelChanged": "❌ | Radyo yüklenirken ses kanalınız değişti. Lütfen tekrar deneyin."
     }
 }

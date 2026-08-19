@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "เริ่มวิทยุแล้ว 📻",
-        "startedDescription": "เริ่มเพลย์ลิสต์วิทยุ **{title}** ใน {channel} ผ่าน **{provider}** ตามลำดับ **{order}** จำนวน **{count}** เพลง"
+        "startedDescription": "เริ่มเพลย์ลิสต์วิทยุ **{title}** ใน {channel} ผ่าน **{provider}** ตามลำดับ **{order}** จำนวน **{count}** เพลง",
+        "startInProgress": "⏳ | กำลังเริ่มวิทยุบนเซิร์ฟเวอร์นี้อยู่แล้ว โปรดรอสักครู่",
+        "voiceChannelChanged": "❌ | ช่องเสียงของคุณเปลี่ยนไประหว่างที่กำลังโหลดวิทยุ โปรดลองอีกครั้ง"
     }
 }

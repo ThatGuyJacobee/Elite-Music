@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Rádio spuštěno 📻",
-        "startedDescription": "Rádiový playlist **{title}** byl spuštěn v {channel} pomocí **{provider}**, v pořadí **{order}**, s **{count}** skladbami."
+        "startedDescription": "Rádiový playlist **{title}** byl spuštěn v {channel} pomocí **{provider}**, v pořadí **{order}**, s **{count}** skladbami.",
+        "startInProgress": "⏳ | Rádio se na tomto serveru již spouští. Chvíli počkejte.",
+        "voiceChannelChanged": "❌ | Během načítání rádia jste změnili hlasový kanál. Zkuste to prosím znovu."
     }
 }

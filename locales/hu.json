@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Rádió elindítva 📻",
-        "startedDescription": "A(z) **{title}** rádiólejátszási lista elindult itt: {channel}, szolgáltató: **{provider}**, sorrend: **{order}**, dalok száma: **{count}**."
+        "startedDescription": "A(z) **{title}** rádiólejátszási lista elindult itt: {channel}, szolgáltató: **{provider}**, sorrend: **{order}**, dalok száma: **{count}**.",
+        "startInProgress": "⏳ | A rádió már elindul ezen a szerveren. Kérjük, várj egy pillanatot.",
+        "voiceChannelChanged": "❌ | A hangcsatornád megváltozott a rádió betöltése közben. Próbáld újra."
     }
 }

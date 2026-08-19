@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radijas paleistas 📻",
-        "startedDescription": "Radijo grojaraštis **{title}** paleistas kanale {channel} per **{provider}**, tvarka **{order}**, su **{count}** dainomis."
+        "startedDescription": "Radijo grojaraštis **{title}** paleistas kanale {channel} per **{provider}**, tvarka **{order}**, su **{count}** dainomis.",
+        "startInProgress": "⏳ | Radijas šiame serveryje jau paleidžiamas. Šiek tiek palaukite.",
+        "voiceChannelChanged": "❌ | Įkeliant radiją pasikeitė jūsų balso kanalas. Bandykite dar kartą."
     }
 }

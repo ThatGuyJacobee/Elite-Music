@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Радио запущено 📻",
-        "startedDescription": "Радиоплейлист **{title}** запущен в {channel} через **{provider}**, порядок **{order}**, песен: **{count}**."
+        "startedDescription": "Радиоплейлист **{title}** запущен в {channel} через **{provider}**, порядок **{order}**, песен: **{count}**.",
+        "startInProgress": "⏳ | Радио на этом сервере уже запускается. Пожалуйста, подождите.",
+        "voiceChannelChanged": "❌ | Ваш голосовой канал изменился во время загрузки радио. Попробуйте снова."
     }
 }

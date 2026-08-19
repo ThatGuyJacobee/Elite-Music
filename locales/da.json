@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio startet 📻",
-        "startedDescription": "Radioafspilningslisten **{title}** blev startet i {channel} via **{provider}** i rækkefølgen **{order}** med **{count}** sange."
+        "startedDescription": "Radioafspilningslisten **{title}** blev startet i {channel} via **{provider}** i rækkefølgen **{order}** med **{count}** sange.",
+        "startInProgress": "⏳ | Radioen er allerede ved at starte på denne server. Vent et øjeblik.",
+        "voiceChannelChanged": "❌ | Din stemmekanal blev ændret, mens radioen blev indlæst. Prøv igen."
     }
 }

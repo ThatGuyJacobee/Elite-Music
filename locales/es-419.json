@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio iniciada 📻",
-        "startedDescription": "Se inició la playlist de radio **{title}** en {channel} mediante **{provider}**, en orden **{order}**, con **{count}** canciones."
+        "startedDescription": "Se inició la playlist de radio **{title}** en {channel} mediante **{provider}**, en orden **{order}**, con **{count}** canciones.",
+        "startInProgress": "⏳ | La radio ya se está iniciando en este servidor. Espera un momento.",
+        "voiceChannelChanged": "❌ | Cambiaste de canal de voz mientras se cargaba la radio. Inténtalo de nuevo."
     }
 }

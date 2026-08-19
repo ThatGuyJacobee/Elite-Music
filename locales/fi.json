@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio käynnistetty 📻",
-        "startedDescription": "Radiosoittolista **{title}** käynnistettiin kanavalla {channel} käyttäen palvelua **{provider}**, järjestyksessä **{order}**, yhteensä **{count}** kappaletta."
+        "startedDescription": "Radiosoittolista **{title}** käynnistettiin kanavalla {channel} käyttäen palvelua **{provider}**, järjestyksessä **{order}**, yhteensä **{count}** kappaletta.",
+        "startInProgress": "⏳ | Radio käynnistyy jo tällä palvelimella. Odota hetki.",
+        "voiceChannelChanged": "❌ | Äänikanavasi vaihtui radion latautuessa. Yritä uudelleen."
     }
 }

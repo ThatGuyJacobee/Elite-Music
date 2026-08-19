@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio dimulai 📻",
-        "startedDescription": "Playlist radio **{title}** dimulai di {channel} melalui **{provider}**, dengan urutan **{order}** dan **{count}** lagu."
+        "startedDescription": "Playlist radio **{title}** dimulai di {channel} melalui **{provider}**, dengan urutan **{order}** dan **{count}** lagu.",
+        "startInProgress": "⏳ | Radio sedang dimulai di server ini. Harap tunggu sebentar.",
+        "voiceChannelChanged": "❌ | Saluran suara Anda berubah saat radio dimuat. Silakan coba lagi."
     }
 }

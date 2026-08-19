@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "라디오 시작됨 📻",
-        "startedDescription": "**{title}** 라디오 재생목록을 {channel}에서 **{provider}**로, **{order}** 순서 및 **{count}**곡으로 시작했습니다."
+        "startedDescription": "**{title}** 라디오 재생목록을 {channel}에서 **{provider}**로, **{order}** 순서 및 **{count}**곡으로 시작했습니다.",
+        "startInProgress": "⏳ | 이 서버에서 라디오를 이미 시작하고 있습니다. 잠시 기다려 주세요.",
+        "voiceChannelChanged": "❌ | 라디오를 불러오는 동안 음성 채널이 변경되었습니다. 다시 시도해 주세요."
     }
 }

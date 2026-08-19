@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio gestart 📻",
-        "startedDescription": "De radioafspeellijst **{title}** is gestart in {channel} via **{provider}**, in de volgorde **{order}**, met **{count}** nummers."
+        "startedDescription": "De radioafspeellijst **{title}** is gestart in {channel} via **{provider}**, in de volgorde **{order}**, met **{count}** nummers.",
+        "startInProgress": "⏳ | De radio wordt al gestart op deze server. Wacht even.",
+        "voiceChannelChanged": "❌ | Je spraakkanaal veranderde terwijl de radio werd geladen. Probeer het opnieuw."
     }
 }

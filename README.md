@@ -174,7 +174,9 @@ The playlist ID is handled as a string, so both numeric and alphanumeric provide
 - **Subsonic:** call the [`getPlaylists`](http://www.subsonic.org/pages/api.jsp#getPlaylists) endpoint using your normal Subsonic API authentication, find the target playlist by name, and use its `id` value.
 - **Jellyfin:** call `GET /Items?UserId=YOUR_USER_ID&Recursive=true&IncludeItemTypes=Playlist` with your Jellyfin API authentication, find the target playlist by its `Name`, and use its `Id` value. The request and response can be inspected through the [Jellyfin API documentation](https://api.jellyfin.org/).
 
-When `/radio` is used, the bot joins the member's voice channel and replaces any existing queue in that same channel with the configured playlist. The `order` option defaults to `shuffle`; members can select `sequential` to preserve the playlist order. Radio playback uses the existing queue lifecycle, playback controls, leave behaviour, volume and soft-transition settings.
+The bot resolves `RADIO_PLAYLIST_ID` during startup after validating the selected provider. A missing or empty playlist disables Radio and reports the configuration error in the console.
+
+When `/radio` is used, the bot loads and validates the configured playlist before replacing any existing queue in the member's voice channel. The `order` option defaults to `shuffle`; members can select `sequential` to preserve the playlist order. Radio playback uses the existing queue lifecycle, playback controls, leave behaviour, volume and soft-transition settings.
 
 `RADIO_ROLE` controls who can start the radio. If DJ Mode is enabled, its existing `DJ_ROLE` restrictions still apply to the playback controls and other music commands. You can assign both roles to the same members or configure both settings with the same Discord role ID.
 

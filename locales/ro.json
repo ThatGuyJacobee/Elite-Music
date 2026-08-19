@@ -330,6 +330,8 @@
     },
     "radio": {
         "startedTitle": "Radio pornit 📻",
-        "startedDescription": "Playlistul radio **{title}** a fost pornit în {channel} prin **{provider}**, în ordinea **{order}**, cu **{count}** melodii."
+        "startedDescription": "Playlistul radio **{title}** a fost pornit în {channel} prin **{provider}**, în ordinea **{order}**, cu **{count}** melodii.",
+        "startInProgress": "⏳ | Radioul este deja în curs de pornire pe acest server. Așteptați puțin.",
+        "voiceChannelChanged": "❌ | Canalul vocal s-a schimbat în timp ce radioul se încărca. Încercați din nou."
     }
 }
