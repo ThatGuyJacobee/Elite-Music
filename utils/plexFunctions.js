@@ -6,6 +6,7 @@ const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
 const { clear, startInitialPlayback } = require("./softTransitions");
 const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const { sendRadioStartedMessage, sendRadioErrorMessage } = require("./radioUi");
 
 const player = useMainPlayer();
 
@@ -76,6 +77,34 @@ async function plexSearchQuery(query, options = {}) {
     }
 }
 
+async function plexGetPlaylist(playlistId) {
+    const playlistRequest = await fetch(
+        `${client.config.plexServer}/playlists?X-Plex-Token=${client.config.plexAuthtoken}&playlistType=audio`,
+        {
+            method: "GET",
+            headers: { accept: "application/json" },
+        },
+    );
+
+    if (!playlistRequest.ok) {
+        const err = new Error(`Plex playlist request failed with status ${playlistRequest.status}`);
+        err.status = playlistRequest.status;
+        throw err;
+    }
+
+    const playlistJson = await playlistRequest.json();
+    const playlists = playlistJson.MediaContainer?.Metadata ?? [];
+    const playlist = playlists.find((item) => String(item.ratingKey) === String(playlistId));
+
+    if (!playlist) {
+        const err = new Error(`Plex playlist ${playlistId} was not found`);
+        err.code = "RADIO_PLAYLIST_NOT_FOUND";
+        throw err;
+    }
+
+    return playlist;
+}
+
 async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     const trackRequest = await fetch(
         `${client.config.plexServer}${itemMetadata.key}?X-Plex-Token=${client.config.plexAuthtoken}`,
@@ -133,7 +162,14 @@ async function addContainerTracksToQueue(interaction, tracks, nextSong) {
     queue.addTrack(tracks);
 }
 
-async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
+async function plexAddPlaylist(
+    interaction,
+    itemMetadata,
+    responseType,
+    orderMode = "sequential",
+    nextSong = false,
+    playbackContext = null,
+) {
     const playlistRequest = await fetch(
         `${client.config.plexServer}/playlists/${itemMetadata.ratingKey}/items?X-Plex-Token=${client.config.plexAuthtoken}`,
         {
@@ -143,8 +179,16 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
     );
 
     const playlistJson = await playlistRequest.json();
+    const playlistTracks = playlistJson.MediaContainer?.Metadata ?? [];
+    if (!playlistTracks.length) {
+        const content = translate(interaction, "errors.emptyPlaylist");
+        return responseType === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
+    }
+
     const builtTracks = [];
-    for await (const playlistTrack of playlistJson.MediaContainer.Metadata) {
+    for await (const playlistTrack of playlistTracks) {
         const newTrack = new Track(player, {
             title: playlistTrack.title,
             author: playlistTrack.grandparentTitle,
@@ -172,12 +216,17 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
 
     const orderedTracks = applyTrackOrder(builtTracks, orderMode);
     await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
+    const playlistMetadataForEmbed = {
+        ...itemMetadata,
+        leafCount: builtTracks.length,
+    };
     await plexQueuePlay(
         interaction,
         responseType,
-        itemMetadata,
-        playlistJson.MediaContainer.Metadata[0].thumb,
+        playlistMetadataForEmbed,
+        playlistTracks[0].thumb,
         nextSong,
+        playbackContext,
     );
 }
 
@@ -229,7 +278,14 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
     );
 }
 
-async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {
+async function plexQueuePlay(
+    interaction,
+    responseType,
+    itemMetadata,
+    defaultThumbnail,
+    nextSong,
+    playbackContext = null,
+) {
     const queue = await getQueue(interaction);
 
     try {
@@ -238,10 +294,10 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoice"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.joinVoice");
+        return playbackContext?.type === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const imageAttachment = await buildImageAttachment(
@@ -264,14 +320,20 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
-    if (!queue.isPlaying()) {
+    const queueWasPlaying = queue.isPlaying();
+
+    if (!queueWasPlaying) {
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            const content = translate(interaction, "errors.playback");
+            return playbackContext?.type === "radio"
+                ? sendRadioErrorMessage(interaction, content)
+                : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
+        }
+
+        if (playbackContext?.type === "radio") {
+            return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
         }
 
         if (itemMetadata.type == "playlist") {
@@ -339,6 +401,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
 module.exports = {
     formatPlexDurationLabel,
     plexSearchQuery,
+    plexGetPlaylist,
     plexAddTrack,
     plexAddPlaylist,
     plexAddAlbum,

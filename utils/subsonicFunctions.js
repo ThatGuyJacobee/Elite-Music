@@ -15,6 +15,7 @@ const {
     coverArtUrl: subsonicCoverArtUrl,
 } = require("./subsonicAPI");
 const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const { sendRadioStartedMessage, sendRadioErrorMessage } = require("./radioUi");
 
 const player = useMainPlayer();
 
@@ -220,14 +221,15 @@ async function subsonicAddPlaylist(
     responseType,
     orderMode = "sequential",
     nextSong = false,
+    playbackContext = null,
 ) {
     const { playlist, entries } = await subsonicGetPlaylist(client.config, itemMetadata.id);
     const playlistEntries = entries.filter((entry) => !entry.isDir);
     if (!playlistEntries.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyPlaylist"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.emptyPlaylist");
+        return responseType === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const title = itemMetadata.title && itemMetadata.title !== "" ? itemMetadata.title : playlist.name || "Playlist";
@@ -262,10 +264,10 @@ async function subsonicAddPlaylist(
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.addTracks");
+        return responseType === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const metaOut = {
@@ -275,7 +277,7 @@ async function subsonicAddPlaylist(
         leafCount: playlistEntries.length,
     };
     const firstCover = playlistEntries[0] && playlistEntries[0].coverArt ? playlistEntries[0].coverArt : null;
-    await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong);
+    await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong, playbackContext);
 }
 
 async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -341,7 +343,14 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
     await subsonicQueuePlay(interaction, responseType, metaOut, firstCover, nextSong);
 }
 
-async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaultCoverArtId, nextSong) {
+async function subsonicQueuePlay(
+    interaction,
+    responseType,
+    itemMetadata,
+    defaultCoverArtId,
+    nextSong,
+    playbackContext = null,
+) {
     const queue = await getQueue(interaction);
 
     try {
@@ -350,10 +359,10 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoiceChannel"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.joinVoiceChannel");
+        return playbackContext?.type === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const coverUrl =
@@ -378,14 +387,20 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
-    if (!queue.isPlaying()) {
+    const queueWasPlaying = queue.isPlaying();
+
+    if (!queueWasPlaying) {
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            const content = translate(interaction, "errors.playback");
+            return playbackContext?.type === "radio"
+                ? sendRadioErrorMessage(interaction, content)
+                : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
+        }
+
+        if (playbackContext?.type === "radio") {
+            return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
         }
 
         if (itemMetadata.type == "playlist") {

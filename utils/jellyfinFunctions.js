@@ -15,6 +15,7 @@ const {
     ticksToMs,
 } = require("./jellyfinAPI");
 const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const { sendRadioStartedMessage, sendRadioErrorMessage } = require("./radioUi");
 
 const player = useMainPlayer();
 
@@ -328,13 +329,14 @@ async function jellyfinAddPlaylist(
     responseType,
     orderMode = "sequential",
     nextSong = false,
+    playbackContext = null,
 ) {
     const playlistItems = await jellyfinGetPlaylistItems(client.config, itemMetadata.id);
     if (!playlistItems.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyPlaylist"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.emptyPlaylist");
+        return responseType === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     let title = itemMetadata.title;
@@ -349,10 +351,10 @@ async function jellyfinAddPlaylist(
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.addTracks");
+        return responseType === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const metaOut = {
@@ -363,7 +365,7 @@ async function jellyfinAddPlaylist(
         imageItemId: itemMetadata.imageItemId || itemMetadata.id,
     };
     const firstImageId = mapJellyfinTrack(playlistItems[0]).imageItemId || metaOut.imageItemId;
-    await jellyfinQueuePlay(interaction, responseType, metaOut, firstImageId, nextSong);
+    await jellyfinQueuePlay(interaction, responseType, metaOut, firstImageId, nextSong, playbackContext);
 }
 
 async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -413,7 +415,14 @@ async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMo
     await jellyfinQueuePlay(interaction, responseType, metaOut, firstImageId, nextSong);
 }
 
-async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaultImageItemId, nextSong) {
+async function jellyfinQueuePlay(
+    interaction,
+    responseType,
+    itemMetadata,
+    defaultImageItemId,
+    nextSong,
+    playbackContext = null,
+) {
     const queue = await getQueue(interaction);
 
     try {
@@ -422,10 +431,10 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoiceChannel"),
-            flags: MessageFlags.Ephemeral,
-        });
+        const content = translate(interaction, "errors.joinVoiceChannel");
+        return playbackContext?.type === "radio"
+            ? sendRadioErrorMessage(interaction, content)
+            : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
     }
 
     const coverUrl =
@@ -450,14 +459,20 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
-    if (!queue.isPlaying()) {
+    const queueWasPlaying = queue.isPlaying();
+
+    if (!queueWasPlaying) {
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            const content = translate(interaction, "errors.playback");
+            return playbackContext?.type === "radio"
+                ? sendRadioErrorMessage(interaction, content)
+                : interaction.followUp({ content, flags: MessageFlags.Ephemeral });
+        }
+
+        if (playbackContext?.type === "radio") {
+            return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
         }
 
         if (itemMetadata.type == "playlist") {
