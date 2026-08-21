@@ -10,7 +10,8 @@
         "prettier": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --check",
         "prettier:write": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --write",
         "docker:latest": "node scripts/docker-build.js --latest",
-        "docker:build": "node scripts/docker-build.js"
+        "docker:build": "node scripts/docker-build.js",
+        "docker:publish": "node scripts/docker-build.js --multi-platform --push"
     },
     "type": "commonjs",
     "author": {
