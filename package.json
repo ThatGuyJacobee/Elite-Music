@@ -44,6 +44,7 @@
         "@discordjs/rest": "2.6.3",
         "@snazzah/davey": "^0.1.12",
         "bgutils-js": "^4.0.3",
+        "cowsay": "^1.6.0",
         "discord-api-types": "^0.38.53",
         "discord-player": "^7.2.0",
         "discord-player-youtubei": "^2.0.0",
