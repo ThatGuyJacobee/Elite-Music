@@ -1,15 +1,35 @@
 # syntax=docker/dockerfile:1
 
-FROM node:24-alpine
+# Build production dependencies, including native modules
+FROM node:24-bookworm-slim AS builder
 
-# Install build dependencies for native modules
-RUN apk --no-cache add --virtual .builds-deps build-base python3
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python3 \
+        make \
+        g++ \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /elite-music
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev
 
 COPY . .
 
-# Start the bot CMD
+# Create the runtime image without build tools
+FROM node:24-bookworm-slim AS runtime
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /elite-music
+COPY --from=builder --chown=node:node /elite-music ./
+
+# Allow the app to write its error logs
+RUN chown node:node /elite-music
+USER node
+
+# Use the bundled ffmpeg-static binary
 CMD ["node", "index.js"]
