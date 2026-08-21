@@ -9,7 +9,7 @@
         "dev": "nodemon index.js",
         "prettier": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --check",
         "prettier:write": "prettier \"index.js\" \"{commands,events,utils}/**/*.{js,jsx,ts,tsx,css,md,mdx,json}\" --write",
-        "docker:latest": "node scripts/docker-build.js --latest",
+        "docker:latest": "node scripts/docker-build.js --latest --multi-platform --push",
         "docker:build": "node scripts/docker-build.js",
         "docker:publish": "node scripts/docker-build.js --multi-platform --push"
     },
