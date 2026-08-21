@@ -15,6 +15,7 @@ const {
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
+const cowsay = require("cowsay");
 
 module.exports = {
     name: "clientReady",
@@ -426,6 +427,12 @@ module.exports = {
                 `Note: If some configuration option is incorrect, please double check that it is correctly set within your .ENV file!\nOtherwise, where a configuration option is invalid, the default from defaultConsts.js will be used.`,
             );
             console.log("\n[ELITE_STATUS] Loading successful. Core of the bot is ready!");
+            console.log(
+                cowsay.say({
+                    text: "Moo! Elite-Music is now ready. Let us play some bangers, shall we?",
+                    f: "default",
+                }),
+            );
         });
 
         client.user.setActivity(client.config.presence, { type: 2 });
