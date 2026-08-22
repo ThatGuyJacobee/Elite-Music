@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
         "subsonicDisabled": "❌ | Subsonic saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
-        "jellyfinDisabled": "❌ | Jellyfin saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment."
+        "jellyfinDisabled": "❌ | Jellyfin saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
+        "radioDisabled": "❌ | Radio sedang dinonaktifkan! Minta admin server untuk mengaktifkan dan mengaturnya di file lingkungan."
     },
     "guards": {
         "djMode": "❌ | Mode DJ aktif! Anda harus memiliki peran DJ {role} untuk menggunakan perintah musik!",
         "notInVoice": "❌ | Anda tidak berada di saluran suara!",
-        "notInBotVoice": "❌ | Anda tidak berada di saluran suara saya!"
+        "notInBotVoice": "❌ | Anda tidak berada di saluran suara saya!",
+        "radioRole": "❌ | Anda harus memiliki peran Radio {role} untuk memulai radio!"
     },
     "queue": {
         "nothingPlaying": "❌ | Tidak ada musik yang sedang diputar!",
@@ -178,7 +180,8 @@
             "search": "Cari trek, playlist, dan album.",
             "playnext": "Tambahkan trek, playlist, atau album dari Jellyfin untuk diputar berikutnya."
         },
-        "volume": "Periksa atau atur volume musik saat ini!"
+        "volume": "Periksa atau atur volume musik saat ini!",
+        "radio": "Mulai playlist radio yang dikonfigurasi administrator!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Tidak ada orang di saluran suara!",
         "queueFinishedTitle": "Antrean Selesai 🛑",
         "queueFinishedDescription": "Antrean musik telah selesai!"
+    },
+    "radio": {
+        "startedTitle": "Radio dimulai 📻",
+        "startedDescription": "Playlist radio **{title}** dimulai di {channel} melalui **{provider}**, dengan urutan **{order}** dan **{count}** lagu.",
+        "startInProgress": "⏳ | Radio sedang dimulai di server ini. Harap tunggu sebentar.",
+        "voiceChannelChanged": "❌ | Saluran suara Anda berubah saat radio dimuat. Silakan coba lagi."
     }
 }

@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen.",
         "subsonicDisabled": "❌ | Subsonic är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen.",
-        "jellyfinDisabled": "❌ | Jellyfin är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen."
+        "jellyfinDisabled": "❌ | Jellyfin är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen.",
+        "radioDisabled": "❌ | Radio är för närvarande inaktiverad! Be serveradministratören att aktivera och konfigurera den i miljöfilen."
     },
     "guards": {
         "djMode": "❌ | DJ-läge är aktivt! Du måste ha DJ-rollen {role} för att använda musikkommandon!",
         "notInVoice": "❌ | Du är inte i en röstkanal!",
-        "notInBotVoice": "❌ | Du är inte i min röstkanal!"
+        "notInBotVoice": "❌ | Du är inte i min röstkanal!",
+        "radioRole": "❌ | Du måste ha Radio-rollen {role} för att starta radion!"
     },
     "queue": {
         "nothingPlaying": "❌ | Ingen musik spelas just nu!",
@@ -178,7 +180,8 @@
             "search": "Sök efter spår, spellistor och album.",
             "playnext": "Lägg ett spår, en spellista eller ett album från din Jellyfin-server att spelas härnäst."
         },
-        "volume": "Kontrollera eller ställ in nuvarande musikvolym!"
+        "volume": "Kontrollera eller ställ in nuvarande musikvolym!",
+        "radio": "Starta radiospellistan som administratören har konfigurerat!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Ingen är i röstkanalen!",
         "queueFinishedTitle": "Kön klar 🛑",
         "queueFinishedDescription": "Musikkön har avslutats!"
+    },
+    "radio": {
+        "startedTitle": "Radio startad 📻",
+        "startedDescription": "Radiospellistan **{title}** startades i {channel} via **{provider}**, i ordningen **{order}**, med **{count}** låtar.",
+        "startInProgress": "⏳ | Radion startas redan på den här servern. Vänta ett ögonblick.",
+        "voiceChannelChanged": "❌ | Din röstkanal ändrades medan radion laddades. Försök igen."
     }
 }

@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
         "subsonicDisabled": "❌ | Subsonic este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
-        "jellyfinDisabled": "❌ | Jellyfin este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu."
+        "jellyfinDisabled": "❌ | Jellyfin este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
+        "radioDisabled": "❌ | Radioul este dezactivat momentan! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu."
     },
     "guards": {
         "djMode": "❌ | Modul DJ este activ! Trebuie să ai rolul DJ {role} pentru a folosi orice comandă muzicală!",
         "notInVoice": "❌ | Nu ești într-un canal vocal!",
-        "notInBotVoice": "❌ | Nu ești în canalul meu vocal!"
+        "notInBotVoice": "❌ | Nu ești în canalul meu vocal!",
+        "radioRole": "❌ | Trebuie să ai rolul Radio {role} pentru a porni radioul!"
     },
     "queue": {
         "nothingPlaying": "❌ | În acest moment nu se redă nicio muzică!",
@@ -178,7 +180,8 @@
             "search": "Caută piese, playlisturi și albume.",
             "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Jellyfin pentru a fi redat următorul."
         },
-        "volume": "Verifică sau setează volumul curent al muzicii!"
+        "volume": "Verifică sau setează volumul curent al muzicii!",
+        "radio": "Pornește playlistul radio configurat de administrator!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Nu este nimeni în canalul vocal!",
         "queueFinishedTitle": "Coadă terminată 🛑",
         "queueFinishedDescription": "Coadă muzicală s-a terminat!"
+    },
+    "radio": {
+        "startedTitle": "Radio pornit 📻",
+        "startedDescription": "Playlistul radio **{title}** a fost pornit în {channel} prin **{provider}**, în ordinea **{order}**, cu **{count}** melodii.",
+        "startInProgress": "⏳ | Radioul este deja în curs de pornire pe acest server. Așteptați puțin.",
+        "voiceChannelChanged": "❌ | Canalul vocal s-a schimbat în timp ce radioul se încărca. Încercați din nou."
     }
 }

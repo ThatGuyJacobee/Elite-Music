@@ -21,6 +21,28 @@ async function ensureDjAccess(interaction) {
     return false;
 }
 
+async function ensureRadioEnabled(interaction) {
+    if (client.config.enableRadio) return true;
+
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "feature.radioDisabled"),
+        }),
+    );
+    return false;
+}
+
+async function ensureRadioAccess(interaction) {
+    if (interaction.member.roles.cache.has(client.config.radioRole)) return true;
+
+    await interaction.reply(
+        ephemeralReply({
+            content: translate(interaction, "guards.radioRole", { role: `<@&${client.config.radioRole}>` }),
+        }),
+    );
+    return false;
+}
+
 async function ensureInVoiceChannel(interaction) {
     if (interaction.member.voice.channelId) return true;
 
@@ -95,6 +117,8 @@ async function ensureJellyfinEnabled(interaction) {
 
 module.exports = {
     ensureDjAccess,
+    ensureRadioEnabled,
+    ensureRadioAccess,
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
     ensurePlexEnabled,

@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen.",
         "subsonicDisabled": "❌ | Subsonic er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen.",
-        "jellyfinDisabled": "❌ | Jellyfin er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen."
+        "jellyfinDisabled": "❌ | Jellyfin er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen.",
+        "radioDisabled": "❌ | Radio er deaktivert for øyeblikket! Be serveradministratoren om å aktivere og konfigurere den i miljøfilen."
     },
     "guards": {
         "djMode": "❌ | DJ-modus er aktiv! Du må ha DJ-rollen {role} for å bruke musikkkommandoer!",
         "notInVoice": "❌ | Du er ikke i en talekanal!",
-        "notInBotVoice": "❌ | Du er ikke i min talekanal!"
+        "notInBotVoice": "❌ | Du er ikke i min talekanal!",
+        "radioRole": "❌ | Du må ha Radio-rollen {role} for å starte radioen!"
     },
     "queue": {
         "nothingPlaying": "❌ | Ingen musikk spilles akkurat nå!",
@@ -178,7 +180,8 @@
             "search": "Søk etter spor, spillelister og album.",
             "playnext": "Legg et spor, en spilleliste eller et album fra Jellyfin-serveren din i køen som neste."
         },
-        "volume": "Sjekk eller sett nåværende musikkvolum!"
+        "volume": "Sjekk eller sett nåværende musikkvolum!",
+        "radio": "Start radiospillelisten som administratoren har konfigurert!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Ingen er i talekanalen!",
         "queueFinishedTitle": "Køen er ferdig 🛑",
         "queueFinishedDescription": "Musikkøen er ferdig!"
+    },
+    "radio": {
+        "startedTitle": "Radio startet 📻",
+        "startedDescription": "Radiospillelisten **{title}** ble startet i {channel} via **{provider}**, i rekkefølgen **{order}**, med **{count}** sanger.",
+        "startInProgress": "⏳ | Radioen starter allerede på denne serveren. Vent et øyeblikk.",
+        "voiceChannelChanged": "❌ | Talekanalen din ble endret mens radioen ble lastet inn. Prøv på nytt."
     }
 }

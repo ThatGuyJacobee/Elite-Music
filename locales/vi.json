@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
         "subsonicDisabled": "❌ | Subsonic hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
-        "jellyfinDisabled": "❌ | Jellyfin hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường."
+        "jellyfinDisabled": "❌ | Jellyfin hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
+        "radioDisabled": "❌ | Radio hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường."
     },
     "guards": {
         "djMode": "❌ | Chế độ DJ đang hoạt động! Bạn phải có vai trò DJ {role} để sử dụng bất kỳ lệnh nhạc nào!",
         "notInVoice": "❌ | Bạn không ở trong kênh thoại!",
-        "notInBotVoice": "❌ | Bạn không ở trong kênh thoại của tôi!"
+        "notInBotVoice": "❌ | Bạn không ở trong kênh thoại của tôi!",
+        "radioRole": "❌ | Bạn phải có vai trò Radio {role} để khởi động radio!"
     },
     "queue": {
         "nothingPlaying": "❌ | Hiện không có nhạc nào đang phát!",
@@ -178,7 +180,8 @@
             "search": "Tìm kiếm bài hát, playlist và album.",
             "playnext": "Thêm bài hát, playlist hoặc album từ Jellyfin để phát tiếp theo."
         },
-        "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!"
+        "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!",
+        "radio": "Khởi động playlist radio do quản trị viên cấu hình!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Không có ai trong kênh thoại!",
         "queueFinishedTitle": "Hàng đợi đã kết thúc 🛑",
         "queueFinishedDescription": "Hàng đợi nhạc đã phát xong!"
+    },
+    "radio": {
+        "startedTitle": "Đã khởi động radio 📻",
+        "startedDescription": "Đã khởi động playlist radio **{title}** trong {channel} qua **{provider}**, theo thứ tự **{order}**, với **{count}** bài hát.",
+        "startInProgress": "⏳ | Radio đang được khởi động trên máy chủ này. Vui lòng chờ một chút.",
+        "voiceChannelChanged": "❌ | Kênh thoại của bạn đã thay đổi trong khi radio đang tải. Vui lòng thử lại."
     }
 }

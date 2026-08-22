@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
         "subsonicDisabled": "❌ | Subsonic は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
-        "jellyfinDisabled": "❌ | Jellyfin は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。"
+        "jellyfinDisabled": "❌ | Jellyfin は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
+        "radioDisabled": "❌ | ラジオは現在無効です。サーバー管理者に環境ファイルで有効化と設定を依頼してください。"
     },
     "guards": {
         "djMode": "❌ | DJ モードが有効です！音楽コマンドを使用するには DJ ロール {role} が必要です！",
         "notInVoice": "❌ | ボイスチャンネルに参加していません！",
-        "notInBotVoice": "❌ | ボットと同じボイスチャンネルにいません！"
+        "notInBotVoice": "❌ | ボットと同じボイスチャンネルにいません！",
+        "radioRole": "❌ | ラジオを開始するには Radio ロール {role} が必要です。"
     },
     "queue": {
         "nothingPlaying": "❌ | 現在再生中の音楽はありません！",
@@ -178,7 +180,8 @@
             "search": "曲、プレイリスト、アルバムを検索します。",
             "playnext": "Jellyfin サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
         },
-        "volume": "現在の音量を確認または設定します！"
+        "volume": "現在の音量を確認または設定します！",
+        "radio": "管理者が設定したラジオプレイリストを開始します！"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "ボイスチャンネルに誰もいません！",
         "queueFinishedTitle": "キュー終了 🛑",
         "queueFinishedDescription": "ミュージックキューが終了しました！"
+    },
+    "radio": {
+        "startedTitle": "ラジオを開始しました 📻",
+        "startedDescription": "**{title}** ラジオプレイリストを {channel} で **{provider}** を使用し、**{order}** 順、**{count}** 曲で開始しました。",
+        "startInProgress": "⏳ | このサーバーではラジオをすでに開始しています。しばらくお待ちください。",
+        "voiceChannelChanged": "❌ | ラジオの読み込み中にボイスチャンネルが変わりました。もう一度お試しください。"
     }
 }

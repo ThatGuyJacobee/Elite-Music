@@ -11,6 +11,7 @@ Loving this open-source project? Leaving a ⭐ on the repository would be much a
 - Slash commands (djs v14).
 - Support for various streaming platforms.
 - Integrated Plex, Jellyfin & Subsonic API support.
+- Administrator-configured radio playlist playback.
 - Docker Support.
 - Full translation support for 30+ languages.
 - Wide range of audio filters.
@@ -156,6 +157,28 @@ The Jellyfin Media Server optional feature allows you to stream music directly f
 4. Set `JELLYFIN_USER` to a valid username on your server. Elite Music uses this account when searching your library and building stream URLs.
 
 Once configured and restarted, the bot will validate the connection on startup and return a configuration loaded message. As long as everything is valid and the feature remains active, you will be able to utilise all of the `/jellyfin` commands.
+
+### Radio playback
+
+The Radio optional feature allows members with a configured role to start one administrator-selected playlist with the `/radio` command. The playlist can come from any enabled Plex, Subsonic or Jellyfin integration. Members can choose whether the playlist is shuffled or played sequentially when starting the radio.
+
+1. Firstly, configure and enable the Plex, Subsonic or Jellyfin integration that contains the playlist.
+2. Set `ENABLE_RADIO` to `true`.
+3. Create a role for members who may start the radio, copy its Discord role ID and place it into `RADIO_ROLE`.
+4. Set `RADIO_PROVIDER` to `plex`, `subsonic` or `jellyfin`. The selected provider must also be enabled and pass its normal startup connection check.
+5. Set `RADIO_PLAYLIST_ID` to the provider-specific playlist ID described below.
+
+The playlist ID is handled as a string, so both numeric and alphanumeric provider IDs are supported:
+
+- **Plex:** request `${PLEX_SERVER}/playlists?playlistType=audio&X-Plex-Token=${PLEX_AUTHTOKEN}`, find the target playlist by its `title`, and use its `ratingKey` value. See the [Plex Media Server playlist API](https://developer.plex.tv/pms/). This URL contains your Plex token, so do not share it or include it in screenshots.
+- **Subsonic:** call the [`getPlaylists`](http://www.subsonic.org/pages/api.jsp#getPlaylists) endpoint using your normal Subsonic API authentication, find the target playlist by name, and use its `id` value.
+- **Jellyfin:** call `GET /Items?UserId=YOUR_USER_ID&Recursive=true&IncludeItemTypes=Playlist` with your Jellyfin API authentication, find the target playlist by its `Name`, and use its `Id` value. The request and response can be inspected through the [Jellyfin API documentation](https://api.jellyfin.org/).
+
+The bot resolves `RADIO_PLAYLIST_ID` during startup after validating the selected provider. A missing or empty playlist disables Radio and reports the configuration error in the console.
+
+When `/radio` is used, the bot loads and validates the configured playlist before replacing any existing queue in the member's voice channel. The `order` option defaults to `shuffle`; members can select `sequential` to preserve the playlist order. Radio playback uses the existing queue lifecycle, playback controls, leave behaviour, volume and soft-transition settings.
+
+`RADIO_ROLE` controls who can start the radio. If DJ Mode is enabled, its existing `DJ_ROLE` restrictions still apply to the playback controls and other music commands. You can assign both roles to the same members or configure both settings with the same Discord role ID.
 
 ### DJ Mode
 

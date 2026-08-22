@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
         "subsonicDisabled": "❌ | Subsonic je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
-        "jellyfinDisabled": "❌ | Jellyfin je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí."
+        "jellyfinDisabled": "❌ | Jellyfin je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
+        "radioDisabled": "❌ | Rádio je momentálně vypnuté! Požádejte správce serveru, aby jej povolil a nakonfiguroval v souboru prostředí."
     },
     "guards": {
         "djMode": "❌ | Režim DJ je aktivní! Pro použití hudebních příkazů musíte mít roli DJ {role}!",
         "notInVoice": "❌ | Nejste v hlasovém kanálu!",
-        "notInBotVoice": "❌ | Nejste v mém hlasovém kanálu!"
+        "notInBotVoice": "❌ | Nejste v mém hlasovém kanálu!",
+        "radioRole": "❌ | Pro spuštění rádia musíte mít roli Radio {role}!"
     },
     "queue": {
         "nothingPlaying": "❌ | Momentálně se nepřehrává žádná hudba!",
@@ -178,7 +180,8 @@
             "search": "Vyhledejte skladby, playlisty a alba.",
             "playnext": "Přidejte skladbu, playlist nebo album ze Jellyfin serveru pro další přehrání."
         },
-        "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!"
+        "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!",
+        "radio": "Spustit rádiový playlist nastavený správcem!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "V hlasovém kanálu nikdo není!",
         "queueFinishedTitle": "Fronta dokončena 🛑",
         "queueFinishedDescription": "Hudební fronta byla dokončena!"
+    },
+    "radio": {
+        "startedTitle": "Rádio spuštěno 📻",
+        "startedDescription": "Rádiový playlist **{title}** byl spuštěn v {channel} pomocí **{provider}**, v pořadí **{order}**, s **{count}** skladbami.",
+        "startInProgress": "⏳ | Rádio se na tomto serveru již spouští. Chvíli počkejte.",
+        "voiceChannelChanged": "❌ | Během načítání rádia jste změnili hlasový kanál. Zkuste to prosím znovu."
     }
 }

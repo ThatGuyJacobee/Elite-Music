@@ -15,6 +15,7 @@ const {
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
+const { resolveRadioPlaylist } = require("../utils/radioFunctions");
 
 module.exports = {
     name: "clientReady",
@@ -138,6 +139,26 @@ module.exports = {
                     : Number(process.env.DJ_ROLE)
                       ? process.env.DJ_ROLE
                       : client.config.djRole;
+
+            client.config.enableRadio =
+                typeof process.env.ENABLE_RADIO === "undefined"
+                    ? client.config.enableRadio
+                    : String(process.env.ENABLE_RADIO) === "true";
+
+            client.config.radioRole =
+                typeof process.env.RADIO_ROLE === "undefined"
+                    ? client.config.radioRole
+                    : String(process.env.RADIO_ROLE).trim();
+
+            client.config.radioProvider =
+                typeof process.env.RADIO_PROVIDER === "undefined"
+                    ? client.config.radioProvider
+                    : String(process.env.RADIO_PROVIDER).trim().toLowerCase();
+
+            client.config.radioPlaylistId =
+                typeof process.env.RADIO_PLAYLIST_ID === "undefined"
+                    ? client.config.radioPlaylistId
+                    : String(process.env.RADIO_PLAYLIST_ID).trim();
 
             client.config.enablePlex =
                 typeof process.env.ENABLE_PLEX === "undefined"
@@ -374,8 +395,61 @@ module.exports = {
                 }
             }
 
+            if (client.config.enableRadio) {
+                const radioProviderEnabled = {
+                    plex: client.config.enablePlex,
+                    subsonic: client.config.enableSubsonic,
+                    jellyfin: client.config.enableJellyfin,
+                };
+
+                if (!Object.prototype.hasOwnProperty.call(radioProviderEnabled, client.config.radioProvider)) {
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_PROVIDER must be plex, subsonic, or jellyfin.`,
+                    );
+                    client.config.enableRadio = false;
+                } else if (!radioProviderEnabled[client.config.radioProvider]) {
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... The configured RADIO_PROVIDER is not enabled or could not be reached.`,
+                    );
+                    client.config.enableRadio = false;
+                } else if (!/^\d+$/.test(client.config.radioRole)) {
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_ROLE must be a Discord role ID.`,
+                    );
+                    client.config.enableRadio = false;
+                } else if (!client.config.radioPlaylistId) {
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_PLAYLIST_ID is not configured.`,
+                    );
+                    client.config.enableRadio = false;
+                }
+            }
+
+            if (client.config.enableRadio) {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort("Radio playlist validation timed out."), 3000);
+
+                try {
+                    await resolveRadioPlaylist(client.config.radioProvider, client.config.radioPlaylistId, {
+                        signal: controller.signal,
+                    });
+                } catch (err) {
+                    const reason = controller.signal.aborted
+                        ? controller.signal.reason
+                        : err && err.message
+                          ? err.message
+                          : err;
+                    console.log(
+                        `[ELITE_CONFIG] Radio configuration is invalid. Disabling Radio feature... RADIO_PLAYLIST_ID could not be resolved by the configured provider. Read more in the trace below:\n${reason}`,
+                    );
+                    client.config.enableRadio = false;
+                } finally {
+                    clearTimeout(timeout);
+                }
+            }
+
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.1) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.2) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );

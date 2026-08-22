@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.",
         "subsonicDisabled": "❌ | Subsonic is currently disabled! Ask the server admin to enable and configure this in the environment file.",
-        "jellyfinDisabled": "❌ | Jellyfin is currently disabled! Ask the server admin to enable and configure this in the environment file."
+        "jellyfinDisabled": "❌ | Jellyfin is currently disabled! Ask the server admin to enable and configure this in the environment file.",
+        "radioDisabled": "❌ | Radio is currently disabled! Ask the server admin to enable and configure it in the environment file."
     },
     "guards": {
         "djMode": "❌ | DJ Mode is active! You must have the DJ role {role} to use any music commands!",
         "notInVoice": "❌ | You are not in a voice channel!",
-        "notInBotVoice": "❌ | You are not in my voice channel!"
+        "notInBotVoice": "❌ | You are not in my voice channel!",
+        "radioRole": "❌ | You must have the Radio role {role} to start the radio!"
     },
     "queue": {
         "nothingPlaying": "❌ | No music is currently being played!",
@@ -178,7 +180,8 @@
             "search": "Search tracks, playlists, and albums.",
             "playnext": "Add a track, playlist, or album from your Jellyfin server to play next."
         },
-        "volume": "Check or set the current music volume!"
+        "volume": "Check or set the current music volume!",
+        "radio": "Start the administrator-configured radio playlist!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Nobody is in the voice channel!",
         "queueFinishedTitle": "Queue Finished 🛑",
         "queueFinishedDescription": "The music queue has been finished!"
+    },
+    "radio": {
+        "startedTitle": "Radio started 📻",
+        "startedDescription": "Started the **{title}** radio playlist in {channel} using **{provider}** in **{order}** order with **{count}** songs.",
+        "startInProgress": "⏳ | Radio is already starting on this server. Please wait a moment.",
+        "voiceChannelChanged": "❌ | Your voice channel changed while the radio was loading. Please try again."
     }
 }

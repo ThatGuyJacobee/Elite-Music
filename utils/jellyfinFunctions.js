@@ -15,6 +15,7 @@ const {
     ticksToMs,
 } = require("./jellyfinAPI");
 const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const { sendRadioStartedMessage } = require("./radioUi");
 
 const player = useMainPlayer();
 
@@ -46,6 +47,77 @@ async function addContainerTracksToQueue(interaction, tracks, nextSong) {
         return;
     }
     queue.addTrack(tracks);
+}
+
+async function jellyfinPreparePlaylist(interaction, itemMetadata, orderMode = "sequential", init = {}) {
+    const playlistItems = await jellyfinGetPlaylistItems(client.config, itemMetadata.id, init);
+    let title = itemMetadata.title;
+    if ((!title || title === "") && playlistItems.length) {
+        const playlistMeta = await jellyfinGetItem(client.config, itemMetadata.id, init);
+        title = (playlistMeta && playlistMeta.Name) || "Playlist";
+    }
+
+    const builtTracks = playlistItems.map((item) => buildTrackFromJellyfinItem(interaction, item));
+    const metaOut = {
+        ...itemMetadata,
+        type: "playlist",
+        title: title || "Playlist",
+        leafCount: playlistItems.length,
+        imageItemId: itemMetadata.imageItemId || itemMetadata.id,
+    };
+    const firstImageId = playlistItems.length
+        ? mapJellyfinTrack(playlistItems[0]).imageItemId || metaOut.imageItemId
+        : metaOut.imageItemId;
+
+    return {
+        tracks: applyTrackOrder(builtTracks, orderMode),
+        itemMetadata: metaOut,
+        defaultImageItemId: firstImageId,
+    };
+}
+
+async function jellyfinAddPreparedPlaylist(
+    interaction,
+    preparedPlaylist,
+    responseType,
+    nextSong = false,
+    playbackContext = null,
+) {
+    if (!preparedPlaylist.tracks.length) {
+        if (playbackContext?.type === "radio") {
+            const err = new Error("The configured Jellyfin radio playlist is empty");
+            err.code = "RADIO_PLAYLIST_EMPTY";
+            throw err;
+        }
+
+        return interaction.followUp({
+            content: translate(interaction, "errors.emptyPlaylist"),
+            flags: MessageFlags.Ephemeral,
+        });
+    }
+
+    try {
+        await addContainerTracksToQueue(interaction, preparedPlaylist.tracks, nextSong);
+    } catch (err) {
+        if (playbackContext?.type === "radio") {
+            err.code = "RADIO_ADD_TRACKS";
+            throw err;
+        }
+
+        return interaction.followUp({
+            content: translate(interaction, "errors.addTracks"),
+            flags: MessageFlags.Ephemeral,
+        });
+    }
+
+    return jellyfinQueuePlay(
+        interaction,
+        responseType,
+        preparedPlaylist.itemMetadata,
+        preparedPlaylist.defaultImageItemId,
+        nextSong,
+        playbackContext,
+    );
 }
 
 function sortAlbumSongs(songs) {
@@ -328,42 +400,10 @@ async function jellyfinAddPlaylist(
     responseType,
     orderMode = "sequential",
     nextSong = false,
+    playbackContext = null,
 ) {
-    const playlistItems = await jellyfinGetPlaylistItems(client.config, itemMetadata.id);
-    if (!playlistItems.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyPlaylist"),
-            flags: MessageFlags.Ephemeral,
-        });
-    }
-
-    let title = itemMetadata.title;
-    if (!title || title === "") {
-        const playlistMeta = await jellyfinGetItem(client.config, itemMetadata.id);
-        title = (playlistMeta && playlistMeta.Name) || "Playlist";
-    }
-
-    const builtTracks = playlistItems.map((item) => buildTrackFromJellyfinItem(interaction, item));
-
-    try {
-        const orderedTracks = applyTrackOrder(builtTracks, orderMode);
-        await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
-    } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
-    }
-
-    const metaOut = {
-        ...itemMetadata,
-        type: "playlist",
-        title,
-        leafCount: playlistItems.length,
-        imageItemId: itemMetadata.imageItemId || itemMetadata.id,
-    };
-    const firstImageId = mapJellyfinTrack(playlistItems[0]).imageItemId || metaOut.imageItemId;
-    await jellyfinQueuePlay(interaction, responseType, metaOut, firstImageId, nextSong);
+    const preparedPlaylist = await jellyfinPreparePlaylist(interaction, itemMetadata, orderMode);
+    return jellyfinAddPreparedPlaylist(interaction, preparedPlaylist, responseType, nextSong, playbackContext);
 }
 
 async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -413,7 +453,14 @@ async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMo
     await jellyfinQueuePlay(interaction, responseType, metaOut, firstImageId, nextSong);
 }
 
-async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaultImageItemId, nextSong) {
+async function jellyfinQueuePlay(
+    interaction,
+    responseType,
+    itemMetadata,
+    defaultImageItemId,
+    nextSong,
+    playbackContext = null,
+) {
     const queue = await getQueue(interaction);
 
     try {
@@ -422,6 +469,11 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
+        if (playbackContext?.type === "radio") {
+            err.code = "RADIO_JOIN_VOICE";
+            throw err;
+        }
+
         return interaction.followUp({
             content: translate(interaction, "errors.joinVoiceChannel"),
             flags: MessageFlags.Ephemeral,
@@ -450,10 +502,20 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
 
-    if (!queue.isPlaying()) {
+    const queueWasPlaying = queue.isPlaying();
+
+    if (!queueWasPlaying) {
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
+            if (playbackContext?.type === "radio") {
+                await clearNpControlMessages(queue);
+                clear(queue);
+                queue.delete();
+                err.code = "RADIO_PLAYBACK";
+                throw err;
+            }
+
             return interaction.followUp({
                 content: translate(interaction, "errors.playback"),
                 flags: MessageFlags.Ephemeral,
@@ -534,6 +596,10 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         }
     }
 
+    if (playbackContext?.type === "radio") {
+        return sendRadioStartedMessage(interaction, itemMetadata, playbackContext, imageAttachment);
+    }
+
     if (responseType == "edit") {
         interaction.message.edit({ embeds: [embed], files: [imageAttachment], components: [] });
     } else {
@@ -542,6 +608,8 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
 }
 
 module.exports = {
+    jellyfinPreparePlaylist,
+    jellyfinAddPreparedPlaylist,
     jellyfinSearchQuery,
     jellyfinAddTrack,
     jellyfinAddPlaylist,

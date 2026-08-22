@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex가 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
         "subsonicDisabled": "❌ | Subsonic이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
-        "jellyfinDisabled": "❌ | Jellyfin이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요."
+        "jellyfinDisabled": "❌ | Jellyfin이 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
+        "radioDisabled": "❌ | 라디오가 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화하고 설정해 달라고 요청하세요."
     },
     "guards": {
         "djMode": "❌ | DJ 모드가 활성화되어 있습니다! 음악 명령을 사용하려면 DJ 역할 {role}이 필요합니다!",
         "notInVoice": "❌ | 음성 채널에 있지 않습니다!",
-        "notInBotVoice": "❌ | 봇과 같은 음성 채널에 있지 않습니다!"
+        "notInBotVoice": "❌ | 봇과 같은 음성 채널에 있지 않습니다!",
+        "radioRole": "❌ | 라디오를 시작하려면 Radio 역할 {role}이 필요합니다!"
     },
     "queue": {
         "nothingPlaying": "❌ | 현재 재생 중인 음악이 없습니다!",
@@ -178,7 +180,8 @@
             "search": "곡, 재생목록 및 앨범을 검색합니다.",
             "playnext": "Jellyfin 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
         },
-        "volume": "현재 음악 볼륨을 확인하거나 설정합니다!"
+        "volume": "현재 음악 볼륨을 확인하거나 설정합니다!",
+        "radio": "관리자가 설정한 라디오 재생목록을 시작합니다!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "음성 채널에 아무도 없습니다!",
         "queueFinishedTitle": "대기열 완료 🛑",
         "queueFinishedDescription": "음악 대기열이 완료되었습니다!"
+    },
+    "radio": {
+        "startedTitle": "라디오 시작됨 📻",
+        "startedDescription": "**{title}** 라디오 재생목록을 {channel}에서 **{provider}**로, **{order}** 순서 및 **{count}**곡으로 시작했습니다.",
+        "startInProgress": "⏳ | 이 서버에서 라디오를 이미 시작하고 있습니다. 잠시 기다려 주세요.",
+        "voiceChannelChanged": "❌ | 라디오를 불러오는 동안 음성 채널이 변경되었습니다. 다시 시도해 주세요."
     }
 }

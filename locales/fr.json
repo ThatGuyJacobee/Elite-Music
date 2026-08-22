@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
         "subsonicDisabled": "❌ | Subsonic est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
-        "jellyfinDisabled": "❌ | Jellyfin est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement."
+        "jellyfinDisabled": "❌ | Jellyfin est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
+        "radioDisabled": "❌ | La radio est actuellement désactivée ! Demandez à l'administrateur du serveur de l'activer et de la configurer dans le fichier d'environnement."
     },
     "guards": {
         "djMode": "❌ | Le mode DJ est actif ! Vous devez avoir le rôle DJ {role} pour utiliser les commandes de musique !",
         "notInVoice": "❌ | Vous n'êtes pas dans un salon vocal !",
-        "notInBotVoice": "❌ | Vous n'êtes pas dans mon salon vocal !"
+        "notInBotVoice": "❌ | Vous n'êtes pas dans mon salon vocal !",
+        "radioRole": "❌ | Vous devez avoir le rôle Radio {role} pour lancer la radio !"
     },
     "queue": {
         "nothingPlaying": "❌ | Aucune musique n'est en cours de lecture !",
@@ -178,7 +180,8 @@
             "search": "Rechercher des pistes, des playlists et des albums.",
             "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Jellyfin pour lecture suivante."
         },
-        "volume": "Consulter ou régler le volume actuel de la musique !"
+        "volume": "Consulter ou régler le volume actuel de la musique !",
+        "radio": "Lancer la playlist radio configurée par l'administrateur !"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Personne n'est dans le salon vocal !",
         "queueFinishedTitle": "File d'attente terminée 🛑",
         "queueFinishedDescription": "La file d'attente musicale est terminée !"
+    },
+    "radio": {
+        "startedTitle": "Radio lancée 📻",
+        "startedDescription": "La playlist radio **{title}** a été lancée dans {channel} via **{provider}**, en ordre **{order}**, avec **{count}** chansons.",
+        "startInProgress": "⏳ | La radio est déjà en cours de démarrage sur ce serveur. Veuillez patienter un instant.",
+        "voiceChannelChanged": "❌ | Votre salon vocal a changé pendant le chargement de la radio. Veuillez réessayer."
     }
 }

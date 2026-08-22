@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
         "subsonicDisabled": "❌ | Subsonic je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
-        "jellyfinDisabled": "❌ | Jellyfin je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja."
+        "jellyfinDisabled": "❌ | Jellyfin je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
+        "radioDisabled": "❌ | Radio je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja."
     },
     "guards": {
         "djMode": "❌ | DJ način rada je aktivan! Morate imati DJ ulogu {role} za korištenje glazbenih naredbi!",
         "notInVoice": "❌ | Niste u glasovnom kanalu!",
-        "notInBotVoice": "❌ | Niste u mom glasovnom kanalu!"
+        "notInBotVoice": "❌ | Niste u mom glasovnom kanalu!",
+        "radioRole": "❌ | Za pokretanje radija morate imati ulogu Radio {role}!"
     },
     "queue": {
         "nothingPlaying": "❌ | Trenutačno se ne reproducira glazba!",
@@ -178,7 +180,8 @@
             "search": "Pretražite pjesme, playliste i albume.",
             "playnext": "Dodajte pjesmu, playlistu ili album s Jellyfin poslužitelja za sljedeću reprodukciju."
         },
-        "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!"
+        "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!",
+        "radio": "Pokreni radijsku playlistu koju je konfigurirao administrator!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Nitko nije u glasovnom kanalu!",
         "queueFinishedTitle": "Red čekanja završen 🛑",
         "queueFinishedDescription": "Glazbeni red čekanja je završen!"
+    },
+    "radio": {
+        "startedTitle": "Radio je pokrenut 📻",
+        "startedDescription": "Radijska playlista **{title}** pokrenuta je u {channel} putem **{provider}**, redoslijedom **{order}**, s **{count}** pjesama.",
+        "startInProgress": "⏳ | Radio se već pokreće na ovom poslužitelju. Pričekajte trenutak.",
+        "voiceChannelChanged": "❌ | Vaš glasovni kanal promijenio se tijekom učitavanja radija. Pokušajte ponovno."
     }
 }

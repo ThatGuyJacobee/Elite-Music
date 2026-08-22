@@ -48,12 +48,14 @@
     "feature": {
         "plexDisabled": "❌ | Plex šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
         "subsonicDisabled": "❌ | Subsonic šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
-        "jellyfinDisabled": "❌ | Jellyfin šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile."
+        "jellyfinDisabled": "❌ | Jellyfin šiuo metu išjungtas! Paprašykite serverio administratoriaus įjungti ir sukonfigūruoti tai aplinkos faile.",
+        "radioDisabled": "❌ | Radijas šiuo metu išjungtas! Paprašykite serverio administratoriaus jį įjungti ir sukonfigūruoti aplinkos faile."
     },
     "guards": {
         "djMode": "❌ | DJ režimas aktyvus! Norėdami naudoti muzikos komandas, turite turėti DJ rolę {role}!",
         "notInVoice": "❌ | Jūs nesate jokame balso kanale!",
-        "notInBotVoice": "❌ | Jūs nesate mano balso kanale!"
+        "notInBotVoice": "❌ | Jūs nesate mano balso kanale!",
+        "radioRole": "❌ | Norėdami paleisti radiją, turite turėti Radio vaidmenį {role}!"
     },
     "queue": {
         "nothingPlaying": "❌ | Dabar niekas negroja!",
@@ -178,7 +180,8 @@
             "search": "Ieškoti kūrinių, grojaraščių ir albumų.",
             "playnext": "Pridėti kūrinį, grojaraštį arba albumą iš Jellyfin serverio groti kitą."
         },
-        "volume": "Patikrinti arba nustatyti dabartinį muzikos garsumą!"
+        "volume": "Patikrinti arba nustatyti dabartinį muzikos garsumą!",
+        "radio": "Paleisti administratoriaus sukonfigūruotą radijo grojaraštį!"
     },
     "slash": {
         "options": {
@@ -324,5 +327,11 @@
         "emptyChannelDescription": "Balso kanale nieko nėra!",
         "queueFinishedTitle": "Eilė baigta 🛑",
         "queueFinishedDescription": "Muzikos eilė baigta!"
+    },
+    "radio": {
+        "startedTitle": "Radijas paleistas 📻",
+        "startedDescription": "Radijo grojaraštis **{title}** paleistas kanale {channel} per **{provider}**, tvarka **{order}**, su **{count}** dainomis.",
+        "startInProgress": "⏳ | Radijas šiame serveryje jau paleidžiamas. Šiek tiek palaukite.",
+        "voiceChannelChanged": "❌ | Įkeliant radiją pasikeitė jūsų balso kanalas. Bandykite dar kartą."
     }
 }
