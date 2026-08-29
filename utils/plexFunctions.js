@@ -113,7 +113,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
             queue.addTrack(newTrack);
         }
 
-        await plexQueuePlay(interaction, responseType, itemMetadata, songFound.thumb, nextSong);
+        await plexQueuePlay(interaction, responseType, songFound, songFound.thumb, nextSong);
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
