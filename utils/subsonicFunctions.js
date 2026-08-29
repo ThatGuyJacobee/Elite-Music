@@ -14,7 +14,12 @@ const {
     streamUrl: subsonicStreamUrl,
     coverArtUrl: subsonicCoverArtUrl,
 } = require("./subsonicAPI");
-const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const {
+    buildRequestedByFooter,
+    buildCoverImageDescription,
+    buildPlaybackSourceField,
+    translate,
+} = require("./botText");
 
 const player = useMainPlayer();
 
@@ -377,6 +382,10 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         .setColor(client.config.embedColour)
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
+
+    if (interaction.playbackSource) {
+        embed.addFields(buildPlaybackSourceField(interaction, interaction.playbackSource));
+    }
 
     if (!queue.isPlaying()) {
         try {
