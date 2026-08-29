@@ -13,6 +13,7 @@ const defaultConsts = {
         leaveOnStopCooldown: 0,
         selfDeafen: true,
         defaultVolume: 50,
+        playbackSourceOrder: ["default"],
         enableSoftTransitions: false,
         softTransitionMs: 1000,
         enableDjMode: false,

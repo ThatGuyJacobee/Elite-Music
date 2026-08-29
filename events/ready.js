@@ -14,6 +14,7 @@ const {
     resolveUserId: jellyfinResolveUserId,
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
+const { parseSourceOrder } = require("../utils/playbackResolver");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
@@ -52,6 +53,14 @@ module.exports = {
                     : String(process.env.LOCALE_MODE)
                       ? process.env.LOCALE_MODE.toLowerCase()
                       : client.config.localeMode;
+
+            client.config.playbackSourceOrder = parseSourceOrder(process.env.PLAYBACK_SOURCE_ORDER, {
+                fallback: client.config.playbackSourceOrder,
+                onInvalid: (source) =>
+                    console.log(
+                        `[ELITE_CONFIG] Ignoring unknown PLAYBACK_SOURCE_ORDER source "${source}". Supported sources: plex, subsonic, jellyfin, default.`,
+                    ),
+            });
 
             client.config.leaveOnEmpty =
                 typeof process.env.LEAVE_ON_EMPTY === "undefined"
@@ -374,8 +383,23 @@ module.exports = {
                 }
             }
 
+            const effectivePlaybackSources = client.config.playbackSourceOrder.filter(
+                (source) =>
+                    source === "default" ||
+                    (source === "plex" && client.config.enablePlex) ||
+                    (source === "subsonic" && client.config.enableSubsonic) ||
+                    (source === "jellyfin" && client.config.enableJellyfin),
+            );
+            console.log(
+                `[ELITE_CONFIG] Effective /play source order: ${
+                    effectivePlaybackSources.length > 0
+                        ? effectivePlaybackSources.join(" -> ")
+                        : "none (playback requests will fail when no source matches)"
+                }`,
+            );
+
             // Check for an outdated configuration
-            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.1) {
+            if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.2) {
                 console.log(
                     `[ELITE_CONFIG] Your .ENV configuration file is outdated. This could mean that you may lose out on new functionality or new customisation options. Please check the latest config via https://github.com/ThatGuyJacobee/Elite-Music/blob/main/.env.example or the .env.example file as your bot version is ahead of your configuration version.`,
                 );
