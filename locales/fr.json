@@ -13,6 +13,7 @@
         "genericAction": "❌ | Oups... quelque chose s'est mal passé, une erreur est survenue lors de {action}. Veuillez réessayer.",
         "failedToFindSongQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson avec la requête demandée.",
         "failedToFindSong": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson.",
+        "noPlaybackSource": "❌ | Aucune des sources de lecture configurées n’a pu fournir le morceau demandé.",
         "playRequest": "❌ | Oups... quelque chose s'est mal passé lors de la tentative de lecture de la chanson demandée. Veuillez réessayer.",
         "addTracks": "❌ | Oups... quelque chose s'est mal passé, impossible d'ajouter la ou les pistes à la file d'attente.",
         "joinVoice": "❌ | Oups... quelque chose s'est mal passé, impossible de rejoindre votre salon.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Source audio",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Par défaut (discord-player)"
+        },
         "startedTitle": "Lecture lancée ▶️",
         "addedTitle": "Ajouté à la file d'attente ⏱️",
         "addedTopTitle": "Ajouté en tête de la file d'attente ⏱️",

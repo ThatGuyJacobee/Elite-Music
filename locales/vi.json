@@ -13,6 +13,7 @@
         "genericAction": "❌ | Rất tiếc... đã xảy ra lỗi khi {action}. Vui lòng thử lại.",
         "failedToFindSongQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát với truy vấn đã yêu cầu.",
         "failedToFindSong": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát.",
+        "noPlaybackSource": "❌ | Không có nguồn phát nào được cấu hình có thể cung cấp bài hát được yêu cầu.",
         "playRequest": "❌ | Rất tiếc... đã xảy ra lỗi khi cố phát bài hát được yêu cầu. Vui lòng thử lại.",
         "addTracks": "❌ | Rất tiếc... đã xảy ra lỗi, không thể thêm bài hát vào hàng đợi.",
         "joinVoice": "❌ | Rất tiếc... đã xảy ra lỗi, không thể tham gia kênh của bạn.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Nguồn âm thanh",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Mặc định (discord-player)"
+        },
         "startedTitle": "Bắt đầu phát ▶️",
         "addedTitle": "Đã thêm vào hàng đợi ⏱️",
         "addedTopTitle": "Đã thêm vào đầu hàng đợi ⏱️",

@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... nešto je pošlo po krivu, došlo je do pogreške pri {action}. Pokušajte ponovno.",
         "failedToFindSongQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu za traženi upit.",
         "failedToFindSong": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu.",
+        "noPlaybackSource": "❌ | Nijedan od konfiguriranih izvora reprodukcije nije mogao pronaći traženu pjesmu.",
         "playRequest": "❌ | Ups... nešto je pošlo po krivu pri pokušaju reprodukcije tražene pjesme. Pokušajte ponovno.",
         "addTracks": "❌ | Ups... nešto je pošlo po krivu, nismo uspjeli dodati pjesmu/e u red čekanja.",
         "joinVoice": "❌ | Ups... nešto je pošlo po krivu, nismo se mogli pridružiti vašem kanalu.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Izvor zvuka",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Zadano (discord-player)"
+        },
         "startedTitle": "Reprodukcija započeta ▶️",
         "addedTitle": "Dodano u red čekanja ⏱️",
         "addedTopTitle": "Dodano na vrh reda čekanja ⏱️",

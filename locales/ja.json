@@ -13,6 +13,7 @@
         "genericAction": "❌ | おっと... 問題が発生しました。{action} 中にエラーが発生しました。もう一度お試しください。",
         "failedToFindSongQuery": "❌ | おっと... 問題が発生しました。指定されたクエリで曲が見つかりませんでした。",
         "failedToFindSong": "❌ | おっと... 問題が発生しました。曲が見つかりませんでした。",
+        "noPlaybackSource": "❌ | 設定された再生ソースのどれも、要求された曲を提供できませんでした。",
         "playRequest": "❌ | おっと... リクエストされた曲の再生中に問題が発生しました。もう一度お試しください。",
         "addTracks": "❌ | おっと... 問題が発生しました。曲をキューに追加できませんでした。",
         "joinVoice": "❌ | おっと... 問題が発生しました。チャンネルに参加できませんでした。",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "音声ソース",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "デフォルト (discord-player)"
+        },
         "startedTitle": "再生開始 ▶️",
         "addedTitle": "キューに追加 ⏱️",
         "addedTopTitle": "キューの先頭に追加 ⏱️",

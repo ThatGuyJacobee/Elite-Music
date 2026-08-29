@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... noget gik galt, der opstod en fejl ved {action}. Prøv venligst igen.",
         "failedToFindSongQuery": "❌ | Ups... noget gik galt, kunne ikke finde sangen med den angivne forespørgsel.",
         "failedToFindSong": "❌ | Ups... noget gik galt, kunne ikke finde sangen.",
+        "noPlaybackSource": "❌ | Ingen af de konfigurerede afspilningskilder kunne levere den ønskede sang.",
         "playRequest": "❌ | Ups... noget gik galt under forsøget på at afspille den anmodede sang. Prøv venligst igen.",
         "addTracks": "❌ | Ups... noget gik galt, kunne ikke tilføje nummer(et/erne) til køen.",
         "joinVoice": "❌ | Ups... noget gik galt, kunne ikke tilslutte din kanal.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Lydkilde",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Standard (discord-player)"
+        },
         "startedTitle": "Afspilning startet ▶️",
         "addedTitle": "Tilføjet til kø ⏱️",
         "addedTopTitle": "Tilføjet øverst i køen ⏱️",

@@ -13,6 +13,7 @@
         "genericAction": "❌ | Hups... jotain meni pieleen, virhe tapahtui {action}. Yritä uudelleen.",
         "failedToFindSongQuery": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt haulla.",
         "failedToFindSong": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt.",
+        "noPlaybackSource": "❌ | Yksikään määritetyistä toistolähteistä ei pystynyt tarjoamaan pyydettyä kappaletta.",
         "playRequest": "❌ | Hups... jotain meni pieleen yritettäessä toistaa pyydettyä kappaletta. Yritä uudelleen.",
         "addTracks": "❌ | Hups... jotain meni pieleen, kappale(tta) ei voitu lisätä jonoon.",
         "joinVoice": "❌ | Hups... jotain meni pieleen, kanavaan liittyminen epäonnistui.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Äänilähde",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Oletus (discord-player)"
+        },
         "startedTitle": "Toisto aloitettu ▶️",
         "addedTitle": "Lisätty jonoon ⏱️",
         "addedTopTitle": "Lisätty jonon kärkeen ⏱️",

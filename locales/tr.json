@@ -13,6 +13,7 @@
         "genericAction": "❌ | Hay aksi... bir şeyler ters gitti, {action} sırasında bir hata oluştu. Lütfen tekrar deneyin.",
         "failedToFindSongQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı bulunamadı.",
         "failedToFindSong": "❌ | Hay aksi... bir şeyler ters gitti, şarkı bulunamadı.",
+        "noPlaybackSource": "❌ | Yapılandırılmış oynatma kaynaklarının hiçbiri istenen şarkıyı sağlayamadı.",
         "playRequest": "❌ | Hay aksi... istenen şarkıyı çalmaya çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
         "addTracks": "❌ | Hay aksi... bir şeyler ters gitti, parça(lar) kuyruğa eklenemedi.",
         "joinVoice": "❌ | Hay aksi... bir şeyler ters gitti, kanalınıza katılamadım.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Ses kaynağı",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Varsayılan (discord-player)"
+        },
         "startedTitle": "Oynatma başladı ▶️",
         "addedTitle": "Kuyruğa eklendi ⏱️",
         "addedTopTitle": "Kuyruğun başına eklendi ⏱️",

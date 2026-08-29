@@ -13,6 +13,7 @@
         "genericAction": "❌ | 哎呀... 出了点问题，{action} 时发生错误。请重试。",
         "failedToFindSongQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲。",
         "failedToFindSong": "❌ | 哎呀... 出了点问题，找不到该歌曲。",
+        "noPlaybackSource": "❌ | 配置的播放来源都无法提供所请求的歌曲。",
         "playRequest": "❌ | 哎呀... 播放请求的歌曲时出了问题。请重试。",
         "addTracks": "❌ | 哎呀... 出了点问题，无法将歌曲添加到队列。",
         "joinVoice": "❌ | 哎呀... 出了点问题，无法加入您的频道。",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "音频来源",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "默认（discord-player）"
+        },
         "startedTitle": "开始播放 ▶️",
         "addedTitle": "已添加到队列 ⏱️",
         "addedTopTitle": "已添加到队列顶部 ⏱️",

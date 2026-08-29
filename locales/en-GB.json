@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ooops... something went wrong, there was an error {action}. Please try again.",
         "failedToFindSongQuery": "❌ | Ooops... something went wrong, couldn't find the song with the requested query.",
         "failedToFindSong": "❌ | Ooops... something went wrong, couldn't find the song.",
+        "noPlaybackSource": "❌ | None of the configured playback sources could provide the requested song.",
         "playRequest": "❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.",
         "addTracks": "❌ | Ooops... something went wrong, failed to add the track(s) to the queue.",
         "joinVoice": "❌ | Ooops... something went wrong, couldn't join your channel.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Audio source",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Default (discord-player)"
+        },
         "startedTitle": "Started playback ▶️",
         "addedTitle": "Added to queue ⏱️",
         "addedTopTitle": "Added to the top of the queue ⏱️",
