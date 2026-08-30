@@ -44,7 +44,8 @@
             "switchingLoopMode": "mengganti mode loop",
             "removingSong": "menghapus lagu dari antrean",
             "adjustingAudioFilter": "menyesuaikan filter audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search hanya untuk lagu tunggal. Gunakan **/play** untuk menambahkan playlist ke antrean."
     },
     "feature": {
         "plexDisabled": "❌ | Plex saat ini dinonaktifkan! Minta admin server untuk mengaktifkan dan mengonfigurasi ini di file environment.",
@@ -186,14 +187,16 @@
             "search": "Cari trek, playlist, dan album.",
             "playnext": "Tambahkan trek, playlist, atau album dari Jellyfin untuk diputar berikutnya."
         },
-        "volume": "Periksa atau atur volume musik saat ini!"
+        "volume": "Periksa atau atur volume musik saat ini!",
+        "search": "Cari di semua sumber pemutaran yang dikonfigurasi!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Nama, URL, atau URL playlist yang ingin Anda putar.",
                 "playnext": "Nama atau URL lagu yang ingin Anda putar (bukan playlist).",
-                "library": "Kueri pencarian untuk trek, playlist, atau album."
+                "library": "Kueri pencarian untuk trek, playlist, atau album.",
+                "search": "Nama atau URL lagu yang ingin Anda cari."
             },
             "filter": "Filter apa yang ingin Anda alihkan?",
             "query": "Masukkan nama lagu.",
@@ -287,7 +290,9 @@
         "track": "Trek",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} lagu"
+        "songCount": "{count} lagu",
+        "allSourcesTitle": "Hasil pencarian 🎵",
+        "songResultSource": "[{index}] Hasil lagu ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Memulai lagu berikutnya... Sedang Diputar 🎵",

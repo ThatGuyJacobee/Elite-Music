@@ -44,7 +44,8 @@
             "switchingLoopMode": "반복 모드 전환",
             "removingSong": "대기열에서 곡 제거",
             "adjustingAudioFilter": "오디오 필터 조절"
-        }
+        },
+        "searchPlaylist": "❌ | /search 는 개별 곡 전용입니다. 재생목록을 큐에 추가하려면 **/play** 를 사용하세요."
     },
     "feature": {
         "plexDisabled": "❌ | Plex가 현재 비활성화되어 있습니다! 서버 관리자에게 환경 파일에서 활성화 및 구성을 요청하세요.",
@@ -186,14 +187,16 @@
             "search": "곡, 재생목록 및 앨범을 검색합니다.",
             "playnext": "Jellyfin 서버에서 곡·재생목록·앨범을 다음 재생으로 추가합니다."
         },
-        "volume": "현재 음악 볼륨을 확인하거나 설정합니다!"
+        "volume": "현재 음악 볼륨을 확인하거나 설정합니다!",
+        "search": "설정된 모든 재생 소스를 검색합니다!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "재생할 곡 이름, URL 또는 재생목록 URL.",
                 "playnext": "재생할 곡 이름 또는 URL(재생목록 불가).",
-                "library": "곡, 재생목록 또는 앨범 검색어."
+                "library": "곡, 재생목록 또는 앨범 검색어.",
+                "search": "검색하려는 곡의 이름 또는 URL입니다."
             },
             "filter": "전환할 필터를 선택하세요.",
             "query": "곡 이름을 입력하세요.",
@@ -287,7 +290,9 @@
         "track": "곡",
         "playlist": "재생목록",
         "album": "앨범",
-        "songCount": "{count}곡"
+        "songCount": "{count}곡",
+        "allSourcesTitle": "검색 결과 🎵",
+        "songResultSource": "[{index}] 곡 결과 ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "다음 곡 시작 중... 재생 중 🎵",

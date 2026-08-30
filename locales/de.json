@@ -44,7 +44,8 @@
             "switchingLoopMode": "Wechseln des Wiederholungsmodus",
             "removingSong": "Entfernen des Songs aus der Warteschlange",
             "adjustingAudioFilter": "Anpassen des Audiofilters"
-        }
+        },
+        "searchPlaylist": "❌ | /search ist nur für einzelne Titel. Verwende **/play**, um Playlists zur Warteschlange hinzuzufügen."
     },
     "feature": {
         "plexDisabled": "❌ | Plex ist derzeit deaktiviert! Bitte den Server-Administrator, dies in der Umgebungsdatei zu aktivieren und zu konfigurieren.",
@@ -186,14 +187,16 @@
             "search": "Titel, Playlists und Alben suchen.",
             "playnext": "Titel, Playlist oder Album vom Jellyfin-Server als Nächstes abspielen."
         },
-        "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!"
+        "volume": "Die aktuelle Musiklautstärke prüfen oder einstellen!",
+        "search": "Durchsuche alle konfigurierten Wiedergabequellen!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Der Name, die URL oder die Playlist-URL, die du abspielen möchtest.",
                 "playnext": "Der Name oder die URL des Songs, den du abspielen möchtest (keine Playlists).",
-                "library": "Suchanfrage für einen Titel, eine Playlist oder ein Album."
+                "library": "Suchanfrage für einen Titel, eine Playlist oder ein Album.",
+                "search": "Name oder URL des Songs, nach dem du suchen möchtest."
             },
             "filter": "Welchen Filter möchtest du umschalten?",
             "query": "Gib den Namen des Songs ein.",
@@ -287,7 +290,9 @@
         "track": "Titel",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} Songs"
+        "songCount": "{count} Songs",
+        "allSourcesTitle": "Suchergebnisse 🎵",
+        "songResultSource": "[{index}] Song-Ergebnis ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Nächsten Song starten... Jetzt läuft 🎵",

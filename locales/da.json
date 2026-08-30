@@ -44,7 +44,8 @@
             "switchingLoopMode": "skifte gentagelsestilstand",
             "removingSong": "fjerne sangen fra køen",
             "adjustingAudioFilter": "justere lydfilteret"
-        }
+        },
+        "searchPlaylist": "❌ | /search er kun til enkelte numre. Brug **/play** til at tilføje playlister til køen."
     },
     "feature": {
         "plexDisabled": "❌ | Plex er i øjeblikket deaktiveret! Bed serveradministratoren om at aktivere og konfigurere dette i miljøfilen.",
@@ -186,14 +187,16 @@
             "search": "Søg efter numre, playlister og album.",
             "playnext": "Tilføj et nummer, en playliste eller et album fra din Jellyfin-server til næste afspilning."
         },
-        "volume": "Tjek eller indstil den aktuelle musiklydstyrke!"
+        "volume": "Tjek eller indstil den aktuelle musiklydstyrke!",
+        "search": "Søg i alle konfigurerede afspilningskilder!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Navnet, URL'en eller playliste-URL'en du vil afspille.",
                 "playnext": "Navnet eller URL'en på sangen du vil afspille (ingen playlister).",
-                "library": "Søgeforespørgsel for et nummer, en playliste eller et album."
+                "library": "Søgeforespørgsel for et nummer, en playliste eller et album.",
+                "search": "Navnet eller URL'en på den sang, du vil søge efter."
             },
             "filter": "Hvilket filter vil du skifte?",
             "query": "Indtast navnet på sangen.",
@@ -287,7 +290,9 @@
         "track": "Nummer",
         "playlist": "Playliste",
         "album": "Album",
-        "songCount": "{count} sange"
+        "songCount": "{count} sange",
+        "allSourcesTitle": "Søgeresultater 🎵",
+        "songResultSource": "[{index}] Sangresultat ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Starter næste sang... Afspiller nu 🎵",

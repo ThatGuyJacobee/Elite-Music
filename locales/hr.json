@@ -44,7 +44,8 @@
             "switchingLoopMode": "promjena načina petlje",
             "removingSong": "uklanjanje pjesme iz reda čekanja",
             "adjustingAudioFilter": "podešavanje audio filtra"
-        }
+        },
+        "searchPlaylist": "❌ | /search je samo za pojedinačne pjesme. Upotrijebi **/play** za dodavanje playlisti u red čekanja."
     },
     "feature": {
         "plexDisabled": "❌ | Plex je trenutačno onemogućen! Zamolite administratora poslužitelja da ga omogući i konfigurira u datoteci okruženja.",
@@ -186,14 +187,16 @@
             "search": "Pretražite pjesme, playliste i albume.",
             "playnext": "Dodajte pjesmu, playlistu ili album s Jellyfin poslužitelja za sljedeću reprodukciju."
         },
-        "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!"
+        "volume": "Provjerite ili postavite trenutačnu glasnoću glazbe!",
+        "search": "Pretraži sve konfigurirane izvore reprodukcije!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Naziv, URL ili URL playliste koju želite reproducirati.",
                 "playnext": "Naziv ili URL pjesme koju želite reproducirati (bez playlista).",
-                "library": "Upit za pretraživanje pjesme, playliste ili albuma."
+                "library": "Upit za pretraživanje pjesme, playliste ili albuma.",
+                "search": "Naziv ili URL pjesme koju želiš pretražiti."
             },
             "filter": "Koji filter želite uključiti/isključiti?",
             "query": "Unesite naziv pjesme.",
@@ -287,7 +290,9 @@
         "track": "Pjesma",
         "playlist": "Playlista",
         "album": "Album",
-        "songCount": "{count} pjesama"
+        "songCount": "{count} pjesama",
+        "allSourcesTitle": "Rezultati pretraživanja 🎵",
+        "songResultSource": "[{index}] Rezultat pjesme ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Započinje sljedeća pjesma... Sada se reproducira 🎵",

@@ -44,7 +44,8 @@
             "switchingLoopMode": "zmienianie trybu zapętlenia",
             "removingSong": "usuwanie utworu z kolejki",
             "adjustingAudioFilter": "regulowanie filtra audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search służy tylko do pojedynczych utworów. Użyj **/play**, aby dodać playlisty do kolejki."
     },
     "feature": {
         "plexDisabled": "❌ | Plex jest obecnie wyłączony! Poproś administratora serwera o włączenie i skonfigurowanie go w pliku środowiskowym.",
@@ -186,14 +187,16 @@
             "search": "Przeszukaj utwory, playlisty i albumy.",
             "playnext": "Dodaj utwór, playlistę lub album z serwera Jellyfin do odtworzenia jako następny."
         },
-        "volume": "Sprawdź lub ustaw aktualną głośność muzyki!"
+        "volume": "Sprawdź lub ustaw aktualną głośność muzyki!",
+        "search": "Szukaj we wszystkich skonfigurowanych źródłach odtwarzania!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Nazwa, URL lub URL playlisty, którą chcesz odtworzyć.",
                 "playnext": "Nazwa lub URL utworu, który chcesz odtworzyć (bez playlist).",
-                "library": "Zapytanie do wyszukiwania utworu, playlisty lub albumu."
+                "library": "Zapytanie do wyszukiwania utworu, playlisty lub albumu.",
+                "search": "Nazwa lub URL utworu, którego chcesz szukać."
             },
             "filter": "Który filtr chcesz przełączyć?",
             "query": "Wpisz nazwę utworu.",
@@ -287,7 +290,9 @@
         "track": "Utwór",
         "playlist": "Playlista",
         "album": "Album",
-        "songCount": "{count} utworów"
+        "songCount": "{count} utworów",
+        "allSourcesTitle": "Wyniki wyszukiwania 🎵",
+        "songResultSource": "[{index}] Wynik utworu ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Uruchamianie następnego utworu... Teraz odtwarzane 🎵",

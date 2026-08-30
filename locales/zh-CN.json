@@ -44,7 +44,8 @@
             "switchingLoopMode": "切换循环模式",
             "removingSong": "从队列中移除歌曲",
             "adjustingAudioFilter": "调整音频滤镜"
-        }
+        },
+        "searchPlaylist": "❌ | /search 仅适用于单曲。请使用 **/play** 将播放列表加入队列。"
     },
     "feature": {
         "plexDisabled": "❌ | Plex 当前已禁用！请让服务器管理员在环境文件中启用并配置。",
@@ -186,14 +187,16 @@
             "search": "搜索歌曲、播放列表和专辑。",
             "playnext": "从 Jellyfin 服务器添加歌曲、播放列表或专辑到下一首播放。"
         },
-        "volume": "查看或设置当前音乐音量！"
+        "volume": "查看或设置当前音乐音量！",
+        "search": "在所有已配置的播放来源中搜索！"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "要播放的歌曲名称、URL 或播放列表 URL。",
                 "playnext": "要播放的歌曲名称或 URL（不支持播放列表）。",
-                "library": "搜索歌曲、播放列表或专辑的查询。"
+                "library": "搜索歌曲、播放列表或专辑的查询。",
+                "search": "你想搜索的歌曲名称或 URL。"
             },
             "filter": "您想切换哪个滤镜？",
             "query": "输入歌曲名称。",
@@ -287,7 +290,9 @@
         "track": "歌曲",
         "playlist": "播放列表",
         "album": "专辑",
-        "songCount": "{count} 首歌曲"
+        "songCount": "{count} 首歌曲",
+        "allSourcesTitle": "搜索结果 🎵",
+        "songResultSource": "[{index}] 歌曲结果 ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "正在开始下一首... 正在播放 🎵",

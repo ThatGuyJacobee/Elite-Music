@@ -44,7 +44,8 @@
             "switchingLoopMode": "chuyển chế độ lặp",
             "removingSong": "xóa bài hát khỏi hàng đợi",
             "adjustingAudioFilter": "điều chỉnh bộ lọc âm thanh"
-        }
+        },
+        "searchPlaylist": "❌ | /search chỉ dành cho từng bài hát riêng lẻ. Hãy dùng **/play** để thêm playlist vào hàng đợi."
     },
     "feature": {
         "plexDisabled": "❌ | Plex hiện đang bị tắt! Hãy yêu cầu quản trị viên máy chủ bật và cấu hình trong tệp môi trường.",
@@ -186,14 +187,16 @@
             "search": "Tìm kiếm bài hát, playlist và album.",
             "playnext": "Thêm bài hát, playlist hoặc album từ Jellyfin để phát tiếp theo."
         },
-        "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!"
+        "volume": "Kiểm tra hoặc đặt âm lượng nhạc hiện tại!",
+        "search": "Tìm trong tất cả nguồn phát đã được cấu hình!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Tên, URL hoặc URL playlist bạn muốn phát.",
                 "playnext": "Tên hoặc URL bài hát bạn muốn phát (không có playlist).",
-                "library": "Truy vấn tìm kiếm bài hát, playlist hoặc album."
+                "library": "Truy vấn tìm kiếm bài hát, playlist hoặc album.",
+                "search": "Tên hoặc URL của bài hát bạn muốn tìm."
             },
             "filter": "Bạn muốn bật/tắt bộ lọc nào?",
             "query": "Nhập tên bài hát.",
@@ -287,7 +290,9 @@
         "track": "Bài hát",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} bài hát"
+        "songCount": "{count} bài hát",
+        "allSourcesTitle": "Kết quả tìm kiếm 🎵",
+        "songResultSource": "[{index}] Kết quả bài hát ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Đang bắt đầu bài tiếp theo... Đang phát 🎵",

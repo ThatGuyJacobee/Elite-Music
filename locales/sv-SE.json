@@ -44,7 +44,8 @@
             "switchingLoopMode": "byter loopläge",
             "removingSong": "tar bort låten från kön",
             "adjustingAudioFilter": "justerar ljudfiltret"
-        }
+        },
+        "searchPlaylist": "❌ | /search är bara för enskilda låtar. Använd **/play** för att lägga till spellistor i kön."
     },
     "feature": {
         "plexDisabled": "❌ | Plex är för närvarande inaktiverat! Be serveradministratören att aktivera och konfigurera detta i miljöfilen.",
@@ -186,14 +187,16 @@
             "search": "Sök efter spår, spellistor och album.",
             "playnext": "Lägg ett spår, en spellista eller ett album från din Jellyfin-server att spelas härnäst."
         },
-        "volume": "Kontrollera eller ställ in nuvarande musikvolym!"
+        "volume": "Kontrollera eller ställ in nuvarande musikvolym!",
+        "search": "Sök i alla konfigurerade uppspelningskällor!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Namnet, URL:en eller spelliste-URL:en du vill spela.",
                 "playnext": "Namnet eller URL:en till låten du vill spela (inga spellistor).",
-                "library": "Sökfråga för ett spår, en spellista eller ett album."
+                "library": "Sökfråga för ett spår, en spellista eller ett album.",
+                "search": "Namnet eller URL:en till låten du vill söka efter."
             },
             "filter": "Vilket filter vill du växla?",
             "query": "Ange låtens namn.",
@@ -287,7 +290,9 @@
         "track": "Spår",
         "playlist": "Spellista",
         "album": "Album",
-        "songCount": "{count} låtar"
+        "songCount": "{count} låtar",
+        "allSourcesTitle": "Sökresultat 🎵",
+        "songResultSource": "[{index}] Låtresultat ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Startar nästa låt... Spelar nu 🎵",

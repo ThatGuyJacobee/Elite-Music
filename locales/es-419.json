@@ -44,7 +44,8 @@
             "switchingLoopMode": "cambiando el modo de repetición",
             "removingSong": "eliminando la canción de la cola",
             "adjustingAudioFilter": "ajustando el filtro de audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search es solo para pistas individuales. Usa **/play** para agregar listas de reproducción a la cola."
     },
     "feature": {
         "plexDisabled": "❌ | ¡Plex está desactivado! Pide al administrador del servidor que lo active y configure en el archivo de entorno.",
@@ -186,14 +187,16 @@
             "search": "Busca pistas, listas de reproducción y álbumes.",
             "playnext": "Añade pista, playlist o álbum de Jellyfin para reproducirla a continuación."
         },
-        "volume": "¡Consulta o ajusta el volumen de la música actual!"
+        "volume": "¡Consulta o ajusta el volumen de la música actual!",
+        "search": "Buscar en todas las fuentes de reproducción configuradas!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "El nombre, URL o URL de lista de reproducción que quieres reproducir.",
                 "playnext": "El nombre o URL de la canción que quieres reproducir (sin listas de reproducción).",
-                "library": "Búsqueda de una pista, lista de reproducción o álbum."
+                "library": "Búsqueda de una pista, lista de reproducción o álbum.",
+                "search": "El nombre o la URL de la canción que quieres buscar."
             },
             "filter": "¿Qué filtro quieres alternar?",
             "query": "Introduce el nombre de la canción.",
@@ -287,7 +290,9 @@
         "track": "Pista",
         "playlist": "Lista de reproducción",
         "album": "Álbum",
-        "songCount": "{count} canciones"
+        "songCount": "{count} canciones",
+        "allSourcesTitle": "Resultados de búsqueda 🎵",
+        "songResultSource": "[{index}] Resultado de canción ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Iniciando la siguiente canción... Reproduciendo ahora 🎵",

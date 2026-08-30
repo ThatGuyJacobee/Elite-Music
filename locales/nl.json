@@ -44,7 +44,8 @@
             "switchingLoopMode": "de herhalingsmodus wijzigen",
             "removingSong": "het nummer uit de wachtrij verwijderen",
             "adjustingAudioFilter": "het audiofilter aanpassen"
-        }
+        },
+        "searchPlaylist": "❌ | /search is alleen voor losse nummers. Gebruik **/play** om afspeellijsten aan de wachtrij toe te voegen."
     },
     "feature": {
         "plexDisabled": "❌ | Plex is momenteel uitgeschakeld! Vraag de serverbeheerder om dit in het omgevingsbestand in te schakelen en te configureren.",
@@ -186,14 +187,16 @@
             "search": "Zoek naar tracks, playlists en albums.",
             "playnext": "Voeg een track, playlist of album van je Jellyfin-server toe om daarna af te spelen."
         },
-        "volume": "Het huidige muziekv volume bekijken of instellen!"
+        "volume": "Het huidige muziekv volume bekijken of instellen!",
+        "search": "Zoek in alle geconfigureerde afspeelbronnen!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "De naam, URL of playlist-URL die je wilt afspelen.",
                 "playnext": "De naam of URL van het nummer dat je wilt afspelen (geen playlists).",
-                "library": "Zoekopdracht voor een track, playlist of album."
+                "library": "Zoekopdracht voor een track, playlist of album.",
+                "search": "De naam of URL van het nummer dat je wilt zoeken."
             },
             "filter": "Welk filter wil je omzetten?",
             "query": "Voer de naam van het nummer in.",
@@ -287,7 +290,9 @@
         "track": "Track",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} nummers"
+        "songCount": "{count} nummers",
+        "allSourcesTitle": "Zoekresultaten 🎵",
+        "songResultSource": "[{index}] Nummerresultaat ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Volgend nummer starten... Nu afspelen 🎵",

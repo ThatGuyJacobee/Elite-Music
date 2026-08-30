@@ -44,7 +44,8 @@
             "switchingLoopMode": "přepnutí režimu opakování",
             "removingSong": "odebrání skladby z fronty",
             "adjustingAudioFilter": "nastavení audio filtru"
-        }
+        },
+        "searchPlaylist": "❌ | /search je jen pro jednotlivé skladby. Použijte **/play** pro přidání playlistů do fronty."
     },
     "feature": {
         "plexDisabled": "❌ | Plex je momentálně zakázán! Požádejte administrátora serveru, aby ho povolil a nakonfiguroval v souboru prostředí.",
@@ -186,14 +187,16 @@
             "search": "Vyhledejte skladby, playlisty a alba.",
             "playnext": "Přidejte skladbu, playlist nebo album ze Jellyfin serveru pro další přehrání."
         },
-        "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!"
+        "volume": "Zkontrolujte nebo nastavte aktuální hlasitost hudby!",
+        "search": "Prohledat všechny nakonfigurované zdroje přehrávání!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Název, URL nebo URL playlistu, který chcete přehrát.",
                 "playnext": "Název nebo URL skladby, kterou chcete přehrát (bez playlistů).",
-                "library": "Vyhledávací dotaz pro skladbu, playlist nebo album."
+                "library": "Vyhledávací dotaz pro skladbu, playlist nebo album.",
+                "search": "Název nebo URL skladby, kterou chcete hledat."
             },
             "filter": "Který filtr chcete přepnout?",
             "query": "Zadejte název skladby.",
@@ -287,7 +290,9 @@
         "track": "Skladba",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} skladeb"
+        "songCount": "{count} skladeb",
+        "allSourcesTitle": "Výsledky hledání 🎵",
+        "songResultSource": "[{index}] Výsledek skladby ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Začíná další skladba... Právě hraje 🎵",

@@ -44,7 +44,8 @@
             "switchingLoopMode": "le changement de mode de répétition",
             "removingSong": "la suppression de la chanson de la file d'attente",
             "adjustingAudioFilter": "le réglage du filtre audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search est réservé aux morceaux individuels. Utilisez **/play** pour ajouter des playlists à la file d'attente."
     },
     "feature": {
         "plexDisabled": "❌ | Plex est actuellement désactivé ! Demandez à l'administrateur du serveur de l'activer et de le configurer dans le fichier d'environnement.",
@@ -186,14 +187,16 @@
             "search": "Rechercher des pistes, des playlists et des albums.",
             "playnext": "Ajouter une piste, une playlist ou un album depuis votre serveur Jellyfin pour lecture suivante."
         },
-        "volume": "Consulter ou régler le volume actuel de la musique !"
+        "volume": "Consulter ou régler le volume actuel de la musique !",
+        "search": "Rechercher dans toutes les sources de lecture configurées !"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Le nom, l'URL ou l'URL de playlist que vous souhaitez lire.",
                 "playnext": "Le nom ou l'URL de la chanson que vous souhaitez lire (sans playlists).",
-                "library": "Requête de recherche pour une piste, une playlist ou un album."
+                "library": "Requête de recherche pour une piste, une playlist ou un album.",
+                "search": "Le nom ou l'URL de la chanson que vous souhaitez rechercher."
             },
             "filter": "Quel filtre souhaitez-vous activer ou désactiver ?",
             "query": "Entrez le nom de la chanson.",
@@ -287,7 +290,9 @@
         "track": "Piste",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} chansons"
+        "songCount": "{count} chansons",
+        "allSourcesTitle": "Résultats de recherche 🎵",
+        "songResultSource": "[{index}] Résultat de chanson ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Lancement de la prochaine chanson... Lecture en cours 🎵",

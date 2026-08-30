@@ -44,7 +44,8 @@
             "switchingLoopMode": "döngü modunu değiştirme",
             "removingSong": "şarkıyı kuyruktan kaldırma",
             "adjustingAudioFilter": "ses filtresini ayarlama"
-        }
+        },
+        "searchPlaylist": "❌ | /search yalnızca tek şarkılar içindir. Çalma listelerini kuyruğa eklemek için **/play** kullanın."
     },
     "feature": {
         "plexDisabled": "❌ | Plex şu anda devre dışı! Sunucu yöneticisinden ortam dosyasında etkinleştirmesini ve yapılandırmasını isteyin.",
@@ -186,14 +187,16 @@
             "search": "Parça, çalma listesi ve albüm ara.",
             "playnext": "Jellyfin sunucunuzdan bir parça, çalma listesi veya albümü sıradaki olarak ekle."
         },
-        "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!"
+        "volume": "Mevcut müzik ses seviyesini kontrol et veya ayarla!",
+        "search": "Yapılandırılmış tüm oynatma kaynaklarında ara!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Çalmak istediğiniz ad, URL veya çalma listesi URL'si.",
                 "playnext": "Çalmak istediğiniz şarkının adı veya URL'si (çalma listesi yok).",
-                "library": "Parça, çalma listesi veya albüm için arama sorgusu."
+                "library": "Parça, çalma listesi veya albüm için arama sorgusu.",
+                "search": "Aramak istediğiniz şarkının adı veya URL'si."
             },
             "filter": "Hangi filtreyi değiştirmek istiyorsunuz?",
             "query": "Şarkının adını girin.",
@@ -287,7 +290,9 @@
         "track": "Parça",
         "playlist": "Çalma Listesi",
         "album": "Albüm",
-        "songCount": "{count} şarkı"
+        "songCount": "{count} şarkı",
+        "allSourcesTitle": "Arama sonuçları 🎵",
+        "songResultSource": "[{index}] Şarkı sonucu ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Sonraki şarkı başlıyor... Şimdi Çalıyor 🎵",

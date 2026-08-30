@@ -44,7 +44,8 @@
             "switchingLoopMode": "ループモードを切り替え",
             "removingSong": "キューから曲を削除",
             "adjustingAudioFilter": "オーディオフィルターを調整"
-        }
+        },
+        "searchPlaylist": "❌ | /search は単一の曲のみ対象です。プレイリストをキューに追加するには **/play** を使ってください。"
     },
     "feature": {
         "plexDisabled": "❌ | Plex は現在無効です！サーバー管理者に環境ファイルで有効化と設定を依頼してください。",
@@ -186,14 +187,16 @@
             "search": "曲、プレイリスト、アルバムを検索します。",
             "playnext": "Jellyfin サーバーから曲・プレイリスト・アルバムを次に再生するよう追加します。"
         },
-        "volume": "現在の音量を確認または設定します！"
+        "volume": "現在の音量を確認または設定します！",
+        "search": "設定済みのすべての再生ソースを検索します！"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "再生したい曲名、URL、またはプレイリスト URL。",
                 "playnext": "再生したい曲名または URL（プレイリスト不可）。",
-                "library": "曲、プレイリスト、またはアルバムの検索クエリ。"
+                "library": "曲、プレイリスト、またはアルバムの検索クエリ。",
+                "search": "検索したい曲の名前またはURL。"
             },
             "filter": "切り替えるフィルターを選択してください。",
             "query": "曲名を入力してください。",
@@ -287,7 +290,9 @@
         "track": "曲",
         "playlist": "プレイリスト",
         "album": "アルバム",
-        "songCount": "{count} 曲"
+        "songCount": "{count} 曲",
+        "allSourcesTitle": "検索結果 🎵",
+        "songResultSource": "[{index}] 曲の結果 ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "次の曲を開始中... 再生中 🎵",

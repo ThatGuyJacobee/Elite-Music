@@ -44,7 +44,8 @@
             "switchingLoopMode": "切換循環模式",
             "removingSong": "從佇列移除歌曲",
             "adjustingAudioFilter": "調整音訊濾鏡"
-        }
+        },
+        "searchPlaylist": "❌ | /search 僅適用於單曲。請使用 **/play** 將播放清單加入佇列。"
     },
     "feature": {
         "plexDisabled": "❌ | Plex 目前已停用！請伺服器管理員在環境設定檔中啟用並設定。",
@@ -186,14 +187,16 @@
             "search": "搜尋曲目、播放清單和專輯。",
             "playnext": "從 Jellyfin 伺服器加入曲目、播放清單或專輯至下一首播放。"
         },
-        "volume": "查看或設定目前音樂音量！"
+        "volume": "查看或設定目前音樂音量！",
+        "search": "搜尋所有已設定的播放來源！"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "您想播放的名稱、URL 或播放清單 URL。",
                 "playnext": "您想播放的歌曲名稱或 URL（不含播放清單）。",
-                "library": "搜尋曲目、播放清單或專輯的查詢條件。"
+                "library": "搜尋曲目、播放清單或專輯的查詢條件。",
+                "search": "你想搜尋的歌曲名稱或 URL。"
             },
             "filter": "您想切換哪個濾鏡？",
             "query": "輸入歌曲名稱。",
@@ -287,7 +290,9 @@
         "track": "曲目",
         "playlist": "播放清單",
         "album": "專輯",
-        "songCount": "{count} 首歌曲"
+        "songCount": "{count} 首歌曲",
+        "allSourcesTitle": "搜尋結果 🎵",
+        "songResultSource": "[{index}] 歌曲結果 ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "即將播放下一首... 正在播放 🎵",

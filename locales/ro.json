@@ -44,7 +44,8 @@
             "switchingLoopMode": "schimbând modul de repetare",
             "removingSong": "eliminând piesa din coadă",
             "adjustingAudioFilter": "ajustând filtrul audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search este doar pentru melodii individuale. Folosește **/play** pentru a adăuga playlisturi în coadă."
     },
     "feature": {
         "plexDisabled": "❌ | Plex este momentan dezactivat! Cere administratorului serverului să îl activeze și să îl configureze în fișierul de mediu.",
@@ -186,14 +187,16 @@
             "search": "Caută piese, playlisturi și albume.",
             "playnext": "Adaugă o piesă, un playlist sau un album de pe serverul tău Jellyfin pentru a fi redat următorul."
         },
-        "volume": "Verifică sau setează volumul curent al muzicii!"
+        "volume": "Verifică sau setează volumul curent al muzicii!",
+        "search": "Caută în toate sursele de redare configurate!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Numele, URL-ul sau URL-ul playlistului pe care vrei să-l redai.",
                 "playnext": "Numele sau URL-ul piesei pe care vrei să o redai (fără playlisturi).",
-                "library": "Interogare de căutare pentru o piesă, un playlist sau un album."
+                "library": "Interogare de căutare pentru o piesă, un playlist sau un album.",
+                "search": "Numele sau URL-ul melodiei pe care vrei să o cauți."
             },
             "filter": "Ce filtru vrei să comuți?",
             "query": "Introdu numele piesei.",
@@ -287,7 +290,9 @@
         "track": "Piesă",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} piese"
+        "songCount": "{count} piese",
+        "allSourcesTitle": "Rezultate căutare 🎵",
+        "songResultSource": "[{index}] Rezultat melodie ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Se pornește următoarea piesă... Se redă acum 🎵",

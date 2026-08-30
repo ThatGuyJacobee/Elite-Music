@@ -44,7 +44,8 @@
             "switchingLoopMode": "ismétlési mód váltása",
             "removingSong": "a dal eltávolítása a sorból",
             "adjustingAudioFilter": "a hangszűrő beállítása"
-        }
+        },
+        "searchPlaylist": "❌ | A /search csak egyedi számokhoz használható. Használd a **/play** parancsot a lejátszási listák sorba állításához."
     },
     "feature": {
         "plexDisabled": "❌ | A Plex jelenleg le van tiltva! Kérd meg a szerver adminisztrátorát, hogy engedélyezze és konfigurálja a környezeti fájlban.",
@@ -186,14 +187,16 @@
             "search": "Számok, lejátszási listák és albumok keresése.",
             "playnext": "Szám, lejátszási lista vagy album hozzáadása a Jellyfin szerveredről következőként."
         },
-        "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!"
+        "volume": "A jelenlegi zenei hangerő ellenőrzése vagy beállítása!",
+        "search": "Keresés az összes konfigurált lejátszási forrásban!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "A lejátszani kívánt dal neve, URL-je vagy lejátszási lista URL-je.",
                 "playnext": "A lejátszani kívánt dal neve vagy URL-je (nincs lejátszási lista).",
-                "library": "Keresési lekérdezés számhoz, lejátszási listához vagy albumhoz."
+                "library": "Keresési lekérdezés számhoz, lejátszási listához vagy albumhoz.",
+                "search": "Annak a számnak a neve vagy URL-je, amelyet keresni szeretnél."
             },
             "filter": "Melyik szűrőt szeretnéd váltani?",
             "query": "Add meg a dal nevét.",
@@ -287,7 +290,9 @@
         "track": "Szám",
         "playlist": "Lejátszási lista",
         "album": "Album",
-        "songCount": "{count} dal"
+        "songCount": "{count} dal",
+        "allSourcesTitle": "Keresési eredmények 🎵",
+        "songResultSource": "[{index}] Dal eredmény ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Következő dal indul... Most szól 🎵",

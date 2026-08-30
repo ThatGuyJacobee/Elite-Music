@@ -44,7 +44,8 @@
             "switchingLoopMode": "trocando o modo de repetição",
             "removingSong": "removendo a música da fila",
             "adjustingAudioFilter": "ajustando o filtro de áudio"
-        }
+        },
+        "searchPlaylist": "❌ | /search é apenas para faixas individuais. Use **/play** para adicionar playlists à fila."
     },
     "feature": {
         "plexDisabled": "❌ | O Plex está desativado no momento! Peça ao administrador do servidor para ativá-lo e configurá-lo no arquivo de ambiente.",
@@ -186,14 +187,16 @@
             "search": "Buscar faixas, playlists e álbuns.",
             "playnext": "Adicionar uma faixa, playlist ou álbum do seu servidor Jellyfin para tocar em seguida."
         },
-        "volume": "Ver ou definir o volume atual da música!"
+        "volume": "Ver ou definir o volume atual da música!",
+        "search": "Pesquisar em todas as fontes de reprodução configuradas!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "O nome, URL ou URL de playlist que você quer tocar.",
                 "playnext": "O nome ou URL da música que você quer tocar (sem playlists).",
-                "library": "Consulta de busca para uma faixa, playlist ou álbum."
+                "library": "Consulta de busca para uma faixa, playlist ou álbum.",
+                "search": "O nome ou URL da música que você quer pesquisar."
             },
             "filter": "Qual filtro você quer alternar?",
             "query": "Digite o nome da música.",
@@ -287,7 +290,9 @@
         "track": "Faixa",
         "playlist": "Playlist",
         "album": "Álbum",
-        "songCount": "{count} músicas"
+        "songCount": "{count} músicas",
+        "allSourcesTitle": "Resultados da pesquisa 🎵",
+        "songResultSource": "[{index}] Resultado da música ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Iniciando a próxima música... Tocando agora 🎵",

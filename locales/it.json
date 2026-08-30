@@ -44,7 +44,8 @@
             "switchingLoopMode": "il cambio della modalità di loop",
             "removingSong": "la rimozione della canzone dalla coda",
             "adjustingAudioFilter": "la regolazione del filtro audio"
-        }
+        },
+        "searchPlaylist": "❌ | /search è solo per i brani singoli. Usa **/play** per aggiungere le playlist alla coda."
     },
     "feature": {
         "plexDisabled": "❌ | Plex è attualmente disabilitato! Chiedi all'amministratore del server di abilitarlo e configurarlo nel file di ambiente.",
@@ -186,14 +187,16 @@
             "search": "Cerca tracce, playlist e album.",
             "playnext": "Aggiungi una traccia, playlist o album dal tuo server Jellyfin per la riproduzione successiva."
         },
-        "volume": "Controlla o imposta il volume musicale attuale!"
+        "volume": "Controlla o imposta il volume musicale attuale!",
+        "search": "Cerca in tutte le sorgenti di riproduzione configurate!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Il nome, URL o URL della playlist che vuoi riprodurre.",
                 "playnext": "Il nome o URL della canzone che vuoi riprodurre (nessuna playlist).",
-                "library": "Query di ricerca per una traccia, playlist o album."
+                "library": "Query di ricerca per una traccia, playlist o album.",
+                "search": "Il nome o l'URL del brano che vuoi cercare."
             },
             "filter": "Quale filtro vuoi attivare o disattivare?",
             "query": "Inserisci il nome della canzone.",
@@ -287,7 +290,9 @@
         "track": "Traccia",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} canzoni"
+        "songCount": "{count} canzoni",
+        "allSourcesTitle": "Risultati di ricerca 🎵",
+        "songResultSource": "[{index}] Risultato brano ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Avvio della prossima canzone... In riproduzione 🎵",

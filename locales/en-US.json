@@ -44,7 +44,8 @@
             "switchingLoopMode": "switching loop mode",
             "removingSong": "removing the song from the queue",
             "adjustingAudioFilter": "adjusting the audio filter"
-        }
+        },
+        "searchPlaylist": "❌ | /search is for individual tracks. Use **/play** to add playlists to the queue."
     },
     "feature": {
         "plexDisabled": "❌ | Plex is currently disabled! Ask the server admin to enable and configure this in the environment file.",
@@ -186,14 +187,16 @@
             "search": "Search tracks, playlists, and albums.",
             "playnext": "Add a track, playlist, or album from your Jellyfin server to play next."
         },
-        "volume": "Check or set the current music volume!"
+        "volume": "Check or set the current music volume!",
+        "search": "Search every configured playback source!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Either the name, URL or playlist URL you want to play.",
                 "playnext": "Either the name or URL of the song you want to play (no playlists).",
-                "library": "Search query for a track, playlist, or album."
+                "library": "Search query for a track, playlist, or album.",
+                "search": "Either the name or URL of the song you want to search for."
             },
             "filter": "What filter do you want to toggle?",
             "query": "Enter the name of the song.",
@@ -287,7 +290,9 @@
         "track": "Track",
         "playlist": "Playlist",
         "album": "Album",
-        "songCount": "{count} songs"
+        "songCount": "{count} songs",
+        "allSourcesTitle": "Search Results 🎵",
+        "songResultSource": "[{index}] Song Result ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Starting next song... Now Playing 🎵",

@@ -44,7 +44,8 @@
             "switchingLoopMode": "bytter gjentakelsesmodus",
             "removingSong": "fjerner sangen fra køen",
             "adjustingAudioFilter": "justerer lydfilteret"
-        }
+        },
+        "searchPlaylist": "❌ | /search er bare for enkeltlåter. Bruk **/play** for å legge spillelister i køen."
     },
     "feature": {
         "plexDisabled": "❌ | Plex er for øyeblikket deaktivert! Be serveradministratoren om å aktivere og konfigurere dette i miljøfilen.",
@@ -186,14 +187,16 @@
             "search": "Søk etter spor, spillelister og album.",
             "playnext": "Legg et spor, en spilleliste eller et album fra Jellyfin-serveren din i køen som neste."
         },
-        "volume": "Sjekk eller sett nåværende musikkvolum!"
+        "volume": "Sjekk eller sett nåværende musikkvolum!",
+        "search": "Søk i alle konfigurerte avspillingskilder!"
     },
     "slash": {
         "options": {
             "music": {
                 "play": "Navnet, URL-en eller spilleliste-URL-en du vil spille.",
                 "playnext": "Navnet eller URL-en til sangen du vil spille (ingen spillelister).",
-                "library": "Søketøy for et spor, en spilleliste eller et album."
+                "library": "Søketøy for et spor, en spilleliste eller et album.",
+                "search": "Navnet eller URL-en til sangen du vil søke etter."
             },
             "filter": "Hvilket filter vil du slå av/på?",
             "query": "Skriv inn navnet på sangen.",
@@ -287,7 +290,9 @@
         "track": "Spor",
         "playlist": "Spilleliste",
         "album": "Album",
-        "songCount": "{count} sanger"
+        "songCount": "{count} sanger",
+        "allSourcesTitle": "Søkeresultater 🎵",
+        "songResultSource": "[{index}] Sangresultat ({duration}) - {source}"
     },
     "np": {
         "titleStarting": "Starter neste sang... Spiller nå 🎵",
