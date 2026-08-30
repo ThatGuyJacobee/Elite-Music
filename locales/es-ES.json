@@ -13,6 +13,7 @@
         "genericAction": "❌ | Vaya... algo salió mal, hubo un error al {action}. Por favor inténtalo de nuevo.",
         "failedToFindSongQuery": "❌ | Vaya... algo salió mal, no se pudo encontrar la canción con la búsqueda solicitada.",
         "failedToFindSong": "❌ | Vaya... algo salió mal, no se pudo encontrar la canción.",
+        "noPlaybackSource": "❌ | Ninguna de las fuentes de reproducción configuradas pudo proporcionar la canción solicitada.",
         "playRequest": "❌ | Vaya... algo salió mal al intentar reproducir la canción solicitada. Por favor inténtalo de nuevo.",
         "addTracks": "❌ | Vaya... algo salió mal, no se pudieron añadir las pistas a la cola.",
         "joinVoice": "❌ | Vaya... algo salió mal, no pude unirme a tu canal.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Fuente de audio",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Predeterminado (discord-player)"
+        },
         "startedTitle": "Reproducción iniciada ▶️",
         "addedTitle": "Añadido a la cola ⏱️",
         "addedTopTitle": "Añadido al principio de la cola ⏱️",

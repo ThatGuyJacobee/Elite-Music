@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... ada yang salah, terjadi kesalahan saat {action}. Silakan coba lagi.",
         "failedToFindSongQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu dengan kueri yang diminta.",
         "failedToFindSong": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu.",
+        "noPlaybackSource": "❌ | Tidak ada sumber pemutaran yang dikonfigurasi yang dapat menyediakan lagu yang diminta.",
         "playRequest": "❌ | Ups... ada yang salah saat mencoba memutar lagu yang diminta. Silakan coba lagi.",
         "addTracks": "❌ | Ups... ada yang salah, gagal menambahkan trek ke antrean.",
         "joinVoice": "❌ | Ups... ada yang salah, tidak dapat bergabung ke saluran Anda.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Sumber audio",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Default (discord-player)"
+        },
         "startedTitle": "Pemutaran dimulai ▶️",
         "addedTitle": "Ditambahkan ke antrean ⏱️",
         "addedTopTitle": "Ditambahkan ke atas antrean ⏱️",

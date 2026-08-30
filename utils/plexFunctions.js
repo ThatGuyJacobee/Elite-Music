@@ -5,7 +5,12 @@ const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions")
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
 const { clear, startInitialPlayback } = require("./softTransitions");
-const { buildRequestedByFooter, buildCoverImageDescription, translate } = require("./botText");
+const {
+    buildRequestedByFooter,
+    buildCoverImageDescription,
+    buildPlaybackSourceField,
+    translate,
+} = require("./botText");
 
 const player = useMainPlayer();
 
@@ -32,43 +37,39 @@ function applyTrackOrder(tracks, orderMode = "sequential") {
     return tracks;
 }
 
-function plexSearchTypeQueryParam(scope) {
-    if (scope === "track") return "10";
-    if (scope === "playlist") return "15";
-    if (scope === "album") return "9";
-    return "9,10,15";
-}
-
 async function plexSearchQuery(query, options = {}) {
     const scope = options.scope ?? "auto";
-    const typeQueryParam = plexSearchTypeQueryParam(scope);
+    const requestedTypes = scope === "auto" ? ["track", "playlist", "album"] : [scope];
 
     try {
         const searchRequest = await fetch(
-            `${client.config.plexServer}/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${encodeURIComponent(query)}&limit=10&type=${typeQueryParam}`,
+            `${client.config.plexServer}/hubs/search?X-Plex-Token=${client.config.plexAuthtoken}&query=${encodeURIComponent(query)}&limit=10`,
             {
                 method: "GET",
                 headers: { accept: "application/json" },
             },
         );
+        if (!searchRequest.ok) {
+            throw new Error(`Plex search failed with status ${searchRequest.status}`);
+        }
 
         const searchJson = await searchRequest.json();
-        if (searchJson.MediaContainer.size == 0) return false;
+        const searchItems = (searchJson.MediaContainer?.Hub || [])
+            .filter((hub) => requestedTypes.includes(hub.type))
+            .flatMap((hub) => hub.Metadata || [])
+            .filter((item) => requestedTypes.includes(item.type));
 
-        const allSongs = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "track");
-        const allPlaylists = searchJson.MediaContainer.Metadata.filter(
-            (metadataEntry) => metadataEntry.type == "playlist",
-        );
-        const allAlbums = searchJson.MediaContainer.Metadata.filter((metadataEntry) => metadataEntry.type == "album");
+        if (searchItems.length === 0) return false;
+
+        const allSongs = searchItems.filter((item) => item.type === "track");
+        const allPlaylists = searchItems.filter((item) => item.type === "playlist");
+        const allAlbums = searchItems.filter((item) => item.type === "album");
 
         return {
             songs: allSongs,
             playlists: allPlaylists,
             albums: allAlbums,
-            size:
-                (allAlbums ? allAlbums.length : 0) +
-                (allSongs ? allSongs.length : 0) +
-                (allPlaylists ? allPlaylists.length : 0),
+            size: searchItems.length,
         };
     } catch (err) {
         console.log(err);
@@ -112,7 +113,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
             queue.addTrack(newTrack);
         }
 
-        await plexQueuePlay(interaction, responseType, itemMetadata, songFound.thumb, nextSong);
+        await plexQueuePlay(interaction, responseType, songFound, songFound.thumb, nextSong);
     } catch (err) {
         return interaction.followUp({
             content: translate(interaction, "errors.addTracks"),
@@ -263,6 +264,10 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         .setColor(client.config.embedColour)
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
+
+    if (interaction.playbackSource) {
+        embed.addFields(buildPlaybackSourceField(interaction, interaction.playbackSource));
+    }
 
     if (!queue.isPlaying()) {
         try {

@@ -94,6 +94,14 @@ function buildCoverImageDescription(source, mediaType, title) {
     return translate(source, key, { title });
 }
 
+function buildPlaybackSourceField(source, playbackSource) {
+    return {
+        name: translate(source, "playback.sourceLabel"),
+        value: translate(source, `playback.sources.${playbackSource}`),
+        inline: true,
+    };
+}
+
 function translateGenericAction(source, actionKey) {
     return translate(source, "errors.genericAction", {
         action: translate(source, `errors.actions.${actionKey}`),
@@ -135,6 +143,7 @@ function translateAudioFilter(source, filterId) {
 
 module.exports = {
     buildCoverImageDescription,
+    buildPlaybackSourceField,
     buildRequestedByFooter,
     buildRequestedByPageFooter,
     buildTrackLinkText,

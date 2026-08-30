@@ -13,6 +13,7 @@
         "genericAction": "❌ | Oops... ceva a mers prost, a apărut o eroare la {action}. Încearcă din nou.",
         "failedToFindSongQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa pentru interogarea cerută.",
         "failedToFindSong": "❌ | Oops... ceva a mers prost, nu am găsit piesa.",
+        "noPlaybackSource": "❌ | Niciuna dintre sursele de redare configurate nu a putut oferi piesa solicitată.",
         "playRequest": "❌ | Oops... ceva a mers prost în timp ce încercam să redau piesa cerută. Încearcă din nou.",
         "addTracks": "❌ | Oops... ceva a mers prost, nu am reușit să adaug piesa/ piesele în coadă.",
         "joinVoice": "❌ | Oops... ceva a mers prost, nu am reușit să mă alătur canalului tău.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Sursă audio",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Implicit (discord-player)"
+        },
         "startedTitle": "Redarea a început ▶️",
         "addedTitle": "Adăugat în coadă ⏱️",
         "addedTopTitle": "Adăugat în partea de sus a cozii ⏱️",

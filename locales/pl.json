@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... coś poszło nie tak, wystąpił błąd podczas {action}. Spróbuj ponownie.",
         "failedToFindSongQuery": "❌ | Ups... coś poszło nie tak, nie udało się znaleźć utworu dla podanego zapytania.",
         "failedToFindSong": "❌ | Ups... coś poszło nie tak, nie udało się znaleźć utworu.",
+        "noPlaybackSource": "❌ | Żadne z skonfigurowanych źródeł odtwarzania nie mogło dostarczyć żądanego utworu.",
         "playRequest": "❌ | Ups... coś poszło nie tak podczas próby odtworzenia żądanego utworu. Spróbuj ponownie.",
         "addTracks": "❌ | Ups... coś poszło nie tak, nie udało się dodać utworu(-ów) do kolejki.",
         "joinVoice": "❌ | Ups... coś poszło nie tak, nie udało mi się dołączyć do Twojego kanału.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Źródło dźwięku",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Domyślny (discord-player)"
+        },
         "startedTitle": "Odtwarzanie rozpoczęte ▶️",
         "addedTitle": "Dodano do kolejki ⏱️",
         "addedTopTitle": "Dodano na początek kolejki ⏱️",

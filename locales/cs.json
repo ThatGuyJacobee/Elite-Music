@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... něco se pokazilo, došlo k chybě při {action}. Zkuste to prosím znovu.",
         "failedToFindSongQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu pro zadaný dotaz.",
         "failedToFindSong": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu.",
+        "noPlaybackSource": "❌ | Žádný z nakonfigurovaných zdrojů přehrávání nemohl poskytnout požadovanou skladbu.",
         "playRequest": "❌ | Ups... něco se pokazilo při pokusu o přehrání požadované skladby. Zkuste to prosím znovu.",
         "addTracks": "❌ | Ups... něco se pokazilo, nepodařilo se přidat skladbu/y do fronty.",
         "joinVoice": "❌ | Ups... něco se pokazilo, nepodařilo se připojit k vašemu kanálu.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Zdroj audia",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Výchozí (discord-player)"
+        },
         "startedTitle": "Přehrávání zahájeno ▶️",
         "addedTitle": "Přidáno do fronty ⏱️",
         "addedTopTitle": "Přidáno na začátek fronty ⏱️",

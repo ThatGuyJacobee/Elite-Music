@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ojdå... något gick fel, det uppstod ett fel vid {action}. Försök igen.",
         "failedToFindSongQuery": "❌ | Ojdå... något gick fel, kunde inte hitta låten med den angivna sökningen.",
         "failedToFindSong": "❌ | Ojdå... något gick fel, kunde inte hitta låten.",
+        "noPlaybackSource": "❌ | Ingen av de konfigurerade uppspelningskällorna kunde leverera den begärda låten.",
         "playRequest": "❌ | Ojdå... något gick fel medan jag försökte spela den begärda låten. Försök igen.",
         "addTracks": "❌ | Ojdå... något gick fel, kunde inte lägga till spåret/spåren i kön.",
         "joinVoice": "❌ | Ojdå... något gick fel, kunde inte gå med i din kanal.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Ljudkälla",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Standard (discord-player)"
+        },
         "startedTitle": "Uppspelning startad ▶️",
         "addedTitle": "Tillagd i kö ⏱️",
         "addedTopTitle": "Tillagd högst upp i kön ⏱️",

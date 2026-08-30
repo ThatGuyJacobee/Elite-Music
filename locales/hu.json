@@ -13,6 +13,7 @@
         "genericAction": "❌ | Hoppá... valami hiba történt {action} közben. Kérjük, próbáld újra.",
         "failedToFindSongQuery": "❌ | Hoppá... valami hiba történt, a dal nem található a megadott lekérdezéssel.",
         "failedToFindSong": "❌ | Hoppá... valami hiba történt, a dal nem található.",
+        "noPlaybackSource": "❌ | A konfigurált lejátszási források egyike sem tudta biztosítani a kért zeneszámot.",
         "playRequest": "❌ | Hoppá... valami hiba történt a kért dal lejátszása közben. Kérjük, próbáld újra.",
         "addTracks": "❌ | Hoppá... valami hiba történt, a szám(ok) hozzáadása a sorhoz sikertelen.",
         "joinVoice": "❌ | Hoppá... valami hiba történt, nem sikerült csatlakozni a csatornádhoz.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Hangforrás",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Alapértelmezett (discord-player)"
+        },
         "startedTitle": "Lejátszás elindítva ▶️",
         "addedTitle": "Hozzáadva a sorhoz ⏱️",
         "addedTopTitle": "Hozzáadva a sor elejére ⏱️",

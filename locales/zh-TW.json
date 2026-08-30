@@ -13,6 +13,7 @@
         "genericAction": "❌ | 糟糕... 發生錯誤，{action} 時出現問題。請再試一次。",
         "failedToFindSongQuery": "❌ | 糟糕... 發生錯誤，找不到符合所查詢條件的歌曲。",
         "failedToFindSong": "❌ | 糟糕... 發生錯誤，找不到該歌曲。",
+        "noPlaybackSource": "❌ | 設定的播放來源都無法提供所要求的歌曲。",
         "playRequest": "❌ | 糟糕... 嘗試播放所請求的歌曲時發生錯誤。請再試一次。",
         "addTracks": "❌ | 糟糕... 發生錯誤，無法將曲目加入佇列。",
         "joinVoice": "❌ | 糟糕... 發生錯誤，無法加入您的頻道。",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "音訊來源",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "預設（discord-player）"
+        },
         "startedTitle": "開始播放 ▶️",
         "addedTitle": "已加入佇列 ⏱️",
         "addedTopTitle": "已加入佇列頂端 ⏱️",

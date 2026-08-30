@@ -13,6 +13,7 @@
         "genericAction": "❌ | Oeps... er ging iets mis, er is een fout opgetreden tijdens {action}. Probeer het opnieuw.",
         "failedToFindSongQuery": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden met de opgegeven zoekopdracht.",
         "failedToFindSong": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden.",
+        "noPlaybackSource": "❌ | Geen van de geconfigureerde afspeelbronnen kon het gevraagde nummer leveren.",
         "playRequest": "❌ | Oeps... er ging iets mis tijdens het proberen af te spelen van het gevraagde nummer. Probeer het opnieuw.",
         "addTracks": "❌ | Oeps... er ging iets mis, de track(s) konden niet aan de wachtrij worden toegevoegd.",
         "joinVoice": "❌ | Oeps... er ging iets mis, ik kon je kanaal niet joinen.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Audiobron",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Standaard (discord-player)"
+        },
         "startedTitle": "Afspelen gestart ▶️",
         "addedTitle": "Toegevoegd aan wachtrij ⏱️",
         "addedTopTitle": "Toegevoegd bovenaan de wachtrij ⏱️",

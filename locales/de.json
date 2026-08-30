@@ -13,6 +13,7 @@
         "genericAction": "❌ | Ups... etwas ist schiefgelaufen, beim {action} ist ein Fehler aufgetreten. Bitte versuche es erneut.",
         "failedToFindSongQuery": "❌ | Ups... etwas ist schiefgelaufen, die gesuchte Songanfrage konnte nicht gefunden werden.",
         "failedToFindSong": "❌ | Ups... etwas ist schiefgelaufen, der Song konnte nicht gefunden werden.",
+        "noPlaybackSource": "❌ | Keine der konfigurierten Wiedergabequellen konnte den angeforderten Song bereitstellen.",
         "playRequest": "❌ | Ups... etwas ist schiefgelaufen, während versucht wurde, den angeforderten Song abzuspielen. Bitte versuche es erneut.",
         "addTracks": "❌ | Ups... etwas ist schiefgelaufen, die Spur(en) konnten nicht zur Warteschlange hinzugefügt werden.",
         "joinVoice": "❌ | Ups... etwas ist schiefgelaufen, ich konnte deinem Kanal nicht beitreten.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Audioquelle",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Standard (discord-player)"
+        },
         "startedTitle": "Wiedergabe gestartet ▶️",
         "addedTitle": "Zur Warteschlange hinzugefügt ⏱️",
         "addedTopTitle": "An den Anfang der Warteschlange hinzugefügt ⏱️",

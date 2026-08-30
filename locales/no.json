@@ -13,6 +13,7 @@
         "genericAction": "❌ | Oisann... noe gikk galt under {action}. Prøv igjen.",
         "failedToFindSongQuery": "❌ | Oisann... noe gikk galt, fant ikke sangen med det gitte søket.",
         "failedToFindSong": "❌ | Oisann... noe gikk galt, fant ikke sangen.",
+        "noPlaybackSource": "❌ | Ingen av de konfigurerte avspillingskildene kunne levere den ønskede sangen.",
         "playRequest": "❌ | Oisann... noe gikk galt mens jeg forsøkte å spille den forespurte sangen. Prøv igjen.",
         "addTracks": "❌ | Oisann... noe gikk galt, klarte ikke å legge til sporet/sporene i køen.",
         "joinVoice": "❌ | Oisann... noe gikk galt, klarte ikke å bli med i kanalen din.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Lydkilde",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Standard (discord-player)"
+        },
         "startedTitle": "Avspilling startet ▶️",
         "addedTitle": "Lagt til i kø ⏱️",
         "addedTopTitle": "Lagt øverst i køen ⏱️",

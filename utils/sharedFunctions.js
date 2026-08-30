@@ -8,6 +8,7 @@ const { clear, createSoftTransitionStream, startInitialPlayback, transition } = 
 const {
     buildRequestedByFooter,
     buildCoverImageDescription,
+    buildPlaybackSourceField,
     buildTrackLinkText,
     buildUrlLinkText,
     translate,
@@ -105,6 +106,10 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         .setColor(client.config.embedColour)
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
+
+    if (interaction.playbackSource) {
+        embed.addFields(buildPlaybackSourceField(interaction, interaction.playbackSource));
+    }
 
     if (!queue.isPlaying()) {
         try {

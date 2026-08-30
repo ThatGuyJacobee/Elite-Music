@@ -13,6 +13,7 @@
         "genericAction": "❌ | 이런... 문제가 발생했습니다. {action} 중 오류가 발생했습니다. 다시 시도해 주세요.",
         "failedToFindSongQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡을 찾을 수 없습니다.",
         "failedToFindSong": "❌ | 이런... 문제가 발생했습니다. 곡을 찾을 수 없습니다.",
+        "noPlaybackSource": "❌ | 설정된 재생 소스 중 어느 것도 요청한 곡을 제공하지 못했습니다.",
         "playRequest": "❌ | 이런... 요청한 곡 재생 중 문제가 발생했습니다. 다시 시도해 주세요.",
         "addTracks": "❌ | 이런... 문제가 발생했습니다. 곡을 대기열에 추가하지 못했습니다.",
         "joinVoice": "❌ | 이런... 문제가 발생했습니다. 채널에 참가할 수 없습니다.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "오디오 소스",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "기본값 (discord-player)"
+        },
         "startedTitle": "재생 시작 ▶️",
         "addedTitle": "대기열에 추가 ⏱️",
         "addedTopTitle": "대기열 맨 앞에 추가 ⏱️",

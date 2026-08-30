@@ -13,6 +13,7 @@
         "genericAction": "❌ | Oi... kažkas nepavyko vykdant {action}. Bandykite dar kartą.",
         "failedToFindSongQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos pagal pateiktą užklausą.",
         "failedToFindSong": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos.",
+        "noPlaybackSource": "❌ | Nė vienas sukonfigūruotas atkūrimo šaltinis negalėjo pateikti prašomos dainos.",
         "playRequest": "❌ | Oi... kažkas nepavyko bandant paleisti prašomą dainą. Bandykite dar kartą.",
         "addTracks": "❌ | Oi... kažkas nepavyko, nepavyko pridėti kūrinio(-ių) į eilę.",
         "joinVoice": "❌ | Oi... kažkas nepavyko, nepavyko prisijungti prie jūsų kanalo.",
@@ -127,6 +128,13 @@
         }
     },
     "playback": {
+        "sourceLabel": "Garso šaltinis",
+        "sources": {
+            "plex": "Plex",
+            "subsonic": "Subsonic",
+            "jellyfin": "Jellyfin",
+            "default": "Numatytasis (discord-player)"
+        },
         "startedTitle": "Atkūrimas pradėtas ▶️",
         "addedTitle": "Pridėta į eilę ⏱️",
         "addedTopTitle": "Pridėta į eilės viršų ⏱️",
