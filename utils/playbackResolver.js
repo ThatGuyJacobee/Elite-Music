@@ -16,6 +16,8 @@ const { formatDurationMs } = require("./utilityFunctions");
 
 const SOURCE_SEARCH_TIMEOUT_MS = 3000;
 const MINIMUM_MATCH_SCORE = 0.75;
+const MAX_PICKER_RESULTS = 10;
+const MAX_AGGREGATED_RESULTS = 25;
 const PICKER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 const playbackProviders = {
@@ -214,27 +216,48 @@ async function searchProvider(source, query) {
     }
 }
 
+function defaultSourceResults(extractedTracks) {
+    return extractedTracks.map((item) => ({ source: "default", item, extractedTrack: item }));
+}
+
+async function resolveSourceResults(source, extractedTracks, query, config) {
+    if (source === "default") {
+        return defaultSourceResults(extractedTracks);
+    }
+
+    const provider = playbackProviders[source];
+    if (!provider?.enabled(config)) return [];
+
+    return matchProviderItems(source, await searchProvider(source, query), extractedTracks);
+}
+
 async function resolvePlaybackSource(search, originalQuery, config) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
+    const query = providerQuery(originalQuery, extractedTracks);
     for (const source of parseSourceOrder(config.playbackSourceOrder)) {
-        if (source === "default") {
-            return {
-                source,
-                results: extractedTracks.map((item) => ({ source, item, extractedTrack: item })),
-            };
-        }
-
-        const provider = playbackProviders[source];
-        if (!provider?.enabled(config)) continue;
-
-        const items = await searchProvider(source, providerQuery(originalQuery, extractedTracks));
-        const results = matchProviderItems(source, items, extractedTracks);
+        const results = await resolveSourceResults(source, extractedTracks, query, config);
         if (results.length > 0) return { source, results };
     }
 
     return null;
+}
+
+async function searchAllPlaybackSources(search, originalQuery, config) {
+    const extractedTracks = search?.tracks || [];
+    if (extractedTracks.length === 0) return null;
+
+    const query = providerQuery(originalQuery, extractedTracks);
+    const groups = await Promise.all(
+        parseSourceOrder(config.playbackSourceOrder).map(async (source) => ({
+            source,
+            results: await resolveSourceResults(source, extractedTracks, query, config),
+        })),
+    );
+    const matches = groups.filter((group) => group.results.length > 0);
+
+    return matches.length > 0 ? matches : null;
 }
 
 async function addResolvedTrack(interaction, nextSong, result, responseType) {
@@ -277,44 +300,79 @@ function truncate(value, maximum) {
     return text.length > maximum ? `${text.slice(0, maximum - 3)}...` : text;
 }
 
-function buildPlaybackPicker(interaction, resolution, nextSong) {
-    const sourceName = translate(interaction, `playback.sources.${resolution.source}`);
+function sourceName(interaction, source) {
+    return translate(interaction, `playback.sources.${source}`);
+}
+
+function pickerDescription(interaction, resultCount) {
+    return translate(interaction, resultCount === 1 ? "search.singleResult" : "search.multipleResults");
+}
+
+function buildResultMenu(interaction, customId, results, selectionValue) {
     const menu = new StringSelectMenuBuilder()
-        .setCustomId(`playsearch:${resolution.source}:${nextSong ? 1 : 0}`)
+        .setCustomId(customId)
         .setMinValues(1)
         .setMaxValues(1)
         .setPlaceholder(translate(interaction, "search.placeholder"));
-    const fields = [];
 
-    resolution.results.slice(0, 10).forEach((result, index) => {
-        const duration = resultDuration(result);
-        fields.push({
-            name: translate(interaction, "search.songResult", { index: index + 1, duration }),
-            value: truncate(resultDescription(result), 1024),
-        });
-        menu.addOptions(
-            new StringSelectMenuOptionBuilder()
-                .setLabel(truncate(result.item.title, 100))
-                .setValue(selectionIdentifier(result))
-                .setDescription(truncate(`${sourceName} • ${duration}`, 100))
-                .setEmoji(PICKER_EMOJIS[index]),
-        );
+    results.forEach((result, index) => {
+        const option = new StringSelectMenuOptionBuilder()
+            .setLabel(truncate(result.item.title, 100))
+            .setValue(selectionValue(result))
+            .setDescription(truncate(`${sourceName(interaction, result.source)} • ${resultDuration(result)}`, 100));
+
+        if (PICKER_EMOJIS[index]) option.setEmoji(PICKER_EMOJIS[index]);
+        menu.addOptions(option);
     });
 
-    const titleKey = resolution.source === "default" ? "search.resultsTitle" : `search.${resolution.source}Title`;
+    return menu;
+}
+
+function buildResultFields(interaction, results, includeSource) {
+    return results.map((result, index) => {
+        const variables = {
+            index: index + 1,
+            duration: resultDuration(result),
+            source: sourceName(interaction, result.source),
+        };
+
+        return {
+            name: translate(interaction, includeSource ? "search.songResultSource" : "search.songResult", variables),
+            value: truncate(resultDescription(result), 1024),
+        };
+    });
+}
+
+function aggregateResults(groups) {
+    const results = [];
+
+    for (const group of groups) {
+        results.push(...group.results.slice(0, MAX_PICKER_RESULTS));
+        if (results.length >= MAX_AGGREGATED_RESULTS) break;
+    }
+
+    return results.slice(0, MAX_AGGREGATED_RESULTS);
+}
+
+function buildPicker(interaction, options) {
+    const fields = buildResultFields(interaction, options.results, options.includeResultSource);
+    if (options.playbackSource) {
+        fields.unshift(buildPlaybackSourceField(interaction, options.playbackSource));
+    }
+
     const embed = new EmbedBuilder()
         .setAuthor({
             name: interaction.client.user.tag,
             iconURL: interaction.client.user.displayAvatarURL(),
         })
         .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-        .setTitle(translate(interaction, titleKey))
-        .setDescription(translate(interaction, "search.multipleResults"))
-        .addFields(buildPlaybackSourceField(interaction, resolution.source), ...fields)
+        .setTitle(options.title)
+        .setDescription(pickerDescription(interaction, options.results.length))
+        .addFields(fields)
         .setColor(interaction.client.config.embedColour)
         .setTimestamp()
         .setFooter(buildRequestedByFooter(interaction, interaction.user));
-
+    const menu = buildResultMenu(interaction, options.customId, options.results, options.selectionValue);
     const cancel = new ButtonBuilder()
         .setCustomId("np-delete")
         .setStyle(ButtonStyle.Danger)
@@ -326,33 +384,75 @@ function buildPlaybackPicker(interaction, resolution, nextSong) {
     };
 }
 
-async function addPlaybackSelection(interaction, customId, identifier, responseType) {
-    const selection = /^playsearch:(plex|subsonic|jellyfin|default):([01])$/.exec(customId);
+function buildPlaybackPicker(interaction, resolution, nextSong) {
+    const source = resolution.source;
+    const titleKey = source === "default" ? "search.resultsTitle" : `search.${source}Title`;
+
+    return buildPicker(interaction, {
+        title: translate(interaction, titleKey),
+        results: resolution.results.slice(0, MAX_PICKER_RESULTS),
+        customId: `playsearch:${source}:${nextSong ? 1 : 0}`,
+        selectionValue: selectionIdentifier,
+        playbackSource: source,
+    });
+}
+
+function buildAggregatedPlaybackPicker(interaction, groups) {
+    if (groups.length === 1) return buildPlaybackPicker(interaction, groups[0], false);
+
+    return buildPicker(interaction, {
+        title: translate(interaction, "search.allSourcesTitle"),
+        results: aggregateResults(groups),
+        customId: "playsearch:all:0",
+        selectionValue: (result) => `${result.source}:${selectionIdentifier(result)}`,
+        includeResultSource: true,
+    });
+}
+
+function parsePlaybackSelection(customId, identifier) {
+    const selection = /^playsearch:(plex|subsonic|jellyfin|default|all):([01])$/.exec(customId);
     if (!selection) return null;
 
-    const [, source, nextSongFlag] = selection;
+    let [, source, nextSongFlag] = selection;
+    if (source === "all") {
+        const separatorIndex = identifier.indexOf(":");
+        source = identifier.slice(0, separatorIndex);
+        identifier = identifier.slice(separatorIndex + 1);
+        if (!VALID_SOURCES.includes(source)) return null;
+    }
+
+    return { source, nextSong: nextSongFlag === "1", identifier };
+}
+
+async function addPlaybackSelection(interaction, customId, identifier, responseType) {
+    const selection = parsePlaybackSelection(customId, identifier);
+    if (!selection) return null;
+
+    const { source, nextSong, identifier: selectedIdentifier } = selection;
     let item;
 
     if (source === "default") {
-        const search = await useMainPlayer().search(identifier, {
+        const search = await useMainPlayer().search(selectedIdentifier, {
             requestedBy: interaction.user,
             searchEngine: QueryType.AUTO,
         });
-        item = search?.tracks?.find((track) => track.url === identifier) || search?.tracks?.[0];
+        item = search?.tracks?.find((track) => track.url === selectedIdentifier) || search?.tracks?.[0];
     } else {
-        item = playbackProviders[source].itemFromIdentifier(identifier);
+        item = playbackProviders[source].itemFromIdentifier(selectedIdentifier);
     }
 
     if (!item) return null;
     const result = { source, item, extractedTrack: item };
-    await addResolvedTrack(interaction, nextSongFlag === "1", result, responseType);
+    await addResolvedTrack(interaction, nextSong, result, responseType);
     return result;
 }
 
 module.exports = {
     addPlaybackSelection,
     addResolvedTrack,
+    buildAggregatedPlaybackPicker,
     buildPlaybackPicker,
     parseSourceOrder,
     resolvePlaybackSource,
+    searchAllPlaybackSources,
 };
