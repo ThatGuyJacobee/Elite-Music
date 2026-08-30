@@ -127,7 +127,7 @@ Once you have followed the appropriate steps for the optional feature that you w
 
 ### Playback source order
 
-The environment variable `PLAYBACK_SOURCE_ORDER` allows you to control which audio sources are used by the `/play` and `/playnext` commands. After extracting the requested song information, each configured source is checked from left to right until a confident match is found.
+The environment variable `PLAYBACK_SOURCE_ORDER` allows you to control which audio sources are used by the `/play` and `/playnext` commands. After extracting the requested song information, each configured source is checked from left to right until a confident match is found. `/search` uses the same order, but lists confident matches from every configured source instead of stopping at the first hit.
 
 ```env
 PLAYBACK_SOURCE_ORDER='plex,subsonic,jellyfin,default'
