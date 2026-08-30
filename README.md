@@ -125,9 +125,23 @@ If you are missing the relevant option in your environmental (`.env`) file, make
 
 Once you have followed the appropriate steps for the optional feature that you want to enable, you should start the bot and ensure that the configuration option returns as `true` when the configuration loads. If the feature still shows as disabled, this suggests that you have a configuration error. Follow the error logs that are provided in your console to resolve this. If you are still having trouble with your issue, feel free to create an issue on the [repository](https://github.com/ThatGuyJacobee/Elite-Music/issues/new) or join the [Support Discord server](https://discord.elite-bot.com).
 
+### Playback source order
+
+The environment variable `PLAYBACK_SOURCE_ORDER` allows you to control which audio sources are used by the `/play` and `/playnext` commands. After extracting the requested song information, each configured source is checked from left to right until a confident match is found.
+
+```env
+PLAYBACK_SOURCE_ORDER='plex,subsonic,jellyfin,default'
+```
+
+The available sources are `plex`, `subsonic`, `jellyfin`, and `default`. The `default` source uses the normal discord-player playback methods which is mainly YouTube or direct URL streaming where applicable.
+
+You can remove or reorder these sources depending on your setup. For example, use `PLAYBACK_SOURCE_ORDER='subsonic'` to only play matched Subsonic tracks, or `PLAYBACK_SOURCE_ORDER='default'` to retain the original playback behaviour. Any optional addon that is not enabled will be skipped automatically.
+
+If the option is missing, empty, or contains no valid sources, it defaults to `default`.
+
 ### Plex Media Server playback
 
-The Plex Media Server optional feature allows you to stream music directly from your Plex library through the `/plex` command when enabled. In order to enable the Plex feature, you must go into your `.env` file and set up the configuration for your server.
+The Plex Media Server optional feature allows you to stream music directly from your Plex library through the `/plex` command or as an enabled `/play` source. In order to enable the Plex feature, you must go into your `.env` file and set up the configuration for your server.
 
 1. Firstly, set `ENABLE_PLEX` to `true`.
 2. Next, provide the base URL of your Plex Media Server in `PLEX_SERVER`. The default port that Plex Media Server runs on is `32400` (e.g. `http://[your_ipaddress]:32400`). You can verify that the URL is correct by opening it in a web browser; you should see your server's login page load successfully. The bot must be able to reach this address from the machine or container it runs on.
@@ -137,7 +151,7 @@ Once configured and restarted, the bot will validate the connection on startup a
 
 ### Subsonic API playback
 
-The Subsonic API optional feature allows you to stream music directly from your Subsonic-compatible media server through the `/subsonic` command when enabled. This works with any server that implements the [Subsonic REST API](http://www.subsonic.org/pages/api.jsp), such as Navidrome, Airsonic-Advanced, Gonic or others. In order to enable the Subsonic feature, you must go into your `.env` file and set up the configuration for your server.
+The Subsonic API optional feature allows you to stream music directly from your Subsonic-compatible media server through the `/subsonic` command or as an enabled `/play` source. This works with any server that implements the [Subsonic REST API](http://www.subsonic.org/pages/api.jsp), such as Navidrome, Airsonic-Advanced, Gonic or others. In order to enable the Subsonic feature, you must go into your `.env` file and set up the configuration for your server.
 
 1. Firstly, set `ENABLE_SUBSONIC` to `true`.
 2. Next, provide the base URL of your Subsonic server in `SUBSONIC_SERVER`. The default port for many Subsonic-compatible servers is `4533` (e.g. `http://[your_ipaddress]:4533`). You can verify that the URL is correct by opening it in a web browser; you should see your server's login or home page load successfully. The bot must be able to reach this address from the machine or container it runs on.
@@ -148,7 +162,7 @@ Once configured and restarted, the bot will validate the connection on startup a
 
 ### Jellyfin Media Server playback
 
-The Jellyfin Media Server optional feature allows you to stream music directly from your Jellyfin library through the `/jellyfin` command when enabled. In order to enable the Jellyfin feature, you must go into your `.env` file and set up the configuration for your server.
+The Jellyfin Media Server optional feature allows you to stream music directly from your Jellyfin library through the `/jellyfin` command or as an enabled `/play` source. In order to enable the Jellyfin feature, you must go into your `.env` file and set up the configuration for your server.
 
 1. Firstly, set `ENABLE_JELLYFIN` to `true`.
 2. Next, provide the base URL of your Jellyfin Media Server in `JELLYFIN_SERVER`. The default port that Jellyfin runs on is `8096` (e.g. `http://[your_ipaddress]:8096`). You can verify that the URL is correct by opening it in a web browser; you should see your server's login page load successfully. The bot must be able to reach this address from the machine or container it runs on.
