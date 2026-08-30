@@ -2,9 +2,10 @@ const { SlashCommandBuilder, inlineCode } = require("@discordjs/builders");
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const {
     BOT_VERSION,
-    checkLatestRelease,
+    checkLatestReleases,
+    findAvailableUpdate,
     formatReleaseTag,
-    isReleaseOutdated,
+    isPrereleaseVersion,
     isReleaseUpToDate,
 } = require("../../utils/utilityFunctions");
 const { translate } = require("../../utils/botText");
@@ -20,15 +21,18 @@ module.exports = {
         const packageJSON = require("../../package.json");
 
         // Check for latest release
-        let checkGitHub = await checkLatestRelease();
+        const releases = await checkLatestReleases();
         const currentVersion = formatReleaseTag(BOT_VERSION);
         let versionValue = currentVersion;
 
-        if (checkGitHub != false) {
-            const latestRelease = checkGitHub.tag_name;
-            if (isReleaseOutdated(BOT_VERSION, latestRelease)) {
-                versionValue = `${currentVersion} (Latest: **[${latestRelease}](${checkGitHub.html_url})**)`;
-            } else if (isReleaseUpToDate(BOT_VERSION, latestRelease)) {
+        if (releases != false) {
+            const runningPrerelease = isPrereleaseVersion(BOT_VERSION);
+            const availableUpdate = findAvailableUpdate(BOT_VERSION, releases);
+            const currentChannelRelease = runningPrerelease ? releases.latestPrerelease : releases.latestStable;
+
+            if (availableUpdate) {
+                versionValue = `${currentVersion} (Latest: **[${availableUpdate.tag_name}](${availableUpdate.html_url})**)`;
+            } else if (isReleaseUpToDate(BOT_VERSION, currentChannelRelease?.tag_name)) {
                 versionValue = `${currentVersion} (Up to date)`;
             }
         }

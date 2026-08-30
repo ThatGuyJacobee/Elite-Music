@@ -1,6 +1,7 @@
 const { AttachmentBuilder } = require("discord.js");
 const crypto = require("crypto");
 const fs = require("fs");
+const semver = require("semver");
 const { version: BOT_VERSION } = require("../package.json");
 
 function normalizeReleaseTag(tag) {
@@ -13,26 +14,22 @@ function formatReleaseTag(version) {
     return normalized ? `v${normalized}` : "";
 }
 
-function parseSemver(version) {
+function parseReleaseVersion(version) {
     const normalized = normalizeReleaseTag(version);
-    const match = normalized.match(/^(\d+)\.(\d+)(?:\.(\d+))?/);
-    if (!match) return null;
-
-    return {
-        major: Number(match[1]),
-        minor: Number(match[2]),
-        patch: Number(match[3] ?? 0),
-    };
+    return semver.valid(normalized);
 }
 
 function compareSemver(a, b) {
-    const versionA = parseSemver(a);
-    const versionB = parseSemver(b);
+    const versionA = parseReleaseVersion(a);
+    const versionB = parseReleaseVersion(b);
     if (!versionA || !versionB) return null;
 
-    if (versionA.major !== versionB.major) return versionA.major - versionB.major;
-    if (versionA.minor !== versionB.minor) return versionA.minor - versionB.minor;
-    return versionA.patch - versionB.patch;
+    return semver.compare(versionA, versionB);
+}
+
+function isPrereleaseVersion(version) {
+    const parsedVersion = parseReleaseVersion(version);
+    return parsedVersion ? semver.prerelease(parsedVersion) !== null : false;
 }
 
 function isReleaseOutdated(currentVersion, latestTag) {
@@ -51,6 +48,64 @@ function isReleaseUpToDate(currentVersion, latestTag) {
     }
 
     return comparison === 0;
+}
+
+function summarizeReleases(releases) {
+    const validReleases = Array.isArray(releases)
+        ? releases
+              .filter((release) => release && !release.draft)
+              .map((release) => {
+                  const version = parseReleaseVersion(release.tag_name);
+                  return version ? { ...release, version } : null;
+              })
+              .filter(Boolean)
+        : [];
+
+    const latest = (candidates) =>
+        candidates.reduce(
+            (selected, release) => (!selected || semver.gt(release.version, selected.version) ? release : selected),
+            null,
+        );
+
+    return {
+        latestStable: latest(
+            validReleases.filter((release) => !release.prerelease && semver.prerelease(release.version) === null),
+        ),
+        latestPrerelease: latest(
+            validReleases.filter((release) => release.prerelease || semver.prerelease(release.version) !== null),
+        ),
+    };
+}
+
+function findAvailableUpdate(currentVersion, releases, options = {}) {
+    const current = parseReleaseVersion(currentVersion);
+    if (!current) return null;
+
+    const includePrereleases = options.includePrereleases ?? isPrereleaseVersion(current);
+    const candidates = [releases?.latestStable];
+    if (includePrereleases) candidates.push(releases?.latestPrerelease);
+
+    return candidates
+        .filter((release) => release?.version && semver.gt(release.version, current))
+        .reduce(
+            (selected, release) => (!selected || semver.gt(release.version, selected.version) ? release : selected),
+            null,
+        );
+}
+
+function findTestingRelease(currentVersion, releases) {
+    const current = parseReleaseVersion(currentVersion);
+    const latestPrerelease = releases?.latestPrerelease;
+    if (!current || !latestPrerelease?.version || !semver.gt(latestPrerelease.version, current)) {
+        return null;
+    }
+
+    const latestStable = releases?.latestStable;
+    if (latestStable?.version && !semver.gt(latestPrerelease.version, latestStable.version)) {
+        return null;
+    }
+
+    return latestPrerelease;
 }
 
 // Configuration secrets that should not be logged into console during startup
@@ -139,8 +194,8 @@ async function buildImageAttachment(url, metadata = {}) {
     }
 }
 
-async function checkLatestRelease() {
-    let checkGitHub = await fetch("https://api.github.com/repos/ThatGuyJacobee/Elite-Music/releases/latest", {
+async function checkLatestReleases() {
+    let checkGitHub = await fetch("https://api.github.com/repos/ThatGuyJacobee/Elite-Music/releases?per_page=100", {
         method: "GET",
         headers: {
             Accept: "application/vnd.github+json",
@@ -150,7 +205,7 @@ async function checkLatestRelease() {
 
     if (checkGitHub.ok) {
         let response = await checkGitHub.json();
-        return response;
+        return summarizeReleases(response);
     } else {
         return false;
     }
@@ -165,10 +220,14 @@ module.exports = {
     md5Utf8Hex,
     formatDurationMs,
     formatReleaseTag,
+    isPrereleaseVersion,
     isReleaseOutdated,
     isReleaseUpToDate,
+    summarizeReleases,
+    findAvailableUpdate,
+    findTestingRelease,
     redactConfigSecrets,
     getImageSize,
     buildImageAttachment,
-    checkLatestRelease,
+    checkLatestReleases,
 };

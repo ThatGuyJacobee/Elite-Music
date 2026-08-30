@@ -2,9 +2,11 @@ require("dotenv").config();
 const {
     BOT_VERSION,
     CONFIG_SECRET_KEYS,
-    checkLatestRelease,
+    checkLatestReleases,
+    findAvailableUpdate,
+    findTestingRelease,
     formatReleaseTag,
-    isReleaseOutdated,
+    isPrereleaseVersion,
     isReleaseUpToDate,
     redactConfigSecrets,
 } = require("../utils/utilityFunctions");
@@ -382,18 +384,32 @@ module.exports = {
             }
 
             // Check for new releases
-            let checkGitHub = await checkLatestRelease();
-            if (checkGitHub != false) {
-                let latestRelease = checkGitHub.tag_name;
+            const releases = await checkLatestReleases();
+            if (releases != false) {
+                const runningPrerelease = isPrereleaseVersion(BOT_VERSION);
+                const availableUpdate = findAvailableUpdate(BOT_VERSION, releases);
 
-                if (isReleaseOutdated(BOT_VERSION, latestRelease)) {
+                if (availableUpdate) {
                     console.log(
-                        `[ELITE_STATUS] Your bot is outdated. Please update to the latest release version of Elite Music (${latestRelease}, running ${formatReleaseTag(BOT_VERSION)}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${checkGitHub.html_url}`,
+                        `[ELITE_STATUS] Your bot is outdated. Please update to the latest release version of Elite Music (${availableUpdate.tag_name}, running ${formatReleaseTag(BOT_VERSION)}) to ensure that you have the latest features, bug fixes and security patches. You can find the latest release information here: ${availableUpdate.html_url}`,
                     );
-                } else if (isReleaseUpToDate(BOT_VERSION, latestRelease)) {
+                } else if (runningPrerelease && isReleaseUpToDate(BOT_VERSION, releases.latestPrerelease?.tag_name)) {
+                    console.log(
+                        `[ELITE_STATUS] Your bot is up-to-date and running on the latest available pre-release (${formatReleaseTag(BOT_VERSION)})!`,
+                    );
+                } else if (!runningPrerelease && isReleaseUpToDate(BOT_VERSION, releases.latestStable?.tag_name)) {
                     console.log(
                         `[ELITE_STATUS] Your bot is up-to-date and running on the latest release (${formatReleaseTag(BOT_VERSION)})!`,
                     );
+                }
+
+                if (!runningPrerelease) {
+                    const testingRelease = findTestingRelease(BOT_VERSION, releases);
+                    if (testingRelease) {
+                        console.log(
+                            `[ELITE_TESTING] A new Elite Music pre-release is available for testing (${testingRelease.tag_name}): ${testingRelease.html_url}`,
+                        );
+                    }
                 }
             } else {
                 console.log(
