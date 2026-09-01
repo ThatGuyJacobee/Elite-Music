@@ -9,6 +9,22 @@ function ephemeralReply(options) {
     return { ...options, flags: MessageFlags.Ephemeral };
 }
 
+async function sendEphemeralError(interaction, options) {
+    const payload = ephemeralReply(options);
+
+    if (!interaction.deferred && !interaction.replied) {
+        return interaction.reply(payload);
+    }
+
+    // Discord locks ephemeral on the first response, so a public defer cannot be
+    // converted with editReply. Drop that message and follow up privately instead.
+    if (interaction.deferred) {
+        await interaction.deleteReply().catch(() => null);
+    }
+
+    return interaction.followUp(payload);
+}
+
 async function ensureDjAccess(interaction) {
     if (!client.config.enableDjMode) return true;
     if (interaction.member.roles.cache.has(client.config.djRole)) return true;
@@ -101,6 +117,7 @@ module.exports = {
     ensureSubsonicEnabled,
     ensureJellyfinEnabled,
     ephemeralReply,
+    sendEphemeralError,
     getQueueEmptyResponse,
     getQueueNotPlayingResponse,
 };

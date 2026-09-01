@@ -8,7 +8,6 @@ const {
     EmbedBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
-    MessageFlags,
 } = require("discord.js");
 const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
@@ -16,6 +15,7 @@ const {
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
     ensurePlexEnabled,
+    sendEphemeralError,
 } = require("../../utils/interactionGuards");
 const pickerEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
@@ -117,10 +117,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
     try {
         const searchResults = await plexFuncs.plexSearchQuery(query, { scope: searchScope });
         if (!searchResults.songs && !searchResults.playlists && !searchResults.albums) {
-            return interaction.reply({
-                content: translate(interaction, "errors.failedToFindMediaQuery"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindMediaQuery"));
         }
 
         await interaction.deferReply();
@@ -284,13 +281,7 @@ async function runPlexFlow(interaction, { subcommand, forcePicker }) {
         }
     } catch (err) {
         console.log(err);
-        const errorMessage = translate(interaction, "errors.playRequest");
-        if (interaction.deferred) {
-            return interaction
-                .followUp({ content: errorMessage, flags: MessageFlags.Ephemeral })
-                .catch(() => interaction.editReply({ content: errorMessage }));
-        }
-        return interaction.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
+        return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
     }
 }
 
@@ -299,50 +290,60 @@ client.on("interactionCreate", async (interaction) => {
     if (interaction.customId == "plexsearch") {
         await musicFuncs.getQueue(interaction);
 
-        for await (const selectedValue of interaction.values) {
-            const itemType = selectedValue.split("_")[0];
-            const playNextSegment = selectedValue.split("_")[1];
-            const usePlayNext = playNextSegment != null && playNextSegment == "true";
-            const orderSegment = selectedValue.split("_")[2];
-            const playlistOrder =
-                orderSegment != null && orderSegment.startsWith("order=")
-                    ? orderSegment.split("order=")[1]
-                    : "sequential";
-            const itemKey = selectedValue.split("key=")[1];
+        try {
+            for await (const selectedValue of interaction.values) {
+                const itemType = selectedValue.split("_")[0];
+                const playNextSegment = selectedValue.split("_")[1];
+                const usePlayNext = playNextSegment != null && playNextSegment == "true";
+                const orderSegment = selectedValue.split("_")[2];
+                const playlistOrder =
+                    orderSegment != null && orderSegment.startsWith("order=")
+                        ? orderSegment.split("order=")[1]
+                        : "sequential";
+                const itemKey = selectedValue.split("key=")[1];
 
-            const metadataRequest = await fetch(
-                `${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`,
-                {
-                    method: "GET",
-                    headers: { accept: "application/json" },
-                },
-            );
-
-            const metadataJson = await metadataRequest.json();
-
-            await interaction.deferUpdate();
-
-            if (itemType == "playlist") {
-                metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddPlaylist(
-                    interaction,
-                    metadataJson.MediaContainer,
-                    "edit",
-                    playlistOrder,
-                    usePlayNext,
+                const metadataRequest = await fetch(
+                    `${client.config.plexServer}${itemKey}?X-Plex-Token=${client.config.plexAuthtoken}`,
+                    {
+                        method: "GET",
+                        headers: { accept: "application/json" },
+                    },
                 );
-            } else if (itemType == "album") {
-                metadataJson.MediaContainer.type = itemType;
-                await plexFuncs.plexAddAlbum(
-                    interaction,
-                    metadataJson.MediaContainer.Metadata[0],
-                    "edit",
-                    playlistOrder,
-                    usePlayNext,
-                );
-            } else {
-                await plexFuncs.plexAddTrack(interaction, usePlayNext, metadataJson.MediaContainer.Metadata[0], "edit");
+
+                const metadataJson = await metadataRequest.json();
+
+                await interaction.deferUpdate();
+
+                if (itemType == "playlist") {
+                    metadataJson.MediaContainer.type = itemType;
+                    await plexFuncs.plexAddPlaylist(
+                        interaction,
+                        metadataJson.MediaContainer,
+                        "edit",
+                        playlistOrder,
+                        usePlayNext,
+                    );
+                } else if (itemType == "album") {
+                    metadataJson.MediaContainer.type = itemType;
+                    await plexFuncs.plexAddAlbum(
+                        interaction,
+                        metadataJson.MediaContainer.Metadata[0],
+                        "edit",
+                        playlistOrder,
+                        usePlayNext,
+                    );
+                } else {
+                    await plexFuncs.plexAddTrack(
+                        interaction,
+                        usePlayNext,
+                        metadataJson.MediaContainer.Metadata[0],
+                        "edit",
+                    );
+                }
             }
+        } catch (err) {
+            console.log(err);
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     }
 });

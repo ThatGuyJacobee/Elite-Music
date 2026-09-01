@@ -1,9 +1,10 @@
 require("dotenv").config();
-const { EmbedBuilder, MessageFlags } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
+const { sendEphemeralError } = require("./interactionGuards");
 const { clear, startInitialPlayback } = require("./softTransitions");
 const {
     buildRequestedByFooter,
@@ -115,10 +116,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
 
         await plexQueuePlay(interaction, responseType, songFound, songFound.thumb, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 }
 
@@ -164,10 +162,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
         try {
             builtTracks.push(newTrack);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.addTracks"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
         }
     }
 
@@ -239,10 +234,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoice"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.joinVoice"));
     }
 
     const imageAttachment = await buildImageAttachment(
@@ -273,10 +265,7 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.playback"));
         }
 
         if (itemMetadata.type == "playlist") {

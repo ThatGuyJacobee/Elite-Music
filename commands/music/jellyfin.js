@@ -9,7 +9,6 @@ const {
     EmbedBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
-    MessageFlags,
 } = require("discord.js");
 const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
@@ -17,6 +16,7 @@ const {
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
     ensureJellyfinEnabled,
+    sendEphemeralError,
 } = require("../../utils/interactionGuards");
 
 const jellyfinScopeSlashOption = (option) =>
@@ -132,10 +132,7 @@ async function runJellyfinFlow(interaction, { subcommand, forcePicker }) {
     try {
         const results = await jellyfinFuncs.jellyfinSearchQuery(query, { scope: searchScope });
         if (!results || (!results.songs?.length && !results.playlists?.length && !results.albums?.length)) {
-            return interaction.reply({
-                content: translate(interaction, "errors.failedToFindMediaQuery"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindMediaQuery"));
         }
 
         await interaction.deferReply();
@@ -311,13 +308,7 @@ async function runJellyfinFlow(interaction, { subcommand, forcePicker }) {
         return jellyfinFuncs.jellyfinAddTrack(interaction, playNextFlag, itemFound, "send");
     } catch (err) {
         console.log(err);
-        const errorMessage = translate(interaction, "errors.playRequest");
-        if (interaction.deferred) {
-            return interaction
-                .followUp({ content: errorMessage, flags: MessageFlags.Ephemeral })
-                .catch(() => interaction.editReply({ content: errorMessage }));
-        }
-        return interaction.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
+        return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
     }
 }
 
@@ -325,20 +316,32 @@ client.on("interactionCreate", async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "jellyfinsearch") {
         await musicFuncs.getQueue(interaction);
-        const allcomponents = interaction.values;
 
-        await interaction.deferUpdate();
+        try {
+            const allcomponents = interaction.values;
 
-        for await (const option of allcomponents) {
-            const { kind, playNext, order, id } = parseJellyfinSelectValue(option);
+            await interaction.deferUpdate();
 
-            if (kind === "playlist") {
-                await jellyfinFuncs.jellyfinAddPlaylist(interaction, { type: "playlist", id }, "edit", order, playNext);
-            } else if (kind === "album") {
-                await jellyfinFuncs.jellyfinAddAlbum(interaction, { type: "album", id }, "edit", order, playNext);
-            } else {
-                await jellyfinFuncs.jellyfinAddTrack(interaction, playNext, { type: "track", id }, "edit");
+            for await (const option of allcomponents) {
+                const { kind, playNext, order, id } = parseJellyfinSelectValue(option);
+
+                if (kind === "playlist") {
+                    await jellyfinFuncs.jellyfinAddPlaylist(
+                        interaction,
+                        { type: "playlist", id },
+                        "edit",
+                        order,
+                        playNext,
+                    );
+                } else if (kind === "album") {
+                    await jellyfinFuncs.jellyfinAddAlbum(interaction, { type: "album", id }, "edit", order, playNext);
+                } else {
+                    await jellyfinFuncs.jellyfinAddTrack(interaction, playNext, { type: "track", id }, "edit");
+                }
             }
+        } catch (err) {
+            console.log(err);
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     }
 });

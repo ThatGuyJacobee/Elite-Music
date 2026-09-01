@@ -2,10 +2,14 @@ require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const { buildAggregatedPlaybackPicker, searchAllPlaybackSources } = require("../../utils/playbackResolver.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageFlags } = require("discord.js");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
-const { ensureDjAccess, ensureInVoiceChannel, ensureSameVoiceChannel } = require("../../utils/interactionGuards");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    sendEphemeralError,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,38 +36,24 @@ module.exports = {
             });
 
             if (!search?.tracks?.length) {
-                return interaction.reply({
-                    content: translate(interaction, "errors.failedToFindSongQuery"),
-                    flags: MessageFlags.Ephemeral,
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
             }
 
             if (search.playlist) {
-                return interaction.reply({
-                    content: translate(interaction, "errors.searchPlaylist"),
-                    flags: MessageFlags.Ephemeral,
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.searchPlaylist"));
             }
 
             await interaction.deferReply();
 
             const groups = await searchAllPlaybackSources(search, query, interaction.client.config);
             if (!groups) {
-                return interaction.editReply({
-                    content: translate(interaction, "errors.noPlaybackSource"),
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.noPlaybackSource"));
             }
 
             await interaction.editReply(buildAggregatedPlaybackPicker(interaction, groups));
         } catch (err) {
             console.log(err);
-            const response = {
-                content: translate(interaction, "errors.playRequest"),
-                flags: MessageFlags.Ephemeral,
-            };
-            return interaction.deferred || interaction.replied
-                ? interaction.followUp(response)
-                : interaction.reply(response);
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     },
 };

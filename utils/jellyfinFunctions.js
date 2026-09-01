@@ -1,9 +1,10 @@
 require("dotenv").config();
-const { EmbedBuilder, MessageFlags } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
+const { sendEphemeralError } = require("./interactionGuards");
 const { clear, startInitialPlayback } = require("./softTransitions");
 const {
     searchItems: jellyfinSearchItems,
@@ -289,10 +290,7 @@ async function jellyfinAddTrack(interaction, nextSong, itemMetadata, responseTyp
     if ((!meta.title || meta.title === "") && meta.id) {
         const itemFromApi = await jellyfinGetItem(client.config, meta.id);
         if (!itemFromApi || itemFromApi.Type !== "Audio") {
-            return interaction.followUp({
-                content: translate(interaction, "errors.jellyfinSongMetadata"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.jellyfinSongMetadata"));
         }
 
         const parentCache = new Map();
@@ -320,10 +318,7 @@ async function jellyfinAddTrack(interaction, nextSong, itemMetadata, responseTyp
 
         await jellyfinQueuePlay(interaction, responseType, meta, meta.imageItemId || meta.id, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 }
 
@@ -336,10 +331,7 @@ async function jellyfinAddPlaylist(
 ) {
     const playlistItems = await jellyfinGetPlaylistItems(client.config, itemMetadata.id);
     if (!playlistItems.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyPlaylist"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.emptyPlaylist"));
     }
 
     let title = itemMetadata.title;
@@ -354,10 +346,7 @@ async function jellyfinAddPlaylist(
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 
     const metaOut = {
@@ -375,10 +364,7 @@ async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMo
     const albumTracks = await jellyfinGetAlbumTracks(client.config, itemMetadata.id);
     const sortedEntries = sortAlbumSongs(albumTracks).filter((entry) => entry && entry.Id != null);
     if (!sortedEntries.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyAlbum"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.emptyAlbum"));
     }
 
     let albumName = itemMetadata.title;
@@ -401,10 +387,7 @@ async function jellyfinAddAlbum(interaction, itemMetadata, responseType, orderMo
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 
     const metaOut = {
@@ -427,10 +410,7 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoiceChannel"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.joinVoiceChannel"));
     }
 
     const coverUrl =
@@ -463,10 +443,7 @@ async function jellyfinQueuePlay(interaction, responseType, itemMetadata, defaul
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.playback"));
         }
 
         if (itemMetadata.type == "playlist") {

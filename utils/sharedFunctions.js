@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
-const { getQueueEmptyResponse, ephemeralReply } = require("./interactionGuards");
+const { getQueueEmptyResponse, sendEphemeralError } = require("./interactionGuards");
 const { clear, createSoftTransitionStream, startInitialPlayback, transition } = require("./softTransitions");
 const {
     buildRequestedByFooter,
@@ -65,11 +65,7 @@ async function addTracks(interaction, nextSong, search, responseType) {
         await queuePlay(interaction, responseType, search, nextSong);
     } catch (err) {
         console.log(err);
-        return interaction.followUp(
-            ephemeralReply({
-                content: translate(interaction, "errors.addTracks"),
-            }),
-        );
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 }
 
@@ -82,11 +78,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp(
-            ephemeralReply({
-                content: translate(interaction, "errors.joinVoice"),
-            }),
-        );
+        return sendEphemeralError(interaction, translate(interaction, "errors.joinVoice"));
     }
 
     // Handle the song/playlist cover image
@@ -115,11 +107,7 @@ async function queuePlay(interaction, responseType, search, nextSong) {
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp(
-                ephemeralReply({
-                    content: translate(interaction, "errors.playback"),
-                }),
-            );
+            return sendEphemeralError(interaction, translate(interaction, "errors.playback"));
         }
 
         if (search.playlist) {

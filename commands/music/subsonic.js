@@ -9,7 +9,6 @@ const {
     EmbedBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
-    MessageFlags,
 } = require("discord.js");
 const { buildRequestedByFooter, translate, translateSearchMediaType } = require("../../utils/botText");
 const {
@@ -17,6 +16,7 @@ const {
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
     ensureSubsonicEnabled,
+    sendEphemeralError,
 } = require("../../utils/interactionGuards");
 
 const subsonicScopeSlashOption = (option) =>
@@ -132,10 +132,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
     try {
         const results = await subsonicFuncs.subsonicSearchQuery(query, { scope: searchScope });
         if (!results || (!results.songs?.length && !results.playlists?.length && !results.albums?.length)) {
-            return interaction.reply({
-                content: translate(interaction, "errors.failedToFindMediaQuery"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindMediaQuery"));
         }
 
         await interaction.deferReply();
@@ -311,13 +308,7 @@ async function runSubsonicFlow(interaction, { subcommand, forcePicker }) {
         return subsonicFuncs.subsonicAddTrack(interaction, playNextFlag, itemFound, "send");
     } catch (err) {
         console.log(err);
-        const errorMessage = translate(interaction, "errors.playRequest");
-        if (interaction.deferred) {
-            return interaction
-                .followUp({ content: errorMessage, flags: MessageFlags.Ephemeral })
-                .catch(() => interaction.editReply({ content: errorMessage }));
-        }
-        return interaction.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
+        return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
     }
 }
 
@@ -325,20 +316,32 @@ client.on("interactionCreate", async (interaction) => {
     if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId == "subsonicsearch") {
         await musicFuncs.getQueue(interaction);
-        const allcomponents = interaction.values;
 
-        await interaction.deferUpdate();
+        try {
+            const allcomponents = interaction.values;
 
-        for await (const option of allcomponents) {
-            const { kind, playNext, order, id } = parseSubsonicSelectValue(option);
+            await interaction.deferUpdate();
 
-            if (kind === "playlist") {
-                await subsonicFuncs.subsonicAddPlaylist(interaction, { type: "playlist", id }, "edit", order, playNext);
-            } else if (kind === "album") {
-                await subsonicFuncs.subsonicAddAlbum(interaction, { type: "album", id }, "edit", order, playNext);
-            } else {
-                await subsonicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
+            for await (const option of allcomponents) {
+                const { kind, playNext, order, id } = parseSubsonicSelectValue(option);
+
+                if (kind === "playlist") {
+                    await subsonicFuncs.subsonicAddPlaylist(
+                        interaction,
+                        { type: "playlist", id },
+                        "edit",
+                        order,
+                        playNext,
+                    );
+                } else if (kind === "album") {
+                    await subsonicFuncs.subsonicAddAlbum(interaction, { type: "album", id }, "edit", order, playNext);
+                } else {
+                    await subsonicFuncs.subsonicAddTrack(interaction, playNext, { type: "track", id }, "edit");
+                }
             }
+        } catch (err) {
+            console.log(err);
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     }
 });

@@ -1,9 +1,10 @@
 require("dotenv").config();
-const { EmbedBuilder, MessageFlags } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { useMainPlayer, QueryType, Track } = require("discord-player");
 const { buildImageAttachment, formatDurationMs } = require("./utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueue } = require("./sharedFunctions");
+const { sendEphemeralError } = require("./interactionGuards");
 const { clear, startInitialPlayback } = require("./softTransitions");
 const {
     search2: subsonicSearch2,
@@ -163,10 +164,7 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
     if ((!meta.title || meta.title === "") && meta.id) {
         const songFromApi = await subsonicGetSong(client.config, meta.id);
         if (!songFromApi) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.subsonicSongMetadata"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.subsonicSongMetadata"));
         }
 
         meta = {
@@ -212,10 +210,7 @@ async function subsonicAddTrack(interaction, nextSong, itemMetadata, responseTyp
 
         await subsonicQueuePlay(interaction, responseType, meta, meta.coverArt, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 }
 
@@ -229,10 +224,7 @@ async function subsonicAddPlaylist(
     const { playlist, entries } = await subsonicGetPlaylist(client.config, itemMetadata.id);
     const playlistEntries = entries.filter((entry) => !entry.isDir);
     if (!playlistEntries.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyPlaylist"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.emptyPlaylist"));
     }
 
     const title = itemMetadata.title && itemMetadata.title !== "" ? itemMetadata.title : playlist.name || "Playlist";
@@ -267,10 +259,7 @@ async function subsonicAddPlaylist(
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 
     const metaOut = {
@@ -289,10 +278,7 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
         (entry) => entry && entry.id != null && entry.id !== "" && !entry.isDir,
     );
     if (!sortedEntries.length) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.emptyAlbum"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.emptyAlbum"));
     }
 
     const albumName = album.name || album.title || itemMetadata.title || "Album";
@@ -330,10 +316,7 @@ async function subsonicAddAlbum(interaction, itemMetadata, responseType, orderMo
         const orderedTracks = applyTrackOrder(builtTracks, orderMode);
         await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
     } catch (err) {
-        return interaction.followUp({
-            content: translate(interaction, "errors.addTracks"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
 
     const metaOut = {
@@ -355,10 +338,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         await clearNpControlMessages(queue);
         clear(queue);
         queue.delete();
-        return interaction.followUp({
-            content: translate(interaction, "errors.joinVoiceChannel"),
-            flags: MessageFlags.Ephemeral,
-        });
+        return sendEphemeralError(interaction, translate(interaction, "errors.joinVoiceChannel"));
     }
 
     const coverUrl =
@@ -391,10 +371,7 @@ async function subsonicQueuePlay(interaction, responseType, itemMetadata, defaul
         try {
             await startInitialPlayback(queue, queue.tracks[0]);
         } catch (err) {
-            return interaction.followUp({
-                content: translate(interaction, "errors.playback"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.playback"));
         }
 
         if (itemMetadata.type == "playlist") {

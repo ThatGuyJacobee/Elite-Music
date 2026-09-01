@@ -7,10 +7,14 @@ const {
     resolvePlaybackSource,
 } = require("../../utils/playbackResolver.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageFlags } = require("discord.js");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
-const { ensureDjAccess, ensureInVoiceChannel, ensureSameVoiceChannel } = require("../../utils/interactionGuards");
+const {
+    ensureDjAccess,
+    ensureInVoiceChannel,
+    ensureSameVoiceChannel,
+    sendEphemeralError,
+} = require("../../utils/interactionGuards");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,10 +42,7 @@ module.exports = {
             });
 
             if (!search || search.tracks.length == 0 || !search.tracks) {
-                return interaction.reply({
-                    content: translate(interaction, "errors.failedToFindSongQuery"),
-                    flags: MessageFlags.Ephemeral,
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
             }
 
             await interaction.deferReply();
@@ -53,9 +54,7 @@ module.exports = {
 
             const resolution = await resolvePlaybackSource(search, query, interaction.client.config);
             if (!resolution) {
-                return interaction.editReply({
-                    content: translate(interaction, "errors.noPlaybackSource"),
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.noPlaybackSource"));
             }
 
             if (resolution.results.length === 1) {
@@ -65,10 +64,7 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
-            return interaction.followUp({
-                content: translate(interaction, "errors.playRequest"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     },
 };
@@ -83,18 +79,11 @@ client.on("interactionCreate", async (interaction) => {
 
             const result = await addPlaybackSelection(interaction, interaction.customId, interaction.values[0], "edit");
             if (!result) {
-                return interaction.editReply({
-                    content: translate(interaction, "errors.failedToFindSong"),
-                    embeds: [],
-                    components: [],
-                });
+                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSong"));
             }
         } catch (err) {
             console.log(err);
-            return interaction.followUp({
-                content: translate(interaction, "errors.playRequest"),
-                flags: MessageFlags.Ephemeral,
-            });
+            return sendEphemeralError(interaction, translate(interaction, "errors.playRequest"));
         }
     }
 });
