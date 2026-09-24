@@ -15,6 +15,7 @@ Loving this open-source project? Leaving a ⭐ on the repository would be much a
 - Full translation support for 30+ languages.
 - Wide range of audio filters.
 - Awesome playback UI.
+- A startup cow to confirm the bot is ready. 🐄
 - And much more!
 
 Elite Music was originally a part of my verified Discord bot... [Elite Bot](https://elite-bot.com/), but the music section had to be removed due to verification issues. Therefore, in a win situation, I decided to open-source the bot's music code in this repository. And even better, I decided to rewrite the entire bot to improve the code's feature set and overall quality.
