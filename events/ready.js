@@ -16,7 +16,7 @@ const {
     resolveUserId: jellyfinResolveUserId,
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
-const { parseSourceOrder } = require("../utils/playbackResolver");
+const { VALID_SOURCES, parseSourceOrder } = require("../utils/playbackResolver");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
@@ -60,7 +60,7 @@ module.exports = {
                 fallback: client.config.playbackSourceOrder,
                 onInvalid: (source) =>
                     console.log(
-                        `[ELITE_CONFIG] Ignoring unknown PLAYBACK_SOURCE_ORDER source "${source}". Supported sources: plex, subsonic, jellyfin, youtube.`,
+                        `[ELITE_CONFIG] Ignoring unknown PLAYBACK_SOURCE_ORDER source "${source}". Supported sources: ${VALID_SOURCES.join(", ")}.`,
                     ),
                 onAlias: (requested, source) =>
                     console.log(
@@ -396,13 +396,14 @@ module.exports = {
                     (source === "subsonic" && client.config.enableSubsonic) ||
                     (source === "jellyfin" && client.config.enableJellyfin),
             );
-            console.log(
-                `[ELITE_CONFIG] Effective /play source order: ${
-                    effectivePlaybackSources.length > 0
-                        ? effectivePlaybackSources.join(" -> ")
-                        : "none (playback requests will fail when no source matches)"
-                }`,
-            );
+            if (effectivePlaybackSources.length > 0) {
+                console.log(`[ELITE_CONFIG] Effective /play source order: ${effectivePlaybackSources.join(" -> ")}`);
+            } else {
+                const librarySources = VALID_SOURCES.filter((source) => source !== "youtube").join(", ");
+                console.log(
+                    `[ELITE_CONFIG] Effective /play source order: none. No playback sources are enabled: add "youtube" to PLAYBACK_SOURCE_ORDER, or enable one of the library addons (${librarySources}).`,
+                );
+            }
 
             // Check for an outdated configuration
             if (process.env.CFG_VERSION == null || process.env.CFG_VERSION != 2.3) {

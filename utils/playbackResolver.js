@@ -470,6 +470,7 @@ async function addPlaybackSelection(interaction, customId, identifier, responseT
 }
 
 module.exports = {
+    VALID_SOURCES,
     addPlaybackSelection,
     addResolvedTrack,
     buildAggregatedPlaybackPicker,
