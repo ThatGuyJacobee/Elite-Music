@@ -134,6 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
+            "youtube": "YouTube",
+            "direct": "Do?rudan ba?lant?",
             "default": "Varsayılan (discord-player)"
         },
         "startedTitle": "Oynatma başladı ▶️",

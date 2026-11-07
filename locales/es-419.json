@@ -134,6 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
+            "youtube": "YouTube",
+            "direct": "Enlace directo",
             "default": "Predeterminado (discord-player)"
         },
         "startedTitle": "Reproducción iniciada ▶️",

@@ -134,6 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
+            "youtube": "YouTube",
+            "direct": "Директна връзка",
             "default": "По подразбиране (discord-player)"
         },
         "startedTitle": "Започнато възпроизвеждане ▶️",
