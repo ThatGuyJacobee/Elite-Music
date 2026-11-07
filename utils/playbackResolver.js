@@ -221,8 +221,19 @@ async function searchProvider(source, query) {
     }
 }
 
+function isArbitraryTrack(track) {
+    const queryType = track?.queryType ?? track?.raw?.queryType;
+    return queryType === QueryType.ARBITRARY || queryType === QueryType.FILE;
+}
+
+function directSourceResults(extractedTracks) {
+    return extractedTracks.filter(isArbitraryTrack).map((item) => ({ source: "direct", item, extractedTrack: item }));
+}
+
 function youtubeSourceResults(extractedTracks) {
-    return extractedTracks.map((item) => ({ source: "youtube", item, extractedTrack: item }));
+    return extractedTracks
+        .filter((item) => !isArbitraryTrack(item))
+        .map((item) => ({ source: "youtube", item, extractedTrack: item }));
 }
 
 async function resolveSourceResults(source, extractedTracks, query, config) {
@@ -239,6 +250,9 @@ async function resolveSourceResults(source, extractedTracks, query, config) {
 async function resolvePlaybackSource(search, originalQuery, config) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
+
+    const directResults = directSourceResults(extractedTracks);
+    if (directResults.length > 0) return { source: "direct", results: directResults };
 
     const query = providerQuery(originalQuery, extractedTracks);
     for (const source of parseSourceOrder(config.playbackSourceOrder)) {
@@ -269,7 +283,8 @@ async function addResolvedTrack(interaction, nextSong, result, responseType) {
     interaction.playbackSource = result.source;
 
     try {
-        if (result.source === "youtube") {
+        const provider = playbackProviders[result.source];
+        if (!provider) {
             return await musicFuncs.addTracks(
                 interaction,
                 nextSong,
@@ -277,23 +292,25 @@ async function addResolvedTrack(interaction, nextSong, result, responseType) {
                 responseType,
             );
         }
-        return await playbackProviders[result.source].add(interaction, nextSong, result.item, responseType);
+        return await provider.add(interaction, nextSong, result.item, responseType);
     } finally {
         delete interaction.playbackSource;
     }
 }
 
 function selectionIdentifier(result) {
-    return result.source === "youtube" ? result.item.url : playbackProviders[result.source].identifier(result.item);
+    return playbackProviders[result.source]
+        ? playbackProviders[result.source].identifier(result.item)
+        : result.item.url;
 }
 
 function resultDuration(result) {
-    if (result.source === "youtube") return result.item.duration || "--:--";
+    if (!playbackProviders[result.source]) return result.item.duration || "--:--";
     return formatDurationMs(parseDurationMs(result.item.rawDuration ?? result.item.duration));
 }
 
 function resultDescription(result) {
-    if (result.source === "youtube") return result.item.description || result.item.author || result.item.title;
+    if (!playbackProviders[result.source]) return result.item.description || result.item.author || result.item.title;
 
     const artist = result.item.grandparentTitle || result.item.artist || result.item.author;
     const album = result.item.parentTitle || result.item.album;
@@ -391,7 +408,7 @@ function buildPicker(interaction, options) {
 
 function buildPlaybackPicker(interaction, resolution, nextSong) {
     const source = resolution.source;
-    const titleKey = source === "youtube" ? "search.resultsTitle" : `search.${source}Title`;
+    const titleKey = playbackProviders[source] ? `search.${source}Title` : "search.resultsTitle";
 
     return buildPicker(interaction, {
         title: translate(interaction, titleKey),
