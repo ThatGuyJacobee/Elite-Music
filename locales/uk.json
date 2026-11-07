@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Пряме посилання",
-            "default": "За замовчуванням (discord-player)"
+            "direct": "Пряме посилання"
         },
         "startedTitle": "Відтворення розпочато ▶️",
         "addedTitle": "Додано до черги ⏱️",

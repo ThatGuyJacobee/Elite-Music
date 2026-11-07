@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "ダイレクトリンク",
-            "default": "デフォルト (discord-player)"
+            "direct": "ダイレクトリンク"
         },
         "startedTitle": "再生開始 ▶️",
         "addedTitle": "キューに追加 ⏱️",

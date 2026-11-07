@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Direct link",
-            "default": "Default (discord-player)"
+            "direct": "Direct link"
         },
         "startedTitle": "Started playback ▶️",
         "addedTitle": "Added to queue ⏱️",

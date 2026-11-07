@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "सीधा लिंक",
-            "default": "डिफ़ॉल्ट (discord-player)"
+            "direct": "सीधा लिंक"
         },
         "startedTitle": "प्लेबैक शुरू ▶️",
         "addedTitle": "कतार में जोड़ा गया ⏱️",

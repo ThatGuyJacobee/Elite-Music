@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Izravna poveznica",
-            "default": "Zadano (discord-player)"
+            "direct": "Izravna poveznica"
         },
         "startedTitle": "Reprodukcija započeta ▶️",
         "addedTitle": "Dodano u red čekanja ⏱️",

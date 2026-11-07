@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Directe link",
-            "default": "Standaard (discord-player)"
+            "direct": "Directe link"
         },
         "startedTitle": "Afspelen gestart ▶️",
         "addedTitle": "Toegevoegd aan wachtrij ⏱️",

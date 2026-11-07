@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Прямая ссылка",
-            "default": "По умолчанию (discord-player)"
+            "direct": "Прямая ссылка"
         },
         "startedTitle": "Воспроизведение началось ▶️",
         "addedTitle": "Добавлено в очередь ⏱️",

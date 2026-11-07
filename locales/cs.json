@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Přímý odkaz",
-            "default": "Výchozí (discord-player)"
+            "direct": "Přímý odkaz"
         },
         "startedTitle": "Přehrávání zahájeno ▶️",
         "addedTitle": "Přidáno do fronty ⏱️",

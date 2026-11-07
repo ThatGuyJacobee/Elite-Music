@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Li?n k?t tr?c ti?p",
-            "default": "Mặc định (discord-player)"
+            "direct": "Li?n k?t tr?c ti?p"
         },
         "startedTitle": "Bắt đầu phát ▶️",
         "addedTitle": "Đã thêm vào hàng đợi ⏱️",

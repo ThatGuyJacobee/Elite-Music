@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "ลิงก์โดยตรง",
-            "default": "ค่าเริ่มต้น (discord-player)"
+            "direct": "ลิงก์โดยตรง"
         },
         "startedTitle": "เริ่มเล่น ▶️",
         "addedTitle": "เพิ่มลงคิว ⏱️",

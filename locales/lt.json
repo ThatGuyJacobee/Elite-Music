@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Tiesiogin? nuoroda",
-            "default": "Numatytasis (discord-player)"
+            "direct": "Tiesiogin? nuoroda"
         },
         "startedTitle": "Atkūrimas pradėtas ▶️",
         "addedTitle": "Pridėta į eilę ⏱️",

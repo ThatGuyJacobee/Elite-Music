@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "직접 링크",
-            "default": "기본값 (discord-player)"
+            "direct": "직접 링크"
         },
         "startedTitle": "재생 시작 ▶️",
         "addedTitle": "대기열에 추가 ⏱️",

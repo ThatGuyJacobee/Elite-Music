@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Tautan langsung",
-            "default": "Default (discord-player)"
+            "direct": "Tautan langsung"
         },
         "startedTitle": "Pemutaran dimulai ▶️",
         "addedTitle": "Ditambahkan ke antrean ⏱️",

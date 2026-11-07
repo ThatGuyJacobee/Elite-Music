@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Lien direct",
-            "default": "Par défaut (discord-player)"
+            "direct": "Lien direct"
         },
         "startedTitle": "Lecture lancée ▶️",
         "addedTitle": "Ajouté à la file d'attente ⏱️",

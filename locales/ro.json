@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Link direct",
-            "default": "Implicit (discord-player)"
+            "direct": "Link direct"
         },
         "startedTitle": "Redarea a început ▶️",
         "addedTitle": "Adăugat în coadă ⏱️",

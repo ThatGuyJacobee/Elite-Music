@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "直接链接",
-            "default": "默认（discord-player）"
+            "direct": "直接链接"
         },
         "startedTitle": "开始播放 ▶️",
         "addedTitle": "已添加到队列 ⏱️",

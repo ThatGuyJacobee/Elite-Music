@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Suora linkki",
-            "default": "Oletus (discord-player)"
+            "direct": "Suora linkki"
         },
         "startedTitle": "Toisto aloitettu ▶️",
         "addedTitle": "Lisätty jonoon ⏱️",

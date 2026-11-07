@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Άμεσος σύνδεσμος",
-            "default": "Προεπιλογή (discord-player)"
+            "direct": "Άμεσος σύνδεσμος"
         },
         "startedTitle": "Η αναπαραγωγή ξεκίνησε ▶️",
         "addedTitle": "Προστέθηκε στην ουρά ⏱️",

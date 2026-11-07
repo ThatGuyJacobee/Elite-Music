@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Do?rudan ba?lant?",
-            "default": "Varsayılan (discord-player)"
+            "direct": "Do?rudan ba?lant?"
         },
         "startedTitle": "Oynatma başladı ▶️",
         "addedTitle": "Kuyruğa eklendi ⏱️",

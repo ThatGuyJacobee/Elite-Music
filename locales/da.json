@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Direkte link",
-            "default": "Standard (discord-player)"
+            "direct": "Direkte link"
         },
         "startedTitle": "Afspilning startet ▶️",
         "addedTitle": "Tilføjet til kø ⏱️",

@@ -135,8 +135,7 @@
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
             "youtube": "YouTube",
-            "direct": "Direktl?nk",
-            "default": "Standard (discord-player)"
+            "direct": "Direktl?nk"
         },
         "startedTitle": "Uppspelning startad ▶️",
         "addedTitle": "Tillagd i kö ⏱️",
