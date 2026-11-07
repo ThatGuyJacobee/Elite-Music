@@ -130,14 +130,20 @@ Once you have followed the appropriate steps for the optional feature that you w
 The environment variable `PLAYBACK_SOURCE_ORDER` allows you to control which audio sources are used by the `/play` and `/playnext` commands. After extracting the requested song information, each configured source is checked from left to right until a confident match is found. `/search` uses the same order, but lists confident matches from every configured source instead of stopping at the first hit.
 
 ```env
-PLAYBACK_SOURCE_ORDER='plex,subsonic,jellyfin,default'
+PLAYBACK_SOURCE_ORDER='plex,subsonic,jellyfin,youtube'
 ```
 
-The available sources are `plex`, `subsonic`, `jellyfin`, and `default`. The `default` source uses the normal discord-player playback methods which is mainly YouTube or direct URL streaming where applicable.
+The available sources are `plex`, `subsonic`, `jellyfin`, and `youtube`. The `youtube` source plays the extracted track through discord-player, which covers YouTube searches as well as links to services such as Spotify and SoundCloud.
 
-You can remove or reorder these sources depending on your setup. For example, use `PLAYBACK_SOURCE_ORDER='subsonic'` to only play matched Subsonic tracks, or `PLAYBACK_SOURCE_ORDER='default'` to retain the original playback behaviour. Any optional addon that is not enabled will be skipped automatically.
+The song information is always extracted, whatever the configured sources are, so a library match can still be found when every streaming source is disabled. The order only decides where the audio is played from: leave `youtube` out and the bot never streams from YouTube, reporting that no playback source could provide the song instead.
 
-If the option is missing, empty, or contains no valid sources, it defaults to `default`.
+Direct links are always played regardless of the order. Pasting an MP3 or internet radio URL streams it as-is and does not use any of the configured sources.
+
+You can remove or reorder these sources depending on your setup. For example, use `PLAYBACK_SOURCE_ORDER='subsonic'` to only play matched Subsonic tracks, or `PLAYBACK_SOURCE_ORDER='youtube'` to keep the original behaviour where YouTube is the only source. Any optional addon that is not enabled will be skipped automatically.
+
+The previous `default` source is still accepted as an alias for `youtube`, but logs a deprecation notice and will be removed in a future release.
+
+If the option is missing, empty, or contains no valid sources, it defaults to `youtube`.
 
 ### Plex Media Server playback
 
