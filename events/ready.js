@@ -60,7 +60,11 @@ module.exports = {
                 fallback: client.config.playbackSourceOrder,
                 onInvalid: (source) =>
                     console.log(
-                        `[ELITE_CONFIG] Ignoring unknown PLAYBACK_SOURCE_ORDER source "${source}". Supported sources: plex, subsonic, jellyfin, default.`,
+                        `[ELITE_CONFIG] Ignoring unknown PLAYBACK_SOURCE_ORDER source "${source}". Supported sources: plex, subsonic, jellyfin, youtube.`,
+                    ),
+                onAlias: (requested, source) =>
+                    console.log(
+                        `[ELITE_CONFIG] PLAYBACK_SOURCE_ORDER uses the deprecated "${requested}" source. Use "${source}" instead.`,
                     ),
             });
 
@@ -387,7 +391,7 @@ module.exports = {
 
             const effectivePlaybackSources = client.config.playbackSourceOrder.filter(
                 (source) =>
-                    source === "default" ||
+                    source === "youtube" ||
                     (source === "plex" && client.config.enablePlex) ||
                     (source === "subsonic" && client.config.enableSubsonic) ||
                     (source === "jellyfin" && client.config.enableJellyfin),
