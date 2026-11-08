@@ -1,6 +1,7 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const { addResolvedTrack, buildPlaybackPicker, resolvePlaybackSource } = require("../../utils/playbackResolver.js");
+const { ensurePlaybackSourceAvailable, playbackSlashOption } = require("../../utils/playbackOptions.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
@@ -20,11 +21,16 @@ module.exports = {
                 .setName("music")
                 .setDescription("Either the name or URL of the song you want to play (no playlists).")
                 .setRequired(true),
-        ),
+        )
+        .addStringOption(playbackSlashOption),
     async execute(interaction) {
         if (!(await ensureDjAccess(interaction))) return;
         if (!(await ensureInVoiceChannel(interaction))) return;
         if (!(await ensureSameVoiceChannel(interaction))) return;
+
+        const playback = interaction.options.getString("playback");
+        const forcedSource = playback && playback !== "auto" ? playback : null;
+        if (!(await ensurePlaybackSourceAvailable(interaction, forcedSource))) return;
 
         const query = interaction.options.getString("music");
         const player = useMainPlayer();
@@ -46,9 +52,14 @@ module.exports = {
 
             await interaction.deferReply();
 
-            const resolution = await resolvePlaybackSource(search, query, interaction.client.config);
+            const resolution = await resolvePlaybackSource(search, query, interaction.client.config, forcedSource);
             if (!resolution) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.noPlaybackSource"));
+                return sendEphemeralError(
+                    interaction,
+                    translate(interaction, forcedSource ? "errors.playbackSourceNoMatch" : "errors.noPlaybackSource", {
+                        source: forcedSource ? translate(interaction, `playback.sources.${forcedSource}`) : null,
+                    }),
+                );
             }
 
             if (resolution.results.length === 1) {

@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ooops... something went wrong, couldn't find the song with the requested query.",
         "failedToFindSong": "❌ | Ooops... something went wrong, couldn't find the song.",
         "noPlaybackSource": "❌ | None of the configured playback sources could provide the requested song.",
+        "playbackSourceNotInOrder": "❌ | {source} isn't included in this server's /play source order. Ask the server admin to add it.",
+        "playbackSourceNoMatch": "❌ | {source} couldn't find a match for that track.",
         "playRequest": "❌ | Ooops... something went wrong whilst attempting to play the requested song. Please try again.",
         "addTracks": "❌ | Ooops... something went wrong, failed to add the track(s) to the queue.",
         "joinVoice": "❌ | Ooops... something went wrong, couldn't join your channel.",
@@ -199,6 +201,7 @@
                 "library": "Search query for a track, playlist, or album.",
                 "search": "Either the name or URL of the song you want to search for."
             },
+            "playback": "Which audio source to use for this request. Ignored for playlists and direct links.",
             "filter": "What filter do you want to toggle?",
             "query": "Enter the name of the song.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Off",
                 "1": "Track",
                 "2": "Queue"
+            },
+            "playback": {
+                "auto": "Auto (server order)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },
