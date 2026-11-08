@@ -167,6 +167,21 @@ function parseSourceOrder(value, { fallback = ["youtube"], onInvalid, onAlias } 
     return sourceOrder.length > 0 ? sourceOrder : [...fallback];
 }
 
+function getAvailablePlaybackSources(config) {
+    return parseSourceOrder(config.playbackSourceOrder).filter(
+        (source) => !playbackProviders[source] || playbackProviders[source].enabled(config),
+    );
+}
+
+function getPlaybackSourceAvailability(config, source) {
+    if (!VALID_SOURCES.includes(source)) return "invalid";
+
+    if (playbackProviders[source] && !playbackProviders[source].enabled(config)) return "disabled";
+    if (!parseSourceOrder(config.playbackSourceOrder).includes(source)) return "not-in-order";
+
+    return "available";
+}
+
 function providerQuery(originalQuery, extractedTracks) {
     const query = String(originalQuery || "").trim();
     const isUrl = /^[a-z][a-z0-9+.-]*:/i.test(query);
@@ -247,7 +262,7 @@ async function resolveSourceResults(source, extractedTracks, query, config) {
     return matchProviderItems(source, await searchProvider(source, query), extractedTracks);
 }
 
-async function resolvePlaybackSource(search, originalQuery, config) {
+async function resolvePlaybackSource(search, originalQuery, config, forcedSource = null) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
@@ -255,7 +270,9 @@ async function resolvePlaybackSource(search, originalQuery, config) {
     if (directResults.length > 0) return { source: "direct", results: directResults };
 
     const query = providerQuery(originalQuery, extractedTracks);
-    for (const source of parseSourceOrder(config.playbackSourceOrder)) {
+    const requestedSource = forcedSource && forcedSource !== "auto" ? forcedSource : null;
+    const sources = requestedSource ? [requestedSource] : parseSourceOrder(config.playbackSourceOrder);
+    for (const source of sources) {
         const results = await resolveSourceResults(source, extractedTracks, query, config);
         if (results.length > 0) return { source, results };
     }
@@ -475,6 +492,8 @@ module.exports = {
     addResolvedTrack,
     buildAggregatedPlaybackPicker,
     buildPlaybackPicker,
+    getAvailablePlaybackSources,
+    getPlaybackSourceAvailability,
     parseSourceOrder,
     resolvePlaybackSource,
     searchAllPlaybackSources,

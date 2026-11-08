@@ -141,6 +141,8 @@ Direct links are always played regardless of the order. Pasting an MP3 or intern
 
 You can remove or reorder these sources depending on your setup. For example, use `PLAYBACK_SOURCE_ORDER='subsonic'` to only play matched Subsonic tracks, or `PLAYBACK_SOURCE_ORDER='youtube'` to keep the original behaviour where YouTube is the only source. Any optional addon that is not enabled will be skipped automatically.
 
+The `/play` and `/playnext` commands accept an optional `playback` option to force a single source for that request, for example `/play music:Rick Astley - Never Gonna Give You Up playback:Plex`. The choices are `auto`, `plex`, `subsonic`, `jellyfin`, and `youtube`; `auto` keeps the configured order. Asking for a source that is disabled or missing from `PLAYBACK_SOURCE_ORDER` returns a clear error instead of falling back, so the option cannot bypass your configuration. It is ignored for playlists and direct links, which are always handled as described above.
+
 The previous `default` source is still accepted as an alias for `youtube`, but logs a deprecation notice and will be removed in a future release.
 
 If the option is missing, empty, or contains no valid sources, it defaults to `youtube`.
