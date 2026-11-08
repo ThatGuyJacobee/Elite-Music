@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden met de opgegeven zoekopdracht.",
         "failedToFindSong": "❌ | Oeps... er ging iets mis, het nummer kon niet worden gevonden.",
         "noPlaybackSource": "❌ | Geen van de geconfigureerde afspeelbronnen kon het gevraagde nummer leveren.",
+        "playbackSourceNotInOrder": "❌ | {source} staat niet in de /play-bronvolgorde van deze server. Vraag de serverbeheerder om het toe te voegen.",
+        "playbackSourceNoMatch": "❌ | {source} kon geen overeenkomst vinden voor dat nummer.",
         "playRequest": "❌ | Oeps... er ging iets mis tijdens het proberen af te spelen van het gevraagde nummer. Probeer het opnieuw.",
         "addTracks": "❌ | Oeps... er ging iets mis, de track(s) konden niet aan de wachtrij worden toegevoegd.",
         "joinVoice": "❌ | Oeps... er ging iets mis, ik kon je kanaal niet joinen.",
@@ -199,6 +201,7 @@
                 "library": "Zoekopdracht voor een track, playlist of album.",
                 "search": "De naam of URL van het nummer dat je wilt zoeken."
             },
+            "playback": "Audiobron voor dit verzoek. Genegeerd voor playlists en directe links.",
             "filter": "Welk filter wil je omzetten?",
             "query": "Voer de naam van het nummer in.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Uit",
                 "1": "Track",
                 "2": "Wachtrij"
+            },
+            "playback": {
+                "auto": "Auto (servervolgorde)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

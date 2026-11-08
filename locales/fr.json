@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson avec la requête demandée.",
         "failedToFindSong": "❌ | Oups... quelque chose s'est mal passé, impossible de trouver la chanson.",
         "noPlaybackSource": "❌ | Aucune des sources de lecture configurées n’a pu fournir le morceau demandé.",
+        "playbackSourceNotInOrder": "❌ | {source} ne fait pas partie de l'ordre des sources /play de ce serveur. Demandez à l'administrateur du serveur de l'ajouter.",
+        "playbackSourceNoMatch": "❌ | {source} n'a trouvé aucune correspondance pour ce morceau.",
         "playRequest": "❌ | Oups... quelque chose s'est mal passé lors de la tentative de lecture de la chanson demandée. Veuillez réessayer.",
         "addTracks": "❌ | Oups... quelque chose s'est mal passé, impossible d'ajouter la ou les pistes à la file d'attente.",
         "joinVoice": "❌ | Oups... quelque chose s'est mal passé, impossible de rejoindre votre salon.",
@@ -199,6 +201,7 @@
                 "library": "Requête de recherche pour une piste, une playlist ou un album.",
                 "search": "Le nom ou l'URL de la chanson que vous souhaitez rechercher."
             },
+            "playback": "Source audio pour cette demande. Ignorée pour les playlists et liens directs.",
             "filter": "Quel filtre souhaitez-vous activer ou désactiver ?",
             "query": "Entrez le nom de la chanson.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Désactivé",
                 "1": "Piste",
                 "2": "File d'attente"
+            },
+            "playback": {
+                "auto": "Auto (ordre du serveur)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

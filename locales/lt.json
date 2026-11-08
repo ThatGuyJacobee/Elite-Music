@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos pagal pateiktą užklausą.",
         "failedToFindSong": "❌ | Oi... kažkas nepavyko, nepavyko rasti dainos.",
         "noPlaybackSource": "❌ | Nė vienas sukonfigūruotas atkūrimo šaltinis negalėjo pateikti prašomos dainos.",
+        "playbackSourceNotInOrder": "❌ | {source} nėra šio serverio /play šaltinių tvarkoje. Paprašykite serverio administratoriaus jį pridėti.",
+        "playbackSourceNoMatch": "❌ | {source} nerado atitikmens šiam kūriniui.",
         "playRequest": "❌ | Oi... kažkas nepavyko bandant paleisti prašomą dainą. Bandykite dar kartą.",
         "addTracks": "❌ | Oi... kažkas nepavyko, nepavyko pridėti kūrinio(-ių) į eilę.",
         "joinVoice": "❌ | Oi... kažkas nepavyko, nepavyko prisijungti prie jūsų kanalo.",
@@ -199,6 +201,7 @@
                 "library": "Paieškos užklausa kūriniui, grojaraščiui arba albumui.",
                 "search": "Dainos, kurią norite ieškoti, pavadinimas arba URL."
             },
+            "playback": "Garso šaltinis šiai užklausai. Nepaisoma grojaraščių ir tiesioginių nuorodų.",
             "filter": "Kurį filtrą norite perjungti?",
             "query": "Įveskite dainos pavadinimą.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Išjungta",
                 "1": "Kūrinys",
                 "2": "Eilė"
+            },
+            "playback": {
+                "auto": "Auto (serverio tvarka)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

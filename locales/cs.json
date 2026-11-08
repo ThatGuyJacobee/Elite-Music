@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu pro zadaný dotaz.",
         "failedToFindSong": "❌ | Ups... něco se pokazilo, nepodařilo se najít skladbu.",
         "noPlaybackSource": "❌ | Žádný z nakonfigurovaných zdrojů přehrávání nemohl poskytnout požadovanou skladbu.",
+        "playbackSourceNotInOrder": "❌ | {source} není součástí pořadí zdrojů pro /play na tomto serveru. Požádejte administrátora serveru, aby ho přidal.",
+        "playbackSourceNoMatch": "❌ | {source} pro tuto skladbu nenašel žádnou shodu.",
         "playRequest": "❌ | Ups... něco se pokazilo při pokusu o přehrání požadované skladby. Zkuste to prosím znovu.",
         "addTracks": "❌ | Ups... něco se pokazilo, nepodařilo se přidat skladbu/y do fronty.",
         "joinVoice": "❌ | Ups... něco se pokazilo, nepodařilo se připojit k vašemu kanálu.",
@@ -199,6 +201,7 @@
                 "library": "Vyhledávací dotaz pro skladbu, playlist nebo album.",
                 "search": "Název nebo URL skladby, kterou chcete hledat."
             },
+            "playback": "Zdroj zvuku pro tento požadavek. U playlistů a přímých odkazů se ignoruje.",
             "filter": "Který filtr chcete přepnout?",
             "query": "Zadejte název skladby.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Off",
                 "1": "Track",
                 "2": "Queue"
+            },
+            "playback": {
+                "auto": "Auto (pořadí serveru)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

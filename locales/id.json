@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu dengan kueri yang diminta.",
         "failedToFindSong": "❌ | Ups... ada yang salah, tidak dapat menemukan lagu.",
         "noPlaybackSource": "❌ | Tidak ada sumber pemutaran yang dikonfigurasi yang dapat menyediakan lagu yang diminta.",
+        "playbackSourceNotInOrder": "❌ | {source} tidak termasuk dalam urutan sumber /play server ini. Minta admin server untuk menambahkannya.",
+        "playbackSourceNoMatch": "❌ | {source} tidak menemukan kecocokan untuk lagu tersebut.",
         "playRequest": "❌ | Ups... ada yang salah saat mencoba memutar lagu yang diminta. Silakan coba lagi.",
         "addTracks": "❌ | Ups... ada yang salah, gagal menambahkan trek ke antrean.",
         "joinVoice": "❌ | Ups... ada yang salah, tidak dapat bergabung ke saluran Anda.",
@@ -199,6 +201,7 @@
                 "library": "Kueri pencarian untuk trek, playlist, atau album.",
                 "search": "Nama atau URL lagu yang ingin Anda cari."
             },
+            "playback": "Sumber audio untuk permintaan ini. Diabaikan untuk playlist dan tautan langsung.",
             "filter": "Filter apa yang ingin Anda alihkan?",
             "query": "Masukkan nama lagu.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Mati",
                 "1": "Trek",
                 "2": "Antrean"
+            },
+            "playback": {
+                "auto": "Otomatis (urutan server)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

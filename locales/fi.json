@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt haulla.",
         "failedToFindSong": "❌ | Hups... jotain meni pieleen, kappaletta ei löytynyt.",
         "noPlaybackSource": "❌ | Yksikään määritetyistä toistolähteistä ei pystynyt tarjoamaan pyydettyä kappaletta.",
+        "playbackSourceNotInOrder": "❌ | {source} ei sisälly tämän palvelimen /play-lähdejärjestykseen. Pyydä palvelimen ylläpitäjää lisäämään se.",
+        "playbackSourceNoMatch": "❌ | {source} ei löytänyt vastaavuutta kyseiselle kappaleelle.",
         "playRequest": "❌ | Hups... jotain meni pieleen yritettäessä toistaa pyydettyä kappaletta. Yritä uudelleen.",
         "addTracks": "❌ | Hups... jotain meni pieleen, kappale(tta) ei voitu lisätä jonoon.",
         "joinVoice": "❌ | Hups... jotain meni pieleen, kanavaan liittyminen epäonnistui.",
@@ -199,6 +201,7 @@
                 "library": "Hakukysely kappaleelle, soittolistalle tai albumille.",
                 "search": "Haettavan kappaleen nimi tai URL-osoite."
             },
+            "playback": "Äänilähde tälle pyynnölle. Ohitetaan soittolistoilla ja suorilla linkeillä.",
             "filter": "Minkä suodattimen haluat vaihtaa?",
             "query": "Syötä kappaleen nimi.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Pois",
                 "1": "Kappale",
                 "2": "Jono"
+            },
+            "playback": {
+                "auto": "Auto (palvelimen järjestys)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oops... ceva a mers prost, nu am găsit piesa pentru interogarea cerută.",
         "failedToFindSong": "❌ | Oops... ceva a mers prost, nu am găsit piesa.",
         "noPlaybackSource": "❌ | Niciuna dintre sursele de redare configurate nu a putut oferi piesa solicitată.",
+        "playbackSourceNotInOrder": "❌ | {source} nu face parte din ordinea surselor /play a acestui server. Cere administratorului serverului să îl adauge.",
+        "playbackSourceNoMatch": "❌ | {source} nu a găsit nicio potrivire pentru acea piesă.",
         "playRequest": "❌ | Oops... ceva a mers prost în timp ce încercam să redau piesa cerută. Încearcă din nou.",
         "addTracks": "❌ | Oops... ceva a mers prost, nu am reușit să adaug piesa/ piesele în coadă.",
         "joinVoice": "❌ | Oops... ceva a mers prost, nu am reușit să mă alătur canalului tău.",
@@ -199,6 +201,7 @@
                 "library": "Interogare de căutare pentru o piesă, un playlist sau un album.",
                 "search": "Numele sau URL-ul melodiei pe care vrei să o cauți."
             },
+            "playback": "Sursă audio pentru această cerere. Ignorată pentru playlisturi și linkuri directe.",
             "filter": "Ce filtru vrei să comuți?",
             "query": "Introdu numele piesei.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Oprit",
                 "1": "Piesă",
                 "2": "Coadă"
+            },
+            "playback": {
+                "auto": "Auto (ordinea serverului)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

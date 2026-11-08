@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oisann... noe gikk galt, fant ikke sangen med det gitte søket.",
         "failedToFindSong": "❌ | Oisann... noe gikk galt, fant ikke sangen.",
         "noPlaybackSource": "❌ | Ingen av de konfigurerte avspillingskildene kunne levere den ønskede sangen.",
+        "playbackSourceNotInOrder": "❌ | {source} er ikke inkludert i denne serverens /play-kilderekkefølge. Be serveradministratoren om å legge det til.",
+        "playbackSourceNoMatch": "❌ | {source} fant ingen treff for den låten.",
         "playRequest": "❌ | Oisann... noe gikk galt mens jeg forsøkte å spille den forespurte sangen. Prøv igjen.",
         "addTracks": "❌ | Oisann... noe gikk galt, klarte ikke å legge til sporet/sporene i køen.",
         "joinVoice": "❌ | Oisann... noe gikk galt, klarte ikke å bli med i kanalen din.",
@@ -199,6 +201,7 @@
                 "library": "Søketøy for et spor, en spilleliste eller et album.",
                 "search": "Navnet eller URL-en til sangen du vil søke etter."
             },
+            "playback": "Lydkilde for denne forespørselen. Ignoreres for spillelister og direkte lenker.",
             "filter": "Hvilket filter vil du slå av/på?",
             "query": "Skriv inn navnet på sangen.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Av",
                 "1": "Spor",
                 "2": "Kø"
+            },
+            "playback": {
+                "auto": "Auto (serverrekkefølge)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

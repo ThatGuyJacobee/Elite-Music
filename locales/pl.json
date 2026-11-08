@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... coś poszło nie tak, nie udało się znaleźć utworu dla podanego zapytania.",
         "failedToFindSong": "❌ | Ups... coś poszło nie tak, nie udało się znaleźć utworu.",
         "noPlaybackSource": "❌ | Żadne z skonfigurowanych źródeł odtwarzania nie mogło dostarczyć żądanego utworu.",
+        "playbackSourceNotInOrder": "❌ | {source} nie jest uwzględniony w kolejności źródeł /play tego serwera. Poproś administratora serwera o dodanie go.",
+        "playbackSourceNoMatch": "❌ | {source} nie znalazł dopasowania dla tego utworu.",
         "playRequest": "❌ | Ups... coś poszło nie tak podczas próby odtworzenia żądanego utworu. Spróbuj ponownie.",
         "addTracks": "❌ | Ups... coś poszło nie tak, nie udało się dodać utworu(-ów) do kolejki.",
         "joinVoice": "❌ | Ups... coś poszło nie tak, nie udało mi się dołączyć do Twojego kanału.",
@@ -199,6 +201,7 @@
                 "library": "Zapytanie do wyszukiwania utworu, playlisty lub albumu.",
                 "search": "Nazwa lub URL utworu, którego chcesz szukać."
             },
+            "playback": "Źródło audio dla tego żądania. Ignorowane dla playlist i bezpośrednich linków.",
             "filter": "Który filtr chcesz przełączyć?",
             "query": "Wpisz nazwę utworu.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Wyłączone",
                 "1": "Utwór",
                 "2": "Kolejka"
+            },
+            "playback": {
+                "auto": "Auto (kolejność serwera)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

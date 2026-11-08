@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát với truy vấn đã yêu cầu.",
         "failedToFindSong": "❌ | Rất tiếc... đã xảy ra lỗi, không tìm thấy bài hát.",
         "noPlaybackSource": "❌ | Không có nguồn phát nào được cấu hình có thể cung cấp bài hát được yêu cầu.",
+        "playbackSourceNotInOrder": "❌ | {source} không nằm trong thứ tự nguồn /play của máy chủ này. Hãy yêu cầu quản trị viên máy chủ thêm vào.",
+        "playbackSourceNoMatch": "❌ | {source} không tìm thấy kết quả phù hợp cho bài hát đó.",
         "playRequest": "❌ | Rất tiếc... đã xảy ra lỗi khi cố phát bài hát được yêu cầu. Vui lòng thử lại.",
         "addTracks": "❌ | Rất tiếc... đã xảy ra lỗi, không thể thêm bài hát vào hàng đợi.",
         "joinVoice": "❌ | Rất tiếc... đã xảy ra lỗi, không thể tham gia kênh của bạn.",
@@ -199,6 +201,7 @@
                 "library": "Truy vấn tìm kiếm bài hát, playlist hoặc album.",
                 "search": "Tên hoặc URL của bài hát bạn muốn tìm."
             },
+            "playback": "Nguồn âm thanh cho yêu cầu này. Bỏ qua với playlist và liên kết trực tiếp.",
             "filter": "Bạn muốn bật/tắt bộ lọc nào?",
             "query": "Nhập tên bài hát.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Off",
                 "1": "Track",
                 "2": "Queue"
+            },
+            "playback": {
+                "auto": "Tự động (thứ tự máy chủ)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

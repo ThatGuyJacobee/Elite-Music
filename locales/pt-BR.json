@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Oops... algo deu errado, não foi possível encontrar a música com a busca solicitada.",
         "failedToFindSong": "❌ | Oops... algo deu errado, não foi possível encontrar a música.",
         "noPlaybackSource": "❌ | Nenhuma das fontes de reprodução configuradas conseguiu fornecer a música solicitada.",
+        "playbackSourceNotInOrder": "❌ | {source} não faz parte da ordem de fontes do /play deste servidor. Peça ao administrador do servidor para adicioná-lo.",
+        "playbackSourceNoMatch": "❌ | {source} não encontrou nenhuma correspondência para essa faixa.",
         "playRequest": "❌ | Oops... algo deu errado ao tentar reproduzir a música solicitada. Tente novamente.",
         "addTracks": "❌ | Oops... algo deu errado, não foi possível adicionar a(s) faixa(s) à fila.",
         "joinVoice": "❌ | Oops... algo deu errado, não consegui entrar no seu canal.",
@@ -199,6 +201,7 @@
                 "library": "Consulta de busca para uma faixa, playlist ou álbum.",
                 "search": "O nome ou URL da música que você quer pesquisar."
             },
+            "playback": "Fonte de áudio para esta solicitação. Ignorada para playlists e links diretos.",
             "filter": "Qual filtro você quer alternar?",
             "query": "Digite o nome da música.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Desligado",
                 "1": "Faixa",
                 "2": "Fila"
+            },
+            "playback": {
+                "auto": "Auto (ordem do servidor)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

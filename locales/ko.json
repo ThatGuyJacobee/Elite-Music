@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | 이런... 문제가 발생했습니다. 요청한 검색어로 곡을 찾을 수 없습니다.",
         "failedToFindSong": "❌ | 이런... 문제가 발생했습니다. 곡을 찾을 수 없습니다.",
         "noPlaybackSource": "❌ | 설정된 재생 소스 중 어느 것도 요청한 곡을 제공하지 못했습니다.",
+        "playbackSourceNotInOrder": "❌ | {source}이(가) 이 서버의 /play 소스 순서에 포함되어 있지 않습니다. 서버 관리자에게 추가를 요청하세요.",
+        "playbackSourceNoMatch": "❌ | {source}에서 해당 곡과 일치하는 항목을 찾지 못했습니다.",
         "playRequest": "❌ | 이런... 요청한 곡 재생 중 문제가 발생했습니다. 다시 시도해 주세요.",
         "addTracks": "❌ | 이런... 문제가 발생했습니다. 곡을 대기열에 추가하지 못했습니다.",
         "joinVoice": "❌ | 이런... 문제가 발생했습니다. 채널에 참가할 수 없습니다.",
@@ -199,6 +201,7 @@
                 "library": "곡, 재생목록 또는 앨범 검색어.",
                 "search": "검색하려는 곡의 이름 또는 URL입니다."
             },
+            "playback": "이 요청에 사용할 오디오 소스입니다. 재생목록과 직접 링크에는 무시됩니다.",
             "filter": "전환할 필터를 선택하세요.",
             "query": "곡 이름을 입력하세요.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "끔",
                 "1": "곡",
                 "2": "대기열"
+            },
+            "playback": {
+                "auto": "자동(서버 순서)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | 哎呀... 出了点问题，找不到与搜索条件匹配的歌曲。",
         "failedToFindSong": "❌ | 哎呀... 出了点问题，找不到该歌曲。",
         "noPlaybackSource": "❌ | 配置的播放来源都无法提供所请求的歌曲。",
+        "playbackSourceNotInOrder": "❌ | {source} 不在本服务器的 /play 来源顺序中。请让服务器管理员添加。",
+        "playbackSourceNoMatch": "❌ | {source} 没有找到与该歌曲匹配的结果。",
         "playRequest": "❌ | 哎呀... 播放请求的歌曲时出了问题。请重试。",
         "addTracks": "❌ | 哎呀... 出了点问题，无法将歌曲添加到队列。",
         "joinVoice": "❌ | 哎呀... 出了点问题，无法加入您的频道。",
@@ -199,6 +201,7 @@
                 "library": "搜索歌曲、播放列表或专辑的查询。",
                 "search": "你想搜索的歌曲名称或 URL。"
             },
+            "playback": "此请求使用的音频来源。播放列表和直接链接会忽略此项。",
             "filter": "您想切换哪个滤镜？",
             "query": "输入歌曲名称。",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "关闭",
                 "1": "单曲",
                 "2": "队列"
+            },
+            "playback": {
+                "auto": "自动（服务器顺序）",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

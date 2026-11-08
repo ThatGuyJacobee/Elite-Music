@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... etwas ist schiefgelaufen, die gesuchte Songanfrage konnte nicht gefunden werden.",
         "failedToFindSong": "❌ | Ups... etwas ist schiefgelaufen, der Song konnte nicht gefunden werden.",
         "noPlaybackSource": "❌ | Keine der konfigurierten Wiedergabequellen konnte den angeforderten Song bereitstellen.",
+        "playbackSourceNotInOrder": "❌ | {source} fehlt in der /play-Quellenreihenfolge dieses Servers. Bitte den Server-Administrator, die Quelle hinzuzufügen.",
+        "playbackSourceNoMatch": "❌ | {source} konnte keinen Treffer für diesen Titel finden.",
         "playRequest": "❌ | Ups... etwas ist schiefgelaufen, während versucht wurde, den angeforderten Song abzuspielen. Bitte versuche es erneut.",
         "addTracks": "❌ | Ups... etwas ist schiefgelaufen, die Spur(en) konnten nicht zur Warteschlange hinzugefügt werden.",
         "joinVoice": "❌ | Ups... etwas ist schiefgelaufen, ich konnte deinem Kanal nicht beitreten.",
@@ -199,6 +201,7 @@
                 "library": "Suchanfrage für einen Titel, eine Playlist oder ein Album.",
                 "search": "Name oder URL des Songs, nach dem du suchen möchtest."
             },
+            "playback": "Audioquelle für diese Anfrage. Wird bei Playlists und direkten Links ignoriert.",
             "filter": "Welchen Filter möchtest du umschalten?",
             "query": "Gib den Namen des Songs ein.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Aus",
                 "1": "Titel",
                 "2": "Warteschlange"
+            },
+            "playback": {
+                "auto": "Auto (Server-Reihenfolge)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

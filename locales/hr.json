@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu za traženi upit.",
         "failedToFindSong": "❌ | Ups... nešto je pošlo po krivu, nismo pronašli pjesmu.",
         "noPlaybackSource": "❌ | Nijedan od konfiguriranih izvora reprodukcije nije mogao pronaći traženu pjesmu.",
+        "playbackSourceNotInOrder": "❌ | {source} nije uključen u redoslijed izvora za /play na ovom poslužitelju. Zamolite administratora poslužitelja da ga doda.",
+        "playbackSourceNoMatch": "❌ | {source} nije pronašao podudaranje za tu pjesmu.",
         "playRequest": "❌ | Ups... nešto je pošlo po krivu pri pokušaju reprodukcije tražene pjesme. Pokušajte ponovno.",
         "addTracks": "❌ | Ups... nešto je pošlo po krivu, nismo uspjeli dodati pjesmu/e u red čekanja.",
         "joinVoice": "❌ | Ups... nešto je pošlo po krivu, nismo se mogli pridružiti vašem kanalu.",
@@ -199,6 +201,7 @@
                 "library": "Upit za pretraživanje pjesme, playliste ili albuma.",
                 "search": "Naziv ili URL pjesme koju želiš pretražiti."
             },
+            "playback": "Izvor zvuka za ovaj zahtjev. Zanemaruje se za playliste i izravne poveznice.",
             "filter": "Koji filter želite uključiti/isključiti?",
             "query": "Unesite naziv pjesme.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Off",
                 "1": "Track",
                 "2": "Queue"
+            },
+            "playback": {
+                "auto": "Auto (redoslijed poslužitelja)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

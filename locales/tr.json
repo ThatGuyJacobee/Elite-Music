@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Hay aksi... bir şeyler ters gitti, istenen sorguyla şarkı bulunamadı.",
         "failedToFindSong": "❌ | Hay aksi... bir şeyler ters gitti, şarkı bulunamadı.",
         "noPlaybackSource": "❌ | Yapılandırılmış oynatma kaynaklarının hiçbiri istenen şarkıyı sağlayamadı.",
+        "playbackSourceNotInOrder": "❌ | {source} bu sunucunun /play kaynak sırasında yer almıyor. Sunucu yöneticisinden eklemesini isteyin.",
+        "playbackSourceNoMatch": "❌ | {source} bu parça için eşleşme bulamadı.",
         "playRequest": "❌ | Hay aksi... istenen şarkıyı çalmaya çalışırken bir şeyler ters gitti. Lütfen tekrar deneyin.",
         "addTracks": "❌ | Hay aksi... bir şeyler ters gitti, parça(lar) kuyruğa eklenemedi.",
         "joinVoice": "❌ | Hay aksi... bir şeyler ters gitti, kanalınıza katılamadım.",
@@ -199,6 +201,7 @@
                 "library": "Parça, çalma listesi veya albüm için arama sorgusu.",
                 "search": "Aramak istediğiniz şarkının adı veya URL'si."
             },
+            "playback": "Bu istek için ses kaynağı. Çalma listeleri ve doğrudan bağlantılarda yok sayılır.",
             "filter": "Hangi filtreyi değiştirmek istiyorsunuz?",
             "query": "Şarkının adını girin.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Kapalı",
                 "1": "Parça",
                 "2": "Kuyruk"
+            },
+            "playback": {
+                "auto": "Otomatik (sunucu sırası)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

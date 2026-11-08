@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Hoppá... valami hiba történt, a dal nem található a megadott lekérdezéssel.",
         "failedToFindSong": "❌ | Hoppá... valami hiba történt, a dal nem található.",
         "noPlaybackSource": "❌ | A konfigurált lejátszási források egyike sem tudta biztosítani a kért zeneszámot.",
+        "playbackSourceNotInOrder": "❌ | A(z) {source} nincs benne a szerver /play forrássorrendjében. Kérd meg a szerver adminisztrátorát, hogy adja hozzá.",
+        "playbackSourceNoMatch": "❌ | A(z) {source} nem talált egyezést ehhez a számhoz.",
         "playRequest": "❌ | Hoppá... valami hiba történt a kért dal lejátszása közben. Kérjük, próbáld újra.",
         "addTracks": "❌ | Hoppá... valami hiba történt, a szám(ok) hozzáadása a sorhoz sikertelen.",
         "joinVoice": "❌ | Hoppá... valami hiba történt, nem sikerült csatlakozni a csatornádhoz.",
@@ -199,6 +201,7 @@
                 "library": "Keresési lekérdezés számhoz, lejátszási listához vagy albumhoz.",
                 "search": "Annak a számnak a neve vagy URL-je, amelyet keresni szeretnél."
             },
+            "playback": "Hangforrás ehhez a kéréshez. Lejátszási listáknál és közvetlen linkeknél figyelmen kívül marad.",
             "filter": "Melyik szűrőt szeretnéd váltani?",
             "query": "Add meg a dal nevét.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Ki",
                 "1": "Szám",
                 "2": "Sor"
+            },
+            "playback": {
+                "auto": "Auto (szerver sorrendje)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

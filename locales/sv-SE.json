@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ojdå... något gick fel, kunde inte hitta låten med den angivna sökningen.",
         "failedToFindSong": "❌ | Ojdå... något gick fel, kunde inte hitta låten.",
         "noPlaybackSource": "❌ | Ingen av de konfigurerade uppspelningskällorna kunde leverera den begärda låten.",
+        "playbackSourceNotInOrder": "❌ | {source} ingår inte i den här serverns /play-källordning. Be serveradministratören att lägga till den.",
+        "playbackSourceNoMatch": "❌ | {source} hittade ingen matchning för det spåret.",
         "playRequest": "❌ | Ojdå... något gick fel medan jag försökte spela den begärda låten. Försök igen.",
         "addTracks": "❌ | Ojdå... något gick fel, kunde inte lägga till spåret/spåren i kön.",
         "joinVoice": "❌ | Ojdå... något gick fel, kunde inte gå med i din kanal.",
@@ -199,6 +201,7 @@
                 "library": "Sökfråga för ett spår, en spellista eller ett album.",
                 "search": "Namnet eller URL:en till låten du vill söka efter."
             },
+            "playback": "Ljudkälla för den här begäran. Ignoreras för spellistor och direkta länkar.",
             "filter": "Vilket filter vill du växla?",
             "query": "Ange låtens namn.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Av",
                 "1": "Spår",
                 "2": "Kö"
+            },
+            "playback": {
+                "auto": "Auto (serverns ordning)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },

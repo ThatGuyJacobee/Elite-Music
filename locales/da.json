@@ -14,6 +14,8 @@
         "failedToFindSongQuery": "❌ | Ups... noget gik galt, kunne ikke finde sangen med den angivne forespørgsel.",
         "failedToFindSong": "❌ | Ups... noget gik galt, kunne ikke finde sangen.",
         "noPlaybackSource": "❌ | Ingen af de konfigurerede afspilningskilder kunne levere den ønskede sang.",
+        "playbackSourceNotInOrder": "❌ | {source} er ikke en del af denne servers /play-kilderækkefølge. Bed serveradministratoren om at tilføje den.",
+        "playbackSourceNoMatch": "❌ | {source} kunne ikke finde et match til det nummer.",
         "playRequest": "❌ | Ups... noget gik galt under forsøget på at afspille den anmodede sang. Prøv venligst igen.",
         "addTracks": "❌ | Ups... noget gik galt, kunne ikke tilføje nummer(et/erne) til køen.",
         "joinVoice": "❌ | Ups... noget gik galt, kunne ikke tilslutte din kanal.",
@@ -199,6 +201,7 @@
                 "library": "Søgeforespørgsel for et nummer, en playliste eller et album.",
                 "search": "Navnet eller URL'en på den sang, du vil søge efter."
             },
+            "playback": "Lydkilde til denne anmodning. Ignoreres for playlister og direkte links.",
             "filter": "Hvilket filter vil du skifte?",
             "query": "Indtast navnet på sangen.",
             "song": {
@@ -227,6 +230,13 @@
                 "0": "Fra",
                 "1": "Nummer",
                 "2": "Kø"
+            },
+            "playback": {
+                "auto": "Auto (serverrækkefølge)",
+                "youtube": "YouTube",
+                "plex": "Plex",
+                "subsonic": "Subsonic",
+                "jellyfin": "Jellyfin"
             }
         }
     },
