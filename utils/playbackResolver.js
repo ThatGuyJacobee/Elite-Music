@@ -167,6 +167,12 @@ function parseSourceOrder(value, { fallback = ["youtube"], onInvalid, onAlias } 
     return sourceOrder.length > 0 ? sourceOrder : [...fallback];
 }
 
+function getAvailablePlaybackSources(config) {
+    return parseSourceOrder(config.playbackSourceOrder).filter(
+        (source) => !playbackProviders[source] || playbackProviders[source].enabled(config),
+    );
+}
+
 function providerQuery(originalQuery, extractedTracks) {
     const query = String(originalQuery || "").trim();
     const isUrl = /^[a-z][a-z0-9+.-]*:/i.test(query);
@@ -475,6 +481,7 @@ module.exports = {
     addResolvedTrack,
     buildAggregatedPlaybackPicker,
     buildPlaybackPicker,
+    getAvailablePlaybackSources,
     parseSourceOrder,
     resolvePlaybackSource,
     searchAllPlaybackSources,

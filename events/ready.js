@@ -16,7 +16,7 @@ const {
     resolveUserId: jellyfinResolveUserId,
     searchItems: jellyfinSearchItems,
 } = require("../utils/jellyfinAPI");
-const { VALID_SOURCES, parseSourceOrder } = require("../utils/playbackResolver");
+const { VALID_SOURCES, getAvailablePlaybackSources, parseSourceOrder } = require("../utils/playbackResolver");
 const { createI18n, FALLBACK_LOCALE } = require("../utils/i18n");
 
 module.exports = {
@@ -389,13 +389,7 @@ module.exports = {
                 }
             }
 
-            const effectivePlaybackSources = client.config.playbackSourceOrder.filter(
-                (source) =>
-                    source === "youtube" ||
-                    (source === "plex" && client.config.enablePlex) ||
-                    (source === "subsonic" && client.config.enableSubsonic) ||
-                    (source === "jellyfin" && client.config.enableJellyfin),
-            );
+            const effectivePlaybackSources = getAvailablePlaybackSources(client.config);
             if (effectivePlaybackSources.length > 0) {
                 console.log(`[ELITE_CONFIG] Effective /play source order: ${effectivePlaybackSources.join(" -> ")}`);
             } else {
