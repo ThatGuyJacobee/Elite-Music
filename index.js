@@ -4,7 +4,7 @@ const { REST } = require("@discordjs/rest");
 const { Client, GatewayIntentBits, Partials, Collection, Routes } = require("discord.js");
 const { Player } = require("discord-player");
 const { DefaultExtractors } = require("@discord-player/extractor");
-const { YoutubeiExtractor } = require("discord-player-youtubei");
+const { YoutubeExtractor } = require("discord-player-youtubei");
 client = new Client({
     intents: [
         //Sets the necessary intents which discord requires
@@ -40,9 +40,14 @@ const player = new Player(client, {
     ytdlOptions: defaultConsts.ytdlOptions,
 });
 player.extractors.loadMulti(DefaultExtractors);
-player.extractors.register(YoutubeiExtractor, {
-    authentication: process.env.YT_CREDENTIALS ? process.env.YT_CREDENTIALS : null,
+player.extractors.register(YoutubeExtractor, {
+    cookie: process.env.YT_CREDENTIALS ? process.env.YT_CREDENTIALS : undefined,
 });
+
+// v3 dropped the priority bump that v2 shipped, so without this the SoundCloud
+// extractor wins text searches and YouTube only handles explicit URLs.
+const youtubeExtractor = player.extractors.get(YoutubeExtractor.identifier);
+if (youtubeExtractor) youtubeExtractor.priority = 2;
 
 //Initialise commands through JSON
 const commands = [];
