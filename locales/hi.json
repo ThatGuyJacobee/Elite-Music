@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "डिफ़ॉल्ट (discord-player)"
+            "youtube": "YouTube",
+            "direct": "सीधा लिंक"
         },
         "startedTitle": "प्लेबैक शुरू ▶️",
         "addedTitle": "कतार में जोड़ा गया ⏱️",

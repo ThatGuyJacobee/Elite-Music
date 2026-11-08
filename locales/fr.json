@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "Par défaut (discord-player)"
+            "youtube": "YouTube",
+            "direct": "Lien direct"
         },
         "startedTitle": "Lecture lancée ▶️",
         "addedTitle": "Ajouté à la file d'attente ⏱️",

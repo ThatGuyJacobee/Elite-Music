@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "預設（discord-player）"
+            "youtube": "YouTube",
+            "direct": "直接連結"
         },
         "startedTitle": "開始播放 ▶️",
         "addedTitle": "已加入佇列 ⏱️",

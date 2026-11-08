@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "Numatytasis (discord-player)"
+            "youtube": "YouTube",
+            "direct": "Tiesioginė nuoroda"
         },
         "startedTitle": "Atkūrimas pradėtas ▶️",
         "addedTitle": "Pridėta į eilę ⏱️",

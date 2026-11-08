@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "Mặc định (discord-player)"
+            "youtube": "YouTube",
+            "direct": "Liên kết trực tiếp"
         },
         "startedTitle": "Bắt đầu phát ▶️",
         "addedTitle": "Đã thêm vào hàng đợi ⏱️",

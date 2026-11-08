@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "За замовчуванням (discord-player)"
+            "youtube": "YouTube",
+            "direct": "Пряме посилання"
         },
         "startedTitle": "Відтворення розпочато ▶️",
         "addedTitle": "Додано до черги ⏱️",

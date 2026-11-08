@@ -134,7 +134,8 @@
             "plex": "Plex",
             "subsonic": "Subsonic",
             "jellyfin": "Jellyfin",
-            "default": "デフォルト (discord-player)"
+            "youtube": "YouTube",
+            "direct": "ダイレクトリンク"
         },
         "startedTitle": "再生開始 ▶️",
         "addedTitle": "キューに追加 ⏱️",

@@ -44,7 +44,8 @@ const playbackProviders = {
     },
 };
 
-const VALID_SOURCES = [...Object.keys(playbackProviders), "default"];
+const VALID_SOURCES = [...Object.keys(playbackProviders), "youtube"];
+const LEGACY_SOURCE_ALIASES = { default: "youtube" };
 const NOISE_PATTERN =
     /\b(?:official(?:\s+music)?\s+(?:video|audio)|lyrics?|lyric\s+video|visuali[sz]er|remaster(?:ed)?|release|explicit|clean|hq|hd|4k)\b/i;
 const FEATURE_PATTERN = /\b(?:feat(?:uring)?|ft)\.?\s+/i;
@@ -145,15 +146,19 @@ function calculateMatchScore(extractedTrack, providerItem) {
     return score;
 }
 
-function parseSourceOrder(value, { fallback = ["default"], onInvalid } = {}) {
+function parseSourceOrder(value, { fallback = ["youtube"], onInvalid, onAlias } = {}) {
     const entries = Array.isArray(value) ? value : String(value || "").split(",");
     const sourceOrder = [];
 
     for (const entry of entries) {
-        const source = String(entry).trim().toLowerCase();
-        if (!source) continue;
+        const requested = String(entry).trim().toLowerCase();
+        if (!requested) continue;
+
+        const source = LEGACY_SOURCE_ALIASES[requested] ?? requested;
+        if (source !== requested) onAlias?.(requested, source);
+
         if (!VALID_SOURCES.includes(source)) {
-            onInvalid?.(source);
+            onInvalid?.(requested);
         } else if (!sourceOrder.includes(source)) {
             sourceOrder.push(source);
         }
@@ -216,13 +221,24 @@ async function searchProvider(source, query) {
     }
 }
 
-function defaultSourceResults(extractedTracks) {
-    return extractedTracks.map((item) => ({ source: "default", item, extractedTrack: item }));
+function isArbitraryTrack(track) {
+    const queryType = track?.queryType ?? track?.raw?.queryType;
+    return queryType === QueryType.ARBITRARY || queryType === QueryType.FILE;
+}
+
+function directSourceResults(extractedTracks) {
+    return extractedTracks.filter(isArbitraryTrack).map((item) => ({ source: "direct", item, extractedTrack: item }));
+}
+
+function youtubeSourceResults(extractedTracks) {
+    return extractedTracks
+        .filter((item) => !isArbitraryTrack(item))
+        .map((item) => ({ source: "youtube", item, extractedTrack: item }));
 }
 
 async function resolveSourceResults(source, extractedTracks, query, config) {
-    if (source === "default") {
-        return defaultSourceResults(extractedTracks);
+    if (source === "youtube") {
+        return youtubeSourceResults(extractedTracks);
     }
 
     const provider = playbackProviders[source];
@@ -234,6 +250,9 @@ async function resolveSourceResults(source, extractedTracks, query, config) {
 async function resolvePlaybackSource(search, originalQuery, config) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
+
+    const directResults = directSourceResults(extractedTracks);
+    if (directResults.length > 0) return { source: "direct", results: directResults };
 
     const query = providerQuery(originalQuery, extractedTracks);
     for (const source of parseSourceOrder(config.playbackSourceOrder)) {
@@ -264,7 +283,8 @@ async function addResolvedTrack(interaction, nextSong, result, responseType) {
     interaction.playbackSource = result.source;
 
     try {
-        if (result.source === "default") {
+        const provider = playbackProviders[result.source];
+        if (!provider) {
             return await musicFuncs.addTracks(
                 interaction,
                 nextSong,
@@ -272,23 +292,25 @@ async function addResolvedTrack(interaction, nextSong, result, responseType) {
                 responseType,
             );
         }
-        return await playbackProviders[result.source].add(interaction, nextSong, result.item, responseType);
+        return await provider.add(interaction, nextSong, result.item, responseType);
     } finally {
         delete interaction.playbackSource;
     }
 }
 
 function selectionIdentifier(result) {
-    return result.source === "default" ? result.item.url : playbackProviders[result.source].identifier(result.item);
+    return playbackProviders[result.source]
+        ? playbackProviders[result.source].identifier(result.item)
+        : result.item.url;
 }
 
 function resultDuration(result) {
-    if (result.source === "default") return result.item.duration || "--:--";
+    if (!playbackProviders[result.source]) return result.item.duration || "--:--";
     return formatDurationMs(parseDurationMs(result.item.rawDuration ?? result.item.duration));
 }
 
 function resultDescription(result) {
-    if (result.source === "default") return result.item.description || result.item.author || result.item.title;
+    if (!playbackProviders[result.source]) return result.item.description || result.item.author || result.item.title;
 
     const artist = result.item.grandparentTitle || result.item.artist || result.item.author;
     const album = result.item.parentTitle || result.item.album;
@@ -386,7 +408,7 @@ function buildPicker(interaction, options) {
 
 function buildPlaybackPicker(interaction, resolution, nextSong) {
     const source = resolution.source;
-    const titleKey = source === "default" ? "search.resultsTitle" : `search.${source}Title`;
+    const titleKey = playbackProviders[source] ? `search.${source}Title` : "search.resultsTitle";
 
     return buildPicker(interaction, {
         title: translate(interaction, titleKey),
@@ -410,7 +432,7 @@ function buildAggregatedPlaybackPicker(interaction, groups) {
 }
 
 function parsePlaybackSelection(customId, identifier) {
-    const selection = /^playsearch:(plex|subsonic|jellyfin|default|all):([01])$/.exec(customId);
+    const selection = /^playsearch:(plex|subsonic|jellyfin|youtube|all):([01])$/.exec(customId);
     if (!selection) return null;
 
     let [, source, nextSongFlag] = selection;
@@ -431,7 +453,7 @@ async function addPlaybackSelection(interaction, customId, identifier, responseT
     const { source, nextSong, identifier: selectedIdentifier } = selection;
     let item;
 
-    if (source === "default") {
+    if (source === "youtube") {
         const search = await useMainPlayer().search(selectedIdentifier, {
             requestedBy: interaction.user,
             searchEngine: QueryType.AUTO,
@@ -448,6 +470,7 @@ async function addPlaybackSelection(interaction, customId, identifier, responseT
 }
 
 module.exports = {
+    VALID_SOURCES,
     addPlaybackSelection,
     addResolvedTrack,
     buildAggregatedPlaybackPicker,
