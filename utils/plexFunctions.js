@@ -78,6 +78,17 @@ async function plexSearchQuery(query, options = {}) {
     }
 }
 
+function plexArtworkPath(item) {
+    return item?.thumb ?? item?.parentThumb ?? item?.grandparentThumb ?? null;
+}
+
+function plexArtworkUrl(item) {
+    const artwork = plexArtworkPath(item);
+    return artwork
+        ? `${client.config.plexServer}${artwork}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`
+        : null;
+}
+
 async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
     const trackRequest = await fetch(
         `${client.config.plexServer}${itemMetadata.key}?X-Plex-Token=${client.config.plexAuthtoken}`,
@@ -94,7 +105,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
         title: songFound.title,
         author: songFound.grandparentTitle,
         url: `${client.config.plexServer}${songFound.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-        thumbnail: `${client.config.plexServer}${songFound.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+        thumbnail: plexArtworkUrl(songFound),
         duration: formatDurationMs(songFound.duration),
         views: "69",
         playlist: null,
@@ -114,7 +125,7 @@ async function plexAddTrack(interaction, nextSong, itemMetadata, responseType) {
             queue.addTrack(newTrack);
         }
 
-        await plexQueuePlay(interaction, responseType, songFound, songFound.thumb, nextSong);
+        await plexQueuePlay(interaction, responseType, songFound, songFound, nextSong);
     } catch (err) {
         return sendEphemeralError(interaction, translate(interaction, "errors.addTracks"));
     }
@@ -148,7 +159,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
             title: playlistTrack.title,
             author: playlistTrack.grandparentTitle,
             url: `${client.config.plexServer}${playlistTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-            thumbnail: `${client.config.plexServer}${playlistTrack.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+            thumbnail: plexArtworkUrl(playlistTrack),
             duration: formatDurationMs(playlistTrack.duration),
             views: "69",
             playlist: null,
@@ -168,13 +179,7 @@ async function plexAddPlaylist(interaction, itemMetadata, responseType, orderMod
 
     const orderedTracks = applyTrackOrder(builtTracks, orderMode);
     await addContainerTracksToQueue(interaction, orderedTracks, nextSong);
-    await plexQueuePlay(
-        interaction,
-        responseType,
-        itemMetadata,
-        playlistJson.MediaContainer.Metadata[0].thumb,
-        nextSong,
-    );
+    await plexQueuePlay(interaction, responseType, itemMetadata, playlistJson.MediaContainer.Metadata[0], nextSong);
 }
 
 async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode = "sequential", nextSong = false) {
@@ -194,7 +199,7 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
             title: albumTrack.title,
             author: albumTrack.grandparentTitle,
             url: `${client.config.plexServer}${albumTrack.Media[0].Part[0].key}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-            thumbnail: `${client.config.plexServer}${albumTrack.thumb}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
+            thumbnail: plexArtworkUrl(albumTrack),
             duration: formatDurationMs(albumTrack.duration),
             views: "69",
             playlist: null,
@@ -220,12 +225,12 @@ async function plexAddAlbum(interaction, itemMetadata, responseType, orderMode =
         interaction,
         responseType,
         albumMetadataForEmbed,
-        albumChildrenJson.MediaContainer.Metadata[0].thumb,
+        albumChildrenJson.MediaContainer.Metadata[0],
         nextSong,
     );
 }
 
-async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThumbnail, nextSong) {
+async function plexQueuePlay(interaction, responseType, itemMetadata, artworkItem, nextSong) {
     const queue = await getQueue(interaction);
 
     try {
@@ -237,18 +242,15 @@ async function plexQueuePlay(interaction, responseType, itemMetadata, defaultThu
         return sendEphemeralError(interaction, translate(interaction, "errors.joinVoice"));
     }
 
-    const imageAttachment = await buildImageAttachment(
-        `${client.config.plexServer}${defaultThumbnail}?download=1&X-Plex-Token=${client.config.plexAuthtoken}`,
-        {
-            name: "coverimage.jpg",
-            description: buildCoverImageDescription(
-                interaction,
-                itemMetadata.type == "playlist" ? "playlist" : "song",
-                itemMetadata.title,
-            ),
-            source: interaction,
-        },
-    );
+    const imageAttachment = await buildImageAttachment(plexArtworkUrl(artworkItem), {
+        name: "coverimage.jpg",
+        description: buildCoverImageDescription(
+            interaction,
+            itemMetadata.type == "playlist" ? "playlist" : "song",
+            itemMetadata.title,
+        ),
+        source: interaction,
+    });
 
     const embed = new EmbedBuilder()
         .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL() })

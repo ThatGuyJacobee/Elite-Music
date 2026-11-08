@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { AttachmentBuilder } = require("discord.js");
 const { useMainPlayer } = require("discord-player");
 const { registerNpControlMessage } = require("../../utils/npControlMessages");
 const { buildNpComponents, buildNpEmbed, NP_SLASH_TITLE_KEY } = require("../../utils/nowPlayingUi");
 const { buildCoverImageDescription } = require("../../utils/botText");
+const { buildImageAttachment } = require("../../utils/utilityFunctions");
 const {
     ensureInVoiceChannel,
     ensureSameVoiceChannel,
@@ -30,7 +30,7 @@ module.exports = {
         });
         if (!npembed) return interaction.reply(getQueueNotPlayingResponse(interaction));
 
-        var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
+        var coverImage = await buildImageAttachment(queue.currentTrack.thumbnail, {
             name: "coverimage.jpg",
             description: buildCoverImageDescription(interaction, "song", queue.currentTrack.title),
         });

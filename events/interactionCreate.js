@@ -7,7 +7,6 @@ const {
     StringSelectMenuBuilder,
     TextInputBuilder,
     ModalBuilder,
-    AttachmentBuilder,
     MessageFlags,
 } = require("discord.js");
 const { useMainPlayer, QueueRepeatMode } = require("discord-player");
@@ -22,6 +21,7 @@ const {
     translateHelpCategory,
 } = require("../utils/botText");
 const { HELP_CATEGORY_EMOJIS, loadHelpCommandCategories } = require("../utils/helpCommands");
+const { buildImageAttachment } = require("../utils/utilityFunctions");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -423,7 +423,7 @@ module.exports = {
                 if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
                 var checkPause = queue.node.isPaused();
 
-                var coverImage = new AttachmentBuilder(queue.currentTrack.thumbnail, {
+                var coverImage = await buildImageAttachment(queue.currentTrack.thumbnail, {
                     name: "coverimage.jpg",
                     description: buildCoverImageDescription(interaction, "song", queue.currentTrack.title),
                 });
