@@ -1,6 +1,6 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
-const { QueryType } = require("discord-player");
+const { QueryType, Track } = require("discord-player");
 
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 3;
@@ -438,6 +438,56 @@ function urlHostname(value) {
     }
 }
 
+function buildDirectTrack(player, url, requestedBy, metadata = {}) {
+    let hostname = "Direct link";
+    let fallbackTitle = "Direct link";
+
+    try {
+        const parsed = new URL(url);
+        hostname = parsed.hostname;
+        const filename = decodeURIComponent(parsed.pathname.split("/").filter(Boolean).pop() || "");
+        fallbackTitle =
+            filename
+                .replace(/\.[a-z0-9]{1,5}$/i, "")
+                .replace(/[_+]+/g, " ")
+                .trim() || hostname;
+    } catch {
+        // Keep the generic title when the URL cannot be parsed.
+    }
+
+    const title = String(metadata.title || "").trim() || fallbackTitle;
+    const author = String(metadata.siteName || "").trim() || hostname;
+    const trackMetadata = { title, author };
+
+    return new Track(player, {
+        title,
+        author,
+        url,
+        duration: "0:00",
+        thumbnail: player?.client?.user?.displayAvatarURL?.() || "",
+        views: 0,
+        requestedBy,
+        source: "arbitrary",
+        engine: url,
+        queryType: QueryType.ARBITRARY,
+        metadata: trackMetadata,
+        async requestMetadata() {
+            return trackMetadata;
+        },
+    });
+}
+
+function buildDirectSearch(player, url, requestedBy, metadata) {
+    return {
+        query: url,
+        queryType: QueryType.ARBITRARY,
+        playlist: null,
+        tracks: [buildDirectTrack(player, url, requestedBy, metadata)],
+        requestedBy: requestedBy ?? null,
+        extractor: null,
+    };
+}
+
 async function searchPlaybackQuery(player, query, options) {
     let search = null;
 
@@ -461,7 +511,14 @@ async function searchPlaybackQuery(player, query, options) {
         return search;
     }
 
-    if (inspected?.kind !== "html" || !inspected.mediaUrl) return search;
+    if (!inspected) return search;
+
+    if (inspected.kind === "media") {
+        console.log(`[ELITE_PLAYBACK] Queueing ${urlHostname(inspected.finalUrl)} as a direct stream.`);
+        return buildDirectSearch(player, inspected.finalUrl, options?.requestedBy, inspected.metadata);
+    }
+
+    if (!inspected.mediaUrl) return search;
 
     console.log(
         `[ELITE_PLAYBACK] Resolved share page ${urlHostname(query)} to a direct media URL at ${urlHostname(inspected.mediaUrl)}.`,
@@ -476,7 +533,9 @@ async function searchPlaybackQuery(player, query, options) {
         );
     }
 
-    return search;
+    console.log(`[ELITE_PLAYBACK] Queueing resolved media from ${urlHostname(inspected.mediaUrl)} as a direct stream.`);
+
+    return buildDirectSearch(player, inspected.mediaUrl, options?.requestedBy, inspected.metadata);
 }
 
 module.exports = {
