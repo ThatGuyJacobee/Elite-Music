@@ -1,5 +1,6 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
+const { QueryType } = require("discord-player");
 
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 3;
@@ -429,6 +430,55 @@ async function inspectUrl(value) {
     };
 }
 
+function urlHostname(value) {
+    try {
+        return new URL(value).hostname;
+    } catch {
+        return "unknown host";
+    }
+}
+
+async function searchPlaybackQuery(player, query, options) {
+    let search = null;
+
+    try {
+        search = await player.search(query, options);
+    } catch (error) {
+        if (!isHttpUrl(query)) throw error;
+        console.log(
+            `[ELITE_PLAYBACK] Extractor search failed for ${urlHostname(query)}; trying the share-page fallback. ${error.message}`,
+        );
+    }
+
+    if (search?.tracks?.length || !isHttpUrl(query)) return search;
+    if (search && search.queryType !== QueryType.ARBITRARY) return search;
+
+    let inspected;
+    try {
+        inspected = await inspectUrl(query);
+    } catch (error) {
+        console.log(`[ELITE_PLAYBACK] Share-page inspection failed for ${urlHostname(query)}: ${error.message}`);
+        return search;
+    }
+
+    if (inspected?.kind !== "html" || !inspected.mediaUrl) return search;
+
+    console.log(
+        `[ELITE_PLAYBACK] Resolved share page ${urlHostname(query)} to a direct media URL at ${urlHostname(inspected.mediaUrl)}.`,
+    );
+
+    try {
+        const mediaSearch = await player.search(inspected.mediaUrl, options);
+        if (mediaSearch?.tracks?.length) return mediaSearch;
+    } catch (error) {
+        console.log(
+            `[ELITE_PLAYBACK] Media URL search failed for ${urlHostname(inspected.mediaUrl)}: ${error.message}`,
+        );
+    }
+
+    return search;
+}
+
 module.exports = {
     MAX_HTML_BYTES,
     attachmentFilename,
@@ -442,4 +492,5 @@ module.exports = {
     isPublicHttpUrl,
     readBodyCapped,
     responseContentType,
+    searchPlaybackQuery,
 };

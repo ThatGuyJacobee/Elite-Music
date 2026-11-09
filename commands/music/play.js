@@ -7,6 +7,7 @@ const {
     resolvePlaybackSource,
 } = require("../../utils/playbackResolver.js");
 const { ensurePlaybackSourceAvailable, playbackSlashOption } = require("../../utils/playbackOptions.js");
+const { isHttpUrl, searchPlaybackQuery } = require("../../utils/urlPlayback.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
@@ -42,7 +43,10 @@ module.exports = {
         await musicFuncs.getQueue(interaction);
 
         try {
-            const search = await player.search(query, {
+            const isUrlQuery = isHttpUrl(query);
+            if (isUrlQuery) await interaction.deferReply();
+
+            const search = await searchPlaybackQuery(player, query, {
                 requestedBy: interaction.user,
                 searchEngine: QueryType.AUTO,
             });
@@ -51,7 +55,7 @@ module.exports = {
                 return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
             }
 
-            await interaction.deferReply();
+            if (!isUrlQuery) await interaction.deferReply();
 
             if (search.playlist) {
                 await musicFuncs.addTracks(interaction, false, search, "send");
