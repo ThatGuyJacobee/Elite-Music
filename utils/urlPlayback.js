@@ -407,6 +407,12 @@ function extractShareMedia(html, baseUrl) {
 
 async function inspectUrl(value) {
     const { response, url } = await fetchUrlSafe(value);
+
+    if (!response.ok) {
+        await response.body?.cancel().catch(() => null);
+        return null;
+    }
+
     const contentType = responseContentType(response);
 
     if (isMediaContentType(contentType) || hasMediaFilename(response)) {
