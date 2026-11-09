@@ -1,6 +1,6 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
-const { QueryType, Track } = require("discord-player");
+const { QueryResolver, QueryType, Track } = require("discord-player");
 
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 3;
@@ -501,13 +501,15 @@ async function searchPlaybackQuery(player, query, options) {
         search = await player.search(query, options);
     } catch (error) {
         if (!isHttpUrl(query)) throw error;
-        console.log(
-            `[ELITE_PLAYBACK] Extractor search failed for ${urlHostname(query)}; trying the share-page fallback. ${error.message}`,
-        );
+        console.log(`[ELITE_PLAYBACK] Extractor search failed for ${urlHostname(query)}: ${error.message}`);
     }
 
     if (search?.tracks?.length || !isHttpUrl(query)) return search;
-    if (search && search.queryType !== QueryType.ARBITRARY) return search;
+
+    const resolvedType = search?.queryType ?? QueryResolver.resolve(query).type;
+    if (resolvedType !== QueryType.ARBITRARY) return search;
+
+    console.log(`[ELITE_PLAYBACK] Trying the share-page fallback for ${urlHostname(query)}.`);
 
     let inspected;
     try {
