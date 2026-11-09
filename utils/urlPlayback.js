@@ -1,6 +1,8 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
 const { QueryResolver, QueryType, Track } = require("discord-player");
+const { probeMediaResponse } = require("./mediaProbe");
+const { formatDurationMs } = require("./utilityFunctions");
 
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 3;
@@ -219,6 +221,12 @@ function hasMediaFilename(response) {
     return MEDIA_FILE_EXTENSION.test(attachmentFilename(response));
 }
 
+function hasKnownContentLength(response) {
+    const length = Number(response.headers.get("content-length"));
+
+    return Number.isFinite(length) && length > 0;
+}
+
 function codePointToString(value) {
     try {
         return String.fromCodePoint(value);
@@ -416,8 +424,15 @@ async function inspectUrl(value) {
     const contentType = responseContentType(response);
 
     if (isMediaContentType(contentType) || hasMediaFilename(response)) {
-        await response.body?.cancel().catch(() => null);
-        return { kind: "media", finalUrl: url.href };
+        const probe = hasKnownContentLength(response) ? await probeMediaResponse(response) : null;
+        if (!probe) await response.body?.cancel().catch(() => null);
+
+        return {
+            kind: "media",
+            finalUrl: url.href,
+            durationMs: probe?.durationMs ?? null,
+            metadata: probe?.metadata ?? {},
+        };
     }
 
     if (!isHtmlContentType(contentType)) {
@@ -462,14 +477,16 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
     }
 
     const title = String(metadata.title || "").trim() || fallbackTitle;
-    const author = String(metadata.siteName || "").trim() || hostname;
+    const author = String(metadata.siteName || metadata.author || "").trim() || hostname;
+    const durationMs = Number(metadata.durationMs);
+    const duration = Number.isFinite(durationMs) && durationMs > 0 ? formatDurationMs(durationMs) : "0:00";
     const trackMetadata = { title, author };
 
     return new Track(player, {
         title,
         author,
         url,
-        duration: "0:00",
+        duration,
         thumbnail: player?.client?.user?.displayAvatarURL?.() || "",
         views: 0,
         requestedBy,
@@ -523,7 +540,10 @@ async function searchPlaybackQuery(player, query, options) {
 
     if (inspected.kind === "media") {
         console.log(`[ELITE_PLAYBACK] Queueing ${urlHostname(inspected.finalUrl)} as a direct stream.`);
-        return buildDirectSearch(player, inspected.finalUrl, options?.requestedBy, inspected.metadata);
+        return buildDirectSearch(player, inspected.finalUrl, options?.requestedBy, {
+            ...inspected.metadata,
+            durationMs: inspected.durationMs,
+        });
     }
 
     if (!inspected.mediaUrl) return search;
@@ -539,6 +559,33 @@ async function searchPlaybackQuery(player, query, options) {
         console.log(
             `[ELITE_PLAYBACK] Media URL search failed for ${urlHostname(inspected.mediaUrl)}: ${error.message}`,
         );
+    }
+
+    let mediaInspection = null;
+    try {
+        mediaInspection = await inspectUrl(inspected.mediaUrl);
+    } catch (error) {
+        console.log(
+            `[ELITE_PLAYBACK] Media inspection failed for ${urlHostname(inspected.mediaUrl)}: ${error.message}`,
+        );
+    }
+
+    if (mediaInspection?.kind === "media") {
+        console.log(
+            `[ELITE_PLAYBACK] Queueing resolved media from ${urlHostname(mediaInspection.finalUrl)} as a direct stream.`,
+        );
+        return buildDirectSearch(player, mediaInspection.finalUrl, options?.requestedBy, {
+            title: inspected.metadata.title || mediaInspection.metadata.title || "",
+            siteName: inspected.metadata.siteName || mediaInspection.metadata.author || "",
+            durationMs: mediaInspection.durationMs,
+        });
+    }
+
+    if (mediaInspection?.kind === "html") {
+        console.log(
+            `[ELITE_PLAYBACK] Media URL for ${urlHostname(inspected.mediaUrl)} is another HTML page; skipping it.`,
+        );
+        return search;
     }
 
     console.log(`[ELITE_PLAYBACK] Queueing resolved media from ${urlHostname(inspected.mediaUrl)} as a direct stream.`);
