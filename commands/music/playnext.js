@@ -2,6 +2,7 @@ require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const { addResolvedTrack, buildPlaybackPicker, resolvePlaybackSource } = require("../../utils/playbackResolver.js");
 const { ensurePlaybackSourceAvailable, playbackSlashOption } = require("../../utils/playbackOptions.js");
+const { isHttpUrl, searchPlaybackQuery } = require("../../utils/urlPlayback.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
@@ -37,7 +38,10 @@ module.exports = {
         await musicFuncs.getQueue(interaction);
 
         try {
-            const search = await player.search(query, {
+            const isUrlQuery = isHttpUrl(query);
+            if (isUrlQuery) await interaction.deferReply();
+
+            const search = await searchPlaybackQuery(player, query, {
                 requestedBy: interaction.user,
                 searchEngine: QueryType.AUTO,
             });
@@ -46,11 +50,11 @@ module.exports = {
                 return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
             }
 
+            if (!isUrlQuery) await interaction.deferReply();
+
             if (search.playlist) {
                 return sendEphemeralError(interaction, translate(interaction, "errors.playNextPlaylistOnly"));
             }
-
-            await interaction.deferReply();
 
             const resolution = await resolvePlaybackSource(search, query, interaction.client.config, forcedSource);
             if (!resolution) {
