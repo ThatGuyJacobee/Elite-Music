@@ -19,6 +19,15 @@ const BLOCKED_HOST_SUFFIXES = [
 const DEFAULT_ACCEPT = "text/html,application/xhtml+xml,audio/*;q=0.9,video/*;q=0.9,*/*;q=0.8";
 const USER_AGENT = "Elite-Music (https://github.com/ThatGuyJacobee/Elite-Music)";
 const MEDIA_FILE_EXTENSION = /\.(?:mp3|m4a|aac|ogg|oga|opus|flac|wav|weba|webm|mp4)$/i;
+const MEDIA_URL_PATTERN = /https?:\/\/[^\s"'<>\\]+?\.(?:mp3|m4a|aac|ogg|oga|opus|flac|wav|weba)(?:\?[^\s"'<>\\]*)?/gi;
+const META_TAG_PATTERN = /<meta\b[^>]*>/gi;
+const AUDIO_TAG_PATTERN = /<(?:audio|source)\b[^>]*>/gi;
+const LINK_TAG_PATTERN = /<link\b[^>]*>/gi;
+const JSON_LD_PATTERN =
+    /<script\b[^>]*\btype\s*=\s*(?:"application\/ld\+json"|'application\/ld\+json'|application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/gi;
+const TITLE_PATTERN = /<title\b[^>]*>([\s\S]*?)<\/title>/i;
+const NAMED_HTML_ENTITIES = { amp: "&", apos: "'", gt: ">", lt: "<", quot: '"' };
+const JSON_LD_MEDIA_KEYS = new Set(["contenturl", "audio", "associatedmedia"]);
 
 const blockedAddresses = new net.BlockList();
 blockedAddresses.addSubnet("0.0.0.0", 8, "ipv4");
@@ -209,11 +218,224 @@ function hasMediaFilename(response) {
     return MEDIA_FILE_EXTENSION.test(attachmentFilename(response));
 }
 
+function codePointToString(value) {
+    try {
+        return String.fromCodePoint(value);
+    } catch {
+        return "";
+    }
+}
+
+function decodeHtmlEntities(value) {
+    return String(value || "")
+        .replace(/&#x([0-9a-f]+);/gi, (_, hex) => codePointToString(parseInt(hex, 16)))
+        .replace(/&#(\d+);/g, (_, decimal) => codePointToString(Number(decimal)))
+        .replace(/&(amp|apos|gt|lt|quot);/gi, (_, name) => NAMED_HTML_ENTITIES[name.toLowerCase()]);
+}
+
+function getAttribute(tag, name) {
+    const pattern = new RegExp(`(?:^|\\s)${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s"'>]+))`, "i");
+    const match = pattern.exec(tag);
+
+    return match ? (match[1] ?? match[2] ?? match[3] ?? "").trim() : null;
+}
+
+function collectMetaTags(html) {
+    const values = new Map();
+
+    for (const tag of html.match(META_TAG_PATTERN) || []) {
+        const key = (
+            getAttribute(tag, "property") ||
+            getAttribute(tag, "name") ||
+            getAttribute(tag, "itemprop") ||
+            ""
+        ).toLowerCase();
+        const content = getAttribute(tag, "content");
+
+        if (key && content && !values.has(key)) values.set(key, content);
+    }
+
+    return values;
+}
+
+function collectAudioTagSources(html) {
+    const sources = [];
+
+    for (const tag of html.match(AUDIO_TAG_PATTERN) || []) {
+        const source = getAttribute(tag, "src") || getAttribute(tag, "data-src");
+        if (source) sources.push(source);
+    }
+
+    return sources;
+}
+
+function collectAlternateLinks(html) {
+    const links = [];
+
+    for (const tag of html.match(LINK_TAG_PATTERN) || []) {
+        const rel = (getAttribute(tag, "rel") || "").toLowerCase();
+        const type = (getAttribute(tag, "type") || "").toLowerCase();
+        const href = getAttribute(tag, "href");
+
+        if (rel.split(/\s+/).includes("alternate") && type.startsWith("audio/") && href) links.push(href);
+    }
+
+    return links;
+}
+
+function walkJsonLd(value, urls, depth) {
+    if (!value || depth > 8) return;
+
+    if (Array.isArray(value)) {
+        for (const item of value) walkJsonLd(item, urls, depth + 1);
+        return;
+    }
+
+    if (typeof value !== "object") return;
+
+    for (const [key, child] of Object.entries(value)) {
+        if (typeof child === "string" && JSON_LD_MEDIA_KEYS.has(key.toLowerCase())) {
+            urls.push(child);
+        } else if (typeof child === "object") {
+            walkJsonLd(child, urls, depth + 1);
+        }
+    }
+}
+
+function collectJsonLdUrls(html) {
+    const urls = [];
+
+    for (const match of html.matchAll(JSON_LD_PATTERN)) {
+        let data;
+        try {
+            data = JSON.parse(match[1]);
+        } catch {
+            continue;
+        }
+
+        walkJsonLd(data, urls, 0);
+    }
+
+    return urls;
+}
+
+function collectMediaUrlMatches(html) {
+    return html.replace(/\\\//g, "/").match(MEDIA_URL_PATTERN) || [];
+}
+
+function extractPageTitle(html) {
+    const match = TITLE_PATTERN.exec(html);
+    if (!match) return "";
+
+    return decodeHtmlEntities(match[1].replace(/<[^>]*>/g, " "))
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function filenameFromUrl(value) {
+    try {
+        const url = new URL(value);
+        const filename = decodeURIComponent(url.pathname.split("/").filter(Boolean).pop() || "");
+
+        return filename
+            .replace(/\.[a-z0-9]{1,5}$/i, "")
+            .replace(/[_+]+/g, " ")
+            .trim();
+    } catch {
+        return "";
+    }
+}
+
+function resolveMediaCandidate(value, baseUrl) {
+    const candidate = decodeHtmlEntities(String(value || "")).trim();
+    if (!candidate) return null;
+
+    try {
+        const url = new URL(candidate, baseUrl);
+        if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+        if (url.href === baseUrl) return null;
+
+        return url.href;
+    } catch {
+        return null;
+    }
+}
+
+function extractShareMedia(html, baseUrl) {
+    const meta = collectMetaTags(html);
+    const candidates = [
+        meta.get("og:audio"),
+        meta.get("og:audio:url"),
+        meta.get("og:audio:secure_url"),
+        meta.get("twitter:player:stream"),
+        meta.get("contenturl"),
+        ...collectAudioTagSources(html),
+        ...collectAlternateLinks(html),
+        ...collectJsonLdUrls(html),
+        ...collectMediaUrlMatches(html),
+    ];
+
+    let mediaUrl = null;
+    for (const candidate of candidates) {
+        mediaUrl = resolveMediaCandidate(candidate, baseUrl);
+        if (mediaUrl) break;
+    }
+
+    if (!mediaUrl) return null;
+
+    const title = decodeHtmlEntities(meta.get("og:title") || meta.get("twitter:title") || extractPageTitle(html))
+        .replace(/\s+/g, " ")
+        .trim();
+    let siteName = decodeHtmlEntities(meta.get("og:site_name") || "").trim();
+    if (!siteName) {
+        try {
+            siteName = new URL(baseUrl).hostname;
+        } catch {
+            siteName = "";
+        }
+    }
+
+    return {
+        mediaUrl,
+        metadata: {
+            title: title || filenameFromUrl(mediaUrl) || siteName,
+            siteName,
+        },
+    };
+}
+
+async function inspectUrl(value) {
+    const { response, url } = await fetchUrlSafe(value);
+    const contentType = responseContentType(response);
+
+    if (isMediaContentType(contentType) || hasMediaFilename(response)) {
+        await response.body?.cancel().catch(() => null);
+        return { kind: "media", finalUrl: url.href };
+    }
+
+    if (!isHtmlContentType(contentType)) {
+        await response.body?.cancel().catch(() => null);
+        return null;
+    }
+
+    const html = await readBodyCapped(response);
+    const extracted = extractShareMedia(html, url.href);
+
+    return {
+        kind: "html",
+        finalUrl: url.href,
+        mediaUrl: extracted?.mediaUrl ?? null,
+        metadata: extracted?.metadata ?? {},
+    };
+}
+
 module.exports = {
     MAX_HTML_BYTES,
     attachmentFilename,
+    extractShareMedia,
     fetchUrlSafe,
     hasMediaFilename,
+    inspectUrl,
     isHtmlContentType,
     isHttpUrl,
     isMediaContentType,
