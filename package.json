@@ -43,7 +43,7 @@
     "dependencies": {
         "@discordjs/opus": "^0.11.0",
         "@discordjs/rest": "2.6.3",
-        "@snazzah/davey": "^0.1.12",
+        "@snazzah/davey": "^0.2.0",
         "bgutils-js": "^4.0.3",
         "discord-api-types": "^0.38.58",
         "discord-player": "^7.2.0",
