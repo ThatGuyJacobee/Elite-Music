@@ -27,9 +27,12 @@ player.events.on("playerStart", async (queue) => {
     handlePlayerStart(queue);
     await clearNpControlMessages(queue);
 
-    let imageAttachment = await buildImageAttachment(queue.currentTrack.thumbnail, {
+    const currentTrack = queue.currentTrack;
+    if (!currentTrack) return;
+
+    let imageAttachment = await buildImageAttachment(currentTrack.thumbnail, {
         name: "coverimage.jpg",
-        description: buildCoverImageDescription(queue, "song", queue.currentTrack.title),
+        description: buildCoverImageDescription(queue, "song", currentTrack.title),
         source: queue,
     });
 

@@ -4,6 +4,7 @@ const { useMainPlayer } = require("discord-player");
 const { buildImageAttachment } = require("../utils/utilityFunctions");
 const { clearNpControlMessages } = require("./npControlMessages");
 const { getQueueEmptyResponse, sendEphemeralError } = require("./interactionGuards");
+const { createDirectStream } = require("./directStream");
 const { clear, createSoftTransitionStream, startInitialPlayback, transition } = require("./softTransitions");
 const {
     buildRequestedByFooter,
@@ -31,6 +32,7 @@ async function getQueue(interaction) {
             selfDeaf: client.config.selfDeafen,
             volume: client.config.enableSoftTransitions ? 0 : client.config.defaultVolume,
             skipOnNoStream: true,
+            onBeforeCreateStream: createDirectStream,
             onAfterCreateStream: createSoftTransitionStream,
             metadata: {
                 channel: interaction.channel,

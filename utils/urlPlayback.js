@@ -459,6 +459,15 @@ function urlHostname(value) {
     }
 }
 
+function markDirectStreams(search) {
+    for (const track of search?.tracks || []) {
+        if (track?.queryType !== QueryType.ARBITRARY || track.raw?.isFile) continue;
+
+        track.raw = track.raw || {};
+        track.raw.eliteDirectStream = true;
+    }
+}
+
 function buildDirectTrack(player, url, requestedBy, metadata = {}) {
     let hostname = "Direct link";
     let fallbackTitle = "Direct link";
@@ -482,7 +491,7 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
     const duration = Number.isFinite(durationMs) && durationMs > 0 ? formatDurationMs(durationMs) : "0:00";
     const trackMetadata = { title, author };
 
-    return new Track(player, {
+    const track = new Track(player, {
         title,
         author,
         url,
@@ -498,6 +507,9 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
             return trackMetadata;
         },
     });
+
+    track.raw.eliteDirectStream = true;
+    return track;
 }
 
 function buildDirectSearch(player, url, requestedBy, metadata) {
@@ -520,6 +532,8 @@ async function searchPlaybackQuery(player, query, options) {
         if (!isHttpUrl(query)) throw error;
         console.log(`[ELITE_PLAYBACK] Extractor search failed for ${urlHostname(query)}: ${error.message}`);
     }
+
+    markDirectStreams(search);
 
     if (search?.tracks?.length || !isHttpUrl(query)) return search;
 
@@ -554,6 +568,7 @@ async function searchPlaybackQuery(player, query, options) {
 
     try {
         const mediaSearch = await player.search(inspected.mediaUrl, options);
+        markDirectStreams(mediaSearch);
         if (mediaSearch?.tracks?.length) return mediaSearch;
     } catch (error) {
         console.log(
