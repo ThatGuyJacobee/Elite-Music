@@ -2,7 +2,7 @@ const dns = require("node:dns/promises");
 const net = require("node:net");
 const { escapeMarkdown } = require("discord.js");
 const { QueryResolver, QueryType, Track, Util } = require("discord-player");
-const { probeMediaDuration, probeMediaResponse } = require("./mediaProbe");
+const { probeMediaDuration } = require("./mediaProbe");
 const { formatDurationMs } = require("./utilityFunctions");
 
 const FETCH_TIMEOUT_MS = 5000;
@@ -238,12 +238,6 @@ function hasMediaFilename(response) {
     return MEDIA_FILE_EXTENSION.test(attachmentFilename(response));
 }
 
-function hasKnownContentLength(response) {
-    const length = Number(response.headers.get("content-length"));
-
-    return Number.isFinite(length) && length > 0;
-}
-
 function codePointToString(value) {
     try {
         return String.fromCodePoint(value);
@@ -471,13 +465,12 @@ async function inspectUrl(value) {
     const contentType = responseContentType(response);
 
     if (isMediaContentType(contentType) || hasMediaFilename(response)) {
-        const probe = hasKnownContentLength(response) ? await probeMediaResponse(response) : null;
-        if (!probe) await response.body?.cancel().catch(() => null);
+        await response.body?.cancel().catch(() => null);
 
         return {
             kind: "media",
             finalUrl: url.href,
-            metadata: probe?.metadata ?? {},
+            metadata: {},
         };
     }
 
