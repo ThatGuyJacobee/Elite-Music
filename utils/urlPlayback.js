@@ -1,7 +1,7 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
 const { QueryResolver, QueryType, Track } = require("discord-player");
-const { probeMediaResponse } = require("./mediaProbe");
+const { probeMediaDuration, probeMediaResponse } = require("./mediaProbe");
 const { formatDurationMs } = require("./utilityFunctions");
 
 const FETCH_TIMEOUT_MS = 5000;
@@ -430,7 +430,6 @@ async function inspectUrl(value) {
         return {
             kind: "media",
             finalUrl: url.href,
-            durationMs: probe?.durationMs ?? null,
             metadata: probe?.metadata ?? {},
         };
     }
@@ -487,15 +486,13 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
 
     const title = String(metadata.title || "").trim() || fallbackTitle;
     const author = String(metadata.siteName || metadata.author || "").trim() || hostname;
-    const durationMs = Number(metadata.durationMs);
-    const duration = Number.isFinite(durationMs) && durationMs > 0 ? formatDurationMs(durationMs) : "0:00";
     const trackMetadata = { title, author };
 
     const track = new Track(player, {
         title,
         author,
         url,
-        duration,
+        duration: "0:00",
         thumbnail: player?.client?.user?.displayAvatarURL?.() || "",
         views: 0,
         requestedBy,
@@ -523,7 +520,7 @@ function buildDirectSearch(player, url, requestedBy, metadata) {
     };
 }
 
-async function searchPlaybackQuery(player, query, options) {
+async function resolvePlaybackSearch(player, query, options) {
     let search = null;
 
     try {
@@ -554,10 +551,7 @@ async function searchPlaybackQuery(player, query, options) {
 
     if (inspected.kind === "media") {
         console.log(`[ELITE_PLAYBACK] Queueing ${urlHostname(inspected.finalUrl)} as a direct stream.`);
-        return buildDirectSearch(player, inspected.finalUrl, options?.requestedBy, {
-            ...inspected.metadata,
-            durationMs: inspected.durationMs,
-        });
+        return buildDirectSearch(player, inspected.finalUrl, options?.requestedBy, inspected.metadata);
     }
 
     if (!inspected.mediaUrl) return search;
@@ -592,7 +586,6 @@ async function searchPlaybackQuery(player, query, options) {
         return buildDirectSearch(player, mediaInspection.finalUrl, options?.requestedBy, {
             title: inspected.metadata.title || mediaInspection.metadata.title || "",
             siteName: inspected.metadata.siteName || mediaInspection.metadata.author || "",
-            durationMs: mediaInspection.durationMs,
         });
     }
 
@@ -606,6 +599,35 @@ async function searchPlaybackQuery(player, query, options) {
     console.log(`[ELITE_PLAYBACK] Queueing resolved media from ${urlHostname(inspected.mediaUrl)} as a direct stream.`);
 
     return buildDirectSearch(player, inspected.mediaUrl, options?.requestedBy, inspected.metadata);
+}
+
+async function applyDirectStreamDurations(search) {
+    const directTracks = (search?.tracks || []).filter(
+        (track) => track?.raw?.eliteDirectStream === true && !track.raw.isFile && !track.raw.eliteDurationMs,
+    );
+    if (directTracks.length === 0) return;
+
+    await Promise.all(
+        directTracks.map(async (track) => {
+            const url = track.raw?.engine || track.url;
+            if (!isHttpUrl(url) || !(await isPublicHttpUrl(url))) return;
+
+            const probe = await probeMediaDuration(url);
+            if (!probe?.durationMs) {
+                console.log(`[ELITE_PLAYBACK] Could not determine the length of ${urlHostname(url)}.`);
+                return;
+            }
+
+            track.raw.eliteDurationMs = probe.durationMs;
+            track.duration = formatDurationMs(probe.durationMs);
+        }),
+    );
+}
+
+async function searchPlaybackQuery(player, query, options) {
+    const search = await resolvePlaybackSearch(player, query, options);
+    await applyDirectStreamDurations(search);
+    return search;
 }
 
 module.exports = {
