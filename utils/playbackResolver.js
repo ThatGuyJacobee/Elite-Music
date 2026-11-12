@@ -321,7 +321,8 @@ function selectionIdentifier(result) {
         : result.item.url;
 }
 
-function resultDuration(result) {
+function resultDuration(interaction, result) {
+    if (result.item?.live) return translate(interaction, "np.liveIndicator").trim();
     if (!playbackProviders[result.source]) return result.item.duration || "--:--";
     return formatDurationMs(parseDurationMs(result.item.rawDuration ?? result.item.duration));
 }
@@ -358,7 +359,9 @@ function buildResultMenu(interaction, customId, results, selectionValue) {
         const option = new StringSelectMenuOptionBuilder()
             .setLabel(truncate(result.item.title, 100))
             .setValue(selectionValue(result))
-            .setDescription(truncate(`${sourceName(interaction, result.source)} • ${resultDuration(result)}`, 100));
+            .setDescription(
+                truncate(`${sourceName(interaction, result.source)} • ${resultDuration(interaction, result)}`, 100),
+            );
 
         if (PICKER_EMOJIS[index]) option.setEmoji(PICKER_EMOJIS[index]);
         menu.addOptions(option);
@@ -371,7 +374,7 @@ function buildResultFields(interaction, results, includeSource) {
     return results.map((result, index) => {
         const variables = {
             index: index + 1,
-            duration: resultDuration(result),
+            duration: resultDuration(interaction, result),
             source: sourceName(interaction, result.source),
         };
 
