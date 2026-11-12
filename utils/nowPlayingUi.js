@@ -34,8 +34,11 @@ function buildNpEmbed(queue, { title, footerMember = null }) {
     if (!currentTrack) return null;
 
     const bot = queue.guild.client;
-    const progress = queue.node.createProgressBar();
-    const createBar = progress.replace(/ 0:00/g, translate(queue, "np.liveIndicator"));
+    const progress = queue.node.createProgressBar() || "";
+    const durationMs = Number(currentTrack.durationMS);
+    const hasDuration = Number.isFinite(durationMs) && durationMs > 0;
+    const unknownLabel = translate(queue, currentTrack.live ? "np.liveIndicator" : "np.unknownDuration");
+    const createBar = hasDuration ? progress : progress.replace(/ 0:00$/, unknownLabel);
 
     const npembed = new EmbedBuilder()
         .setAuthor({ name: bot.user.tag, iconURL: bot.user.displayAvatarURL() })
