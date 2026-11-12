@@ -1,6 +1,7 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
 const { buildAggregatedPlaybackPicker, searchAllPlaybackSources } = require("../../utils/playbackResolver.js");
+const { isHttpUrl, isPublicHttpUrl } = require("../../utils/urlPlayback.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { useMainPlayer, QueryType } = require("discord-player");
 const { translate } = require("../../utils/botText");
@@ -28,6 +29,10 @@ module.exports = {
 
         const query = interaction.options.getString("music");
         await musicFuncs.getQueue(interaction);
+
+        if (isHttpUrl(query) && !(await isPublicHttpUrl(query))) {
+            return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+        }
 
         try {
             const search = await useMainPlayer().search(query, {

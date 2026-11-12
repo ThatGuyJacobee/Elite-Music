@@ -523,6 +523,11 @@ function buildDirectSearch(player, url, requestedBy, metadata) {
 async function resolvePlaybackSearch(player, query, options) {
     let search = null;
 
+    if (isHttpUrl(query) && !(await isPublicHttpUrl(query))) {
+        console.log(`[ELITE_PLAYBACK] Refusing to fetch ${urlHostname(query)}: not a publicly reachable address.`);
+        return null;
+    }
+
     try {
         search = await player.search(query, options);
     } catch (error) {
@@ -610,9 +615,19 @@ async function applyDirectStreamDurations(search) {
     await Promise.all(
         directTracks.map(async (track) => {
             const url = track.raw?.engine || track.url;
-            if (!isHttpUrl(url) || !(await isPublicHttpUrl(url))) return;
+            if (!isHttpUrl(url)) return;
 
-            const probe = await probeMediaDuration(url);
+            let probeUrl;
+            try {
+                const { response, url: resolvedUrl } = await fetchUrlSafe(url, { accept: "*/*" });
+                await response.body?.cancel().catch(() => null);
+                probeUrl = resolvedUrl.href;
+            } catch (error) {
+                console.log(`[ELITE_PLAYBACK] Could not reach ${urlHostname(url)}: ${error.message}`);
+                return;
+            }
+
+            const probe = await probeMediaDuration(probeUrl);
             if (probe?.live) {
                 track.live = true;
                 track.duration = "0:00";
