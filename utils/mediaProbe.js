@@ -1,12 +1,5 @@
-const { Readable } = require("node:stream");
 const { spawn } = require("node:child_process");
-
-let mediaplex = null;
-try {
-    mediaplex = require("mediaplex");
-} catch {
-    mediaplex = null;
-}
+const { StringDecoder } = require("node:string_decoder");
 
 let ffmpegPath = null;
 try {
@@ -15,8 +8,6 @@ try {
     ffmpegPath = null;
 }
 
-const DEFAULT_PROBE_SIZE = 2 * 1024 * 1024;
-const DEFAULT_PROBE_TIMEOUT_MS = 3000;
 const FFMPEG_PROBE_TIMEOUT_MS = 5000;
 const FFMPEG_OUTPUT_LIMIT = 64 * 1024;
 const DURATION_CACHE_TTL_MS = 60 * 60 * 1000;
@@ -28,46 +19,12 @@ const FFMPEG_NO_DURATION_PATTERN = /Duration:\s*N\/A/;
 const FFMPEG_ESTIMATE_PATTERN = /Estimating duration from bitrate/;
 const FFMPEG_ICY_PATTERN = /^[ \t]*icy-[a-z0-9]+[ \t]*:/im;
 const FFMPEG_STREAM_PATTERN = /Input #0,\s*(?:hls|dash)\b/i;
+const FFMPEG_METADATA_KEYS = new Set(["title", "artist", "album", "icy-name"]);
+const FFMPEG_METADATA_LINE = /^[ \t]+([a-z0-9-]+)[ \t]*:[ \t]*(.+)$/i;
 
 const durationCache = new Map();
 const probeQueue = [];
 let activeProbes = 0;
-
-// Reads the tags out of the first part of a response. The duration is intentionally not
-// derived from this buffer: for most files it only covers the first few minutes (or less),
-// so probing a truncated stream reports the length of the buffer, not the file.
-async function probeMediaResponse(response, options = {}) {
-    if (!mediaplex || !response?.body) return null;
-
-    const probeSize = options.probeSize ?? DEFAULT_PROBE_SIZE;
-    const timeoutMs = options.timeoutMs ?? DEFAULT_PROBE_TIMEOUT_MS;
-    let source;
-    let timer;
-
-    try {
-        source = Readable.fromWeb(response.body);
-        const probe = mediaplex.probeStream(source, { probeSize });
-        const timeout = new Promise((_, reject) => {
-            timer = setTimeout(() => reject(new Error("Media probe timed out")), timeoutMs);
-        });
-        const { result, stream } = await Promise.race([probe, timeout]);
-        stream?.destroy?.();
-        if (!result) return null;
-
-        const metadata = mediaplex.readMetadata(result);
-        return {
-            metadata: {
-                title: metadata?.title || "",
-                author: metadata?.author || "",
-            },
-        };
-    } catch {
-        source?.destroy();
-        return null;
-    } finally {
-        clearTimeout(timer);
-    }
-}
 
 function parseFfmpegDuration(output) {
     const match = FFMPEG_DURATION_PATTERN.exec(String(output || ""));
@@ -81,15 +38,33 @@ function parseFfmpegDuration(output) {
 
 function parseFfmpegOutput(output) {
     const durationMs = parseFfmpegDuration(output);
+    const metadata = parseFfmpegMetadata(output);
+
     if (durationMs == null) {
-        return isLiveStreamOutput(output) ? { durationMs: null, estimated: false, live: true } : null;
+        return isLiveStreamOutput(output) ? { durationMs: null, estimated: false, live: true, metadata } : null;
     }
 
     return {
         durationMs,
         estimated: FFMPEG_ESTIMATE_PATTERN.test(output),
         live: false,
+        metadata,
     };
+}
+
+function parseFfmpegMetadata(output) {
+    const metadata = {};
+
+    for (const line of String(output || "").split(/\r?\n/)) {
+        const match = FFMPEG_METADATA_LINE.exec(line);
+        if (!match) continue;
+
+        const key = match[1].toLowerCase();
+        const value = match[2].trim();
+        if (value && FFMPEG_METADATA_KEYS.has(key) && !metadata[key]) metadata[key] = value;
+    }
+
+    return metadata;
 }
 
 // Icecast/Shoutcast streams carry ICY metadata, and HLS/DASH live manifests report no
@@ -107,7 +82,12 @@ function readCachedDuration(url) {
         return null;
     }
 
-    return { durationMs: cached.durationMs ?? null, estimated: Boolean(cached.estimated), live: Boolean(cached.live) };
+    return {
+        durationMs: cached.durationMs ?? null,
+        estimated: Boolean(cached.estimated),
+        live: Boolean(cached.live),
+        metadata: cached.metadata ?? {},
+    };
 }
 
 function writeCachedDuration(url, probe) {
@@ -147,6 +127,7 @@ function spawnDurationProbe(url, timeoutMs) {
     return new Promise((resolve) => {
         let child = null;
         let output = "";
+        const decoder = new StringDecoder("utf8");
         let settled = false;
         let timer;
 
@@ -184,13 +165,14 @@ function spawnDurationProbe(url, timeoutMs) {
 
         child.once("error", () => finish(null));
         child.stderr.on("data", (chunk) => {
-            if (output.length < FFMPEG_OUTPUT_LIMIT) output += chunk.toString();
+            const text = decoder.write(chunk);
+            if (output.length < FFMPEG_OUTPUT_LIMIT) output += text;
             if (FFMPEG_NO_DURATION_PATTERN.test(output)) return finish(parseFfmpegOutput(output));
 
             const probe = parseFfmpegOutput(output);
             if (probe) finish(probe);
         });
-        child.once("close", () => finish(parseFfmpegOutput(output)));
+        child.once("close", () => finish(parseFfmpegOutput(output + decoder.end())));
     });
 }
 
@@ -207,16 +189,10 @@ async function probeMediaDuration(url, options = {}) {
     return probe;
 }
 
-if (!mediaplex) {
-    console.log("[ELITE_PLAYBACK] mediaplex is unavailable; direct streams will not report media tags.");
-}
-
 if (!ffmpegPath) {
     console.log("[ELITE_PLAYBACK] ffmpeg-static is unavailable; direct streams will not report durations.");
 }
 
 module.exports = {
-    parseFfmpegDuration,
     probeMediaDuration,
-    probeMediaResponse,
 };
