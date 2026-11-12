@@ -339,7 +339,8 @@
         "volumeModalLabel": "Vad ska den nya volymen vara (0-100)?",
         "volumeModalPlaceholder": "Ditt svar...",
         "volumeModalInvalid": "❌ | Volymen måste vara mellan 0-100, ditt inmatade värde låg utanför detta.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Kopplar från 🛑",

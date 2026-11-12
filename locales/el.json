@@ -339,7 +339,8 @@
         "volumeModalLabel": "Ποια πρέπει να είναι η νέα ένταση (0-100);",
         "volumeModalPlaceholder": "Η απάντησή σου...",
         "volumeModalInvalid": "❌ | Η ένταση πρέπει να είναι μεταξύ 0-100, η είσοδός σου ήταν εκτός αυτού.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " Μ/Δ"
     },
     "lifecycle": {
         "disconnectTitle": "Αποσύνδεση 🛑",

@@ -339,7 +339,8 @@
         "volumeModalLabel": "नया वॉल्यूम क्या होना चाहिए (0-100)?",
         "volumeModalPlaceholder": "आपका उत्तर...",
         "volumeModalInvalid": "❌ | वॉल्यूम 0-100 के बीच होना चाहिए, आपका इनपुट इस सीमा से बाहर था।",
-        "liveIndicator": " ◉ लाइव"
+        "liveIndicator": " ◉ लाइव",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "डिस्कनेक्ट हो रहा है 🛑",

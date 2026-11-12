@@ -339,7 +339,8 @@
         "volumeModalLabel": "Waarop moet het nieuwe volume staan (0-100)?",
         "volumeModalPlaceholder": "Je antwoord...",
         "volumeModalInvalid": "❌ | Het volume moet tussen 0 en 100 liggen, je invoer lag buiten dit bereik.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Verbinding verbreken 🛑",

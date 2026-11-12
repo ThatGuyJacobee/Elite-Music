@@ -339,7 +339,8 @@
         "volumeModalLabel": "ระดับเสียงใหม่ควรเป็นเท่าใด (0-100)?",
         "volumeModalPlaceholder": "คำตอบของคุณ...",
         "volumeModalInvalid": "❌ | ระดับเสียงต้องอยู่ระหว่าง 0-100 ค่าที่คุณใส่อยู่นอกช่วงนี้",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "กำลังตัดการเชื่อมต่อ 🛑",

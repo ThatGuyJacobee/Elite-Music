@@ -339,7 +339,8 @@
         "volumeModalLabel": "Jaká by měla být nová hlasitost (0-100)?",
         "volumeModalPlaceholder": "Vaše odpověď...",
         "volumeModalInvalid": "❌ | Hlasitost musí být mezi 0-100, váš vstup je mimo tento rozsah.",
-        "liveIndicator": " ◉ ŽIVĚ"
+        "liveIndicator": " ◉ ŽIVĚ",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Odpojování 🛑",

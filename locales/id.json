@@ -339,7 +339,8 @@
         "volumeModalLabel": "Volume baru harus berapa (0-100)?",
         "volumeModalPlaceholder": "Jawaban Anda...",
         "volumeModalInvalid": "❌ | Volume harus antara 0-100, input Anda di luar rentang ini.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Memutuskan koneksi 🛑",

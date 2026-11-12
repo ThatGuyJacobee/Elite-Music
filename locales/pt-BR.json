@@ -339,7 +339,8 @@
         "volumeModalLabel": "Qual deve ser o novo volume (0-100)?",
         "volumeModalPlaceholder": "Sua resposta...",
         "volumeModalInvalid": "❌ | O volume deve estar entre 0 e 100, sua entrada estava fora desse intervalo.",
-        "liveIndicator": " ◉ AO VIVO"
+        "liveIndicator": " ◉ AO VIVO",
+        "unknownDuration": " N/D"
     },
     "lifecycle": {
         "disconnectTitle": "Desconectando 🛑",

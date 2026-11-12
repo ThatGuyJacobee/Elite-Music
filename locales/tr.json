@@ -339,7 +339,8 @@
         "volumeModalLabel": "Yeni ses seviyesi ne olmalı (0-100)?",
         "volumeModalPlaceholder": "Yanıtınız...",
         "volumeModalInvalid": "❌ | Ses seviyesi 0-100 arasında olmalıdır, girdiniz bu aralığın dışındaydı.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Bağlantı kesiliyor 🛑",
