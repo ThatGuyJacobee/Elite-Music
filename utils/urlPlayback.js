@@ -1,6 +1,7 @@
 const dns = require("node:dns/promises");
 const net = require("node:net");
-const { QueryResolver, QueryType, Track } = require("discord-player");
+const { escapeMarkdown } = require("discord.js");
+const { QueryResolver, QueryType, Track, Util } = require("discord-player");
 const { probeMediaDuration, probeMediaResponse } = require("./mediaProbe");
 const { formatDurationMs } = require("./utilityFunctions");
 
@@ -22,6 +23,22 @@ const BLOCKED_HOST_SUFFIXES = [
 const DEFAULT_ACCEPT = "text/html,application/xhtml+xml,audio/*;q=0.9,video/*;q=0.9,*/*;q=0.8";
 const USER_AGENT = "Elite-Music (https://github.com/ThatGuyJacobee/Elite-Music)";
 const MEDIA_FILE_EXTENSION = /\.(?:mp3|m4a|aac|ogg|oga|opus|flac|wav|weba|webm|mp4)$/i;
+const GENERIC_TITLES = new Set([
+    "audio",
+    "download",
+    "file",
+    "media",
+    "n/a",
+    "none",
+    "null",
+    "track",
+    "unknown",
+    "unknown title",
+    "untitled",
+    "video",
+]);
+const GENERIC_TITLE_PATTERN = /^(?:track|audio|video)\s*\d+$/i;
+const GENERIC_AUTHORS = new Set(["attachment", "n/a", "none", "null", "unknown", "unknown artist", "various artists"]);
 const MEDIA_URL_PATTERN = /https?:\/\/[^\s"'<>\\]+?\.(?:mp3|m4a|aac|ogg|oga|opus|flac|wav|weba)(?:\?[^\s"'<>\\]*)?/gi;
 const META_TAG_PATTERN = /<meta\b[^>]*>/gi;
 const AUDIO_TAG_PATTERN = /<(?:audio|source)\b[^>]*>/gi;
@@ -355,6 +372,36 @@ function filenameFromUrl(value) {
     }
 }
 
+function normalizeTitleText(value) {
+    return String(value || "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function stripMediaExtension(value) {
+    return value.replace(MEDIA_FILE_EXTENSION, "").trim();
+}
+
+function cleanFilenameTitle(value) {
+    return stripMediaExtension(normalizeTitleText(value).replace(/[_+]+/g, " "));
+}
+
+function cleanTitleText(value) {
+    const text = normalizeTitleText(value);
+    return MEDIA_FILE_EXTENSION.test(text) ? cleanFilenameTitle(text) : text;
+}
+
+function isUsableTitle(value, siteName, hostname) {
+    if (!value) return false;
+
+    const lower = value.toLowerCase();
+    if (GENERIC_TITLES.has(lower) || GENERIC_TITLE_PATTERN.test(value)) return false;
+    if (siteName && lower === String(siteName).toLowerCase()) return false;
+    if (hostname && lower === String(hostname).toLowerCase()) return false;
+
+    return true;
+}
+
 function resolveMediaCandidate(value, baseUrl) {
     const candidate = decodeHtmlEntities(String(value || "")).trim();
     if (!candidate) return null;
@@ -487,7 +534,6 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
     const title = String(metadata.title || "").trim() || fallbackTitle;
     const author = String(metadata.siteName || metadata.author || "").trim() || hostname;
     const trackMetadata = { title, author };
-
     const track = new Track(player, {
         title,
         author,
@@ -506,6 +552,8 @@ function buildDirectTrack(player, url, requestedBy, metadata = {}) {
     });
 
     track.raw.eliteDirectStream = true;
+    track.raw.eliteSiteName = String(metadata.siteName || "").trim();
+    track.raw.eliteFallbackTitle = fallbackTitle;
     return track;
 }
 
@@ -589,7 +637,7 @@ async function resolvePlaybackSearch(player, query, options) {
             `[ELITE_PLAYBACK] Queueing resolved media from ${urlHostname(mediaInspection.finalUrl)} as a direct stream.`,
         );
         return buildDirectSearch(player, mediaInspection.finalUrl, options?.requestedBy, {
-            title: inspected.metadata.title || mediaInspection.metadata.title || "",
+            title: mediaInspection.metadata.title || inspected.metadata.title || "",
             siteName: inspected.metadata.siteName || mediaInspection.metadata.author || "",
         });
     }
@@ -606,9 +654,59 @@ async function resolvePlaybackSearch(player, query, options) {
     return buildDirectSearch(player, inspected.mediaUrl, options?.requestedBy, inspected.metadata);
 }
 
-async function applyDirectStreamDurations(search) {
+function resolveDirectTrackDetails(track, { probe, dispositionFilename, hostname }) {
+    const metadata = probe?.metadata || {};
+    const siteName = track.raw?.eliteSiteName || "";
+    const candidates = [
+        metadata.title,
+        metadata["icy-name"],
+        track.raw?.title,
+        dispositionFilename,
+        track.raw?.eliteFallbackTitle,
+        filenameFromUrl(track.url),
+        hostname,
+    ];
+
+    let plainTitle = hostname || "Direct link";
+    for (const candidate of candidates) {
+        const value = cleanTitleText(candidate);
+        if (!isUsableTitle(value, siteName, hostname)) continue;
+
+        plainTitle = value;
+        break;
+    }
+
+    let author = hostname || "Direct link";
+    for (const candidate of [metadata.artist, track.raw?.author, track.author, hostname]) {
+        const value = normalizeTitleText(candidate);
+        if (!value || GENERIC_AUTHORS.has(value.toLowerCase())) continue;
+
+        author = value;
+        break;
+    }
+
+    track.title = escapeMarkdown(plainTitle);
+    track.author = author;
+    track.description = `${track.title} by ${author}`;
+
+    if (typeof Util?.cleanTitle === "function") {
+        track.cleanTitle = Util.cleanTitle(plainTitle, track.source);
+    }
+
+    if (track.metadata && typeof track.metadata === "object") {
+        track.metadata.title = plainTitle;
+        track.metadata.author = author;
+        if (typeof track.metadata.description === "string") {
+            track.metadata.description = `${plainTitle} by ${author}`;
+        }
+    }
+
+    track.raw.eliteDetailsApplied = true;
+}
+
+async function applyDirectStreamDetails(search) {
     const directTracks = (search?.tracks || []).filter(
-        (track) => track?.raw?.eliteDirectStream === true && !track.raw.isFile && !track.raw.eliteDurationMs,
+        (track) => track?.raw?.eliteDirectStream === true && !track.raw.isFile && !track.raw.eliteDetailsApplied,
     );
     if (directTracks.length === 0) return;
 
@@ -617,9 +715,11 @@ async function applyDirectStreamDurations(search) {
             const url = track.raw?.engine || track.url;
             if (!isHttpUrl(url)) return;
 
+            let dispositionFilename = "";
             let probeUrl;
             try {
                 const { response, url: resolvedUrl } = await fetchUrlSafe(url, { accept: "*/*" });
+                dispositionFilename = attachmentFilename(response);
                 await response.body?.cancel().catch(() => null);
                 probeUrl = resolvedUrl.href;
             } catch (error) {
@@ -628,6 +728,14 @@ async function applyDirectStreamDurations(search) {
             }
 
             const probe = await probeMediaDuration(probeUrl);
+            if (probe) {
+                resolveDirectTrackDetails(track, {
+                    probe,
+                    dispositionFilename,
+                    hostname: urlHostname(probeUrl),
+                });
+            }
+
             if (probe?.live) {
                 track.live = true;
                 track.duration = "0:00";
@@ -648,7 +756,7 @@ async function applyDirectStreamDurations(search) {
 
 async function searchPlaybackQuery(player, query, options) {
     const search = await resolvePlaybackSearch(player, query, options);
-    await applyDirectStreamDurations(search);
+    await applyDirectStreamDetails(search);
     return search;
 }
 
