@@ -26,6 +26,8 @@ const FFMPEG_USER_AGENT = "Elite-Music (https://github.com/ThatGuyJacobee/Elite-
 const FFMPEG_DURATION_PATTERN = /Duration:\s*(\d+):(\d{2}):(\d{2}(?:\.\d+)?)/;
 const FFMPEG_NO_DURATION_PATTERN = /Duration:\s*N\/A/;
 const FFMPEG_ESTIMATE_PATTERN = /Estimating duration from bitrate/;
+const FFMPEG_ICY_PATTERN = /^[ \t]*icy-[a-z0-9]+[ \t]*:/im;
+const FFMPEG_STREAM_PATTERN = /Input #0,\s*(?:hls|dash)\b/i;
 
 const durationCache = new Map();
 const probeQueue = [];
@@ -79,12 +81,21 @@ function parseFfmpegDuration(output) {
 
 function parseFfmpegOutput(output) {
     const durationMs = parseFfmpegDuration(output);
-    if (durationMs == null) return null;
+    if (durationMs == null) {
+        return isLiveStreamOutput(output) ? { durationMs: null, estimated: false, live: true } : null;
+    }
 
     return {
         durationMs,
         estimated: FFMPEG_ESTIMATE_PATTERN.test(output),
+        live: false,
     };
+}
+
+// Icecast/Shoutcast streams carry ICY metadata, and HLS/DASH live manifests report no
+// duration. A plain file with no length and no headers stays unknown rather than live.
+function isLiveStreamOutput(output) {
+    return FFMPEG_ICY_PATTERN.test(output) || FFMPEG_STREAM_PATTERN.test(output);
 }
 
 function readCachedDuration(url) {
@@ -96,7 +107,7 @@ function readCachedDuration(url) {
         return null;
     }
 
-    return { durationMs: cached.durationMs, estimated: cached.estimated };
+    return { durationMs: cached.durationMs ?? null, estimated: Boolean(cached.estimated), live: Boolean(cached.live) };
 }
 
 function writeCachedDuration(url, probe) {
@@ -174,7 +185,7 @@ function spawnDurationProbe(url, timeoutMs) {
         child.once("error", () => finish(null));
         child.stderr.on("data", (chunk) => {
             if (output.length < FFMPEG_OUTPUT_LIMIT) output += chunk.toString();
-            if (FFMPEG_NO_DURATION_PATTERN.test(output)) return finish(null);
+            if (FFMPEG_NO_DURATION_PATTERN.test(output)) return finish(parseFfmpegOutput(output));
 
             const probe = parseFfmpegOutput(output);
             if (probe) finish(probe);
@@ -191,7 +202,7 @@ async function probeMediaDuration(url, options = {}) {
 
     const timeoutMs = options.timeoutMs ?? FFMPEG_PROBE_TIMEOUT_MS;
     const probe = await runProbeWithSlot(() => spawnDurationProbe(url, timeoutMs));
-    if (probe?.durationMs) writeCachedDuration(url, probe);
+    if (probe) writeCachedDuration(url, probe);
 
     return probe;
 }

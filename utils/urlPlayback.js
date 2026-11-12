@@ -613,6 +613,13 @@ async function applyDirectStreamDurations(search) {
             if (!isHttpUrl(url) || !(await isPublicHttpUrl(url))) return;
 
             const probe = await probeMediaDuration(url);
+            if (probe?.live) {
+                track.live = true;
+                track.duration = "0:00";
+                console.log(`[ELITE_PLAYBACK] ${urlHostname(url)} is a live stream.`);
+                return;
+            }
+
             if (!probe?.durationMs) {
                 console.log(`[ELITE_PLAYBACK] Could not determine the length of ${urlHostname(url)}.`);
                 return;
