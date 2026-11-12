@@ -339,7 +339,8 @@
         "volumeModalLabel": "Na jaką wartość ustawić nową głośność (0-100)?",
         "volumeModalPlaceholder": "Twoja odpowiedź...",
         "volumeModalInvalid": "❌ | Głośność musi mieścić się w zakresie 0-100, podana wartość jest poza zakresem.",
-        "liveIndicator": " ◉ NA ŻYWO"
+        "liveIndicator": " ◉ NA ŻYWO",
+        "unknownDuration": " b.d."
     },
     "lifecycle": {
         "disconnectTitle": "Rozłączanie 🛑",

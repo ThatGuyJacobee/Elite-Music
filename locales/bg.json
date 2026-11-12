@@ -339,7 +339,8 @@
         "volumeModalLabel": "Каква трябва да бъде новата сила на звука (0-100)?",
         "volumeModalPlaceholder": "Вашият отговор...",
         "volumeModalInvalid": "❌ | Силата на звука трябва да бъде между 0-100, вашият вход е извън този диапазон.",
-        "liveIndicator": " ◉ НА ЖИВО"
+        "liveIndicator": " ◉ НА ЖИВО",
+        "unknownDuration": " Н/Д"
     },
     "lifecycle": {
         "disconnectTitle": "Изключване 🛑",

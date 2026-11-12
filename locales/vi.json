@@ -339,7 +339,8 @@
         "volumeModalLabel": "Âm lượng mới nên là bao nhiêu (0-100)?",
         "volumeModalPlaceholder": "Câu trả lời của bạn...",
         "volumeModalInvalid": "❌ | Âm lượng phải từ 0-100, đầu vào của bạn nằm ngoài phạm vi này.",
-        "liveIndicator": " ◉ TRỰC TIẾP"
+        "liveIndicator": " ◉ TRỰC TIẾP",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Đang ngắt kết nối 🛑",

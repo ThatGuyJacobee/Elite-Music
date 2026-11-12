@@ -339,7 +339,8 @@
         "volumeModalLabel": "Mi legyen az új hangerő (0-100)?",
         "volumeModalPlaceholder": "A válaszod...",
         "volumeModalInvalid": "❌ | A hangerőnek 0-100 között kell lennie, a megadott érték ezen kívül esik.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/A"
     },
     "lifecycle": {
         "disconnectTitle": "Kapcsolat bontása 🛑",

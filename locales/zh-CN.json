@@ -339,7 +339,8 @@
         "volumeModalLabel": "新音量应为多少（0-100）？",
         "volumeModalPlaceholder": "您的回答...",
         "volumeModalInvalid": "❌ | 音量必须在 0-100 之间，您的输入超出此范围。",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " 未知"
     },
     "lifecycle": {
         "disconnectTitle": "正在断开连接 🛑",

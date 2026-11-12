@@ -339,7 +339,8 @@
         "volumeModalLabel": "Koks turėtų būti naujas garsumas (0-100)?",
         "volumeModalPlaceholder": "Jūsų atsakymas...",
         "volumeModalInvalid": "❌ | Garsumas turi būti tarp 0-100, jūsų įvestis buvo už ribų.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/D"
     },
     "lifecycle": {
         "disconnectTitle": "Atsijungiama 🛑",

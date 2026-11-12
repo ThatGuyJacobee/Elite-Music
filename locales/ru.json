@@ -339,7 +339,8 @@
         "volumeModalLabel": "На какое значение должна быть установлена новая громкость (0-100)?",
         "volumeModalPlaceholder": "Ваш ответ...",
         "volumeModalInvalid": "❌ | Громкость должна быть в диапазоне 0-100, ваш ввод был вне этого диапазона.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " Н/Д"
     },
     "lifecycle": {
         "disconnectTitle": "Отключение 🛑",

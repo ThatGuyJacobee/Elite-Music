@@ -339,7 +339,8 @@
         "volumeModalLabel": "На яке значення має бути встановлена нова гучність (0-100)?",
         "volumeModalPlaceholder": "Ваша відповідь...",
         "volumeModalInvalid": "❌ | Гучність має бути в діапазоні 0-100, ваш ввід був поза цим діапазоном.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " Н/Д"
     },
     "lifecycle": {
         "disconnectTitle": "Відключення 🛑",

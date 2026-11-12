@@ -339,7 +339,8 @@
         "volumeModalLabel": "Care ar trebui să fie noul volum (0-100)?",
         "volumeModalPlaceholder": "Răspunsul tău...",
         "volumeModalInvalid": "❌ | Volumul trebuie să fie între 0-100, introducerea ta a fost în afara intervalului.",
-        "liveIndicator": " ◉ LIVE"
+        "liveIndicator": " ◉ LIVE",
+        "unknownDuration": " N/D"
     },
     "lifecycle": {
         "disconnectTitle": "Se deconectează 🛑",
