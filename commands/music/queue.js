@@ -8,6 +8,7 @@ const {
     buildTrackLinkText,
     translate,
 } = require("../../utils/botText");
+const { getDisplayArtist } = require("../../utils/nowPlayingUi");
 const {
     ensureDjAccess,
     ensureInVoiceChannel,
@@ -42,9 +43,12 @@ module.exports = {
         var i = curPage * 10 - 10;
         var curTracks = [];
 
+        const currentArtist = getDisplayArtist(queue.currentTrack);
+        const currentValue = `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`;
+
         curTracks.push({
             name: translate(interaction, "queue.nowPlayingField"),
-            value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`,
+            value: currentArtist ? `${currentValue}\n**${currentArtist}**` : currentValue,
         });
 
         for (i; i < curPage * 10; i++) {
@@ -111,9 +115,12 @@ module.exports = {
             var i = curPage * 10 - 10;
             var curTracks = [];
 
+            const currentArtist = getDisplayArtist(queue.currentTrack);
+            const currentValue = `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`;
+
             curTracks.push({
                 name: translate(interaction, "queue.nowPlayingField"),
-                value: `**${queue.currentTrack.title}** ${buildTrackLinkText(queue.currentTrack, interaction)}`,
+                value: currentArtist ? `${currentValue}\n**${currentArtist}**` : currentValue,
             });
 
             for (i; i < curPage * 10; i++) {
