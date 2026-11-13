@@ -41,10 +41,10 @@ module.exports = {
         const query = interaction.options.getString("music");
         const player = useMainPlayer();
         await musicFuncs.getQueue(interaction);
+        await interaction.deferReply();
 
         try {
             const isUrlQuery = isHttpUrl(query);
-            if (isUrlQuery) await interaction.deferReply();
 
             let resolution = null;
 
@@ -75,8 +75,6 @@ module.exports = {
                     }),
                 );
             }
-
-            if (!isUrlQuery) await interaction.deferReply();
 
             if (resolution.playlistSearch) {
                 return sendEphemeralError(interaction, translate(interaction, "errors.playNextPlaylistOnly"));

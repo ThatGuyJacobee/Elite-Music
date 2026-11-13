@@ -33,6 +33,7 @@ module.exports = {
 
         const query = interaction.options.getString("music");
         await musicFuncs.getQueue(interaction);
+        await interaction.deferReply();
 
         if (isHttpUrl(query) && !(await isPublicHttpUrl(query))) {
             return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
@@ -56,11 +57,9 @@ module.exports = {
                     return sendEphemeralError(interaction, translate(interaction, "errors.searchPlaylist"));
                 }
 
-                await interaction.deferReply();
                 groups = await searchAllPlaybackSources(search, interaction.client.config);
             } else {
                 groups = await searchAllTextSources(query, interaction.client.config, interaction.user);
-                await interaction.deferReply();
             }
 
             if (!groups) {
