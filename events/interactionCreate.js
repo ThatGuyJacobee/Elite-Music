@@ -30,6 +30,7 @@ const {
     getQueueNotPlayingResponse,
 } = require("../utils/interactionGuards");
 const { skipCurrentTrack } = require("../utils/sharedFunctions");
+const { handleQueueButton } = require("../utils/queuePages");
 const {
     cancel,
     clear,
@@ -238,124 +239,7 @@ module.exports = {
 
         //Check for button interactions
         else if (interaction.isButton()) {
-            if (interaction.customId == "queue-delete") {
-                if (!(await ensureDjAccess(interaction))) return;
-
-                interaction.message.delete();
-            }
-
-            if (interaction.customId == "queue-pageleft") {
-                const player = useMainPlayer();
-                var queue = player.nodes.get(interaction.guild.id);
-                if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
-
-                if (!(await ensureDjAccess(interaction))) return;
-
-                if (global.page == 1)
-                    return interaction.reply({
-                        content: translate(interaction, "queue.alreadyFirstPage"),
-                        flags: MessageFlags.Ephemeral,
-                    });
-                global.page = page - 1;
-                interaction.message.delete();
-
-                const pageStart = 10 * (page - 1);
-                const pageEnd = pageStart + 10;
-                const currentMusic = queue.current;
-                const musiclist = queue.tracks.slice(pageStart, pageEnd).map((m, i) => {
-                    return `${i + pageStart + 1}# **${m.title}** ([link](${m.url}))`;
-                });
-
-                const queueembed = new EmbedBuilder()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                    .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-                    .setColor(client.config.embedColour)
-                    .setTitle(translate(interaction, "queue.title"))
-                    .setDescription(
-                        `${musiclist.join("\n")}${queue.tracks.length > pageEnd ? `\n${translate(interaction, "queue.moreTracks", { count: queue.tracks.length - pageEnd })}` : ""}`,
-                    )
-                    .addField(
-                        translate(interaction, "queue.nowPlayingField"),
-                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic, interaction)}`,
-                    )
-                    .setTimestamp()
-                    .setFooter(buildRequestedByFooter(interaction, interaction.user));
-
-                const components = [
-                    (actionbutton = new MessageActionRow().addComponents(
-                        new MessageButton().setCustomId("queue-delete").setStyle("DANGER").setLabel("🗑️"),
-                        //.addOptions(options)
-                        new MessageButton()
-                            .setCustomId("queue-pageleft")
-                            .setStyle("PRIMARY")
-                            .setLabel(translate(interaction, "queue.previousPage")),
-                        new MessageButton()
-                            .setCustomId("queue-pageright")
-                            .setStyle("PRIMARY")
-                            .setLabel(translate(interaction, "queue.nextPage")),
-                    )),
-                ];
-
-                interaction.reply({ embeds: [queueembed], components });
-            }
-
-            if (interaction.customId == "queue-pageright") {
-                const player = useMainPlayer();
-                var queue = player.nodes.get(interaction.guild.id);
-                if (!queue || !queue.isPlaying()) return interaction.reply(getQueueNotPlayingResponse(interaction));
-
-                if (!(await ensureDjAccess(interaction))) return;
-
-                var pageStart = 10 * (page - 1);
-                var pageEnd = pageStart + 10;
-
-                if (queue.tracks.length <= pageEnd)
-                    return interaction.reply({
-                        content: translate(interaction, "queue.alreadyLastPage"),
-                        flags: MessageFlags.Ephemeral,
-                    });
-                global.page = page + 1;
-                pageStart = 10 * (page - 1);
-                pageEnd = pageStart + 10;
-                interaction.message.delete();
-
-                const currentMusic = queue.current;
-                const musiclist = queue.tracks.slice(pageStart, pageEnd).map((m, i) => {
-                    return `${i + pageStart + 1}# **${m.title}** ([link](${m.url}))`;
-                });
-
-                const queueembed = new EmbedBuilder()
-                    .setAuthor(interaction.client.user.tag, interaction.client.user.displayAvatarURL())
-                    .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-                    .setColor(client.config.embedColour)
-                    .setTitle(translate(interaction, "queue.title"))
-                    .setDescription(
-                        `${musiclist.join("\n")}${queue.tracks.length > pageEnd ? `\n${translate(interaction, "queue.moreTracks", { count: queue.tracks.length - pageEnd })}` : ""}`,
-                    )
-                    .addField(
-                        translate(interaction, "queue.nowPlayingField"),
-                        `**${currentMusic.title}** ${buildTrackLinkText(currentMusic, interaction)}`,
-                    )
-                    .setTimestamp()
-                    .setFooter(buildRequestedByFooter(interaction, interaction.user));
-
-                const components = [
-                    (actionbutton = new MessageActionRow().addComponents(
-                        new MessageButton().setCustomId("queue-delete").setStyle("DANGER").setLabel("🗑️"),
-                        //.addOptions(options)
-                        new MessageButton()
-                            .setCustomId("queue-pageleft")
-                            .setStyle("PRIMARY")
-                            .setLabel(translate(interaction, "queue.previousPage")),
-                        new MessageButton()
-                            .setCustomId("queue-pageright")
-                            .setStyle("PRIMARY")
-                            .setLabel(translate(interaction, "queue.nextPage")),
-                    )),
-                ];
-
-                interaction.reply({ embeds: [queueembed], components });
-            }
+            if (await handleQueueButton(interaction)) return;
 
             if (interaction.customId == "np-delete") {
                 if (!(await ensureDjAccess(interaction))) return;
