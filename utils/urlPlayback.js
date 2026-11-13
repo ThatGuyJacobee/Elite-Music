@@ -38,7 +38,7 @@ const GENERIC_TITLES = new Set([
     "video",
 ]);
 const GENERIC_TITLE_PATTERN = /^(?:track|audio|video)\s*\d+$/i;
-const GENERIC_AUTHORS = new Set(["attachment", "n/a", "none", "null", "unknown", "unknown artist", "various artists"]);
+const GENERIC_AUTHORS = new Set(["attachment", "n/a", "none", "null", "unknown", "unknown artist"]);
 const MEDIA_URL_PATTERN = /https?:\/\/[^\s"'<>\\]+?\.(?:mp3|m4a|aac|ogg|oga|opus|flac|wav|weba)(?:\?[^\s"'<>\\]*)?/gi;
 const META_TAG_PATTERN = /<meta\b[^>]*>/gi;
 const AUDIO_TAG_PATTERN = /<(?:audio|source)\b[^>]*>/gi;
@@ -670,16 +670,24 @@ function resolveDirectTrackDetails(track, { probe, dispositionFilename, hostname
     }
 
     let author = hostname || "Direct link";
-    for (const candidate of [metadata.artist, track.raw?.author, track.author, hostname]) {
-        const value = normalizeTitleText(candidate);
+    let authorIsArtist = false;
+    for (const candidate of [
+        { value: metadata.artist, artist: true },
+        { value: track.raw?.author, artist: false },
+        { value: track.author, artist: false },
+        { value: hostname, artist: false },
+    ]) {
+        const value = normalizeTitleText(candidate.value);
         if (!value || GENERIC_AUTHORS.has(value.toLowerCase())) continue;
 
         author = value;
+        authorIsArtist = candidate.artist;
         break;
     }
 
     track.title = escapeMarkdown(plainTitle);
     track.author = author;
+    track.raw.eliteAuthorIsArtist = authorIsArtist;
     track.description = `${track.title} by ${author}`;
 
     if (typeof Util?.cleanTitle === "function") {

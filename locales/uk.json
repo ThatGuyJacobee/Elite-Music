@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Ваша відповідь...",
         "volumeModalInvalid": "❌ | Гучність має бути в діапазоні 0-100, ваш ввід був поза цим діапазоном.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " Н/Д"
+        "unknownDuration": " Н/Д",
+        "byArtist": "від {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Відключення 🛑",

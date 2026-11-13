@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Vaše odpověď...",
         "volumeModalInvalid": "❌ | Hlasitost musí být mezi 0-100, váš vstup je mimo tento rozsah.",
         "liveIndicator": " ◉ ŽIVĚ",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "od {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Odpojování 🛑",

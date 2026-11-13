@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Yanıtınız...",
         "volumeModalInvalid": "❌ | Ses seviyesi 0-100 arasında olmalıdır, girdiniz bu aralığın dışındaydı.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "{artist} tarafından"
     },
     "lifecycle": {
         "disconnectTitle": "Bağlantı kesiliyor 🛑",

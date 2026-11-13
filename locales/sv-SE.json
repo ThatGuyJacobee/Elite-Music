@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Ditt svar...",
         "volumeModalInvalid": "❌ | Volymen måste vara mellan 0-100, ditt inmatade värde låg utanför detta.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "av {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Kopplar från 🛑",

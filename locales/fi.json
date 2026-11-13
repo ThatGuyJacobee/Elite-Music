@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Vastauksesi...",
         "volumeModalInvalid": "❌ | Äänenvoimakkuuden on oltava välillä 0-100, syötteesi oli tämän ulkopuolella.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "esittäjä: {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Yhteys katkaistaan 🛑",

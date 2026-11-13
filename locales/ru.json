@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Ваш ответ...",
         "volumeModalInvalid": "❌ | Громкость должна быть в диапазоне 0-100, ваш ввод был вне этого диапазона.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " Н/Д"
+        "unknownDuration": " Н/Д",
+        "byArtist": "от {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Отключение 🛑",

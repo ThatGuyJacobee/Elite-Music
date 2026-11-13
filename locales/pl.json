@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Twoja odpowiedź...",
         "volumeModalInvalid": "❌ | Głośność musi mieścić się w zakresie 0-100, podana wartość jest poza zakresem.",
         "liveIndicator": " ◉ NA ŻYWO",
-        "unknownDuration": " b.d."
+        "unknownDuration": " b.d.",
+        "byArtist": "autorstwa {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Rozłączanie 🛑",

@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "답변 입력...",
         "volumeModalInvalid": "❌ | 볼륨은 0-100 사이여야 합니다. 입력값이 범위를 벗어났습니다.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "아티스트: {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "연결 해제 🛑",

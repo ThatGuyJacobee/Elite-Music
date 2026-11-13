@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "A válaszod...",
         "volumeModalInvalid": "❌ | A hangerőnek 0-100 között kell lennie, a megadott érték ezen kívül esik.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "előadó: {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Kapcsolat bontása 🛑",

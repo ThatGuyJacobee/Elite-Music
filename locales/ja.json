@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "入力してください...",
         "volumeModalInvalid": "❌ | 音量は 0〜100 の間である必要があります。入力値が範囲外です。",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "{artist} による"
     },
     "lifecycle": {
         "disconnectTitle": "切断中 🛑",
