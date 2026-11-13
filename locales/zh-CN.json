@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "您的回答...",
         "volumeModalInvalid": "❌ | 音量必须在 0-100 之间，您的输入超出此范围。",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " 未知"
+        "unknownDuration": " 未知",
+        "byArtist": "由 {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "正在断开连接 🛑",

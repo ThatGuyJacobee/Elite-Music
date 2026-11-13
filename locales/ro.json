@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Răspunsul tău...",
         "volumeModalInvalid": "❌ | Volumul trebuie să fie între 0-100, introducerea ta a fost în afara intervalului.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/D"
+        "unknownDuration": " N/D",
+        "byArtist": "de {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Se deconectează 🛑",

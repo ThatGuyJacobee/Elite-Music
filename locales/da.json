@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Dit svar...",
         "volumeModalInvalid": "❌ | Lydstyrken skal være mellem 0-100, dit input lå uden for dette.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "af {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Afbryder forbindelse 🛑",

@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Vaš odgovor...",
         "volumeModalInvalid": "❌ | Glasnoća mora biti između 0-100, vaš unos je izvan tog raspona.",
         "liveIndicator": " ◉ UŽIVO",
-        "unknownDuration": " N/D"
+        "unknownDuration": " N/D",
+        "byArtist": "od {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Prekid veze 🛑",

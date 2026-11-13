@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Je antwoord...",
         "volumeModalInvalid": "❌ | Het volume moet tussen 0 en 100 liggen, je invoer lag buiten dit bereik.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "van {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Verbinding verbreken 🛑",

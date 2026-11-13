@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "आपका उत्तर...",
         "volumeModalInvalid": "❌ | वॉल्यूम 0-100 के बीच होना चाहिए, आपका इनपुट इस सीमा से बाहर था।",
         "liveIndicator": " ◉ लाइव",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "{artist} द्वारा"
     },
     "lifecycle": {
         "disconnectTitle": "डिस्कनेक्ट हो रहा है 🛑",

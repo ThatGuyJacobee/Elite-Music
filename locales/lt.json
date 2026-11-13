@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Jūsų atsakymas...",
         "volumeModalInvalid": "❌ | Garsumas turi būti tarp 0-100, jūsų įvestis buvo už ribų.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/D"
+        "unknownDuration": " N/D",
+        "byArtist": "atlieka {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Atsijungiama 🛑",

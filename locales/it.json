@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "La tua risposta...",
         "volumeModalInvalid": "❌ | Il volume deve essere compreso tra 0 e 100, il tuo input era fuori da questo intervallo.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/D"
+        "unknownDuration": " N/D",
+        "byArtist": "di {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Disconnessione 🛑",

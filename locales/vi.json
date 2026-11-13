@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Câu trả lời của bạn...",
         "volumeModalInvalid": "❌ | Âm lượng phải từ 0-100, đầu vào của bạn nằm ngoài phạm vi này.",
         "liveIndicator": " ◉ TRỰC TIẾP",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "bởi {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Đang ngắt kết nối 🛑",

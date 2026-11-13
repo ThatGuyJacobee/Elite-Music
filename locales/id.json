@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Jawaban Anda...",
         "volumeModalInvalid": "❌ | Volume harus antara 0-100, input Anda di luar rentang ini.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "oleh {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Memutuskan koneksi 🛑",

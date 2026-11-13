@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Deine Antwort...",
         "volumeModalInvalid": "❌ | Die Lautstärke muss zwischen 0 und 100 liegen, deine Eingabe lag außerhalb dieses Bereichs.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " k. A."
+        "unknownDuration": " k. A.",
+        "byArtist": "von {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Verbindung getrennt 🛑",

@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Ditt svar...",
         "volumeModalInvalid": "❌ | Volumet må være mellom 0-100, inndataen din var utenfor dette.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " N/A"
+        "unknownDuration": " N/A",
+        "byArtist": "av {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Kobler fra 🛑",

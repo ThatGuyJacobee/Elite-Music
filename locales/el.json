@@ -340,7 +340,8 @@
         "volumeModalPlaceholder": "Η απάντησή σου...",
         "volumeModalInvalid": "❌ | Η ένταση πρέπει να είναι μεταξύ 0-100, η είσοδός σου ήταν εκτός αυτού.",
         "liveIndicator": " ◉ LIVE",
-        "unknownDuration": " Μ/Δ"
+        "unknownDuration": " Μ/Δ",
+        "byArtist": "από {artist}"
     },
     "lifecycle": {
         "disconnectTitle": "Αποσύνδεση 🛑",
