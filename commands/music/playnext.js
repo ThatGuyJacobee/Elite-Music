@@ -1,6 +1,11 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
-const { addResolvedTrack, buildPlaybackPicker, resolvePlaybackSource } = require("../../utils/playbackResolver.js");
+const {
+    addResolvedTrack,
+    buildPlaybackPicker,
+    resolvePlaybackSource,
+    resolveTextQuery,
+} = require("../../utils/playbackResolver.js");
 const { ensurePlaybackSourceAvailable, playbackSlashOption } = require("../../utils/playbackOptions.js");
 const { isHttpUrl, searchPlaybackQuery } = require("../../utils/urlPlayback.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
@@ -41,22 +46,27 @@ module.exports = {
             const isUrlQuery = isHttpUrl(query);
             if (isUrlQuery) await interaction.deferReply();
 
-            const search = await searchPlaybackQuery(player, query, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO,
-            });
+            let resolution = null;
 
-            if (!search || search.tracks.length == 0 || !search.tracks) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+            if (isUrlQuery) {
+                const search = await searchPlaybackQuery(player, query, {
+                    requestedBy: interaction.user,
+                    searchEngine: QueryType.AUTO,
+                });
+
+                if (!search?.tracks?.length) {
+                    return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+                }
+
+                if (search.playlist) {
+                    return sendEphemeralError(interaction, translate(interaction, "errors.playNextPlaylistOnly"));
+                }
+
+                resolution = await resolvePlaybackSource(search, interaction.client.config, forcedSource);
+            } else {
+                resolution = await resolveTextQuery(query, interaction.client.config, forcedSource, interaction.user);
             }
 
-            if (!isUrlQuery) await interaction.deferReply();
-
-            if (search.playlist) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.playNextPlaylistOnly"));
-            }
-
-            const resolution = await resolvePlaybackSource(search, interaction.client.config, forcedSource);
             if (!resolution) {
                 return sendEphemeralError(
                     interaction,
@@ -64,6 +74,12 @@ module.exports = {
                         source: forcedSource ? translate(interaction, `playback.sources.${forcedSource}`) : null,
                     }),
                 );
+            }
+
+            if (!isUrlQuery) await interaction.deferReply();
+
+            if (resolution.playlistSearch) {
+                return sendEphemeralError(interaction, translate(interaction, "errors.playNextPlaylistOnly"));
             }
 
             if (resolution.autoPlay) {

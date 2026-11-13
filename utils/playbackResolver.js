@@ -14,6 +14,7 @@ const jellyfinFuncs = require("./jellyfinFunctions");
 const { buildPlaybackSourceField, buildRequestedByFooter, translate } = require("./botText");
 const { formatDurationMs } = require("./utilityFunctions");
 const { buildProviderQueries, parseDurationMs, rankProviderItems } = require("./playbackMatching");
+const { searchPlaybackQuery } = require("./urlPlayback");
 
 const SOURCE_SEARCH_TIMEOUT_MS = 3000;
 const MAX_PICKER_RESULTS = 10;
@@ -196,6 +197,74 @@ async function searchAllPlaybackSources(search, config) {
     const matches = groups.filter((group) => group.results.length > 0);
 
     return matches.length > 0 ? matches : null;
+}
+
+function textSourceResults(source, items) {
+    const tier = items.length === 1 ? "auto" : "picker";
+    return items.map((item) => ({ source, item, extractedTrack: null, score: 1, tier }));
+}
+
+async function resolveTextQuery(query, config, forcedSource = null, requestedBy = null) {
+    const requestedSource = forcedSource && forcedSource !== "auto" ? forcedSource : null;
+    const sources = requestedSource ? [requestedSource] : parseSourceOrder(config.playbackSourceOrder);
+
+    for (const source of sources) {
+        if (source === "youtube") {
+            const search = await searchPlaybackQuery(useMainPlayer(), query, {
+                requestedBy,
+                searchEngine: QueryType.AUTO,
+            });
+            if (!search?.tracks?.length) continue;
+            if (search.playlist) return { source: "youtube", playlistSearch: search };
+
+            const results = youtubeSourceResults(search.tracks);
+            console.log(
+                `[ELITE_PLAYBACK] text ${JSON.stringify(query)} resolved via youtube: ${results.length} result(s)`,
+            );
+            return { source: "youtube", results, autoPlay: results[0].tier === "auto" };
+        }
+
+        const provider = playbackProviders[source];
+        if (!provider?.enabled(config)) continue;
+
+        console.log(`[ELITE_PLAYBACK] text ${JSON.stringify(query)} searching ${source}`);
+        const items = await searchProvider(source, [query]);
+        if (items.length === 0) continue;
+
+        const results = textSourceResults(source, items);
+        console.log(
+            `[ELITE_PLAYBACK] text ${JSON.stringify(query)} resolved via ${source}: ${results.length} result(s)`,
+        );
+        return { source, results, autoPlay: results[0].tier === "auto" };
+    }
+
+    console.log(`[ELITE_PLAYBACK] text ${JSON.stringify(query)} matched no source`);
+    return null;
+}
+
+async function searchAllTextSources(query, config, requestedBy = null) {
+    const groups = [];
+
+    for (const source of parseSourceOrder(config.playbackSourceOrder)) {
+        if (source === "youtube") {
+            const search = await searchPlaybackQuery(useMainPlayer(), query, {
+                requestedBy,
+                searchEngine: QueryType.AUTO,
+            });
+            if (!search?.tracks?.length || search.playlist) continue;
+
+            groups.push({ source, results: youtubeSourceResults(search.tracks) });
+            continue;
+        }
+
+        const provider = playbackProviders[source];
+        if (!provider?.enabled(config)) continue;
+
+        const items = await searchProvider(source, [query]);
+        if (items.length > 0) groups.push({ source, results: textSourceResults(source, items) });
+    }
+
+    return groups.length > 0 ? groups : null;
 }
 
 async function addResolvedTrack(interaction, nextSong, result, responseType) {
@@ -401,5 +470,7 @@ module.exports = {
     getPlaybackSourceAvailability,
     parseSourceOrder,
     resolvePlaybackSource,
+    resolveTextQuery,
     searchAllPlaybackSources,
+    searchAllTextSources,
 };
