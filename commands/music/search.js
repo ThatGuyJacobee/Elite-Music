@@ -1,6 +1,10 @@
 require("dotenv").config();
 const musicFuncs = require("../../utils/sharedFunctions.js");
-const { buildAggregatedPlaybackPicker, searchAllPlaybackSources } = require("../../utils/playbackResolver.js");
+const {
+    buildAggregatedPlaybackPicker,
+    searchAllPlaybackSources,
+    searchAllTextSources,
+} = require("../../utils/playbackResolver.js");
 const { isHttpUrl, isPublicHttpUrl } = require("../../utils/urlPlayback.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { useMainPlayer, QueryType } = require("discord-player");
@@ -29,28 +33,35 @@ module.exports = {
 
         const query = interaction.options.getString("music");
         await musicFuncs.getQueue(interaction);
+        await interaction.deferReply();
 
         if (isHttpUrl(query) && !(await isPublicHttpUrl(query))) {
             return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
         }
 
         try {
-            const search = await useMainPlayer().search(query, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO,
-            });
+            const isUrlQuery = isHttpUrl(query);
+            let groups = null;
 
-            if (!search?.tracks?.length) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+            if (isUrlQuery) {
+                const search = await useMainPlayer().search(query, {
+                    requestedBy: interaction.user,
+                    searchEngine: QueryType.AUTO,
+                });
+
+                if (!search?.tracks?.length) {
+                    return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+                }
+
+                if (search.playlist) {
+                    return sendEphemeralError(interaction, translate(interaction, "errors.searchPlaylist"));
+                }
+
+                groups = await searchAllPlaybackSources(search, interaction.client.config);
+            } else {
+                groups = await searchAllTextSources(query, interaction.client.config, interaction.user);
             }
 
-            if (search.playlist) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.searchPlaylist"));
-            }
-
-            await interaction.deferReply();
-
-            const groups = await searchAllPlaybackSources(search, query, interaction.client.config);
             if (!groups) {
                 return sendEphemeralError(interaction, translate(interaction, "errors.noPlaybackSource"));
             }

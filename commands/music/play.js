@@ -5,6 +5,7 @@ const {
     addResolvedTrack,
     buildPlaybackPicker,
     resolvePlaybackSource,
+    resolveTextQuery,
 } = require("../../utils/playbackResolver.js");
 const { ensurePlaybackSourceAvailable, playbackSlashOption } = require("../../utils/playbackOptions.js");
 const { isHttpUrl, searchPlaybackQuery } = require("../../utils/urlPlayback.js");
@@ -41,28 +42,33 @@ module.exports = {
         const query = interaction.options.getString("music");
         const player = useMainPlayer();
         await musicFuncs.getQueue(interaction);
+        await interaction.deferReply();
 
         try {
             const isUrlQuery = isHttpUrl(query);
-            if (isUrlQuery) await interaction.deferReply();
 
-            const search = await searchPlaybackQuery(player, query, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO,
-            });
+            let resolution = null;
 
-            if (!search || search.tracks.length == 0 || !search.tracks) {
-                return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+            if (isUrlQuery) {
+                const search = await searchPlaybackQuery(player, query, {
+                    requestedBy: interaction.user,
+                    searchEngine: QueryType.AUTO,
+                });
+
+                if (!search?.tracks?.length) {
+                    return sendEphemeralError(interaction, translate(interaction, "errors.failedToFindSongQuery"));
+                }
+
+                if (search.playlist) {
+                    await musicFuncs.addTracks(interaction, false, search, "send");
+                    return;
+                }
+
+                resolution = await resolvePlaybackSource(search, interaction.client.config, forcedSource);
+            } else {
+                resolution = await resolveTextQuery(query, interaction.client.config, forcedSource, interaction.user);
             }
 
-            if (!isUrlQuery) await interaction.deferReply();
-
-            if (search.playlist) {
-                await musicFuncs.addTracks(interaction, false, search, "send");
-                return;
-            }
-
-            const resolution = await resolvePlaybackSource(search, query, interaction.client.config, forcedSource);
             if (!resolution) {
                 return sendEphemeralError(
                     interaction,
@@ -72,7 +78,12 @@ module.exports = {
                 );
             }
 
-            if (resolution.results.length === 1) {
+            if (resolution.playlistSearch) {
+                await musicFuncs.addTracks(interaction, false, resolution.playlistSearch, "send");
+                return;
+            }
+
+            if (resolution.autoPlay) {
                 await addResolvedTrack(interaction, false, resolution.results[0], "send");
             } else {
                 await interaction.followUp(buildPlaybackPicker(interaction, resolution, false));

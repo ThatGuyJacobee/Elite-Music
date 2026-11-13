@@ -2,7 +2,7 @@ require("dotenv").config();
 const fs = require("fs");
 const { REST } = require("@discordjs/rest");
 const { Client, GatewayIntentBits, Partials, Collection, Routes } = require("discord.js");
-const { Player, QueryType } = require("discord-player");
+const { Player, QueryResolver, QueryType } = require("discord-player");
 const { DefaultExtractors } = require("@discord-player/extractor");
 const { YoutubeExtractor } = require("discord-player-youtubei");
 client = new Client({
@@ -46,16 +46,23 @@ player.extractors.register(YoutubeExtractor, {
 
 // v3 dropped the priority bump that v2 shipped, so without this the SoundCloud
 // extractor wins text searches and YouTube only handles explicit URLs.
+const YOUTUBE_QUERY_TYPES = new Set([
+    QueryType.AUTO,
+    QueryType.AUTO_SEARCH,
+    QueryType.YOUTUBE_SEARCH,
+    QueryType.YOUTUBE_VIDEO,
+    QueryType.YOUTUBE_PLAYLIST,
+]);
 const youtubeExtractor = player.extractors.get(YoutubeExtractor.identifier);
 if (youtubeExtractor) {
     youtubeExtractor.priority = 2;
 
-    // The youtubei extractor validates every string, so it otherwise tries to
-    // treat direct and share-page URLs as YouTube videos before the attachment
-    // extractor can stream them.
+    // The youtubei extractor validates every string, so it otherwise claims
+    // links to other services such as Spotify, Apple Music and SoundCloud
+    // before their own extractors can see them, returning an empty result.
     const youtubeValidate = youtubeExtractor.validate.bind(youtubeExtractor);
     youtubeExtractor.validate = async (query, type) => {
-        if (type === QueryType.ARBITRARY || type === QueryType.FILE) return false;
+        if (!YOUTUBE_QUERY_TYPES.has(type)) return false;
         return youtubeValidate(query, type);
     };
 }

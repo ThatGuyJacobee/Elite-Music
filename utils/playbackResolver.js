@@ -13,9 +13,10 @@ const subsonicFuncs = require("./subsonicFunctions");
 const jellyfinFuncs = require("./jellyfinFunctions");
 const { buildPlaybackSourceField, buildRequestedByFooter, translate } = require("./botText");
 const { formatDurationMs } = require("./utilityFunctions");
+const { buildProviderQueries, parseDurationMs, rankProviderItems } = require("./playbackMatching");
+const { searchPlaybackQuery } = require("./urlPlayback");
 
 const SOURCE_SEARCH_TIMEOUT_MS = 3000;
-const MINIMUM_MATCH_SCORE = 0.75;
 const MAX_PICKER_RESULTS = 10;
 const MAX_AGGREGATED_RESULTS = 25;
 const PICKER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
@@ -46,105 +47,6 @@ const playbackProviders = {
 
 const VALID_SOURCES = [...Object.keys(playbackProviders), "youtube"];
 const LEGACY_SOURCE_ALIASES = { default: "youtube" };
-const NOISE_PATTERN =
-    /\b(?:official(?:\s+music)?\s+(?:video|audio)|lyrics?|lyric\s+video|visuali[sz]er|remaster(?:ed)?|release|explicit|clean|hq|hd|4k)\b/i;
-const FEATURE_PATTERN = /\b(?:feat(?:uring)?|ft)\.?\s+/i;
-
-function normalizeText(value) {
-    return String(value || "")
-        .normalize("NFKD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/&/g, " and ")
-        .replace(/\(([^)]+)\)|\[([^\]]+)\]/g, (match, parentheses, brackets) => {
-            const contents = parentheses || brackets;
-            return NOISE_PATTERN.test(contents) || FEATURE_PATTERN.test(contents) ? " " : match;
-        })
-        .replace(/\s+(?:feat(?:uring)?|ft)\.?\s+.+$/i, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, " ")
-        .trim()
-        .replace(/\s+/g, " ");
-}
-
-function normalizeArtist(value) {
-    const normalized = normalizeText(value)
-        .replace(/(?:\s+)?vevo$/, "")
-        .replace(/(?:\s+-?\s*)?topic$/, "")
-        .replace(/(?:\s+)?official$/, "")
-        .trim();
-    return ["unknown artist", "various artists"].includes(normalized) ? "" : normalized;
-}
-
-function normalizeTitle(title, artist) {
-    const normalizedTitle = normalizeText(title);
-    const normalizedArtist = normalizeArtist(artist);
-
-    return removeArtistPrefix(normalizedTitle, normalizedArtist);
-}
-
-function removeArtistPrefix(title, artist) {
-    const artistPrefix = `${artist} `;
-    return artist && title.startsWith(artistPrefix) ? title.slice(artistPrefix.length).trim() : title;
-}
-
-function parseDurationMs(value) {
-    if (typeof value === "number" && Number.isFinite(value)) return value;
-    if (typeof value !== "string" || value.trim() === "") return null;
-    if (!value.includes(":")) {
-        const milliseconds = Number(value);
-        return Number.isFinite(milliseconds) ? milliseconds : null;
-    }
-
-    const parts = value.split(":").map(Number);
-    if (parts.length < 2 || parts.length > 3 || parts.some((part) => !Number.isFinite(part))) return null;
-    return parts.reduce((total, part) => total * 60 + part, 0) * 1000;
-}
-
-function createTrackIdentity(track) {
-    const originalArtist = track?.grandparentTitle || track?.artist || track?.author;
-    const artist = normalizeArtist(originalArtist);
-    const title = normalizeTitle(track?.title, originalArtist);
-
-    return {
-        title,
-        artist,
-        durationMs: parseDurationMs(track?.rawDuration ?? track?.duration),
-        searchQuery: [artist, title].filter(Boolean).join(" ").trim(),
-    };
-}
-
-function tokenSimilarity(left, right) {
-    if (!left || !right) return 0;
-    if (left === right) return 1;
-
-    const leftTokens = new Set(left.split(" "));
-    const rightTokens = new Set(right.split(" "));
-    let intersection = 0;
-    for (const token of leftTokens) {
-        if (rightTokens.has(token)) intersection++;
-    }
-    return (2 * intersection) / (leftTokens.size + rightTokens.size);
-}
-
-function calculateMatchScore(extractedTrack, providerItem) {
-    const expected = createTrackIdentity(extractedTrack);
-    const candidate = createTrackIdentity(providerItem);
-    candidate.title = removeArtistPrefix(candidate.title, expected.artist);
-    const titleScore = tokenSimilarity(expected.title, candidate.title);
-    const artistScore = tokenSimilarity(expected.artist, candidate.artist);
-    const hasArtist = Boolean(expected.artist && candidate.artist);
-
-    if (titleScore < 0.65 || (hasArtist && artistScore < 0.5)) return 0;
-
-    let score = hasArtist ? titleScore * 0.7 + artistScore * 0.3 : titleScore;
-    if (expected.durationMs && candidate.durationMs) {
-        const differenceSeconds = Math.abs(expected.durationMs - candidate.durationMs) / 1000;
-        const durationScore =
-            differenceSeconds <= 3 ? 1 : differenceSeconds <= 8 ? 0.8 : differenceSeconds <= 15 ? 0.4 : 0;
-        score = score * 0.9 + durationScore * 0.1;
-    }
-    return score;
-}
 
 function parseSourceOrder(value, { fallback = ["youtube"], onInvalid, onAlias } = {}) {
     const entries = Array.isArray(value) ? value : String(value || "").split(",");
@@ -182,58 +84,40 @@ function getPlaybackSourceAvailability(config, source) {
     return "available";
 }
 
-function providerQuery(originalQuery, extractedTracks) {
-    const query = String(originalQuery || "").trim();
-    const isUrl = /^[a-z][a-z0-9+.-]*:/i.test(query);
-    if (query && !isUrl) return query;
-    return createTrackIdentity(extractedTracks[0]).searchQuery || query;
-}
-
-function matchProviderItems(source, items, extractedTracks) {
+async function searchProvider(source, queries) {
     const provider = playbackProviders[source];
-    const matches = [];
-    const seen = new Set();
-
-    for (const item of items) {
-        let bestTrack = null;
-        let bestScore = 0;
-
-        for (const extractedTrack of extractedTracks) {
-            const score = calculateMatchScore(extractedTrack, item);
-            if (score > bestScore) {
-                bestScore = score;
-                bestTrack = extractedTrack;
-            }
-        }
-
-        const identifier = provider.identifier(item);
-        if (bestScore >= MINIMUM_MATCH_SCORE && identifier && !seen.has(identifier)) {
-            seen.add(identifier);
-            matches.push({ source, item, extractedTrack: bestTrack, score: bestScore });
-        }
-    }
-
-    return matches.sort((left, right) => right.score - left.score);
-}
-
-async function searchProvider(source, query) {
-    let timer;
-    try {
-        return await Promise.race([
-            playbackProviders[source].search(query),
-            new Promise((_, reject) => {
-                timer = setTimeout(
-                    () => reject(new Error(`${source} playback search timed out`)),
-                    SOURCE_SEARCH_TIMEOUT_MS,
+    const results = await Promise.all(
+        queries.map(async (query) => {
+            let timer;
+            try {
+                return await Promise.race([
+                    provider.search(query),
+                    new Promise((_, reject) => {
+                        timer = setTimeout(
+                            () => reject(new Error(`${source} playback search timed out`)),
+                            SOURCE_SEARCH_TIMEOUT_MS,
+                        );
+                    }),
+                ]);
+            } catch (error) {
+                console.log(
+                    `[ELITE_PLAYBACK] ${source} source search failed; continuing to the next source. ${error.message}`,
                 );
-            }),
-        ]);
-    } catch (error) {
-        console.log(`[ELITE_PLAYBACK] ${source} source search failed; continuing to the next source. ${error.message}`);
-        return [];
-    } finally {
-        clearTimeout(timer);
+                return [];
+            } finally {
+                clearTimeout(timer);
+            }
+        }),
+    );
+
+    const merged = new Map();
+    for (const items of results) {
+        for (const item of items) {
+            const identifier = provider.identifier(item);
+            if (identifier && !merged.has(identifier)) merged.set(identifier, item);
+        }
     }
+    return [...merged.values()];
 }
 
 function isArbitraryTrack(track) {
@@ -242,16 +126,19 @@ function isArbitraryTrack(track) {
 }
 
 function directSourceResults(extractedTracks) {
-    return extractedTracks.filter(isArbitraryTrack).map((item) => ({ source: "direct", item, extractedTrack: item }));
+    return extractedTracks
+        .filter(isArbitraryTrack)
+        .map((item) => ({ source: "direct", item, extractedTrack: item, score: 1, tier: "auto" }));
 }
 
 function youtubeSourceResults(extractedTracks) {
-    return extractedTracks
-        .filter((item) => !isArbitraryTrack(item))
-        .map((item) => ({ source: "youtube", item, extractedTrack: item }));
+    const tracks = extractedTracks.filter((item) => !isArbitraryTrack(item));
+    const tier = tracks.length === 1 ? "auto" : "picker";
+
+    return tracks.map((item) => ({ source: "youtube", item, extractedTrack: item, score: 1, tier }));
 }
 
-async function resolveSourceResults(source, extractedTracks, query, config) {
+async function resolveSourceResults(source, extractedTracks, config) {
     if (source === "youtube") {
         return youtubeSourceResults(extractedTracks);
     }
@@ -259,41 +146,125 @@ async function resolveSourceResults(source, extractedTracks, query, config) {
     const provider = playbackProviders[source];
     if (!provider?.enabled(config)) return [];
 
-    return matchProviderItems(source, await searchProvider(source, query), extractedTracks);
+    const queries = buildProviderQueries(extractedTracks[0]);
+    console.log(`[ELITE_PLAYBACK] ${source}: searching ${JSON.stringify(queries)}`);
+    const items = await searchProvider(source, queries);
+    const matches = rankProviderItems(items, extractedTracks).map((match) => ({ source, ...match }));
+    console.log(
+        `[ELITE_PLAYBACK] ${source}: ${items.length} candidate(s), ${matches.length} match(es)${
+            matches[0] ? `, best ${matches[0].score.toFixed(3)} (${matches[0].tier})` : ""
+        }`,
+    );
+
+    return matches;
 }
 
-async function resolvePlaybackSource(search, originalQuery, config, forcedSource = null) {
+async function resolvePlaybackSource(search, config, forcedSource = null) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
     const directResults = directSourceResults(extractedTracks);
-    if (directResults.length > 0) return { source: "direct", results: directResults };
+    if (directResults.length > 0) return { source: "direct", results: directResults, autoPlay: true };
 
-    const query = providerQuery(originalQuery, extractedTracks);
     const requestedSource = forcedSource && forcedSource !== "auto" ? forcedSource : null;
     const sources = requestedSource ? [requestedSource] : parseSourceOrder(config.playbackSourceOrder);
+
     for (const source of sources) {
-        const results = await resolveSourceResults(source, extractedTracks, query, config);
-        if (results.length > 0) return { source, results };
+        const results = await resolveSourceResults(source, extractedTracks, config);
+        if (results.length > 0) {
+            const autoPlay = results[0].tier === "auto";
+            console.log(
+                `[ELITE_PLAYBACK] resolved via ${source}: ${results.length} result(s), ${autoPlay ? "playing" : "picker"}`,
+            );
+            return { source, results, autoPlay };
+        }
     }
 
+    console.log(`[ELITE_PLAYBACK] no source matched ${JSON.stringify(extractedTracks[0]?.title)}`);
     return null;
 }
 
-async function searchAllPlaybackSources(search, originalQuery, config) {
+async function searchAllPlaybackSources(search, config) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
-    const query = providerQuery(originalQuery, extractedTracks);
     const groups = await Promise.all(
         parseSourceOrder(config.playbackSourceOrder).map(async (source) => ({
             source,
-            results: await resolveSourceResults(source, extractedTracks, query, config),
+            results: await resolveSourceResults(source, extractedTracks, config),
         })),
     );
     const matches = groups.filter((group) => group.results.length > 0);
 
     return matches.length > 0 ? matches : null;
+}
+
+function textSourceResults(source, items) {
+    const tier = items.length === 1 ? "auto" : "picker";
+    return items.map((item) => ({ source, item, extractedTrack: null, score: 1, tier }));
+}
+
+async function resolveTextQuery(query, config, forcedSource = null, requestedBy = null) {
+    const requestedSource = forcedSource && forcedSource !== "auto" ? forcedSource : null;
+    const sources = requestedSource ? [requestedSource] : parseSourceOrder(config.playbackSourceOrder);
+
+    for (const source of sources) {
+        if (source === "youtube") {
+            const search = await searchPlaybackQuery(useMainPlayer(), query, {
+                requestedBy,
+                searchEngine: QueryType.AUTO,
+            });
+            if (!search?.tracks?.length) continue;
+            if (search.playlist) return { source: "youtube", playlistSearch: search };
+
+            const results = youtubeSourceResults(search.tracks);
+            console.log(
+                `[ELITE_PLAYBACK] text ${JSON.stringify(query)} resolved via youtube: ${results.length} result(s)`,
+            );
+            return { source: "youtube", results, autoPlay: results[0].tier === "auto" };
+        }
+
+        const provider = playbackProviders[source];
+        if (!provider?.enabled(config)) continue;
+
+        console.log(`[ELITE_PLAYBACK] text ${JSON.stringify(query)} searching ${source}`);
+        const items = await searchProvider(source, [query]);
+        if (items.length === 0) continue;
+
+        const results = textSourceResults(source, items);
+        console.log(
+            `[ELITE_PLAYBACK] text ${JSON.stringify(query)} resolved via ${source}: ${results.length} result(s)`,
+        );
+        return { source, results, autoPlay: results[0].tier === "auto" };
+    }
+
+    console.log(`[ELITE_PLAYBACK] text ${JSON.stringify(query)} matched no source`);
+    return null;
+}
+
+async function searchAllTextSources(query, config, requestedBy = null) {
+    const groups = [];
+
+    for (const source of parseSourceOrder(config.playbackSourceOrder)) {
+        if (source === "youtube") {
+            const search = await searchPlaybackQuery(useMainPlayer(), query, {
+                requestedBy,
+                searchEngine: QueryType.AUTO,
+            });
+            if (!search?.tracks?.length || search.playlist) continue;
+
+            groups.push({ source, results: youtubeSourceResults(search.tracks) });
+            continue;
+        }
+
+        const provider = playbackProviders[source];
+        if (!provider?.enabled(config)) continue;
+
+        const items = await searchProvider(source, [query]);
+        if (items.length > 0) groups.push({ source, results: textSourceResults(source, items) });
+    }
+
+    return groups.length > 0 ? groups : null;
 }
 
 async function addResolvedTrack(interaction, nextSong, result, responseType) {
@@ -499,5 +470,7 @@ module.exports = {
     getPlaybackSourceAvailability,
     parseSourceOrder,
     resolvePlaybackSource,
+    resolveTextQuery,
     searchAllPlaybackSources,
+    searchAllTextSources,
 };
