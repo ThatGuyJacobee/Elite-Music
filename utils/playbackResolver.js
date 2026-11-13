@@ -13,12 +13,7 @@ const subsonicFuncs = require("./subsonicFunctions");
 const jellyfinFuncs = require("./jellyfinFunctions");
 const { buildPlaybackSourceField, buildRequestedByFooter, translate } = require("./botText");
 const { formatDurationMs } = require("./utilityFunctions");
-const {
-    MINIMUM_MATCH_SCORE,
-    calculateMatchScore,
-    createTrackIdentity,
-    parseDurationMs,
-} = require("./playbackMatching");
+const { buildProviderQueries, parseDurationMs, rankProviderItems } = require("./playbackMatching");
 
 const SOURCE_SEARCH_TIMEOUT_MS = 3000;
 const MAX_PICKER_RESULTS = 10;
@@ -88,58 +83,40 @@ function getPlaybackSourceAvailability(config, source) {
     return "available";
 }
 
-function providerQuery(originalQuery, extractedTracks) {
-    const query = String(originalQuery || "").trim();
-    const isUrl = /^[a-z][a-z0-9+.-]*:/i.test(query);
-    if (query && !isUrl) return query;
-    return createTrackIdentity(extractedTracks[0]).searchQuery || query;
-}
-
-function matchProviderItems(source, items, extractedTracks) {
+async function searchProvider(source, queries) {
     const provider = playbackProviders[source];
-    const matches = [];
-    const seen = new Set();
-
-    for (const item of items) {
-        let bestTrack = null;
-        let bestScore = 0;
-
-        for (const extractedTrack of extractedTracks) {
-            const score = calculateMatchScore(extractedTrack, item);
-            if (score > bestScore) {
-                bestScore = score;
-                bestTrack = extractedTrack;
-            }
-        }
-
-        const identifier = provider.identifier(item);
-        if (bestScore >= MINIMUM_MATCH_SCORE && identifier && !seen.has(identifier)) {
-            seen.add(identifier);
-            matches.push({ source, item, extractedTrack: bestTrack, score: bestScore });
-        }
-    }
-
-    return matches.sort((left, right) => right.score - left.score);
-}
-
-async function searchProvider(source, query) {
-    let timer;
-    try {
-        return await Promise.race([
-            playbackProviders[source].search(query),
-            new Promise((_, reject) => {
-                timer = setTimeout(
-                    () => reject(new Error(`${source} playback search timed out`)),
-                    SOURCE_SEARCH_TIMEOUT_MS,
+    const results = await Promise.all(
+        queries.map(async (query) => {
+            let timer;
+            try {
+                return await Promise.race([
+                    provider.search(query),
+                    new Promise((_, reject) => {
+                        timer = setTimeout(
+                            () => reject(new Error(`${source} playback search timed out`)),
+                            SOURCE_SEARCH_TIMEOUT_MS,
+                        );
+                    }),
+                ]);
+            } catch (error) {
+                console.log(
+                    `[ELITE_PLAYBACK] ${source} source search failed; continuing to the next source. ${error.message}`,
                 );
-            }),
-        ]);
-    } catch (error) {
-        console.log(`[ELITE_PLAYBACK] ${source} source search failed; continuing to the next source. ${error.message}`);
-        return [];
-    } finally {
-        clearTimeout(timer);
+                return [];
+            } finally {
+                clearTimeout(timer);
+            }
+        }),
+    );
+
+    const merged = new Map();
+    for (const items of results) {
+        for (const item of items) {
+            const identifier = provider.identifier(item);
+            if (identifier && !merged.has(identifier)) merged.set(identifier, item);
+        }
     }
+    return [...merged.values()];
 }
 
 function isArbitraryTrack(track) {
@@ -148,16 +125,19 @@ function isArbitraryTrack(track) {
 }
 
 function directSourceResults(extractedTracks) {
-    return extractedTracks.filter(isArbitraryTrack).map((item) => ({ source: "direct", item, extractedTrack: item }));
+    return extractedTracks
+        .filter(isArbitraryTrack)
+        .map((item) => ({ source: "direct", item, extractedTrack: item, score: 1, tier: "auto" }));
 }
 
 function youtubeSourceResults(extractedTracks) {
-    return extractedTracks
-        .filter((item) => !isArbitraryTrack(item))
-        .map((item) => ({ source: "youtube", item, extractedTrack: item }));
+    const tracks = extractedTracks.filter((item) => !isArbitraryTrack(item));
+    const tier = tracks.length === 1 ? "auto" : "picker";
+
+    return tracks.map((item) => ({ source: "youtube", item, extractedTrack: item, score: 1, tier }));
 }
 
-async function resolveSourceResults(source, extractedTracks, query, config) {
+async function resolveSourceResults(source, extractedTracks, config) {
     if (source === "youtube") {
         return youtubeSourceResults(extractedTracks);
     }
@@ -165,36 +145,52 @@ async function resolveSourceResults(source, extractedTracks, query, config) {
     const provider = playbackProviders[source];
     if (!provider?.enabled(config)) return [];
 
-    return matchProviderItems(source, await searchProvider(source, query), extractedTracks);
+    const queries = buildProviderQueries(extractedTracks[0]);
+    console.log(`[ELITE_PLAYBACK] ${source}: searching ${JSON.stringify(queries)}`);
+    const items = await searchProvider(source, queries);
+    const matches = rankProviderItems(items, extractedTracks).map((match) => ({ source, ...match }));
+    console.log(
+        `[ELITE_PLAYBACK] ${source}: ${items.length} candidate(s), ${matches.length} match(es)${
+            matches[0] ? `, best ${matches[0].score.toFixed(3)} (${matches[0].tier})` : ""
+        }`,
+    );
+
+    return matches;
 }
 
-async function resolvePlaybackSource(search, originalQuery, config, forcedSource = null) {
+async function resolvePlaybackSource(search, config, forcedSource = null) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
     const directResults = directSourceResults(extractedTracks);
-    if (directResults.length > 0) return { source: "direct", results: directResults };
+    if (directResults.length > 0) return { source: "direct", results: directResults, autoPlay: true };
 
-    const query = providerQuery(originalQuery, extractedTracks);
     const requestedSource = forcedSource && forcedSource !== "auto" ? forcedSource : null;
     const sources = requestedSource ? [requestedSource] : parseSourceOrder(config.playbackSourceOrder);
+
     for (const source of sources) {
-        const results = await resolveSourceResults(source, extractedTracks, query, config);
-        if (results.length > 0) return { source, results };
+        const results = await resolveSourceResults(source, extractedTracks, config);
+        if (results.length > 0) {
+            const autoPlay = results[0].tier === "auto";
+            console.log(
+                `[ELITE_PLAYBACK] resolved via ${source}: ${results.length} result(s), ${autoPlay ? "playing" : "picker"}`,
+            );
+            return { source, results, autoPlay };
+        }
     }
 
+    console.log(`[ELITE_PLAYBACK] no source matched ${JSON.stringify(extractedTracks[0]?.title)}`);
     return null;
 }
 
-async function searchAllPlaybackSources(search, originalQuery, config) {
+async function searchAllPlaybackSources(search, config) {
     const extractedTracks = search?.tracks || [];
     if (extractedTracks.length === 0) return null;
 
-    const query = providerQuery(originalQuery, extractedTracks);
     const groups = await Promise.all(
         parseSourceOrder(config.playbackSourceOrder).map(async (source) => ({
             source,
-            results: await resolveSourceResults(source, extractedTracks, query, config),
+            results: await resolveSourceResults(source, extractedTracks, config),
         })),
     );
     const matches = groups.filter((group) => group.results.length > 0);

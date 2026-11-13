@@ -50,7 +50,7 @@ module.exports = {
 
             await interaction.deferReply();
 
-            const groups = await searchAllPlaybackSources(search, query, interaction.client.config);
+            const groups = await searchAllPlaybackSources(search, interaction.client.config);
             if (!groups) {
                 return sendEphemeralError(interaction, translate(interaction, "errors.noPlaybackSource"));
             }

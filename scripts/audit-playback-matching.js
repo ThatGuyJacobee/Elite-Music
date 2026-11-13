@@ -209,7 +209,7 @@ async function main() {
 
         let resolution = null;
         try {
-            resolution = await resolvePlaybackSource({ tracks: [hit] }, hit.url, config, "subsonic");
+            resolution = await resolvePlaybackSource({ tracks: [hit] }, config, "subsonic");
         } catch (error) {
             rows.push({ track, expected, hit, verdict: "resolver-error", detail: error.message });
             continue;

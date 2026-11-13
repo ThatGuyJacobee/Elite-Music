@@ -62,7 +62,7 @@ module.exports = {
                 return;
             }
 
-            const resolution = await resolvePlaybackSource(search, query, interaction.client.config, forcedSource);
+            const resolution = await resolvePlaybackSource(search, interaction.client.config, forcedSource);
             if (!resolution) {
                 return sendEphemeralError(
                     interaction,
@@ -72,7 +72,7 @@ module.exports = {
                 );
             }
 
-            if (resolution.results.length === 1) {
+            if (resolution.autoPlay) {
                 await addResolvedTrack(interaction, false, resolution.results[0], "send");
             } else {
                 await interaction.followUp(buildPlaybackPicker(interaction, resolution, false));
